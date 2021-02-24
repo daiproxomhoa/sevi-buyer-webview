@@ -5,7 +5,7 @@ function App() {
 
   useEffect(() => {
     test.toExponential();
-  }, []);
+  }, [test]);
 
   return <div></div>;
 }
