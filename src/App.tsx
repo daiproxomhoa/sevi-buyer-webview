@@ -1,13 +1,20 @@
 import React, { useEffect, useMemo } from "react";
+import { FormattedMessage } from "react-intl";
 
-function App() {
+interface Props {}
+
+const App: React.FC<Props> = () => {
   const test = useMemo(() => 1, []);
 
   useEffect(() => {
     test.toExponential();
   }, [test]);
 
-  return <div></div>;
-}
+  return (
+    <div>
+      <FormattedMessage id="test" />
+    </div>
+  );
+};
 
 export default App;
