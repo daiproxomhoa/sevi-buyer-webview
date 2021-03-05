@@ -5,14 +5,8 @@ export const development: boolean =
 
 const APIHost = development ? "https://test.com" : "https://production.com";
 
-export const ROUTES = {
-  login: "/login",
-  test: {
-    value: "/test/:id/:slug",
-    gen: (id: string, slug: string) => `/test/${id}/${slug}`,
-  },
-};
-
 export const API = {
   searchListingArea: `${APIHost}/login`,
 };
+
+export const TOKEN = "token";

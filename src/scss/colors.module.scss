@@ -1,0 +1,13 @@
+$background: #FFFFFF;
+
+$primary: #BA1CDE;
+$secondary: #FFCB14;
+$textColor: #05050E;
+
+:export {
+  background: $background;
+
+  primary: $primary;
+  secondary: $secondary;
+  textColor: $textColor;
+}

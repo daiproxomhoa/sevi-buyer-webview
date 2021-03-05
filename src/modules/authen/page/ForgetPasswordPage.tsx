@@ -1,11 +1,16 @@
 import * as React from "react";
+import ForgotPasswordBox from "../component/ForgotPassword";
 
 interface IForgetPasswordPageProps {}
 
 const ForgetPasswordPage: React.FunctionComponent<IForgetPasswordPageProps> = (
   props
 ) => {
-  return <></>;
+  return (
+    <>
+      <ForgotPasswordBox />
+    </>
+  );
 };
 
 export default ForgetPasswordPage;

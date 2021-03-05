@@ -1,3 +1,34 @@
 {
-  "test": ["Kiêm tra", "Test"]
+  "test": ["Kiêm tra", "Test"],
+  "welcome": ["Chào mừng tới SEVI", "Welcome to SEVI"],
+  "smsCode": ["se mk", "se mk"],
+  "headCode": ["8105", "8105"],
+  "appBookWork": ["Ứng dụng đặt việc trực tuyến", ""],
+  "login": ["Đăng nhập", ""],
+  "register": ["Đăng ký", ""],
+  "registerAccount": ["Đăng ký tài khoản", ""],
+  "registerNow": ["Đăng ký ngay nhận ngàn ưu đãi hấp dẫn", ""],
+  "noAccount": ["Bạn chưa có tài khoản?", ""],
+  "continue": ["Tiếp tục", ""],
+  "phoneNumber": ["Số điện thoại", ""],
+  "name": ["Tên", ""],
+  "password": ["Mật khẩu", ""],
+  "repeatPassword": ["Nhập lại mật khẩu", ""],
+  "alreadyHaveAnAccount": ["Bạn đã có tài khoản?", ""],
+  "setupPasswordTemp": [
+    "Để để đặt mật khẩu tạm thời vui lòng soạn tin nhắn với cú pháp:",
+    ""
+  ],
+  "smsFormat": ["“{smsCode}” gửi {headCode}", ""],
+  "setupPasswordTempDescription": [
+    "Trong đó “mk” là mật khẩu đăng nhập của bạn",
+    ""
+  ],
+  "openSms": ["Mở tin nhắn", ""],
+  "backToLogin": ["Quay lại trang đăng nhập", ""],
+  "forgotPassword": ["Quên mật khẩu?", ""],
+  "search": ["Tìm kiếm", "Search"],
+  "searchRecent": ["Tìm kiếm gần đây", "Search"],
+  "popularKeyword": ["Tìm kiếm phổ biến", "Search"],
+  "enterSearchInfo": ["Nhập công việc cần tìm...", ""]
 }

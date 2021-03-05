@@ -1,3 +1,4 @@
+import { MuiThemeProvider } from "@material-ui/core";
 import { ConnectedRouter } from "connected-react-router";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -5,6 +6,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import smoothscroll from "smoothscroll-polyfill";
 import App from "./App";
+import { MUI_THEME } from "./configs/setupTheme";
 import "./index.css";
 import ConnectedIntlProvider from "./modules/intl/component/ConnectedIntlProvider";
 import { setLocale } from "./modules/intl/redux/intlReducer";
@@ -23,7 +25,9 @@ ReactDOM.render(
       <PersistGate loading={null} persistor={persistor}>
         <ConnectedRouter history={history}>
           <ConnectedIntlProvider>
-            <App />
+            <MuiThemeProvider theme={MUI_THEME}>
+              <App />
+            </MuiThemeProvider>
           </ConnectedIntlProvider>
         </ConnectedRouter>
       </PersistGate>
