@@ -4,7 +4,8 @@
   "smsCode": ["se mk", "se mk"],
   "headCode": ["8105", "8105"],
   "appBookWork": ["Ứng dụng đặt việc trực tuyến", ""],
-  "login": ["Đăng nhập", ""],
+  "login": ["Đăng nhập", "Login"],
+  "verify": ["Xác thực", "Verify"],
   "register": ["Đăng ký", ""],
   "registerAccount": ["Đăng ký tài khoản", ""],
   "registerNow": ["Đăng ký ngay nhận ngàn ưu đãi hấp dẫn", ""],
@@ -30,5 +31,18 @@
   "search": ["Tìm kiếm", "Search"],
   "searchRecent": ["Tìm kiếm gần đây", "Search"],
   "popularKeyword": ["Tìm kiếm phổ biến", "Search"],
-  "enterSearchInfo": ["Nhập công việc cần tìm...", ""]
+  "review": ["lượt đánh giá", [""]],
+  "resultFor": ["Kết quả cho:", [""]],
+  "enterSearchInfo": ["Nhập công việc cần tìm...", ""],
+
+  "auth.enterOtp": ["Nhập mã OTP", "Enter OTP"],
+  "auth.verifyOtp": ["Xác thực OTP", "Verify OTP"],
+  "auth.weSentOtpCode": ["Chúng tôi đã gửi một mã OTP đến", ""],
+  "auth.YouNoReceiveCode": ["Bạn không nhận được mã?", ""],
+  "auth.resend": ["Gửi lại", ""],
+  "auth.INVALID_PASSWORD": ["Mật khẩu không đúng", ""],
+  "auth.SERVER_ERROR": ["Có lỗi hệ thống", ""],
+  "auth.ALREADY_CREATED": ["Số điện thoại đã tồn tại", ""],
+  "auth.WRONG_OTP ": ["Mã OTP không chính xác", ""],
+  "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""]
 }

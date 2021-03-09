@@ -10,6 +10,7 @@ import { ROUTES } from "./configs/routes";
 import ForgetPasswordPage from "./modules/authen/page/ForgetPasswordPage";
 import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
+import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
@@ -69,6 +70,11 @@ const App: React.FC<Props> = (props) => {
                 <Switch>
                   <Route exact path={ROUTES.login} component={LoginPage} />
                   <Route exact path={ROUTES.signUp} component={SignUpPage} />
+                  <Route
+                    exact
+                    path={ROUTES.verifyOtp}
+                    component={VerifyOtpPage}
+                  />
                   <Route
                     exact
                     path={ROUTES.forgotPass}

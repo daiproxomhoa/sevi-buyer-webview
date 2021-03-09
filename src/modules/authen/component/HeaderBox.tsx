@@ -5,7 +5,7 @@ import { ReactComponent as Logo } from "../../../svg/logo.svg";
 
 interface Props {
   title: string;
-  caption: string;
+  caption: React.ReactNode;
 }
 
 const HeaderBox = (props: Props) => {
@@ -22,12 +22,10 @@ const HeaderBox = (props: Props) => {
       }}
     >
       <Logo style={{ width: "72px", height: "72px", marginBottom: "36px" }} />
-      <Typography variant="h5">
+      <Typography variant="subtitle1">
         <FormattedMessage id={title} />
       </Typography>
-      <Typography variant="caption" color="textSecondary">
-        <FormattedMessage id={caption} />
-      </Typography>
+      {caption}
     </div>
   );
 };

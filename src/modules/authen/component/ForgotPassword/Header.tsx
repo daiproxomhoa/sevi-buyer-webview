@@ -15,6 +15,7 @@ const Header = (props: Props) => {
     <AppBar
       position={"sticky"}
       style={{
+        paddingTop: "16px",
         minHeight: "48px",
         display: "flex",
         alignItems: "center",

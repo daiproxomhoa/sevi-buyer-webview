@@ -1,21 +1,23 @@
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { ROUTES } from "../../../../configs/routes";
-import { ReactComponent as KeyIcon } from "../../../../svg/vecter_vpn_key.svg";
-import { ReactComponent as IPhoneIcon } from "../../../../svg/vector_iphone.svg";
 import { FreeTextField } from "../../../common/component/elements";
 import { RawLink } from "../../../common/component/Link";
+import LoadingButton from "../../../common/component/LoadingButton";
 import { ILogin } from "../../model";
 
 interface Props {
+  loading: boolean;
   loginData: ILogin;
   onSubmit(): void;
   onUpdate(data: ILogin): void;
 }
 
 const LoginForm = (props: Props) => {
-  const { loginData, onSubmit, onUpdate } = props;
+  const { loading, loginData, onSubmit, onUpdate } = props;
   const intl = useIntl();
 
   return (
@@ -28,25 +30,26 @@ const LoginForm = (props: Props) => {
       }}
     >
       <FreeTextField
-        value={loginData.phone}
+        value={loginData.id}
         placeholder={intl.formatMessage({ id: "phoneNumber" })}
         type="tel"
         startAdornmentIcon={
-          <IPhoneIcon style={{ width: "20px", height: "20px" }} />
+          <PhoneIphoneIcon style={{ width: "20px", height: "20px" }} />
         }
-        onChange={(e) => onUpdate({ ...loginData, phone: e.target.value })}
+        onChange={(e) => onUpdate({ ...loginData, id: e.target.value })}
       />
       <FreeTextField
         value={loginData.password}
         placeholder={intl.formatMessage({ id: "password" })}
         type="password"
         startAdornmentIcon={
-          <KeyIcon style={{ width: "20px", height: "20px" }} />
+          <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
         }
         onChange={(e) => onUpdate({ ...loginData, password: e.target.value })}
       />
 
-      <Button
+      <LoadingButton
+        loading={loading}
         style={{ marginTop: "28px", marginBottom: "12px" }}
         variant="contained"
         color="primary"
@@ -55,10 +58,10 @@ const LoginForm = (props: Props) => {
         onClick={onSubmit}
       >
         <FormattedMessage id="login" />
-      </Button>
+      </LoadingButton>
 
       <RawLink to={ROUTES.forgotPass}>
-        <Typography variant="caption" color="textSecondary">
+        <Typography variant="body2" color="textSecondary">
           <FormattedMessage id="forgotPassword" />
         </Typography>
       </RawLink>

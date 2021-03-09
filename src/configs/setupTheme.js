@@ -24,15 +24,15 @@ export const MUI_THEME = createMuiTheme({
     htmlFontSize: 14,
     fontSize: 14,
     subtitle1: {
-      fontSize: "16px",
-      fontWeight: "bold",
-      lineHeight: "24px",
+      fontSize: "24px",
+      fontWeight: 500,
+      lineHeight: "140%",
       letterSpacing: 0,
     },
     subtitle2: {
-      fontSize: "14px",
-      fontWeight: "bold",
-      lineHeight: "20px",
+      fontSize: "18px",
+      fontWeight: 500,
+      lineHeight: "140%",
       letterSpacing: 0,
     },
     body1: {
@@ -61,10 +61,14 @@ export const MUI_THEME = createMuiTheme({
       root: {
         borderRadius: "12px",
         height: "48px",
+        "&$contained:hover": {
+          boxShadow: "none",
+        },
       },
       sizeLarge: {
         boxShadow: "none",
       },
+      contained: {},
       disableElevation: true,
     },
     MuiIconButton: {

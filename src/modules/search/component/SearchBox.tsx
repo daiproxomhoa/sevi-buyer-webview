@@ -1,3 +1,4 @@
+import { List, ListItem } from "@material-ui/core";
 import {
   ButtonBase,
   Input,
@@ -36,9 +37,13 @@ const SearchInput = withStyles((theme: Theme) => ({
   },
 }))(Input);
 
-interface Props {}
+interface Props {
+  onSearchWorker(search: string): void;
+}
 
 const SearchBox = (props: Props) => {
+  const { onSearchWorker } = props;
+
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const history = useHistory();
   const intl = useIntl();
@@ -46,17 +51,36 @@ const SearchBox = (props: Props) => {
   const searchInput = useRef<HTMLInputElement>(null);
 
   const [searchString, setSearchString] = React.useState("");
+  const [suggestSearch, setSuggestSearch] = React.useState<string[]>([]);
+  const [showAutoSuggestBox, setShowAutoSuggestBox] = React.useState(false);
 
   const searchParams = React.useMemo(() => {
     return queryString.parse(history.location.search);
   }, [history.location.search]);
 
+  const setSearchParams = useCallback(
+    (search: string) => {
+      history.replace({
+        search: queryString.stringify({ search }),
+      });
+    },
+    [history]
+  );
+
   const searchDebounce = useCallback(
     debounce(
-      (value: string) => {
-        history.replace({ search: queryString.stringify({ search: value }) });
+      async (value: string) => {
+        setSearchParams(value);
 
-        dispatch(searchKeyword());
+        const data = await dispatch(searchKeyword());
+        setSuggestSearch(data);
+
+        if (!data.length || !value) {
+          setShowAutoSuggestBox(false);
+        } else {
+          setShowAutoSuggestBox(true);
+        }
+
         scrollingDiv.current?.scrollTo(0, 0);
       },
       300,
@@ -125,6 +149,9 @@ const SearchBox = (props: Props) => {
               setSearchString(e.target.value);
               searchDebounce(e.target.value);
             }}
+            onBlur={() => {
+              setImmediate(() => setShowAutoSuggestBox(false));
+            }}
             startAdornment={
               <InputAdornment
                 position="start"
@@ -135,21 +162,24 @@ const SearchBox = (props: Props) => {
             }
             endAdornment={
               <>
-                <InputAdornment position="end">
-                  <ButtonBase
-                    onClick={() => {
-                      setSearchString("");
-                      searchDebounce("");
-                      searchInput?.current?.focus();
-                    }}
-                    style={{
-                      borderRadius: "50%",
-                      marginRight: "16px",
-                    }}
-                  >
-                    <CancelIcon />
-                  </ButtonBase>
-                </InputAdornment>
+                {!!searchString && (
+                  <InputAdornment position="end">
+                    <ButtonBase
+                      onClick={() => {
+                        setSearchString("");
+                        searchDebounce("");
+                        setShowAutoSuggestBox(false);
+                        searchInput?.current?.focus();
+                      }}
+                      style={{
+                        borderRadius: "50%",
+                        marginRight: "16px",
+                      }}
+                    >
+                      <CancelIcon />
+                    </ButtonBase>
+                  </InputAdornment>
+                )}
               </>
             }
           />
@@ -161,7 +191,6 @@ const SearchBox = (props: Props) => {
               right: 0,
               left: 0,
               flex: 1,
-              display: "none",
               overflow: "auto",
               WebkitOverflowScrolling: "touch",
               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.15)",
@@ -172,7 +201,28 @@ const SearchBox = (props: Props) => {
               maxHeight: "268px",
             }}
             ref={scrollingDiv}
-          ></div>
+          >
+            {!!suggestSearch.length && showAutoSuggestBox && (
+              <List>
+                {suggestSearch.map((one) => (
+                  <ListItem
+                    key={one}
+                    button
+                    onClick={() => {
+                      setShowAutoSuggestBox(false);
+                      setSearchString(one);
+                      setSearchParams(one);
+                      onSearchWorker(one);
+                    }}
+                  >
+                    <Typography variant="body2" style={{ padding: "6px 0" }}>
+                      {one}
+                    </Typography>
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,3 +1,6 @@
+import searchReducer, {
+  SearchState,
+} from "./../modules/search/redux/searchReducer";
 import { connectRouter, RouterState } from "connected-react-router";
 import { History } from "history";
 import { combineReducers } from "redux";
@@ -14,6 +17,7 @@ export interface AppState {
   intl: IntlState;
   common: CommonState;
   authen: AuthenState;
+  search: SearchState;
 }
 
 export default function createRootReducer(history: History) {
@@ -22,5 +26,6 @@ export default function createRootReducer(history: History) {
     intl: intlReducer,
     common: commonReducer,
     authen: authenReducer,
+    search: searchReducer,
   });
 }

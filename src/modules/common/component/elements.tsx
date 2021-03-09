@@ -39,7 +39,7 @@ export const CustomInput = withStyles((theme: Theme) => ({
   },
 }))(Input);
 
-interface WVInputProps extends InputProps {
+export interface WVInputProps extends InputProps {
   regex?: RegExp;
   clear?: boolean;
   startAdornmentIcon?: React.ReactNode;
