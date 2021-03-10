@@ -37,13 +37,13 @@ export const MUI_THEME = createMuiTheme({
     },
     body1: {
       fontSize: "16px",
-      lineHeight: "24px",
+      lineHeight: "140%",
       fontWeight: "normal",
       letterSpacing: 0,
     },
     body2: {
       fontSize: "14px",
-      lineHeight: "20px",
+      lineHeight: "140%",
       fontWeight: "normal",
       letterSpacing: 0,
     },

@@ -4,7 +4,7 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapperNoScroll } from "../../common/component/elements";
-import PopularKeywordSearchBox from "../component/PopularKeywordSearchBox";
+import FilterBox from "../component/FilterBox";
 import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
 import { searchWorker } from "../redux/searchReducer";
@@ -31,13 +31,17 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   );
 
   return (
-    <PageWrapperNoScroll>
-      <SearchBox onSearchWorker={onSearchWorker} />
+    <>
+      <PageWrapperNoScroll>
+        <SearchBox onSearchWorker={onSearchWorker} />
 
-      {/* <PopularKeywordSearchBox /> */}
+        {/* <PopularKeywordSearchBox /> */}
 
-      <SearchResultBox loading={loading} data={data} />
-    </PageWrapperNoScroll>
+        <SearchResultBox loading={loading} data={data} />
+      </PageWrapperNoScroll>
+
+      <FilterBox open={false} onClose={() => {}} />
+    </>
   );
 };
 

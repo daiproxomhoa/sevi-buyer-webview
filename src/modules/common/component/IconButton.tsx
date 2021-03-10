@@ -32,6 +32,7 @@ export const WhiteIconButton = withStyles({
     fontSize: 16,
     padding: 8,
     lineHeight: 1.5,
+    color: BACKGROUND,
     backgroundColor: fade(BACKGROUND, 0.2),
     "&:hover": {
       boxShadow: "none",

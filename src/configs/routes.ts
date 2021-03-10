@@ -4,6 +4,9 @@ export const ROUTES = {
   verifyOtp: "/verifyOtp",
   forgotPass: "/forgotPass",
   search: "/search",
+  request: "/request",
+  rating: "/rating",
+  profile: "/profile",
   test: {
     value: "/test/:id/:slug",
     gen: (id: string, slug: string) => `/test/${id}/${slug}`,

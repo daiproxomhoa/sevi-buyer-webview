@@ -35,6 +35,14 @@
   "resultFor": ["Kết quả cho:", [""]],
   "enterSearchInfo": ["Nhập công việc cần tìm...", ""],
 
+  "search.nodata": [
+    "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
+    []
+  ],
+
+  "request.requesting": ["Đang yêu cầu", ""],
+  "request.received": ["Đã được nhận", ""],
+
   "auth.enterOtp": ["Nhập mã OTP", "Enter OTP"],
   "auth.verifyOtp": ["Xác thực OTP", "Verify OTP"],
   "auth.weSentOtpCode": ["Chúng tôi đã gửi một mã OTP đến", ""],

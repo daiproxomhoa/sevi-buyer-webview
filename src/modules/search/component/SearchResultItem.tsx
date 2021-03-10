@@ -1,16 +1,9 @@
-import {
-  Avatar,
-  ButtonBase,
-  Chip,
-  fade,
-  ListItem,
-  Typography,
-} from "@material-ui/core";
-import React from "react";
-import { LIGHT_GREY, PRIMARY } from "../../../configs/colors";
-import { ISearchResult } from "../model";
+import { Avatar, fade, ListItem, Typography } from "@material-ui/core";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
+import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
+import { LIGHT_GREY, PRIMARY, SECONDARY } from "../../../configs/colors";
+import { ISearchResult } from "../model";
 
 interface Props {
   info: ISearchResult;
@@ -38,7 +31,9 @@ const SearchResultItem = (props: Props) => {
       <div
         style={{ display: "flex", flexDirection: "column", marginLeft: "8px" }}
       >
-        <Typography variant="subtitle2">{info.name}</Typography>
+        <Typography variant="body2" style={{ fontWeight: 500 }}>
+          {info.name}
+        </Typography>
 
         <div style={{ display: "flex", alignItems: "center" }}>
           <div
@@ -72,7 +67,7 @@ const SearchResultItem = (props: Props) => {
             <Typography
               component="span"
               variant="caption"
-              style={{ color: "#FFCB14" }}
+              style={{ color: SECONDARY }}
             >
               <FormattedNumber value={info.review} />
             </Typography>

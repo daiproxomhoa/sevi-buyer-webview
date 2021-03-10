@@ -1,4 +1,4 @@
-import { List, ListItem } from "@material-ui/core";
+import { fade, List, ListItem } from "@material-ui/core";
 import {
   ButtonBase,
   Input,
@@ -15,12 +15,12 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { BACKGROUND } from "../../../configs/colors";
+import { BACKGROUND, BLACK } from "../../../configs/colors";
 import { AppState } from "../../../redux/reducer";
 import CardHeader from "../../../svg/card_header.svg";
-import { ReactComponent as CancelIcon } from "../../../svg/ic_cancel.svg";
-import { ReactComponent as FilterIcon } from "../../../svg/ic_filter.svg";
-import { ReactComponent as SearchIcon } from "../../../svg/vector_search.svg";
+import ClearIcon from "@material-ui/icons/Clear";
+import TuneIcon from "@material-ui/icons/Tune";
+import SearchIcon from "@material-ui/icons/Search";
 import { WhiteIconButton } from "../../common/component/IconButton";
 import { searchKeyword } from "../redux/searchReducer";
 
@@ -48,7 +48,7 @@ const SearchBox = (props: Props) => {
   const history = useHistory();
   const intl = useIntl();
   const scrollingDiv = useRef<HTMLDivElement>(null);
-  const searchInput = useRef<HTMLInputElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const [searchString, setSearchString] = React.useState("");
   const [suggestSearch, setSuggestSearch] = React.useState<string[]>([]);
@@ -128,19 +128,24 @@ const SearchBox = (props: Props) => {
         >
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <WhiteIconButton>
-              <FilterIcon />
+              <TuneIcon style={{ width: "20px", height: "20px" }} />
             </WhiteIconButton>
           </div>
 
           <Typography
-            variant="h6"
-            style={{ margin: "16px 0", zIndex: 1, textAlign: "center" }}
+            variant="subtitle1"
+            style={{
+              margin: "16px 0",
+              zIndex: 1,
+              textAlign: "center",
+              color: "white",
+            }}
           >
             <FormattedMessage id="search" />
           </Typography>
 
           <SearchInput
-            inputRef={searchInput}
+            inputRef={searchInputRef}
             value={searchString}
             placeholder={intl.formatMessage({ id: "enterSearchInfo" })}
             fullWidth
@@ -169,14 +174,17 @@ const SearchBox = (props: Props) => {
                         setSearchString("");
                         searchDebounce("");
                         setShowAutoSuggestBox(false);
-                        searchInput?.current?.focus();
+                        searchInputRef?.current?.focus();
                       }}
                       style={{
                         borderRadius: "50%",
                         marginRight: "16px",
+                        padding: "1px",
+                        color: BACKGROUND,
+                        backgroundColor: fade(BLACK, 0.34),
                       }}
                     >
-                      <CancelIcon />
+                      <ClearIcon style={{ width: "15px", height: "15px" }} />
                     </ButtonBase>
                   </InputAdornment>
                 )}

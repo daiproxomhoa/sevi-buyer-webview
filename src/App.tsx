@@ -12,6 +12,7 @@ import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
 import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
+import RequestListPage from "./modules/request/page/RequestListPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
 import styles from "./scss/webviewRouteTransition.module.scss";
@@ -81,6 +82,11 @@ const App: React.FC<Props> = (props) => {
                     component={ForgetPasswordPage}
                   />
                   <Route exact path={ROUTES.search} component={SearchPage} />
+                  <Route
+                    exact
+                    path={ROUTES.request}
+                    component={RequestListPage}
+                  />
                 </Switch>
               </div>
             );

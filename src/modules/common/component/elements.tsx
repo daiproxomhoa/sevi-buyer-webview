@@ -2,9 +2,11 @@ import {
   Input,
   InputAdornment,
   InputProps,
+  Slide,
   Theme,
   withStyles,
 } from "@material-ui/core";
+import { TransitionProps } from "@material-ui/core/transitions";
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
@@ -25,6 +27,13 @@ export const PageWrapperNoScroll = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const SlideUp = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export const CustomInput = withStyles((theme: Theme) => ({
   root: {
