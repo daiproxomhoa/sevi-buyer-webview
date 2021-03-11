@@ -3,20 +3,23 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { CustomTab, CustomTabs } from "../../common/component/CustomTab";
 
-interface Props {}
+interface Props {
+  tabIndex: number;
+  onChangeTab(newTabIndex: number): void;
+}
 
 const HeaderTab = (props: Props) => {
+  const { tabIndex, onChangeTab } = props;
+
   const intl = useIntl();
 
-  const [value, setValue] = React.useState(0);
-
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+    onChangeTab(newValue);
   };
 
   return (
     <CustomTabs
-      value={value}
+      value={tabIndex}
       onChange={handleChange}
       indicatorColor="primary"
       textColor="primary"

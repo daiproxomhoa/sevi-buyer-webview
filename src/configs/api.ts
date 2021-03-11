@@ -2,14 +2,15 @@ import { APIHost } from "./../modules/common/constants";
 
 enum APIService {
   auth,
-  buyer,
+  protected,
+  seller,
 }
 
 function getBaseUrl(service: APIService) {
   if (service === APIService.auth) {
     return `${APIHost}/auth`;
-  } else if (service === APIService.buyer) {
-    return `${APIHost}/buyer`;
+  } else if (service === APIService.protected) {
+    return `${APIHost}/protected`;
   }
 
   return "";
@@ -21,7 +22,10 @@ export const API_PATHS = {
   otp: `${getBaseUrl(APIService.auth)}/buyer/otp`,
   getOtp: `${getBaseUrl(APIService.auth)}/buyer/getOtp`,
   signOut: `${getBaseUrl(APIService.auth)}/buyer/signOut`,
-  popularKeyword: `${getBaseUrl(APIService.buyer)}/popularKeyword`,
-  searchKeyword: `${getBaseUrl(APIService.buyer)}/searchKeyword`,
-  searchWorker: `${getBaseUrl(APIService.buyer)}/searchWorker`,
+  getBuyer: `${getBaseUrl(APIService.protected)}/buyer/get`,
+  sellerSearch: `${getBaseUrl(APIService.protected)}/seller/search`,
+
+  popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
+  searchKeyword: `${getBaseUrl(APIService.protected)}/protected/seller/search`,
+  searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
 };

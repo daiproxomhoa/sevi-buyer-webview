@@ -1,5 +1,4 @@
 {
-  "test": ["Kiêm tra", "Test"],
   "welcome": ["Chào mừng tới SEVI", "Welcome to SEVI"],
   "smsCode": ["se mk", "se mk"],
   "headCode": ["8105", "8105"],
@@ -11,6 +10,8 @@
   "registerNow": ["Đăng ký ngay nhận ngàn ưu đãi hấp dẫn", ""],
   "noAccount": ["Bạn chưa có tài khoản?", ""],
   "continue": ["Tiếp tục", ""],
+  "cancel": ["Hủy", ""],
+  "confirm": ["Xác nhận", ""],
   "phoneNumber": ["Số điện thoại", ""],
   "name": ["Tên", ""],
   "password": ["Mật khẩu", ""],

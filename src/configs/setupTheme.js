@@ -65,10 +65,16 @@ export const MUI_THEME = createMuiTheme({
           boxShadow: "none",
         },
       },
+      sizeSmall: {
+        height: "30px",
+        borderRadius: "500px",
+      },
       sizeLarge: {
         boxShadow: "none",
       },
-      contained: {},
+      contained: {
+        boxShadow: "none",
+      },
       disableElevation: true,
     },
     MuiIconButton: {
