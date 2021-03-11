@@ -1,21 +1,14 @@
 import React from "react";
-import { LIGHT_GREY } from "../../../configs/colors";
+import { CardDiv } from "../../common/component/elements";
 import RequestResultItem from "./RequestResultItem";
 
 interface Props {}
 
 const RequestResult = (props: Props) => {
   return (
-    <div
-      style={{
-        borderRadius: "12px",
-        backgroundColor: LIGHT_GREY,
-        padding: "12px",
-        marginTop: "12px",
-      }}
-    >
+    <CardDiv>
       <RequestResultItem />
-    </div>
+    </CardDiv>
   );
 };
 

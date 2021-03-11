@@ -9,6 +9,7 @@ import {
 import { TransitionProps } from "@material-ui/core/transitions";
 import React from "react";
 import styled from "styled-components";
+import { LIGHT_GREY } from "../../../configs/colors";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
 
 export const PageWrapper = styled.div`
@@ -26,6 +27,13 @@ export const PageWrapperNoScroll = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+`;
+
+export const CardDiv = styled.div`
+  border-radius: 12px;
+  background-color: ${LIGHT_GREY};
+  padding: 12px;
+  margin-top: 12px;
 `;
 
 export const SlideUp = React.forwardRef(function Transition(

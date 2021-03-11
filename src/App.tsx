@@ -12,6 +12,7 @@ import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
 import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
+import RatingListPage from "./modules/rating/page/RatingListPage";
 import RequestListPage from "./modules/request/page/RequestListPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
@@ -86,6 +87,11 @@ const App: React.FC<Props> = (props) => {
                     exact
                     path={ROUTES.request}
                     component={RequestListPage}
+                  />
+                  <Route
+                    exact
+                    path={ROUTES.rating}
+                    component={RatingListPage}
                   />
                 </Switch>
               </div>

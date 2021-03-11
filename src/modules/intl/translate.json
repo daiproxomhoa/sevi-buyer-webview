@@ -44,6 +44,11 @@
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
 
+  "rating.pending": ["Chờ đánh giá", ""],
+  "rating.rated": ["Đã đánh giá", ""],
+  "rating.rateNow": ["Đánh giá ngay", ""],
+  "rating.requestAgain": ["Yêu cầu lại", ""],
+
   "auth.enterOtp": ["Nhập mã OTP", "Enter OTP"],
   "auth.verifyOtp": ["Xác thực OTP", "Verify OTP"],
   "auth.weSentOtpCode": ["Chúng tôi đã gửi một mã OTP đến", ""],

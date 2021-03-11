@@ -1,15 +1,15 @@
-import { AppBar, Tabs, Tab } from "@material-ui/core";
 import React from "react";
 import { useIntl } from "react-intl";
-import { CustomTab, CustomTabs } from "../../common/component/CustomTab";
+import { CustomTab, CustomTabs } from "./CustomTab";
 
 interface Props {
   tabIndex: number;
+  tabList: string[];
   onChangeTab(newTabIndex: number): void;
 }
 
 const HeaderTab = (props: Props) => {
-  const { tabIndex, onChangeTab } = props;
+  const { tabIndex, tabList, onChangeTab } = props;
 
   const intl = useIntl();
 
@@ -25,8 +25,9 @@ const HeaderTab = (props: Props) => {
       textColor="primary"
       variant="fullWidth"
     >
-      <CustomTab label={intl.formatMessage({ id: "request.requesting" })} />
-      <CustomTab label={intl.formatMessage({ id: "request.received" })} />
+      {tabList.map((one) => (
+        <CustomTab key={one} label={one} />
+      ))}
     </CustomTabs>
   );
 };

@@ -1,21 +1,15 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { LIGHT_GREY, RED } from "../../../configs/colors";
+import { RED } from "../../../configs/colors";
+import { CardDiv } from "../../common/component/elements";
 import RequestResultItem from "./RequestResultItem";
 
 interface Props {}
 
 const ReceivedResult = (props: Props) => {
   return (
-    <div
-      style={{
-        borderRadius: "12px",
-        backgroundColor: LIGHT_GREY,
-        padding: "12px",
-        marginTop: "12px",
-      }}
-    >
+    <CardDiv>
       <RequestResultItem />
       <div
         style={{
@@ -43,7 +37,7 @@ const ReceivedResult = (props: Props) => {
           <FormattedMessage id="confirm" />
         </Button>
       </div>
-    </div>
+    </CardDiv>
   );
 };
 
