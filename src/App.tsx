@@ -1,4 +1,10 @@
 import fetchMock from "fetch-mock";
+import {
+  StyleRulesCallback,
+  Theme,
+  WithStyles,
+  withStyles,
+} from "@material-ui/core/styles";
 import React from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router";
@@ -18,20 +24,34 @@ import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
 import styles from "./scss/webviewRouteTransition.module.scss";
 
+export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
+  body: {
+    fontSize: theme.typography.body2.fontSize,
+    lineHeight: theme.typography.body2.lineHeight,
+    color: theme.palette.text.primary,
+    overflowY: "scroll",
+  },
+});
+
 const mapStateToProps = (state: AppState) => ({
   router: state.router,
 });
 
-interface Props extends ReturnType<typeof mapStateToProps> {}
+interface Props
+  extends ReturnType<typeof mapStateToProps>,
+    WithStyles<typeof bodyStyles> {}
 
-const App: React.FC<Props> = (props) => {
-  const { router } = props;
+const App: React.FC<Props> = ({ router, classes }) => {
   const { action } = router;
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
   const lastRouteYOffsetRef = React.useRef(0);
 
   const actionRef = React.useRef(action);
   actionRef.current = action;
+
+  React.useEffect(() => {
+    document.body.className = classes.body;
+  }, [classes.body]);
 
   if (actionRef.current === "PUSH") {
     transitionClassNamesRef.current.enter = styles.enter;
@@ -51,25 +71,30 @@ const App: React.FC<Props> = (props) => {
         <CSSTransition
           key={router.location.pathname}
           timeout={300}
-          appear
           classNames={transitionClassNamesRef.current}
           onExited={() => {
             if (actionRef.current === "PUSH") {
               window.scrollTo({ top: 0 });
             }
+            document.body.className = classes.body;
           }}
+          unmountOnExit
         >
           {(status) => {
-            const style: React.CSSProperties = {};
+            const style: React.CSSProperties =
+              status === "entering" || status === "exiting"
+                ? {}
+                : { position: "absolute" };
             if (status === "exiting" || status === "exited") {
               if (status === "exiting") {
                 lastRouteYOffsetRef.current = window.pageYOffset;
               }
               style.top = -lastRouteYOffsetRef.current;
             }
+            console.log(router.location);
             return (
               <div style={{ ...style, width: "100%" }}>
-                <Switch>
+                <Switch location={router.location}>
                   <Route exact path={ROUTES.login} component={LoginPage} />
                   <Route exact path={ROUTES.signUp} component={SignUpPage} />
                   <Route
@@ -98,10 +123,12 @@ const App: React.FC<Props> = (props) => {
             );
           }}
         </CSSTransition>
-        <BottomNavigation />
       </TransitionGroup>
+      <div style={{ position: "fixed", bottom: 10, left: 0, right: 0 }}>
+        <BottomNavigation />
+      </div>
     </>
   );
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(withStyles(bodyStyles)(App));
