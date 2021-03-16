@@ -91,10 +91,10 @@ const App: React.FC<Props> = ({ router, classes }) => {
               }
               style.top = -lastRouteYOffsetRef.current;
             }
-            console.log(router.location);
+            const location = router.location;
             return (
               <div style={{ ...style, width: "100%" }}>
-                <Switch location={router.location}>
+                <Switch location={location}>
                   <Route exact path={ROUTES.login} component={LoginPage} />
                   <Route exact path={ROUTES.signUp} component={SignUpPage} />
                   <Route
