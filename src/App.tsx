@@ -23,6 +23,7 @@ import RequestListPage from "./modules/request/page/RequestListPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
 import styles from "./scss/webviewRouteTransition.module.scss";
+import ProfilePage from "./modules/profile/page/ProfilePage";
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -118,6 +119,7 @@ const App: React.FC<Props> = ({ router, classes }) => {
                     path={ROUTES.rating}
                     component={RatingListPage}
                   />
+                  <Route exact path={ROUTES.profile} component={ProfilePage} />
                 </Switch>
               </div>
             );

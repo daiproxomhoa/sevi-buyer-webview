@@ -58,5 +58,11 @@
   "auth.SERVER_ERROR": ["Có lỗi hệ thống", ""],
   "auth.ALREADY_CREATED": ["Số điện thoại đã tồn tại", ""],
   "auth.WRONG_OTP ": ["Mã OTP không chính xác", ""],
-  "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""]
+  "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""],
+
+  "profile.edit": ["Chỉnh sửa thông tin", ""],
+  "profile.changePassword": ["Đổi mật khẩu", ""],
+  "profile.phoneNumber": ["Điện thoai", ""],
+  "profile.review": ["Đánh giá về bạn", ""],
+  "profile.logout": ["Đăng xuất", ""]
 }

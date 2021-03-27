@@ -1,13 +1,19 @@
-$background: #FFFFFF;
+$BACKGROUND: #ffffff;
 
-$primary: #BA1CDE;
-$secondary: #FFCB14;
-$textColor: #05050E;
-
+$PRIMARY: #ba1cde;
+$SECONDARY: #ffcb14;
+$BLACK_TEXT: #05050e;
+$GREY_5: #e0e0e0;
+$BLACK: #05050e;
+$LIGHT_GREY: #f5f6f9;
+$RED: #ea0839;
 :export {
-  background: $background;
-
-  primary: $primary;
-  secondary: $secondary;
-  textColor: $textColor;
+  BACKGROUND: $BACKGROUND;
+  PRIMARY: $PRIMARY;
+  SECONDARY: $SECONDARY;
+  BLACK_TEXT: $BLACK_TEXT;
+  BLACK: $BLACK;
+  LIGHT_GREY: $LIGHT_GREY;
+  RED: $RED;
+  GREY_5: $GREY_5;
 }

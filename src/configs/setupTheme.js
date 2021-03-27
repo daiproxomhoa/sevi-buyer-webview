@@ -1,5 +1,5 @@
 import { createMuiTheme, darken, fade } from "@material-ui/core/styles";
-import { PRIMARY, SECONDARY, BLACK_TEXT } from "./colors";
+import { PRIMARY, SECONDARY, BLACK_TEXT, GREY_5 } from "./colors";
 
 export const MUI_THEME = createMuiTheme({
   palette: {
@@ -57,6 +57,9 @@ export const MUI_THEME = createMuiTheme({
     },
   },
   overrides: {
+    MuiDivider: {
+      root: { backgroundColor: GREY_5, margin: undefined },
+    },
     MuiButton: {
       root: {
         borderRadius: "12px",

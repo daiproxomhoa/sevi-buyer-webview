@@ -47,7 +47,7 @@ export const CustomInput = withStyles((theme: Theme) => ({
   root: {
     borderRadius: 12,
     position: "relative",
-    backgroundColor: "#F5F6F9",
+    backgroundColor: LIGHT_GREY,
     border: "none",
     fontSize: 16,
   },

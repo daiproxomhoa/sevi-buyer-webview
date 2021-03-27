@@ -8,6 +8,7 @@ import smoothscroll from "smoothscroll-polyfill";
 import App from "./App";
 import { MUI_THEME } from "./configs/setupTheme";
 import "./index.css";
+import "./scss/stylesheet.scss";
 import ConnectedIntlProvider from "./modules/intl/component/ConnectedIntlProvider";
 import { setLocale } from "./modules/intl/redux/intlReducer";
 import configureStore, { history } from "./redux/configureStore";
