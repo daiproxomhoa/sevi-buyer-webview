@@ -3,23 +3,28 @@ import {
   Avatar,
   Box,
   ButtonBase,
-  Divider,
   IconButton,
   Popover,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ReactComponent as IconDotList } from "../../../svg/ic_dot_list.svg";
-import styled from "styled-components";
 import { FormattedMessage } from "react-intl";
-import { GREY_5 } from "../../../configs/colors";
+import { GREY_300 } from "../../../configs/colors";
+import { ROUTES } from "../../../configs/routes";
+import { RawLink } from "../../common/component/Link";
+import { CssIconButton } from "../../common/component/IconButton";
+import { ReactComponent as BackIcon } from "../../../svg/chevron-back.svg";
+import Header from "../../common/component/Header";
 
 interface Props {
   action?: () => void;
   title?: string;
+  avatar?: string;
 }
+
 const HeaderProfile = (props: Props) => {
-  const { action, title } = props;
+  const { action, title, avatar } = props;
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
   const handleClose = () => {
@@ -30,32 +35,23 @@ const HeaderProfile = (props: Props) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <AppBar
-      position={"sticky"}
-      style={{
-        paddingTop: "16px",
-        minHeight: "48px",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "row",
-        padding: "12px 8px 12px 24px",
-      }}
-      color="inherit"
-      elevation={0}
-    >
-      <Avatar src="" />
-      <Box marginLeft={1} flex={1} className="overflow-hidden">
-        <Typography variant="subtitle2" className="text-ellipsis">
-          {title}
-        </Typography>
-      </Box>
-      <IconButton
-        onClick={(event) => {
-          setAnchorEl(event.currentTarget);
-        }}
-      >
-        <IconDotList style={{ height: 14 }} />
-      </IconButton>
+    <>
+      <Header
+        title={title}
+        endAdornment={
+          !action && (
+            <IconButton
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+              }}
+            >
+              <IconDotList style={{ height: 14 }} />
+            </IconButton>
+          )
+        }
+        startAdornment={<Avatar src={avatar} style={{ marginRight: 12 }} />}
+        action={action}
+      />
       <Popover
         id={id}
         open={open}
@@ -72,20 +68,22 @@ const HeaderProfile = (props: Props) => {
         elevation={1}
       >
         <Box className="d-flex d-flex-column">
+          <RawLink to={ROUTES.editProfile}>
+            <ButtonBase
+              style={{
+                borderBottom: `1px solid ${GREY_300}`,
+                padding: "8px 12px",
+              }}
+              className="justify-content-start"
+            >
+              <Typography variant="body1">
+                <FormattedMessage id="profile.edit" />
+              </Typography>
+            </ButtonBase>
+          </RawLink>
           <ButtonBase
             style={{
-              borderBottom: `1px solid ${GREY_5}`,
-              padding: "8px 12px",
-            }}
-            className="justify-content-start"
-          >
-            <Typography variant="body1">
-              <FormattedMessage id="profile.edit" />
-            </Typography>
-          </ButtonBase>
-          <ButtonBase
-            style={{
-              borderBottom: `1px solid ${GREY_5}`,
+              borderBottom: `1px solid ${GREY_300}`,
               padding: "8px 12px",
             }}
             className="justify-content-start"
@@ -96,7 +94,7 @@ const HeaderProfile = (props: Props) => {
           </ButtonBase>
           <ButtonBase
             style={{
-              borderBottom: `1px solid ${GREY_5}`,
+              borderBottom: `1px solid ${GREY_300}`,
               padding: "8px 12px",
             }}
             className="justify-content-start"
@@ -107,7 +105,8 @@ const HeaderProfile = (props: Props) => {
           </ButtonBase>
         </Box>
       </Popover>
-    </AppBar>
+    </>
   );
 };
+
 export default HeaderProfile;

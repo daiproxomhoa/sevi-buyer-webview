@@ -35,6 +35,9 @@
   "review": ["lượt đánh giá", [""]],
   "resultFor": ["Kết quả cho:", [""]],
   "enterSearchInfo": ["Nhập công việc cần tìm...", ""],
+  "save": ["Lưu lại"],
+  "firstName": ["Tên"],
+  "lastName": ["Họ"],
 
   "search.nodata": [
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",

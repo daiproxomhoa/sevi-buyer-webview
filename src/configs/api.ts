@@ -28,4 +28,10 @@ export const API_PATHS = {
   popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
   searchKeyword: `${getBaseUrl(APIService.protected)}/protected/seller/search`,
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
+  setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
+
+  suggestLocation: (term: string) =>
+    `${getBaseUrl(
+      APIService.protected
+    )}/searchLocation?maxItems=5&term=${encodeURIComponent(term)}`,
 };

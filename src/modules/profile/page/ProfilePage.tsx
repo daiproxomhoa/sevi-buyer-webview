@@ -1,13 +1,14 @@
 import { AppBar, Box } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Header from "../../authen/component/ForgotPassword/Header";
 import { PageWrapperNoScroll } from "../../common/component/elements";
 import { some } from "../../common/constants";
 import HeaderProfile from "../component/HeaderProfile";
 import InfoBox from "../component/InfoBox";
 import { fakeDataProfile } from "../constants";
+
 interface Props {}
+
 const ProfilePage = (props: Props) => {
   const history = useHistory();
 
@@ -27,7 +28,7 @@ const ProfilePage = (props: Props) => {
   }
   return (
     <PageWrapperNoScroll>
-      <HeaderProfile action={() => history.goBack()} title={profile.name} />
+      <HeaderProfile title={profile.name} />
       <Box className="p-24 p-t-8 overflow-auto">
         <InfoBox profile={profile} />
       </Box>
