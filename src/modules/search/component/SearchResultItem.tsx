@@ -24,7 +24,7 @@ const SearchResultItem = (props: Props) => {
       }}
     >
       <Avatar
-        alt={info.name}
+        alt={info.givenName}
         src={info.avatar}
         style={{ width: "40px", height: "40px" }}
       />
@@ -32,7 +32,7 @@ const SearchResultItem = (props: Props) => {
         style={{ display: "flex", flexDirection: "column", marginLeft: "8px" }}
       >
         <Typography variant="body2" style={{ fontWeight: 500 }}>
-          {info.name}
+          {info.givenName}&nbsp;{info.familyName}
         </Typography>
 
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -69,14 +69,14 @@ const SearchResultItem = (props: Props) => {
               variant="caption"
               style={{ color: SECONDARY }}
             >
-              <FormattedNumber value={info.review} />
+              <FormattedNumber value={info.rating} />
             </Typography>
             &nbsp;
             <FormattedMessage id="review" />
           </Typography>
         </div>
         <Typography variant="caption" color="textPrimary">
-          {info.description}
+          {info.product}
         </Typography>
       </div>
     </ListItem>

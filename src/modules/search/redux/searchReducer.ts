@@ -1,4 +1,4 @@
-import { ISearchResult } from "./../model";
+import { ISearchParams, ISearchResult } from "./../model";
 import fetchMock from "fetch-mock";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -49,16 +49,17 @@ export const searchKeyword = makeCancelOldThunk(
   }
 );
 
-export const searchWorker = (
-  search: string
+export const sellerSearch = (
+  params: ISearchParams
 ): ThunkAction<void, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    fetchMock.post(API_PATHS.searchWorker, searchWorkerData, { delay: 1000 });
-    const json = await dispatch(
-      fetchThunk(API_PATHS.searchWorker, "post", JSON.stringify({ search }))
-    );
+    fetchMock.post(API_PATHS.sellerSearch, searchWorkerData, {
+      delay: 300,
+    });
 
-    fetchMock.reset();
+    const json = await dispatch(
+      fetchThunk(API_PATHS.sellerSearch, "post", JSON.stringify(params))
+    );
 
     if (json?.body?.data) {
       dispatch(setSearchResult(json.body.data));

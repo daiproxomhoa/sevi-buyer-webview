@@ -10,6 +10,7 @@
   "registerNow": ["Đăng ký ngay nhận ngàn ưu đãi hấp dẫn", ""],
   "noAccount": ["Bạn chưa có tài khoản?", ""],
   "continue": ["Tiếp tục", ""],
+  "ok": ["OK", ""],
   "cancel": ["Hủy", ""],
   "confirm": ["Xác nhận", ""],
   "phoneNumber": ["Số điện thoại", ""],
@@ -43,6 +44,12 @@
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
+  "request.cancel": ["Hủy bỏ", ""],
+  "request.confirmCancelRequest": ["Xác nhận hủy yêu cầu", ""],
+  "request.youAreSureCancel": [
+    "Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?",
+    ""
+  ],
 
   "rating.pending": ["Chờ đánh giá", ""],
   "rating.rated": ["Đã đánh giá", ""],
