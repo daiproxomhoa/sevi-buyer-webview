@@ -4,14 +4,16 @@ import { FormattedMessage, FormattedNumber } from "react-intl";
 import { ISearchResult } from "../model";
 import SearchResultItem from "./SearchResultItem";
 import { ReactComponent as NoDataIcon } from "../../../svg/ic_nodata.svg";
+import queryString from "query-string";
 
 interface Props {
   loading: boolean;
+  searchParams: queryString.ParsedQuery<string>;
   data: ISearchResult[];
 }
 
 const SearchResultBox = (props: Props) => {
-  const { loading, data } = props;
+  const { loading, searchParams, data } = props;
 
   return loading ? (
     <div
@@ -35,6 +37,7 @@ const SearchResultBox = (props: Props) => {
       >
         <Typography variant="body1" style={{ flex: 1 }}>
           <FormattedMessage id="resultFor" />
+          &nbsp; “{searchParams?.search}”
         </Typography>
         <Chip
           label={<FormattedNumber value={data.length} />}

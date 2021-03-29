@@ -132,7 +132,15 @@ const App: React.FC<Props> = ({ router, classes }) => {
           }}
         </CSSTransition>
       </TransitionGroup>
-      <div style={{ position: "fixed", bottom: 10, left: 0, right: 0 }}>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 10,
+          left: 0,
+          right: 0,
+          zIndex: 5001,
+        }}
+      >
         <BottomNavigation />
       </div>
     </>

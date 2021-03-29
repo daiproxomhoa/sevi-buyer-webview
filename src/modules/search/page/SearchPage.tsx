@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AppState } from "../../../redux/reducer";
@@ -7,7 +8,8 @@ import { PageWrapperNoScroll } from "../../common/component/elements";
 import FilterBox from "../component/FilterBox";
 import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
-import { searchWorker } from "../redux/searchReducer";
+import { sellerSearch } from "../redux/searchReducer";
+import queryString from "query-string";
 
 const mapStateToProps = (state: AppState) => ({
   data: state.search.data,
@@ -19,12 +21,37 @@ interface ISearchPageProps extends ReturnType<typeof mapStateToProps> {
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   const { dispatch, data } = props;
+  const history = useHistory();
+
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const onSearchWorker = React.useCallback(
+  const searchParams = React.useMemo(() => {
+    return queryString.parse(history.location.search);
+  }, [history.location.search]);
+
+  const setSearchParams = React.useCallback(
+    (search: string) => {
+      history.replace({
+        search: queryString.stringify({ search }),
+      });
+    },
+    [history]
+  );
+
+  const onSellerSearch = React.useCallback(
     async (search: string) => {
       setLoading(true);
-      await dispatch(searchWorker(search));
+      await dispatch(
+        sellerSearch({
+          en: false,
+          string: "a",
+          sortBy: "rating",
+          offset: 0,
+          radius: 0,
+          lat: 0,
+          lng: 0,
+        })
+      );
       setLoading(false);
     },
     [dispatch]
@@ -33,11 +60,19 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   return (
     <>
       <PageWrapperNoScroll>
-        <SearchBox onSearchWorker={onSearchWorker} />
+        <SearchBox
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+          onSellerSearch={onSellerSearch}
+        />
 
         {/* <PopularKeywordSearchBox /> */}
 
-        <SearchResultBox loading={loading} data={data} />
+        <SearchResultBox
+          loading={loading}
+          searchParams={searchParams}
+          data={data}
+        />
       </PageWrapperNoScroll>
 
       <FilterBox open={false} onClose={() => {}} />

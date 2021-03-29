@@ -12,17 +12,16 @@ import queryString from "query-string";
 import React, { useCallback, useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { BACKGROUND, BLACK } from "../../../configs/colors";
 import { AppState } from "../../../redux/reducer";
-import CardHeader from "../../../svg/card_header.svg";
 import ClearIcon from "@material-ui/icons/Clear";
 import TuneIcon from "@material-ui/icons/Tune";
 import SearchIcon from "@material-ui/icons/Search";
 import { WhiteIconButton } from "../../common/component/IconButton";
 import { searchKeyword } from "../redux/searchReducer";
+import CardHeader from "../../common/component/CardHeader";
 
 const SearchInput = withStyles((theme: Theme) => ({
   root: {
@@ -38,14 +37,15 @@ const SearchInput = withStyles((theme: Theme) => ({
 }))(Input);
 
 interface Props {
-  onSearchWorker(search: string): void;
+  searchParams: queryString.ParsedQuery<string>;
+  onSellerSearch(search: string): void;
+  setSearchParams(value: string): void;
 }
 
 const SearchBox = (props: Props) => {
-  const { onSearchWorker } = props;
+  const { searchParams, setSearchParams, onSellerSearch } = props;
 
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const history = useHistory();
   const intl = useIntl();
   const scrollingDiv = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -53,19 +53,6 @@ const SearchBox = (props: Props) => {
   const [searchString, setSearchString] = React.useState("");
   const [suggestSearch, setSuggestSearch] = React.useState<string[]>([]);
   const [showAutoSuggestBox, setShowAutoSuggestBox] = React.useState(false);
-
-  const searchParams = React.useMemo(() => {
-    return queryString.parse(history.location.search);
-  }, [history.location.search]);
-
-  const setSearchParams = useCallback(
-    (search: string) => {
-      history.replace({
-        search: queryString.stringify({ search }),
-      });
-    },
-    [history]
-  );
 
   const searchDebounce = useCallback(
     debounce(
@@ -102,10 +89,10 @@ const SearchBox = (props: Props) => {
     <div
       style={{
         position: "relative",
-        minHeight: "214px",
+        minHeight: "206px",
       }}
     >
-      <img src={CardHeader} alt="" style={{ width: "100%" }} />
+      <CardHeader />
       <div
         style={{
           position: "absolute",
@@ -135,7 +122,7 @@ const SearchBox = (props: Props) => {
           <Typography
             variant="subtitle1"
             style={{
-              margin: "16px 0",
+              margin: "8px 0",
               zIndex: 1,
               textAlign: "center",
               color: "white",
@@ -220,7 +207,7 @@ const SearchBox = (props: Props) => {
                       setShowAutoSuggestBox(false);
                       setSearchString(one);
                       setSearchParams(one);
-                      onSearchWorker(one);
+                      onSellerSearch(one);
                     }}
                   >
                     <Typography variant="body2" style={{ padding: "6px 0" }}>
