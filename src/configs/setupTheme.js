@@ -56,6 +56,9 @@ export const MUI_THEME = createMuiTheme({
       letterSpacing: "0.24px",
     },
   },
+  zIndex: {
+    modal: 9999,
+  },
   overrides: {
     MuiButton: {
       root: {

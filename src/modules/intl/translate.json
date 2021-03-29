@@ -41,6 +41,8 @@
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
     []
   ],
+  "search.distance": ["Khoảng cách", ""],
+  "search.yourLocation": ["Vị trí của bạn", ""],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
