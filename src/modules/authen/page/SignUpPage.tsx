@@ -47,7 +47,7 @@ const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
       dispatch(
         push({
           pathname: ROUTES.verifyOtp,
-          state: queryString.stringify(signUpInfo),
+          search: queryString.stringify(signUpInfo),
         })
       );
     }
