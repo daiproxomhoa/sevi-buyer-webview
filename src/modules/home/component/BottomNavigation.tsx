@@ -17,7 +17,6 @@ const useStyles = makeStyles({
   root: {
     position: "sticky",
     bottom: 24,
-    zIndex: 5001,
     height: 48,
     boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.15)",
     borderRadius: 500,
@@ -58,20 +57,25 @@ const BottomNavigation: React.FunctionComponent<IBottomNavigationProps> = (
   const classes = useStyles();
 
   const [value, setValue] = React.useState(history.location.pathname);
+  const routerArr = React.useMemo(
+    () => [ROUTES.search, ROUTES.request, ROUTES.rating, ROUTES.profile],
+    []
+  );
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
-    history.replace(newValue);
+    const currentIndex = routerArr.indexOf(history.location.pathname);
+    const nextIndex = routerArr.indexOf(newValue);
+
+    currentIndex > nextIndex
+      ? history.replace(newValue)
+      : history.push(newValue);
+
     setValue(newValue);
   };
 
   const isShow = React.useMemo(() => {
-    return [
-      ROUTES.search,
-      ROUTES.request,
-      ROUTES.rating,
-      ROUTES.profile,
-    ].includes(history.location.pathname);
-  }, [history.location.pathname]);
+    return routerArr.includes(history.location.pathname);
+  }, [history.location.pathname, routerArr]);
 
   if (!isShow) {
     return <></>;
