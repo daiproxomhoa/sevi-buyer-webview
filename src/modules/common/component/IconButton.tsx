@@ -9,7 +9,6 @@ export const CssIconButton = withStyles({
     fontSize: 16,
     padding: 8,
     lineHeight: 1.5,
-    marginLeft: 24,
     marginRight: 12,
     backgroundColor: fade(BLACK, 0.05),
     "&:hover": {

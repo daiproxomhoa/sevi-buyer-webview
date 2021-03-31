@@ -1,9 +1,27 @@
 import colors from "../scss/colors.module.scss";
 
-export const BACKGROUND = colors.background;
-export const PRIMARY = colors.primary;
-export const SECONDARY = colors.secondary;
-export const BLACK_TEXT = colors.textColor;
-export const BLACK = "#05050E";
-export const LIGHT_GREY = "#F5F6F9";
-export const RED = "#EA0839";
+export const {
+  BACKGROUND,
+  SECONDARY,
+  PRIMARY,
+  BLACK_TEXT,
+  RED,
+  BLACK,
+  LIGHT_GREY,
+
+  BLUE,
+  BLUE_300,
+  BLUE_200,
+  BLUE_100,
+  BLUE_50,
+
+  GREY,
+  GREY_900,
+  GREY_700,
+  GREY_600,
+  GREY_500,
+  GREY_400,
+  GREY_300,
+  GREY_100,
+  GREY_50,
+} = colors;

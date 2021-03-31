@@ -36,11 +36,15 @@
   "review": ["lượt đánh giá", [""]],
   "resultFor": ["Kết quả cho:", [""]],
   "enterSearchInfo": ["Nhập công việc cần tìm...", ""],
-
+  "save": ["Lưu lại"],
+  "givenName": ["Tên"],
+  "familyName": ["Họ"],
   "search.nodata": [
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
     []
   ],
+  "address": ["Địa chỉ"],
+  "locationName": ["Tên địa điểm"],
   "search.distance": ["Khoảng cách", ""],
   "search.yourLocation": ["Vị trí của bạn", ""],
 
@@ -67,5 +71,12 @@
   "auth.SERVER_ERROR": ["Có lỗi hệ thống", ""],
   "auth.ALREADY_CREATED": ["Số điện thoại đã tồn tại", ""],
   "auth.WRONG_OTP ": ["Mã OTP không chính xác", ""],
-  "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""]
+  "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""],
+
+  "profile.edit": ["Chỉnh sửa thông tin", ""],
+  "profile.changePassword": ["Đổi mật khẩu", ""],
+  "profile.phoneNumber": ["Điện thoai", ""],
+  "profile.review": ["Đánh giá về bạn", ""],
+  "profile.addMoreAddress": ["Thêm địa chỉ", ""],
+  "profile.logout": ["Đăng xuất", ""]
 }

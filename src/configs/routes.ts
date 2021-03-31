@@ -7,6 +7,8 @@ export const ROUTES = {
   request: "/request",
   rating: "/rating",
   profile: "/profile",
+  editProfile: "/editProfile",
+  changePass: "/changePass",
   test: {
     value: "/test/:id/:slug",
     gen: (id: string, slug: string) => `/test/${id}/${slug}`,

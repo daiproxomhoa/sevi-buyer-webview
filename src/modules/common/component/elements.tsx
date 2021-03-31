@@ -1,6 +1,8 @@
 import {
+  createStyles,
   Input,
   InputAdornment,
+  InputBase,
   InputProps,
   Slide,
   Theme,
@@ -9,7 +11,12 @@ import {
 import { TransitionProps } from "@material-ui/core/transitions";
 import React from "react";
 import styled from "styled-components";
-import { LIGHT_GREY } from "../../../configs/colors";
+import {
+  GREY_100,
+  GREY_400,
+  GREY_500,
+  LIGHT_GREY,
+} from "../../../configs/colors";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
 
 export const PageWrapper = styled.div`
@@ -47,7 +54,7 @@ export const CustomInput = withStyles((theme: Theme) => ({
   root: {
     borderRadius: 12,
     position: "relative",
-    backgroundColor: "#F5F6F9",
+    backgroundColor: LIGHT_GREY,
     border: "none",
     fontSize: 16,
   },
@@ -87,3 +94,36 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
     />
   );
 };
+
+export const BootstrapInput = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      minHeight: 32,
+      padding: 0,
+      borderBottom: `1px solid ${GREY_400}`,
+      position: "relative",
+      backgroundColor: theme.palette.common.white,
+      transition: theme.transitions.create(["border-color", "box-shadow"]),
+      overflow: "hidden",
+      "&:hover": {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+    input: {
+      borderRadius: 4,
+      position: "relative",
+      fontSize: theme.typography.body2.fontSize,
+      padding: "8px",
+    },
+    focused: {
+      borderColor: theme.palette.primary.main,
+    },
+    error: {
+      borderColor: theme.palette.error.main,
+    },
+    disabled: {
+      backgroundColor: GREY_100,
+      color: GREY_500,
+    },
+  })
+)(InputBase);

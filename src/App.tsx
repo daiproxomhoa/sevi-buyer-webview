@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core/styles";
 import React from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CSSTransitionClassNames } from "react-transition-group/CSSTransition";
 import { API_PATHS } from "./configs/api";
@@ -23,6 +23,8 @@ import RequestListPage from "./modules/request/page/RequestListPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
 import styles from "./scss/webviewRouteTransition.module.scss";
+import ProfilePage from "./modules/profile/page/ProfilePage";
+import EditProfile from "./modules/profile/page/EditProfile";
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -118,6 +120,13 @@ const App: React.FC<Props> = ({ router, classes }) => {
                     path={ROUTES.rating}
                     component={RatingListPage}
                   />
+                  <Route exact path={ROUTES.profile} component={ProfilePage} />
+                  <Route
+                    exact
+                    path={ROUTES.editProfile}
+                    component={EditProfile}
+                  />
+                  <Redirect to={ROUTES.login} />
                 </Switch>
               </div>
             );

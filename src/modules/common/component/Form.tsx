@@ -1,21 +1,49 @@
-import { FormControl, FormHelperText } from "@material-ui/core";
-import React from "react";
-import { FreeTextField, WVInputProps } from "./elements";
+import {
+  FormControl,
+  FormHelperText,
+  Input,
+  InputLabel,
+} from "@material-ui/core";
+import React, { ReactNode } from "react";
+import { WVInputProps } from "./elements";
 
 interface FormControlTextFieldProps extends WVInputProps {
-  id: string;
   formControlStyle?: React.CSSProperties;
   errorMessage?: string;
-  optional?: boolean;
+  label?: ReactNode;
+  disabledHelper?: boolean;
+  fullWidth?: boolean;
 }
 
 export const FormControlTextField = (props: FormControlTextFieldProps) => {
-  const { id, formControlStyle, errorMessage, optional, ...rest } = props;
+  const {
+    formControlStyle,
+    errorMessage,
+    className,
+    label,
+    disabledHelper,
+    fullWidth,
+    ...rest
+  } = props;
 
   return (
-    <FormControl style={formControlStyle} error={!!errorMessage}>
-      <FreeTextField id={id} {...rest} />
-      {errorMessage && <FormHelperText id={id}>{errorMessage}</FormHelperText>}
+    <FormControl
+      style={formControlStyle}
+      error={!!errorMessage}
+      className={className}
+      fullWidth={fullWidth}
+    >
+      {label && (
+        <InputLabel shrink htmlFor="component-disabled">
+          {label}
+        </InputLabel>
+      )}
+      <Input {...rest} />
+      {!disabledHelper && (
+        <FormHelperText style={{ minHeight: 20 }}>
+          {errorMessage}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

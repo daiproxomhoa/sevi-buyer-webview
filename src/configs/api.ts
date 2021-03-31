@@ -28,4 +28,13 @@ export const API_PATHS = {
   popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
   searchKeyword: `${getBaseUrl(APIService.protected)}/protected/seller/search`,
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
+  setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
+  getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,
+  renderAvatar: (stamp: number) =>
+    `https://buyer.freeginar.com/protected/buyer/getAvatar/${stamp}`,
+
+  suggestLocation: (term: string) =>
+    `${getBaseUrl(
+      APIService.protected
+    )}/searchLocation?maxItems=5&term=${encodeURIComponent(term)}`,
 };

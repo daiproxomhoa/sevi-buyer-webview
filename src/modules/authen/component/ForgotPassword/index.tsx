@@ -1,11 +1,11 @@
 import React from "react";
 import { PageWrapper } from "../../../common/component/elements";
-import Header from "./Header";
 import { ReactComponent as ForgotPassIcon } from "../../../../svg/ic_forgotpass.svg";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { Button, ButtonBase, Typography } from "@material-ui/core";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router";
+import Header from "../../../common/component/Header";
 
 interface Props {}
 
@@ -14,8 +14,10 @@ const ForgotPasswordBox = (props: Props) => {
 
   return (
     <PageWrapper>
-      <Header action={() => history.goBack()} />
-
+      <Header
+        action={() => history.goBack()}
+        title={<FormattedMessage id="forgotPassword" />}
+      />
       <div
         style={{
           display: "flex",

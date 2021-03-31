@@ -11,6 +11,9 @@ import commonReducer, {
 import authenReducer, {
   AuthenState,
 } from "../modules/authen/redux/authenReducer";
+import profileReducer, {
+  profileState,
+} from "../modules/profile/redux/profileReducer";
 
 export interface AppState {
   router: RouterState;
@@ -18,6 +21,7 @@ export interface AppState {
   common: CommonState;
   authen: AuthenState;
   search: SearchState;
+  profile: profileState;
 }
 
 export default function createRootReducer(history: History) {
@@ -27,5 +31,6 @@ export default function createRootReducer(history: History) {
     common: commonReducer,
     authen: authenReducer,
     search: searchReducer,
+    profile: profileReducer,
   });
 }
