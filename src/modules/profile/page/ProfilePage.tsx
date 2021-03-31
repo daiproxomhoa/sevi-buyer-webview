@@ -1,36 +1,40 @@
-import { AppBar, Box } from "@material-ui/core";
-import React, { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Box } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Action } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { API_PATHS } from "../../../configs/api";
+import { AppState } from "../../../redux/reducer";
 import { PageWrapperNoScroll } from "../../common/component/elements";
-import { some } from "../../common/constants";
+import LoadingIcon from "../../common/component/LoadingIcon";
 import HeaderProfile from "../component/HeaderProfile";
 import InfoBox from "../component/InfoBox";
-import { fakeDataProfile } from "../constants";
+import { fetchTicketDataAndInsurancePackage } from "../redux/profileReducer";
 
 interface Props {}
 
 const ProfilePage = (props: Props) => {
-  const history = useHistory();
-
-  const [profile, setProfileData] = useState<some>();
-
-  const fetchProfile = useCallback(async () => {
-    new Promise((resolve) => setTimeout(resolve, 3000));
-    setProfileData(fakeDataProfile);
-  }, []);
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const { data, loading } = useSelector((state: AppState) => state.profile);
 
   useEffect(() => {
-    fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if (!profile) {
+    dispatch(fetchTicketDataAndInsurancePackage());
+  }, [dispatch]);
+
+  if (loading) {
+    return <LoadingIcon />;
+  }
+  if (!data) {
     return null;
   }
   return (
     <PageWrapperNoScroll>
-      <HeaderProfile title={profile.name} />
+      <HeaderProfile
+        title={`${data.familyName} ${data.givenName}`}
+        avatar={API_PATHS.renderAvatar(data.avatar)}
+      />
       <Box className="p-24 p-t-8 overflow-auto">
-        <InfoBox profile={profile} />
+        <InfoBox profile={data} />
       </Box>
     </PageWrapperNoScroll>
   );

@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core/styles";
 import React from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CSSTransitionClassNames } from "react-transition-group/CSSTransition";
 import { API_PATHS } from "./configs/api";
@@ -126,6 +126,7 @@ const App: React.FC<Props> = ({ router, classes }) => {
                     path={ROUTES.editProfile}
                     component={EditProfile}
                   />
+                  <Redirect to={ROUTES.login} />
                 </Switch>
               </div>
             );

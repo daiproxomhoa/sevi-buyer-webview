@@ -18,10 +18,10 @@ const InfoBox = (props: Props) => {
             <FormattedMessage id="profile.phoneNumber" />
           </Typography>
           <Typography variant="body2" style={{ margin: "2px 0px 10px" }}>
-            {profile?.phone_number}
+            {profile?.id}
           </Typography>
         </Box>
-        {profile?.addresses.map((address: some, index: number) => {
+        {profile?.addresses?.map((address: some, index: number) => {
           return (
             <Box className={`${index && "border-top p-b-8"} p-t-8`}>
               <Typography variant="caption" color="textSecondary">
@@ -37,7 +37,7 @@ const InfoBox = (props: Props) => {
       <Typography variant="subtitle2" className="m-t-24 m-b-16">
         <FormattedMessage id="profile.review" />
       </Typography>
-      {profile?.reviews.map((review: some, index: number) => {
+      {profile?.reviews?.map((review: some, index: number) => {
         const { title, assessor, rating } = review;
         return (
           <CardDiv>

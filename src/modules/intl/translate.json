@@ -37,13 +37,14 @@
   "resultFor": ["Kết quả cho:", [""]],
   "enterSearchInfo": ["Nhập công việc cần tìm...", ""],
   "save": ["Lưu lại"],
-  "firstName": ["Tên"],
-  "lastName": ["Họ"],
-
+  "givenName": ["Tên"],
+  "familyName": ["Họ"],
   "search.nodata": [
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
     []
   ],
+  "address": ["Địa chỉ"],
+  "locationName": ["Tên địa điểm"],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
@@ -74,5 +75,6 @@
   "profile.changePassword": ["Đổi mật khẩu", ""],
   "profile.phoneNumber": ["Điện thoai", ""],
   "profile.review": ["Đánh giá về bạn", ""],
+  "profile.addMoreAddress": ["Thêm địa chỉ", ""],
   "profile.logout": ["Đăng xuất", ""]
 }

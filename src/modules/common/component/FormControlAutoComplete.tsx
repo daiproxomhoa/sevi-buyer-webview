@@ -39,9 +39,8 @@ export interface FormControlAutoCompletePropsBase<T> {
   formControlStyle?: React.CSSProperties;
   inputStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
-  error?: boolean;
+  errorMessage?: string;
   placeholder?: string;
-  helperText?: string;
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
   required?: boolean;
   loadOptions?: (input: string) => Promise<T[]>;
@@ -88,7 +87,6 @@ export const FormControlAutoComplete: <
     id,
     label,
     placeholder,
-    error,
     formControlStyle,
     required,
     renderInput,
@@ -102,7 +100,7 @@ export const FormControlAutoComplete: <
     innerRef,
     readOnly,
     onChangeInput,
-    helperText,
+    errorMessage,
     ...rest
   } = props;
 
@@ -188,7 +186,7 @@ export const FormControlAutoComplete: <
             inputProps={{
               ...params.inputProps,
               autoComplete: "off",
-              style: { padding: 8 },
+              style: { padding: "6px 0px" },
             }}
             InputLabelProps={{
               shrink: true,
@@ -199,7 +197,7 @@ export const FormControlAutoComplete: <
 
               style: {
                 // minHeight: 32,
-                padding: 0,
+                // padding: 0,
                 ...inputStyle,
               },
               startAdornment: (
@@ -217,9 +215,8 @@ export const FormControlAutoComplete: <
             }}
             label={label}
             onChange={onChangeInput}
-            size="small"
-            error={error}
-            helperText={helperText}
+            error={!!errorMessage}
+            helperText={errorMessage || " "}
           />
         ))
       }
@@ -233,8 +230,10 @@ export const FormControlAutoComplete: <
           dense
           button
           style={{
-            background: selected ? GREY_300 : undefined,
             overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            minHeight: 48,
           }}
         >
           <Typography

@@ -1,32 +1,16 @@
 import { Avatar, Box, IconButton } from "@material-ui/core";
-import React, { useRef, useState } from "react";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import { ThunkAction } from "redux-thunk";
-import { some } from "../../common/constants";
-import { AppState } from "../../../redux/reducer";
-import { Action } from "redux";
-import { fetchThunk } from "../../common/redux/thunk";
-import { API_PATHS } from "../../../configs/api";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 interface Props {
   src?: string;
-  onChange?: (value: string) => void;
+  onChange?: (files: FileList | null) => void;
 }
 
 const AvatarUpload = (props: Props) => {
   const { src, onChange } = props;
   const dispatch = useDispatch();
-
-  const setAvatar = (files: FileList | null) => {
-    const formData = new FormData();
-    if (files) {
-      Object.values(files).forEach((file) => {
-        formData.append("files", file);
-      });
-    }
-    const json = dispatch(fetchThunk(API_PATHS.setAvatar, "post", formData));
-  };
 
   return (
     <Box>
@@ -37,7 +21,7 @@ const AvatarUpload = (props: Props) => {
           hidden
           type="file"
           onChange={(e) => {
-            setAvatar(e.target.files);
+            onChange && onChange(e.target.files);
           }}
         />
         <CameraAltIcon

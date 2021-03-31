@@ -49,7 +49,9 @@ const HeaderProfile = (props: Props) => {
             </IconButton>
           )
         }
-        startAdornment={<Avatar src={avatar} style={{ marginRight: 12 }} />}
+        startAdornment={
+          !action && <Avatar src={avatar} style={{ marginRight: 12 }} />
+        }
         action={action}
       />
       <Popover
