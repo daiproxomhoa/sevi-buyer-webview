@@ -24,6 +24,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   const history = useHistory();
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [openFilter, setOpenFilter] = React.useState<boolean>(false);
 
   const searchParams = React.useMemo(() => {
     return queryString.parse(history.location.search);
@@ -64,6 +65,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
           searchParams={searchParams}
           setSearchParams={setSearchParams}
           onSellerSearch={onSellerSearch}
+          openFilter={() => setOpenFilter(true)}
         />
 
         {/* <PopularKeywordSearchBox /> */}
@@ -75,7 +77,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
         />
       </PageWrapperNoScroll>
 
-      <FilterBox open={false} onClose={() => {}} />
+      <FilterBox open={openFilter} onClose={() => setOpenFilter(false)} />
     </>
   );
 };

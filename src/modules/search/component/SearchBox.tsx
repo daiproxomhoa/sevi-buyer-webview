@@ -40,10 +40,11 @@ interface Props {
   searchParams: queryString.ParsedQuery<string>;
   onSellerSearch(search: string): void;
   setSearchParams(value: string): void;
+  openFilter(): void;
 }
 
 const SearchBox = (props: Props) => {
-  const { searchParams, setSearchParams, onSellerSearch } = props;
+  const { searchParams, setSearchParams, onSellerSearch, openFilter } = props;
 
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const intl = useIntl();
@@ -114,7 +115,7 @@ const SearchBox = (props: Props) => {
           }}
         >
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <WhiteIconButton>
+            <WhiteIconButton onClick={openFilter}>
               <TuneIcon style={{ width: "20px", height: "20px" }} />
             </WhiteIconButton>
           </div>

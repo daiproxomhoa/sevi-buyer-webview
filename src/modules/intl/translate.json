@@ -45,6 +45,8 @@
   ],
   "address": ["Địa chỉ"],
   "locationName": ["Tên địa điểm"],
+  "search.distance": ["Khoảng cách", ""],
+  "search.yourLocation": ["Vị trí của bạn", ""],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
