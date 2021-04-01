@@ -36,5 +36,9 @@ export const API_PATHS = {
   suggestLocation: (term: string) =>
     `${getBaseUrl(
       APIService.protected
-    )}/searchLocation?maxItems=5&term=${encodeURIComponent(term)}`,
+    )}/google/place/autocomplete?q=${encodeURIComponent(term)}`,
+  getDetailLocation: (id: string) =>
+    `${getBaseUrl(
+      APIService.protected
+    )}/google/place/detail?id=${encodeURIComponent(id)}`,
 };

@@ -19,36 +19,16 @@ const EditProfile = (props: Props) => {
   const { data, loading } = useSelector((state: AppState) => state.profile);
   const history = useHistory();
 
-  const setAvatar = async (files: FileList | null) => {
-    const formData = new FormData();
-    console.log("files", files);
-
-    if (files) {
-      // Object.values(files).forEach((file) => {
-      //   formData.append("Data", files);
-      // });
-      formData.append("data", files[0]);
-    }
-    const json = await dispatch(
-      fetchThunk(
-        API_PATHS.setAvatar,
-        "post",
-        formData,
-        undefined,
-        "multipart/form-data"
-      )
-    );
-  };
-
   const updateProfile = (profile: some) => {
-    console.log(profile);
+    dispatch(fetchTicketDataAndInsurancePackage());
   };
 
   useEffect(() => {
     if (!data) {
       dispatch(fetchTicketDataAndInsurancePackage());
     }
-  }, [dispatch]);
+  }, [data, dispatch]);
+
   if (!data) {
     return null;
   }
@@ -59,11 +39,7 @@ const EditProfile = (props: Props) => {
         title={`${data.familyName} ${data.givenName}`}
         action={() => history.goBack()}
       />
-      <EditProfileForm
-        profile={data}
-        setAvatar={setAvatar}
-        onSubmit={updateProfile}
-      />
+      <EditProfileForm profile={data} onSubmit={updateProfile} />
     </PageWrapperNoScroll>
   );
 };

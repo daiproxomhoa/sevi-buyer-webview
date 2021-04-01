@@ -24,13 +24,12 @@ import { Action } from "redux";
 import { FormControlTextField } from "../../common/component/Form";
 
 interface Props {
-  setAvatar: (files: FileList | null) => void;
   profile: some;
   onSubmit?: (profile: some) => void;
 }
 
 const EditProfileForm = (props: Props) => {
-  const { setAvatar, profile, onSubmit } = props;
+  const { profile, onSubmit } = props;
   const history = useHistory();
   const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -57,7 +56,14 @@ const EditProfileForm = (props: Props) => {
       className="overflow-auto"
     >
       <Box className={"d-flex d-flex-column align-items-center p-24"}>
-        <AvatarUpload onChange={setAvatar} />
+        <Controller
+          name={"avatar"}
+          control={control}
+          rules={{ required: intl.formatMessage({ id: "required" }) }}
+          render={({ value, onChange }) => (
+            <AvatarUpload src={value} onChange={onChange} />
+          )}
+        />
         <Box width="100%">
           <FormControlTextField
             className={"m-b-4 m-t-24"}
@@ -102,34 +108,42 @@ const EditProfileForm = (props: Props) => {
                   name={`addresses[${index}].address`}
                   control={control}
                   rules={{ required: intl.formatMessage({ id: "required" }) }}
-                  render={({ name, value, onChange, ref }, inputState) => (
-                    <FormControlAutoComplete
-                      className={"m-b-4"}
-                      fullWidth
-                      innerRef={ref}
-                      label={intl.formatMessage({ id: "address" })}
-                      value={value}
-                      onChange={(_, data) => {
-                        onChange(data);
-                      }}
-                      loadOptions={async (str: string) => {
-                        const json = await dispatch(
-                          fetchThunk(API_PATHS.suggestLocation(str))
-                        );
-                        return json.data?.locations?.concat(json.data.hotels);
-                      }}
-                      errorMessage={helperTextAddress}
-                      options={[
-                        {
-                          label:
-                            "ajijidsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-                          location: "asdas",
-                          address: "adsads",
-                        },
-                      ]}
-                      debug={true}
-                    />
-                  )}
+                  render={({ name, value, onChange, ref }, inputState) => {
+                    return (
+                      <FormControlAutoComplete
+                        className={"m-b-4"}
+                        fullWidth
+                        innerRef={ref}
+                        label={intl.formatMessage({ id: "address" })}
+                        // value={value}
+                        onChange={async (_, data) => {
+                          if (data) {
+                            const json = await dispatch(
+                              fetchThunk(
+                                API_PATHS.getDetailLocation(data.placeId)
+                              )
+                            );
+                            onChange({
+                              ...json?.body?.geometry?.location,
+                              name: data.description,
+                            });
+                          } else {
+                            onChange();
+                          }
+                        }}
+                        loadOptions={async (str: string) => {
+                          const json = await dispatch(
+                            fetchThunk(API_PATHS.suggestLocation(str))
+                          );
+                          return json.body;
+                        }}
+                        getOptionLabel={(item: some) => {
+                          return item.description;
+                        }}
+                        errorMessage={helperTextAddress}
+                      />
+                    );
+                  }}
                 />
               </Box>
             );
