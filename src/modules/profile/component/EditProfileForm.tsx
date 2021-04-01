@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   ButtonBase,
+  IconButton,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -22,6 +23,7 @@ import { AppState } from "../../../redux/reducer";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 import { FormControlTextField } from "../../common/component/Form";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 interface Props {
   profile: some;
@@ -39,7 +41,7 @@ const EditProfileForm = (props: Props) => {
     defaultValues: profile,
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "addresses",
   });
@@ -48,14 +50,12 @@ const EditProfileForm = (props: Props) => {
     reset();
   }, [profile, reset]);
 
-  console.log(watch());
-
   return (
     <form
       onSubmit={onSubmit && handleSubmit(onSubmit)}
       className="overflow-auto"
     >
-      <Box className={"d-flex d-flex-column align-items-center p-24"}>
+      <Box className={"d-flex d-flex-column align-items-center p-24 p-b-0"}>
         <Controller
           name={"avatar"}
           control={control}
@@ -86,14 +86,20 @@ const EditProfileForm = (props: Props) => {
             fullWidth={true}
             errorMessage={errors.familyName?.message}
           />
-          {fields.map((item: some, index: number) => {
-            const helperTextLocation =
-              errors.addresses?.[index]?.location?.message;
-            const helperTextAddress =
-              errors.addresses?.[index]?.address?.message;
-
-            return (
-              <Box width="100%">
+        </Box>
+      </Box>
+      <Box className={" p-l-24 p-b-0"}>
+        {fields.map((item: some, index: number) => {
+          const helperTextLocation =
+            errors.addresses?.[index]?.location?.message;
+          const helperTextAddress = errors.addresses?.[index]?.address?.message;
+          return (
+            <Box
+              key={item.id}
+              width="100%"
+              className="d-flex align-items-center"
+            >
+              <Box className="flex-1">
                 <FormControlTextField
                   className={"m-b-4"}
                   inputRef={register({
@@ -115,7 +121,7 @@ const EditProfileForm = (props: Props) => {
                         fullWidth
                         innerRef={ref}
                         label={intl.formatMessage({ id: "address" })}
-                        // value={value}
+                        value={value}
                         onChange={async (_, data) => {
                           if (data) {
                             const json = await dispatch(
@@ -137,8 +143,8 @@ const EditProfileForm = (props: Props) => {
                           );
                           return json.body;
                         }}
-                        getOptionLabel={(item: some) => {
-                          return item.description;
+                        getOptionLabel={(one: some) => {
+                          return one.description;
                         }}
                         errorMessage={helperTextAddress}
                       />
@@ -146,34 +152,42 @@ const EditProfileForm = (props: Props) => {
                   }}
                 />
               </Box>
-            );
-          })}
+              <IconButton
+                onClick={() => {
+                  remove(index);
+                }}
+              >
+                <DeleteOutlineIcon />
+              </IconButton>
+            </Box>
+          );
+        })}
+      </Box>
+      <Box className={"p-24 p-t-0"}>
+        <Button
+          variant="text"
+          onClick={() => {
+            append({});
+          }}
+          className="m-t-4 m-b-24 p-4"
+          style={{ height: "unset" }}
+        >
+          <Typography color="primary">
+            +&nbsp;
+            <FormattedMessage id="profile.addMoreAddress" />
+          </Typography>
+        </Button>
+        {errors.exampleRequired && <span>This field is required</span>}
 
-          <Button
-            variant="text"
-            onClick={() => {
-              append({});
-            }}
-            className="m-t-4 m-b-24 p-4"
-            style={{ height: "unset" }}
-          >
-            <Typography color="primary">
-              +&nbsp;
-              <FormattedMessage id="profile.addMoreAddress" />
-            </Typography>
-          </Button>
-          {errors.exampleRequired && <span>This field is required</span>}
-
-          <Button
-            type="submit"
-            variant={"contained"}
-            color={"primary"}
-            fullWidth
-            size={"large"}
-          >
-            <FormattedMessage id={"save"} />
-          </Button>
-        </Box>
+        <Button
+          type="submit"
+          variant={"contained"}
+          color={"primary"}
+          fullWidth
+          size={"large"}
+        >
+          <FormattedMessage id={"save"} />
+        </Button>
       </Box>
     </form>
   );

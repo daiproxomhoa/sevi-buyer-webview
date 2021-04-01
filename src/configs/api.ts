@@ -30,9 +30,9 @@ export const API_PATHS = {
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
   setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
   getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,
-  renderAvatar: (stamp: number) =>
+  updateProfile: `${getBaseUrl(APIService.protected)}/buyer/update`,
+  renderAvatar: (stamp?: number) =>
     `https://buyer.freeginar.com/protected/buyer/getAvatar/${stamp}`,
-
   suggestLocation: (term: string) =>
     `${getBaseUrl(
       APIService.protected
