@@ -6,9 +6,12 @@ import {
   InputProps,
   Slide,
   Theme,
+  Typography,
   withStyles,
 } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
+import { Alert, AlertProps, AlertTitle } from "@material-ui/lab";
+import { OptionsObject, SnackbarMessage } from "notistack";
 import React from "react";
 import styled from "styled-components";
 import {
@@ -127,3 +130,32 @@ export const BootstrapInput = withStyles((theme: Theme) =>
     },
   })
 )(InputBase);
+
+export function snackbarSetting(
+  closeSnackbar: (key: string) => void,
+  alertProps?: AlertProps,
+  alertTitle?: React.ReactNode
+) {
+  return {
+    anchorOrigin: {
+      vertical: "top",
+      horizontal: "right",
+    },
+    preventDuplicate: true,
+    autoHideDuration: 1000,
+    style: { width: "100%" },
+    // persist: true,
+    content: (key: string, msg: SnackbarMessage) => (
+      <Alert
+        // onClose={() => closeSnackbar(key)}
+        severity={alertProps?.color}
+        {...alertProps}
+      >
+        {alertTitle && <AlertTitle>{alertTitle}</AlertTitle>}
+        <Typography variant="body2" color="inherit">
+          {msg}
+        </Typography>
+      </Alert>
+    ),
+  } as OptionsObject;
+}

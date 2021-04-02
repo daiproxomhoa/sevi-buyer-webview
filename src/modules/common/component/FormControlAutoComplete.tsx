@@ -49,6 +49,7 @@ export interface FormControlAutoCompletePropsBase<T> {
   readOnly?: boolean;
   onChangeInput?: any;
   options?: T[];
+  firstLoadString?: string;
 }
 
 export interface FormControlAutoCompleteProps<
@@ -101,6 +102,8 @@ export const FormControlAutoComplete: <
     readOnly,
     onChangeInput,
     errorMessage,
+    firstLoadString,
+    getOptionSelected,
     ...rest
   } = props;
 
@@ -129,9 +132,9 @@ export const FormControlAutoComplete: <
   );
 
   const onFirstLoadOptions = debounce(
-    async (input: string) => {
-      if (loadOptions) {
-        const data = await loadOptions(input);
+    async () => {
+      if (loadOptions && typeof firstLoadString === "string") {
+        const data = await loadOptions(firstLoadString);
         if (data && data.length > 0) {
           setOption(data);
           setFirstOption(data);
@@ -147,11 +150,11 @@ export const FormControlAutoComplete: <
 
   React.useEffect(() => {
     if (loadOptions && options.length === 0) {
-      onFirstLoadOptions("");
+      onFirstLoadOptions();
     } else {
       setOption(options);
     }
-  }, [loadOptions, onFirstLoadOptions, options]);
+  }, [firstLoadString, loadOptions, onFirstLoadOptions, options]);
 
   React.useEffect(() => {
     if (!loadOptions && previous !== options) {
@@ -223,7 +226,11 @@ export const FormControlAutoComplete: <
       getOptionLabel={(option: any) =>
         getOptionLabel ? getOptionLabel(option) : option.label
       }
-      getOptionSelected={(option: some, value: some) => isEqual(option, value)}
+      getOptionSelected={(option, value) =>
+        getOptionSelected
+          ? getOptionSelected(option, value)
+          : isEqual(option, value)
+      }
       renderOption={(option, { selected }) => (
         <ListItem
           role={undefined}

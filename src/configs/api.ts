@@ -30,11 +30,15 @@ export const API_PATHS = {
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
   setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
   getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,
-  renderAvatar: (stamp: number) =>
+  updateProfile: `${getBaseUrl(APIService.protected)}/buyer/update`,
+  renderAvatar: (stamp?: number) =>
     `https://buyer.freeginar.com/protected/buyer/getAvatar/${stamp}`,
-
   suggestLocation: (term: string) =>
     `${getBaseUrl(
       APIService.protected
-    )}/searchLocation?maxItems=5&term=${encodeURIComponent(term)}`,
+    )}/google/place/autocomplete?q=${encodeURIComponent(term)}`,
+  getDetailLocation: (id: string) =>
+    `${getBaseUrl(
+      APIService.protected
+    )}/google/place/detail?id=${encodeURIComponent(id)}`,
 };

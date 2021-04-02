@@ -18,8 +18,10 @@ const ProfilePage = (props: Props) => {
   const { data, loading } = useSelector((state: AppState) => state.profile);
 
   useEffect(() => {
-    dispatch(fetchTicketDataAndInsurancePackage());
-  }, [dispatch]);
+    if (!data) {
+      dispatch(fetchTicketDataAndInsurancePackage());
+    }
+  }, [dispatch, data]);
 
   if (loading) {
     return <LoadingIcon />;
