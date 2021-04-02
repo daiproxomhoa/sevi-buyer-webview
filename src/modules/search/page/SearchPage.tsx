@@ -45,12 +45,12 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
       await dispatch(
         sellerSearch({
           en: false,
-          string: "a",
+          string: "thợ điện",
           sortBy: "rating",
           offset: 0,
-          radius: 0,
-          lat: 0,
-          lng: 0,
+          radius: 1000,
+          lat: 1,
+          lng: 1,
         })
       );
       setLoading(false);
