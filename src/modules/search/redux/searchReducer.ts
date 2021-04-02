@@ -1,14 +1,12 @@
-import { ISearchParams, ISearchResult } from "./../model";
 import fetchMock from "fetch-mock";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { API_PATHS } from "../../../configs/api";
-import { AppState } from "../../../redux/reducer";
-import { makeCancelOldThunk, ThunkController } from "../../../utils";
-import { fetchThunk } from "../../common/redux/thunk";
-import searchSuggestData from "../../../json/search.json";
-import searchWorkerData from "../../../json/searchWorker.json";
 import { ActionType, createAction, getType } from "typesafe-actions";
+import { API_PATHS } from "../../../configs/api";
+import searchSuggestData from "../../../json/search.json";
+import { AppState } from "../../../redux/reducer";
+import { fetchThunk } from "../../common/redux/thunk";
+import { ISearchParams, ISearchResult } from "./../model";
 
 export interface SearchState {
   data: ISearchResult[];
@@ -21,42 +19,36 @@ export const setSearchResult = createAction(
   })
 )();
 
-export const searchKeyword = makeCancelOldThunk(
-  (
-    controller: ThunkController
-  ): ThunkAction<Promise<string[]>, AppState, null, Action<string>> => {
-    return async (dispatch, getState) => {
-      const state = getState();
-      fetchMock.post(API_PATHS.searchKeyword, searchSuggestData, {
-        delay: 300,
-      });
+export const searchKeyword = (
+  str: string
+): ThunkAction<Promise<string[]>, AppState, null, Action<string>> => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    fetchMock.post(API_PATHS.searchKeyword, searchSuggestData, {
+      delay: 300,
+    });
 
-      const json = await dispatch(
-        fetchThunk(
-          API_PATHS.searchKeyword,
-          "post",
-          JSON.stringify({ search: "123123" })
-        )
-      );
-      fetchMock.reset();
+    const json = await dispatch(
+      fetchThunk(
+        API_PATHS.searchKeyword,
+        "post",
+        JSON.stringify({ search: "123123" })
+      )
+    );
+    fetchMock.reset();
 
-      if (json?.body?.data) {
-        return json.body.data;
-      }
+    if (json?.body?.data) {
+      return json.body.data;
+    }
 
-      return [];
-    };
-  }
-);
+    return [];
+  };
+};
 
 export const sellerSearch = (
   params: ISearchParams
 ): ThunkAction<void, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    fetchMock.post(API_PATHS.sellerSearch, searchWorkerData, {
-      delay: 300,
-    });
-
     const json = await dispatch(
       fetchThunk(API_PATHS.sellerSearch, "post", JSON.stringify(params))
     );
