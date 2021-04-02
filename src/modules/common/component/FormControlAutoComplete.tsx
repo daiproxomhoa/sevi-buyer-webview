@@ -103,6 +103,7 @@ export const FormControlAutoComplete: <
     onChangeInput,
     errorMessage,
     firstLoadString,
+    getOptionSelected,
     ...rest
   } = props;
 
@@ -225,7 +226,11 @@ export const FormControlAutoComplete: <
       getOptionLabel={(option: any) =>
         getOptionLabel ? getOptionLabel(option) : option.label
       }
-      getOptionSelected={(option: some, value: some) => isEqual(option, value)}
+      getOptionSelected={(option, value) =>
+        getOptionSelected
+          ? getOptionSelected(option, value)
+          : isEqual(option, value)
+      }
       renderOption={(option, { selected }) => (
         <ListItem
           role={undefined}

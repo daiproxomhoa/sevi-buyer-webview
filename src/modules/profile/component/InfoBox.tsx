@@ -25,10 +25,10 @@ const InfoBox = (props: Props) => {
           return (
             <Box className={`${index && "border-top p-b-8"} p-t-8`}>
               <Typography variant="caption" color="textSecondary">
-                {address.title}
+                {address.name}
               </Typography>
               <Typography variant="body2" style={{ margin: "2px 0px 10px" }}>
-                {address?.detail}
+                {address?.address?.formattedAddress}
               </Typography>
             </Box>
           );

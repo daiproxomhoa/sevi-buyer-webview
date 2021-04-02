@@ -1,29 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { PageWrapperNoScroll } from "../../common/component/elements";
-import { some } from "../../common/constants";
-import HeaderProfile from "./HeaderProfile";
-import { fakeDataProfile } from "../constants";
-import AvatarUpload from "./AvatarUpload";
-import {
-  Box,
-  Button,
-  ButtonBase,
-  IconButton,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, IconButton, Typography } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import React, { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
-import FormControlAutoComplete from "../../common/component/FormControlAutoComplete";
 import { useDispatch } from "react-redux";
-import { fetchThunk } from "../../common/redux/thunk";
+import { useHistory } from "react-router-dom";
+import { Action } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { AppState } from "../../../redux/reducer";
-import { ThunkDispatch } from "redux-thunk";
-import { Action } from "redux";
 import { FormControlTextField } from "../../common/component/Form";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import FormControlAutoComplete from "../../common/component/FormControlAutoComplete";
+import { some } from "../../common/constants";
+import { fetchThunk } from "../../common/redux/thunk";
+import AvatarUpload from "./AvatarUpload";
 
 interface Props {
   profile: some;
@@ -35,7 +25,7 @@ const EditProfileForm = (props: Props) => {
   const history = useHistory();
   const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { register, handleSubmit, errors, control, reset, watch } = useForm({
+  const { register, handleSubmit, errors, control, reset, setValue } = useForm({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: profile,
@@ -55,6 +45,7 @@ const EditProfileForm = (props: Props) => {
       onSubmit={onSubmit && handleSubmit(onSubmit)}
       className="overflow-auto"
     >
+      <input type="hidden" ref={register} name="id" />
       <Box className={"d-flex d-flex-column align-items-center p-24 p-b-0"}>
         <Controller
           name={"avatar"}
@@ -90,8 +81,7 @@ const EditProfileForm = (props: Props) => {
       </Box>
       <Box className={" p-l-24 p-b-0"}>
         {fields.map((item: some, index: number) => {
-          const helperTextLocation =
-            errors.addresses?.[index]?.location?.message;
+          const helperTextLocation = errors.addresses?.[index]?.name?.message;
           const helperTextAddress = errors.addresses?.[index]?.address?.message;
           return (
             <Box
@@ -100,20 +90,30 @@ const EditProfileForm = (props: Props) => {
               className="d-flex align-items-center"
             >
               <Box className="flex-1">
-                <FormControlTextField
-                  className={"m-b-4"}
-                  inputRef={register({
-                    required: intl.formatMessage({ id: "required" }),
-                  })}
-                  name={`addresses[${index}].location`}
-                  label={<FormattedMessage id={"locationName"} />}
-                  fullWidth={true}
-                  errorMessage={helperTextLocation}
+                <Controller
+                  name={`addresses[${index}].name`}
+                  control={control}
+                  rules={{ required: intl.formatMessage({ id: "required" }) }}
+                  render={({ value, onChange, ref }) => {
+                    return (
+                      <FormControlTextField
+                        className={"m-b-4"}
+                        inputRef={ref}
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        label={<FormattedMessage id={"locationName"} />}
+                        fullWidth={true}
+                        errorMessage={helperTextLocation}
+                      />
+                    );
+                  }}
                 />
                 <Controller
                   name={`addresses[${index}].address`}
                   control={control}
-                  rules={{ required: intl.formatMessage({ id: "required" }) }}
+                  rules={{
+                    required: intl.formatMessage({ id: "required" }),
+                  }}
                   render={({ name, value, onChange, ref }, inputState) => {
                     return (
                       <FormControlAutoComplete
@@ -131,7 +131,7 @@ const EditProfileForm = (props: Props) => {
                             );
                             onChange({
                               ...json?.body?.geometry?.location,
-                              name: data.description,
+                              formattedAddress: data.formattedAddress,
                             });
                           } else {
                             onChange();
@@ -141,10 +141,18 @@ const EditProfileForm = (props: Props) => {
                           const json = await dispatch(
                             fetchThunk(API_PATHS.suggestLocation(str))
                           );
-                          return json.body;
+                          return json.body?.map((address: some) => ({
+                            formattedAddress: address.description,
+                            placeId: address.placeId,
+                          }));
                         }}
-                        getOptionLabel={(one: some) => {
-                          return one.description;
+                        getOptionLabel={(address: some) => {
+                          return address?.formattedAddress;
+                        }}
+                        getOptionSelected={(option: some, value: some) => {
+                          return (
+                            option?.formattedAddress === value?.formattedAddress
+                          );
                         }}
                         errorMessage={helperTextAddress}
                       />

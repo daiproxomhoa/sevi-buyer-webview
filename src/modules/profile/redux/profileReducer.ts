@@ -12,7 +12,7 @@ export interface profileState {
   loading: boolean;
 }
 
-const setData = createCustomAction("profile/setData", (data: some) => ({
+export const setData = createCustomAction("profile/setData", (data: some) => ({
   data,
 }));
 
@@ -31,13 +31,9 @@ export function fetchTicketDataAndInsurancePackage(): ThunkAction<
   return async (dispatch, getState) => {
     dispatch(setLoading(true));
     const json = await dispatch(fetchThunk(API_PATHS.getProfileInfo, "get"));
-
     if (json.status === SUCCESS_CODE) {
       dispatch(setData(json.body));
-    } else {
-      console.log(json);
     }
-
     dispatch(setLoading(false));
   };
 }
@@ -50,7 +46,7 @@ export default function profileReducer(
 ) {
   switch (action.type) {
     case getType(setData):
-      return { ...state, data: action.data };
+      return { ...state, data: { ...state.data, ...action.data } };
     case getType(setLoading):
       return { ...state, loading: action.data };
     default:
