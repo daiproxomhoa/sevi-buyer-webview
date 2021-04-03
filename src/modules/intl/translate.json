@@ -45,6 +45,8 @@
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
     []
   ],
+  "search.sendRequest": ["Gửi yêu cầu", ""],
+
   "address": ["Địa chỉ"],
   "locationName": ["Tên địa điểm"],
   "update_success": ["Cập nhật thành công"],
@@ -52,6 +54,8 @@
 
   "search.distance": ["Khoảng cách", ""],
   "search.yourLocation": ["Vị trí của bạn", ""],
+  "search.rating": ["Đánh giá", ""],
+  "search.info": ["Thông tin", ""],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],

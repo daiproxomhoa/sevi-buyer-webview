@@ -23,7 +23,9 @@ export const API_PATHS = {
   getOtp: `${getBaseUrl(APIService.auth)}/buyer/getOtp`,
   signOut: `${getBaseUrl(APIService.auth)}/buyer/signOut`,
   getBuyer: `${getBaseUrl(APIService.protected)}/buyer/get`,
+
   sellerSearch: `${getBaseUrl(APIService.protected)}/seller/search`,
+  sellerDetail: `${getBaseUrl(APIService.protected)}/seller/detail`,
 
   popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
   searchKeyword: `${getBaseUrl(APIService.protected)}/protected/seller/search`,

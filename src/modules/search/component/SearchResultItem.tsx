@@ -3,14 +3,15 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import { LIGHT_GREY, PRIMARY, SECONDARY } from "../../../configs/colors";
-import { ISearchResult } from "../model";
+import { ISeller } from "../model";
 
 interface Props {
-  info: ISearchResult;
+  info: ISeller;
+  onSelect(): void;
 }
 
 const SearchResultItem = (props: Props) => {
-  const { info } = props;
+  const { info, onSelect } = props;
   return (
     <ListItem
       button
@@ -22,6 +23,7 @@ const SearchResultItem = (props: Props) => {
         borderRadius: "12px",
         alignItems: "flex-start",
       }}
+      onClick={onSelect}
     >
       <Avatar
         alt={info.givenName}

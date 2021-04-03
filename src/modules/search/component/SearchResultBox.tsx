@@ -1,7 +1,7 @@
 import { Chip, CircularProgress, List, Typography } from "@material-ui/core";
 import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
-import { ISearchResult } from "../model";
+import { ISeller } from "../model";
 import SearchResultItem from "./SearchResultItem";
 import { ReactComponent as NoDataIcon } from "../../../svg/ic_nodata.svg";
 import queryString from "query-string";
@@ -9,11 +9,12 @@ import queryString from "query-string";
 interface Props {
   loading: boolean;
   searchParams: queryString.ParsedQuery<string>;
-  data: ISearchResult[];
+  data: ISeller[];
+  onSelectSeller(seller: ISeller): void;
 }
 
 const SearchResultBox = (props: Props) => {
-  const { loading, searchParams, data } = props;
+  const { loading, searchParams, data, onSelectSeller } = props;
 
   return loading ? (
     <div
@@ -86,7 +87,11 @@ const SearchResultBox = (props: Props) => {
         >
           <List style={{ margin: "0 24px" }}>
             {data.map((one) => (
-              <SearchResultItem key={one.id} info={one} />
+              <SearchResultItem
+                key={one.id}
+                info={one}
+                onSelect={() => onSelectSeller(one)}
+              />
             ))}
           </List>
         </div>

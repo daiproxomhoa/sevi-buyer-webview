@@ -1,0 +1,39 @@
+{
+  "id": "0000001",
+  "familyName": "Cristiano",
+  "givenName": "Ronaldo",
+  "rating": 3.4,
+  "ratingCount": 1234,
+  "attitudeRating": 4.5,
+  "reviews": [
+    {
+      "name": "Lê Bảo Linh",
+      "rating": 4.5,
+      "createdAt": "2021-01-03",
+      "content": "Lorem ipsum dolor sit amet, consectetur scing elit. Eget morbi convallis pharetra morbi vulput sit. Pellentesque cras. Pellentesque cras Lorem ipsum dolor sit amet, consectetur scing elit. Eget morbi convallis pharetra morbi vulput sit. Pellentesque cras. Pellentesque cras",
+      "images": [
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg"
+      ]
+    }
+  ],
+  "product": "Thợ sửa điện, Thợ sửa điện lạnh",
+  "avatar": "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+  "price": [
+    {
+      "name": "Điện dân dụng",
+      "price": "200.000 - 500.000",
+      "type": "Giờ"
+    },
+    {
+      "name": "Điện lạnh",
+      "price": "200.000 - 500.000",
+      "type": "Thiết bị"
+    }
+  ]
+}

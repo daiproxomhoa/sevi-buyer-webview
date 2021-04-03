@@ -1,4 +1,3 @@
-import fetchMock from "fetch-mock";
 import {
   StyleRulesCallback,
   Theme,
@@ -10,7 +9,6 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CSSTransitionClassNames } from "react-transition-group/CSSTransition";
-import { API_PATHS } from "./configs/api";
 import { BACKGROUND } from "./configs/colors";
 import { ROUTES } from "./configs/routes";
 import ForgetPasswordPage from "./modules/authen/page/ForgetPasswordPage";
@@ -18,13 +16,13 @@ import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
 import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
+import EditProfile from "./modules/profile/page/EditProfile";
+import ProfilePage from "./modules/profile/page/ProfilePage";
 import RatingListPage from "./modules/rating/page/RatingListPage";
 import RequestListPage from "./modules/request/page/RequestListPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
 import styles from "./scss/webviewRouteTransition.module.scss";
-import ProfilePage from "./modules/profile/page/ProfilePage";
-import EditProfile from "./modules/profile/page/EditProfile";
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {

@@ -53,6 +53,20 @@ export const SlideUp = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+export const SlideRight = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="right" ref={ref} {...props} />;
+});
+
+export const SlideLeft = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="left" ref={ref} {...props} />;
+});
+
 export const CustomInput = withStyles((theme: Theme) => ({
   root: {
     borderRadius: 12,

@@ -12,7 +12,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import TuneIcon from "@material-ui/icons/Tune";
 import queryString from "query-string";
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -45,7 +45,7 @@ interface Props {
 
 const SearchBox = (props: Props) => {
   const { searchParams, setSearchParams, onSellerSearch, openFilter } = props;
-
+  const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   const [searchString, setSearchString] = React.useState("");
@@ -127,6 +127,7 @@ const SearchBox = (props: Props) => {
                 ref={params.InputProps.ref}
                 inputProps={params.inputProps}
                 fullWidth
+                placeholder={intl.formatMessage({ id: "enterSearchInfo" })}
                 disableUnderline
                 startAdornment={
                   <InputAdornment

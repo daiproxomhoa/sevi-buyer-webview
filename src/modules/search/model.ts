@@ -3,7 +3,7 @@ export interface ISearchRecent {
   searchRecent: string[];
 }
 
-export interface ISearchResult {
+export interface ISeller {
   id: string;
   avatar: string;
   familyName: string;
@@ -29,7 +29,7 @@ export interface ISearchResult {
   point: number;
 }
 
-export interface ISearchParams {
+export interface ISellerSearchParams {
   en: boolean;
   string: string;
   sortBy: string;

@@ -1,8 +1,10 @@
 import {
+  Box,
   Button,
   Dialog,
   Divider,
   fade,
+  Popover,
   Slider,
   Theme,
   Tooltip,
@@ -18,9 +20,7 @@ import { LIGHT_GREY, PRIMARY } from "../../../configs/colors";
 import { SlideUp } from "../../common/component/elements";
 
 const FilterDialog = withStyles((theme: Theme) => ({
-  root: {
-    zIndex: 9999,
-  },
+  root: {},
   scrollPaper: {
     alignItems: "flex-end",
   },
@@ -80,6 +80,17 @@ const marks = [
   },
 ];
 
+const CustomPopover = withStyles((theme: Theme) => ({
+  root: {
+    left: 24,
+  },
+  paper: {
+    marginTop: 3,
+    borderRadius: 12,
+    maxWidth: "calc(100% - 48px)",
+  },
+}))(Popover);
+
 interface ValueLabelProps {
   children: React.ReactElement;
   open: boolean;
@@ -107,6 +118,16 @@ interface Props {
 
 const FilterBox = (props: Props) => {
   const { open, onClose } = props;
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openPopover = Boolean(anchorEl);
+  const id = openPopover ? "simple-popover" : undefined;
 
   return (
     <FilterDialog
@@ -161,6 +182,7 @@ const FilterBox = (props: Props) => {
             justifyContent: "flex-start",
             padding: "6px 32px 6px 16px",
           }}
+          onClick={(event) => setAnchorEl(event.currentTarget)}
         >
           <div
             style={{
@@ -204,7 +226,7 @@ const FilterBox = (props: Props) => {
         ThumbComponent={AirbnbThumbComponent}
       />
 
-      <Divider />
+      <Divider style={{ width: "100%" }} />
 
       <Button
         fullWidth
@@ -216,6 +238,7 @@ const FilterBox = (props: Props) => {
           height: "56px",
         }}
         size="large"
+        onClick={(event) => setAnchorEl(event.currentTarget)}
       >
         <div
           style={{
@@ -248,6 +271,32 @@ const FilterBox = (props: Props) => {
           }}
         />
       </Button>
+
+      <CustomPopover
+        id={id}
+        open={openPopover}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        PaperProps={{
+          style: {
+            width: "100%",
+          },
+        }}
+        elevation={1}
+        marginThreshold={24}
+      >
+        <Box p={2}>
+          <Typography>The content of the Popover.</Typography>
+        </Box>
+      </CustomPopover>
     </FilterDialog>
   );
 };
