@@ -73,14 +73,6 @@ const BottomNavigation: React.FunctionComponent<IBottomNavigationProps> = (
     setValue(newValue);
   };
 
-  const isShow = React.useMemo(() => {
-    return routerArr.includes(history.location.pathname);
-  }, [history.location.pathname, routerArr]);
-
-  if (!isShow) {
-    return <></>;
-  }
-
   return (
     <MUIBottomNavigation
       value={value}

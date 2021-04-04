@@ -140,7 +140,7 @@ const App: React.FC<Props> = ({ router, classes }) => {
           zIndex: 5001,
         }}
       >
-        <BottomNavigation />
+        <Route path={ROUTES.home} component={BottomNavigation} />
       </div>
     </>
   );
