@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AppState } from "../../../redux/reducer";
-import { PageWrapperNoScroll } from "../../common/component/elements";
+import { PageWrapper } from "../../common/component/elements";
 import FilterBox from "../component/FilterBox";
 import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
@@ -81,7 +81,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
   return (
     <>
-      <PageWrapperNoScroll>
+      <PageWrapper>
         <SearchBox
           searchParams={searchParams}
           setSearchParams={setSearchParams}
@@ -95,7 +95,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
           data={data}
           onSelectSeller={(info: ISeller) => onFetchSellerDetail(info)}
         />
-      </PageWrapperNoScroll>
+      </PageWrapper>
 
       <FilterBox open={openFilter} onClose={() => setOpenFilter(false)} />
 

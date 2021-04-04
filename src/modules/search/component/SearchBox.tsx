@@ -18,10 +18,10 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { BACKGROUND, BLACK } from "../../../configs/colors";
 import { AppState } from "../../../redux/reducer";
-import CardHeader from "../../common/component/CardHeader";
 import FormControlAutoComplete from "../../common/component/FormControlAutoComplete";
 import { WhiteIconButton } from "../../common/component/IconButton";
 import { searchKeyword } from "../redux/searchReducer";
+import { HeaderDiv } from "../../common/component/elements";
 
 const SearchInput = withStyles((theme: Theme) => ({
   root: {
@@ -57,116 +57,86 @@ const SearchBox = (props: Props) => {
   }, [searchParams.search]);
 
   return (
-    <div
-      style={{
-        position: "relative",
-        minHeight: "206px",
-      }}
-    >
-      <CardHeader />
-      <div
+    <HeaderDiv>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <WhiteIconButton onClick={openFilter}>
+          <TuneIcon style={{ width: "20px", height: "20px" }} />
+        </WhiteIconButton>
+      </div>
+
+      <Typography
+        variant="subtitle1"
         style={{
-          position: "absolute",
-          display: "flex",
-          flexDirection: "column",
-          top: 0,
-          width: "100%",
-          height: "100%",
+          margin: "8px 0",
+          zIndex: 1,
+          textAlign: "center",
+          color: "white",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            margin: "52px 24px 24px",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            position: "relative",
-          }}
-        >
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <WhiteIconButton onClick={openFilter}>
-              <TuneIcon style={{ width: "20px", height: "20px" }} />
-            </WhiteIconButton>
-          </div>
+        <FormattedMessage id="search" />
+      </Typography>
 
-          <Typography
-            variant="subtitle1"
-            style={{
-              margin: "8px 0",
-              zIndex: 1,
-              textAlign: "center",
-              color: "white",
-            }}
-          >
-            <FormattedMessage id="search" />
-          </Typography>
-
-          <FormControlAutoComplete
+      <FormControlAutoComplete
+        fullWidth
+        value={searchString}
+        onChange={async (e, str: string | null) => {
+          setSearchParams(str || "");
+          setSearchString(str || "");
+          if (str) {
+            onSellerSearch(str);
+          }
+        }}
+        loadOptions={async (str: string) => {
+          return await dispatch(searchKeyword(str));
+        }}
+        getOptionLabel={(value: string) => {
+          return value;
+        }}
+        getOptionSelected={(option: string, value: string) => {
+          return option === value;
+        }}
+        renderInput={(params) => (
+          <SearchInput
+            {...params}
+            ref={params.InputProps.ref}
+            inputProps={params.inputProps}
             fullWidth
-            value={searchString}
-            onChange={async (e, str: string | null) => {
-              setSearchParams(str || "");
-              setSearchString(str || "");
-              if (str) {
-                onSellerSearch(str);
-              }
-            }}
-            loadOptions={async (str: string) => {
-              return await dispatch(searchKeyword(str));
-            }}
-            getOptionLabel={(value: string) => {
-              return value;
-            }}
-            getOptionSelected={(option: string, value: string) => {
-              return option === value;
-            }}
-            renderInput={(params) => (
-              <SearchInput
-                {...params}
-                ref={params.InputProps.ref}
-                inputProps={params.inputProps}
-                fullWidth
-                placeholder={intl.formatMessage({ id: "enterSearchInfo" })}
-                disableUnderline
-                startAdornment={
-                  <InputAdornment
-                    position="start"
-                    style={{ marginLeft: "16px", opacity: 0.6 }}
-                  >
-                    <SearchIcon style={{ width: "20px", height: "20px" }} />
+            placeholder={intl.formatMessage({ id: "enterSearchInfo" })}
+            disableUnderline
+            startAdornment={
+              <InputAdornment
+                position="start"
+                style={{ marginLeft: "16px", opacity: 0.6 }}
+              >
+                <SearchIcon style={{ width: "20px", height: "20px" }} />
+              </InputAdornment>
+            }
+            endAdornment={
+              <>
+                {!!searchString && (
+                  <InputAdornment position="end">
+                    <ButtonBase
+                      onClick={() => {
+                        setSearchString("");
+                      }}
+                      style={{
+                        borderRadius: "50%",
+                        marginRight: "16px",
+                        padding: "1px",
+                        color: BACKGROUND,
+                        backgroundColor: fade(BLACK, 0.34),
+                      }}
+                    >
+                      <ClearIcon style={{ width: "15px", height: "15px" }} />
+                    </ButtonBase>
                   </InputAdornment>
-                }
-                endAdornment={
-                  <>
-                    {!!searchString && (
-                      <InputAdornment position="end">
-                        <ButtonBase
-                          onClick={() => {
-                            setSearchString("");
-                          }}
-                          style={{
-                            borderRadius: "50%",
-                            marginRight: "16px",
-                            padding: "1px",
-                            color: BACKGROUND,
-                            backgroundColor: fade(BLACK, 0.34),
-                          }}
-                        >
-                          <ClearIcon
-                            style={{ width: "15px", height: "15px" }}
-                          />
-                        </ButtonBase>
-                      </InputAdornment>
-                    )}
-                  </>
-                }
-              />
-            )}
+                )}
+              </>
+            }
           />
-        </div>
-      </div>
-    </div>
+        )}
+      />
+    </HeaderDiv>
   );
 };
 
