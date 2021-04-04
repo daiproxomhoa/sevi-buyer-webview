@@ -16,7 +16,7 @@ import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { LIGHT_GREY, PRIMARY } from "../../../configs/colors";
+import { LIGHT_GREY, PRIMARY, BACKGROUND } from "../../../configs/colors";
 import { SlideUp } from "../../common/component/elements";
 
 const FilterDialog = withStyles((theme: Theme) => ({
@@ -26,10 +26,16 @@ const FilterDialog = withStyles((theme: Theme) => ({
   },
 }))(Dialog);
 
-const PrettoSlider = withStyles({
+const PrettoSlider = withStyles((theme: Theme) => ({
   root: {
     color: PRIMARY,
     height: 8,
+    '& .MuiSlider-markLabel[data-index="0"]': {
+      transform: "translateX(0%)",
+    },
+    '& .MuiSlider-markLabel[data-index="1"]': {
+      transform: "translateX(-100%)",
+    },
   },
   thumb: {
     height: 32,
@@ -54,6 +60,9 @@ const PrettoSlider = withStyles({
   markLabel: {
     top: -8,
   },
+  markLabelActive: {
+    color: theme.palette.text.secondary,
+  },
   mark: {
     width: 0,
     height: 0,
@@ -67,7 +76,7 @@ const PrettoSlider = withStyles({
     height: 8,
     borderRadius: 4,
   },
-})(Slider);
+}))(Slider);
 
 const marks = [
   {
@@ -91,23 +100,7 @@ const CustomPopover = withStyles((theme: Theme) => ({
   },
 }))(Popover);
 
-interface ValueLabelProps {
-  children: React.ReactElement;
-  open: boolean;
-  value: number;
-}
-
-function ValueLabelComponent(props: ValueLabelProps) {
-  const { children, open, value } = props;
-
-  return (
-    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-      {children}
-    </Tooltip>
-  );
-}
-
-function AirbnbThumbComponent(props: any) {
+function CustomThumbComponent(props: any) {
   return <FiberManualRecordIcon {...props} />;
 }
 
@@ -141,8 +134,7 @@ const FilterBox = (props: Props) => {
           padding: "24px",
           margin: 0,
           width: "100%",
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
+          borderRadius: "16px 16px 0 0",
         },
       }}
       onBackdropClick={onClose}
@@ -222,8 +214,7 @@ const FilterBox = (props: Props) => {
         marks={marks}
         defaultValue={0}
         max={20}
-        ValueLabelComponent={ValueLabelComponent}
-        ThumbComponent={AirbnbThumbComponent}
+        ThumbComponent={CustomThumbComponent}
       />
 
       <Divider style={{ width: "100%" }} />
