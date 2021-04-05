@@ -1,5 +1,6 @@
 import {
   ButtonBase,
+  CircularProgress,
   fade,
   Input,
   InputAdornment,
@@ -49,6 +50,7 @@ const SearchBox = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   const [searchString, setSearchString] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (searchParams?.search) {
@@ -87,14 +89,27 @@ const SearchBox = (props: Props) => {
           }
         }}
         loadOptions={async (str: string) => {
-          return await dispatch(searchKeyword(str));
+          setLoading(true);
+          const json = await dispatch(searchKeyword(str));
+          setLoading(false);
+          return json;
         }}
-        getOptionLabel={(value: string) => {
-          return value;
-        }}
-        getOptionSelected={(option: string, value: string) => {
-          return option === value;
-        }}
+        getOptionLabel={(value: string) => value}
+        getOptionSelected={(option: string, value: string) => option === value}
+        loading={loading}
+        loadingText={
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FormattedMessage id="search.loading" />
+            &nbsp;
+            <CircularProgress color="inherit" size={16} />
+          </div>
+        }
         renderInput={(params) => (
           <SearchInput
             {...params}

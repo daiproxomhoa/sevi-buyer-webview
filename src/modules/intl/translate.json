@@ -58,6 +58,7 @@
   "search.yourLocation": ["Vị trí của bạn", ""],
   "search.rating": ["Đánh giá", ""],
   "search.info": ["Thông tin", ""],
+  "search.loading": ["Đang tải dữ liệu", ""],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],

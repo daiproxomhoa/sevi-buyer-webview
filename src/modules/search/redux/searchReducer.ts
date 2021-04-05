@@ -27,7 +27,7 @@ export const searchKeyword = (
   return async (dispatch, getState) => {
     const state = getState();
     fetchMock.post(API_PATHS.searchKeyword, searchSuggestData, {
-      delay: 300,
+      delay: 30000,
     });
 
     const json = await dispatch(
