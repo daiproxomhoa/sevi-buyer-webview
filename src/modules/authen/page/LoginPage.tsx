@@ -16,7 +16,7 @@ import { fetchThunk } from "../../common/redux/thunk";
 import HeaderBox from "../component/HeaderBox";
 import LoginForm from "../component/login/LoginForm";
 import { ILogin } from "../model";
-import { authenIn } from "../redux/authenReducer";
+import { authenIn, setAuthData } from "../redux/authenReducer";
 
 interface ILoginPageProps {
   dispatch: ThunkDispatch<AppState, null, Action<string>>;
@@ -41,6 +41,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
       if (json?.body?.tokenSignature) {
         dispatch(authenIn());
         set(TOKEN, json.body.tokenSignature);
+        dispatch(setAuthData({ ...json.body }));
         dispatch(replace({ pathname: ROUTES.search }));
         return;
       }

@@ -1,14 +1,26 @@
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { ActionType, createCustomAction, getType } from "typesafe-actions";
+import {
+  ActionType,
+  createAction,
+  createCustomAction,
+  getType,
+} from "typesafe-actions";
 import { AppState } from "../../../redux/reducer";
+import { IAuth } from "../model";
 
 export interface AuthenState {
   authen: boolean;
+  data?: IAuth;
 }
 
 export const authenIn = createCustomAction("authen/in");
+
 export const authenOut = createCustomAction("authen/out");
+
+export const setAuthData = createAction("auth/setAuthData", (data: IAuth) => ({
+  data,
+}))();
 
 export function logout(): ThunkAction<
   Promise<void>,
@@ -24,6 +36,7 @@ export function logout(): ThunkAction<
 const actions = {
   authenIn,
   authenOut,
+  setAuthData,
 };
 
 type ActionT = ActionType<typeof actions>;
@@ -37,6 +50,8 @@ export default function authenReducer(
       return { ...state, authen: true };
     case getType(authenOut):
       return { ...state, authen: false };
+    case getType(setAuthData):
+      return { ...state, data: action.payload.data };
     default:
       return state;
   }

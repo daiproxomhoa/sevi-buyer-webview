@@ -1,3 +1,5 @@
+import { UserType } from "./constants";
+
 export interface ILogin {
   id: string;
   password: string;
@@ -23,3 +25,18 @@ export const defaultSignUpData: ISignUp = {
   name: "",
   otp: "",
 };
+
+export interface IToken {
+  authMethod: string;
+  expirationTime: string;
+  id: string;
+  idSignDate: string;
+  signingTime: string;
+  temporary: boolean;
+  userType: UserType;
+}
+
+export interface IAuth {
+  token: IToken;
+  tokenSignature: string;
+}
