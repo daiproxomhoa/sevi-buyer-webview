@@ -41,6 +41,8 @@
   "familyName": ["Họ"],
   "noOption": ["Không có dữ liệu", ""],
 
+  "required": ["Vui lòng nhập dữ liệu", ""],
+
   "search.nodata": [
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
     []

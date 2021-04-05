@@ -9,13 +9,13 @@ import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
-import { PageWrapper } from "../../common/component/elements";
+import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
 import { RawLink } from "../../common/component/Link";
 import { TOKEN } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
 import HeaderBox from "../component/HeaderBox";
 import LoginForm from "../component/login/LoginForm";
-import { defaultLoginData, ILogin } from "../model";
+import { ILogin } from "../model";
 import { authenIn } from "../redux/authenReducer";
 
 interface ILoginPageProps {
@@ -24,23 +24,31 @@ interface ILoginPageProps {
 
 const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
   const { dispatch } = props;
-  const [loginData, setLoginData] = React.useState<ILogin>(defaultLoginData);
   const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const onSubmit = React.useCallback(async () => {
-    setLoading(true);
-    const json = await dispatch(
-      fetchThunk(API_PATHS.passwordSignIn, "post", JSON.stringify(loginData))
-    );
+  const onSubmit = React.useCallback(
+    async (values: ILogin) => {
+      setLoading(true);
+      setErrorMessage("");
 
-    setLoading(false);
+      const json = await dispatch(
+        fetchThunk(API_PATHS.passwordSignIn, "post", JSON.stringify(values))
+      );
 
-    if (json?.body?.tokenSignature) {
-      dispatch(authenIn());
-      set(TOKEN, json.body.tokenSignature);
-      dispatch(replace({ pathname: ROUTES.search }));
-    }
-  }, [dispatch, loginData]);
+      setLoading(false);
+
+      if (json?.body?.tokenSignature) {
+        dispatch(authenIn());
+        set(TOKEN, json.body.tokenSignature);
+        dispatch(replace({ pathname: ROUTES.search }));
+        return;
+      }
+
+      setErrorMessage(json?.body?.status);
+    },
+    [dispatch]
+  );
 
   return (
     <PageWrapper>
@@ -53,12 +61,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
         }
       />
 
-      <LoginForm
-        loading={loading}
-        loginData={loginData}
-        onSubmit={onSubmit}
-        onUpdate={(data) => setLoginData(data)}
-      />
+      <LoginForm errorMessage={errorMessage} onSubmit={onSubmit} />
 
       <div
         style={{
@@ -84,6 +87,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
           </RawLink>
         </Typography>
       </div>
+      <LoadingBackDrop open={loading} />
     </PageWrapper>
   );
 };

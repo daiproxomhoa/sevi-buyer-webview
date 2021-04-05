@@ -1,9 +1,12 @@
 import {
+  Backdrop,
+  BackdropProps,
   createStyles,
   Input,
   InputAdornment,
   InputBase,
   InputProps,
+  makeStyles,
   Slide,
   Theme,
   Typography,
@@ -15,12 +18,14 @@ import { OptionsObject, SnackbarMessage } from "notistack";
 import React from "react";
 import styled from "styled-components";
 import {
+  BACKGROUND,
   GREY_100,
   GREY_400,
   GREY_500,
   LIGHT_GREY,
 } from "../../../configs/colors";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export const PageWrapper = styled.div`
   background-size: cover;
@@ -189,3 +194,22 @@ export function snackbarSetting(
     ),
   } as OptionsObject;
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.modal + 1,
+      color: BACKGROUND,
+    },
+  })
+);
+
+export const LoadingBackDrop: React.FC<BackdropProps> = (props) => {
+  const classes = useStyles();
+
+  return (
+    <Backdrop className={classes.backdrop} {...props}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  );
+};
