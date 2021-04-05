@@ -11,7 +11,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
-import { PageWrapper } from "../../common/component/elements";
+import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
 import { RESPONSE_STATUS, TOKEN } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
 import HeaderBox from "../component/HeaderBox";
@@ -21,7 +21,6 @@ import VerifyOtpForm from "../component/signUp/VerifyOtpForm";
 import { OTP_VALID_SECONDS } from "../constants";
 import { defaultSignUpData, ISignUp } from "../model";
 import { authenIn } from "../redux/authenReducer";
-import { validOtp } from "../utils";
 
 interface Props {}
 
@@ -32,6 +31,7 @@ const VerifyOtpPage = (props: Props) => {
   const [signUpData, setSignUpData] = useState<ISignUp>(defaultSignUpData);
   const [loading, setLoading] = useState(false);
   const [counting, setCounting] = useState(OTP_VALID_SECONDS);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const updateQueryParams = useCallback(() => {
     if (location.search) {
@@ -41,13 +41,8 @@ const VerifyOtpPage = (props: Props) => {
   }, [location.search]);
 
   const onSubmit = useCallback(async () => {
-    const invalid = validOtp(signUpData);
-
-    if (invalid) {
-      return;
-    }
-
     setLoading(true);
+    setErrorMessage("");
     const json = await dispatch(
       fetchThunk(API_PATHS.signUp, "post", JSON.stringify(signUpData))
     );
@@ -57,14 +52,20 @@ const VerifyOtpPage = (props: Props) => {
       dispatch(authenIn());
       set(TOKEN, json.body.tokenSignature);
       dispatch(replace({ pathname: ROUTES.search }));
+      return;
     }
+
+    setErrorMessage(json?.body?.status);
   }, [dispatch, signUpData]);
 
   const onResend = useCallback(async () => {
+    setLoading(true);
+
     const json = await dispatch(
       fetchThunk(`${API_PATHS.otp}?id=${signUpData.id}`, "put")
     );
 
+    setLoading(false);
     if (json?.status === RESPONSE_STATUS.SUCCESS) {
       setCounting(OTP_VALID_SECONDS);
     }
@@ -101,10 +102,9 @@ const VerifyOtpPage = (props: Props) => {
       />
 
       <VerifyOtpForm
-        loading={loading}
         data={signUpData}
+        errorMessage={errorMessage}
         onSubmit={onSubmit}
-        onUpdate={(data) => setSignUpData(data)}
       />
 
       <CountDown
@@ -115,6 +115,8 @@ const VerifyOtpPage = (props: Props) => {
       />
 
       <Footer />
+
+      <LoadingBackDrop open={loading} />
     </PageWrapper>
   );
 };

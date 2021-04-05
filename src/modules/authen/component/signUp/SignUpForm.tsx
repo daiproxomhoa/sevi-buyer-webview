@@ -1,25 +1,31 @@
+import { Button, FormHelperText } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/Person";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
-import { FreeTextField } from "../../../common/component/elements";
-import LoadingButton from "../../../common/component/LoadingButton";
-import { ISignUp } from "../../model";
+import { FormControlFreeTextField } from "../../../common/component/Form";
+import { defaultSignUpData, ISignUp } from "../../model";
 
 interface Props {
-  loading: boolean;
-  data: ISignUp;
-  onSubmit(): void;
-  onUpdate(data: ISignUp): void;
+  errorMessage?: string;
+  onSubmit(data: ISignUp): void;
 }
 
 const SignUpForm = (props: Props) => {
-  const { data, onSubmit, onUpdate, loading } = props;
+  const { errorMessage, onSubmit } = props;
   const intl = useIntl();
 
+  const { register, handleSubmit, errors, getValues } = useForm<ISignUp>({
+    reValidateMode: "onChange",
+    mode: "onChange",
+    defaultValues: defaultSignUpData,
+  });
+
   return (
-    <div
+    <form
+      onSubmit={handleSubmit(onSubmit)}
       style={{
         margin: "24px",
         display: "flex",
@@ -27,57 +33,84 @@ const SignUpForm = (props: Props) => {
         alignItems: "center",
       }}
     >
-      <FreeTextField
-        value={data.id}
+      <FormControlFreeTextField
+        name="id"
         placeholder={intl.formatMessage({ id: "phoneNumber" })}
+        inputRef={register({
+          required: intl.formatMessage({ id: "required" }),
+        })}
+        inputProps={{
+          maxLength: 10,
+        }}
+        fullWidth
+        errorMessage={errors.id?.message}
         type="tel"
         startAdornmentIcon={
           <PhoneIphoneIcon style={{ width: "20px", height: "20px" }} />
         }
-        onChange={(e) => onUpdate({ ...data, id: e.target.value })}
       />
 
-      <FreeTextField
-        value={data.familyName}
+      <FormControlFreeTextField
+        name="name"
         placeholder={intl.formatMessage({ id: "name" })}
+        inputRef={register({
+          required: intl.formatMessage({ id: "required" }),
+        })}
+        fullWidth
+        errorMessage={errors.name?.message}
         startAdornmentIcon={
           <PersonIcon style={{ width: "20px", height: "20px" }} />
         }
-        onChange={(e) => onUpdate({ ...data, familyName: e.target.value })}
       />
 
-      <FreeTextField
-        value={data.password}
+      <FormControlFreeTextField
+        name="password"
         placeholder={intl.formatMessage({ id: "password" })}
+        inputRef={register({
+          required: intl.formatMessage({ id: "required" }),
+        })}
+        fullWidth
+        errorMessage={errors.password?.message}
+        type="password"
         startAdornmentIcon={
           <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
         }
-        onChange={(e) => onUpdate({ ...data, password: e.target.value })}
-        type="password"
       />
 
-      <FreeTextField
-        value={data.confirmPassword}
+      <FormControlFreeTextField
+        name="confirmPassword"
         placeholder={intl.formatMessage({ id: "repeatPassword" })}
+        inputRef={register({
+          required: intl.formatMessage({ id: "required" }),
+          validate: (value) =>
+            value === getValues("password") ||
+            intl.formatMessage({ id: "auth.confirmPasswordNotMatch" }),
+        })}
+        fullWidth
+        errorMessage={errors.confirmPassword?.message}
+        type="password"
         startAdornmentIcon={
           <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
         }
-        onChange={(e) => onUpdate({ ...data, confirmPassword: e.target.value })}
-        type="password"
       />
 
-      <LoadingButton
-        loading={loading}
-        style={{ marginTop: "28px", marginBottom: "12px" }}
+      {!!errorMessage && (
+        <FormHelperText error style={{ textAlign: "center" }}>
+          <FormattedMessage id={`auth.${errorMessage}`} />
+        </FormHelperText>
+      )}
+
+      <Button
+        style={{ marginTop: "12px", marginBottom: "12px" }}
         variant="contained"
         color="primary"
         fullWidth
         size="large"
-        onClick={onSubmit}
+        type="submit"
       >
         <FormattedMessage id="continue" />
-      </LoadingButton>
-    </div>
+      </Button>
+    </form>
   );
 };
 

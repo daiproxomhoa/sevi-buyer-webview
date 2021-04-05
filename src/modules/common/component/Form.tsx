@@ -8,6 +8,7 @@ import {
 import React, { ReactNode } from "react";
 import { CustomInput, WVInputProps } from "./elements";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
+import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
 
 interface FormControlTextFieldProps extends WVInputProps {
   formControlStyle?: React.CSSProperties;
@@ -79,8 +80,21 @@ export const FormControlFreeTextField = (props: FormControlTextFieldProps) => {
         }
       />
       {!disabledHelper && (
-        <FormHelperText style={{ minHeight: 20 }}>
-          {errorMessage}
+        <FormHelperText
+          style={{
+            minHeight: 20,
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: 8,
+          }}
+        >
+          {!!errorMessage && (
+            <ReportProblemOutlinedIcon
+              color="inherit"
+              style={{ fontSize: 14 }}
+            />
+          )}
+          &nbsp;{errorMessage}
         </FormHelperText>
       )}
     </FormControl>

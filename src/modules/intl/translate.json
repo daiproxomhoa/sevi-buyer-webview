@@ -78,10 +78,11 @@
   "auth.weSentOtpCode": ["Chúng tôi đã gửi một mã OTP đến", ""],
   "auth.YouNoReceiveCode": ["Bạn không nhận được mã?", ""],
   "auth.resend": ["Gửi lại", ""],
+  "auth.confirmPasswordNotMatch": ["Mật khẩu nhập lại không khớp", ""],
   "auth.INVALID_PASSWORD": ["Mật khẩu không đúng", ""],
   "auth.SERVER_ERROR": ["Có lỗi hệ thống", ""],
   "auth.ALREADY_CREATED": ["Số điện thoại đã tồn tại", ""],
-  "auth.WRONG_OTP ": ["Mã OTP không chính xác", ""],
+  "auth.WRONG_OTP": ["Mã OTP không chính xác", ""],
   "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""],
 
   "profile.edit": ["Chỉnh sửa thông tin", ""],

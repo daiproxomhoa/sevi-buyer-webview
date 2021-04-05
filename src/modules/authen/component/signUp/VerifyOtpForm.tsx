@@ -1,23 +1,30 @@
+import { Button, FormHelperText } from "@material-ui/core";
 import PhonelinkLockIcon from "@material-ui/icons/PhonelinkLock";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
-import { FreeTextField } from "../../../common/component/elements";
-import LoadingButton from "../../../common/component/LoadingButton";
+import { FormControlFreeTextField } from "../../../common/component/Form";
 import { ISignUp } from "../../model";
 
 interface Props {
-  loading: boolean;
   data: ISignUp;
-  onSubmit(): void;
-  onUpdate(data: ISignUp): void;
+  errorMessage?: string;
+  onSubmit(values: ISignUp): void;
 }
 
 const VerifyOtpForm = (props: Props) => {
-  const { data, onSubmit, onUpdate, loading } = props;
+  const { data, errorMessage, onSubmit } = props;
   const intl = useIntl();
 
+  const { register, handleSubmit, errors } = useForm<ISignUp>({
+    reValidateMode: "onChange",
+    mode: "onChange",
+    defaultValues: data,
+  });
+
   return (
-    <div
+    <form
+      onSubmit={handleSubmit(onSubmit)}
       style={{
         margin: "24px 24px 0",
         display: "flex",
@@ -25,31 +32,40 @@ const VerifyOtpForm = (props: Props) => {
         alignItems: "center",
       }}
     >
-      <FreeTextField
-        value={data.otp}
+      <FormControlFreeTextField
+        name="otp"
         placeholder={intl.formatMessage({ id: "auth.enterOtp" })}
-        type="tel"
-        startAdornmentIcon={
-          <PhonelinkLockIcon style={{ width: "20px", height: "20px" }} />
-        }
+        inputRef={register({
+          required: intl.formatMessage({ id: "required" }),
+        })}
         inputProps={{
           maxLength: 6,
         }}
-        onChange={(e) => onUpdate({ ...data, otp: e.target.value })}
+        fullWidth
+        errorMessage={errors.otp?.message}
+        type="number"
+        startAdornmentIcon={
+          <PhonelinkLockIcon style={{ width: "20px", height: "20px" }} />
+        }
       />
 
-      <LoadingButton
-        loading={loading}
-        style={{ marginTop: "28px", marginBottom: "12px" }}
+      {!!errorMessage && (
+        <FormHelperText error style={{ textAlign: "center" }}>
+          <FormattedMessage id={`auth.${errorMessage}`} />
+        </FormHelperText>
+      )}
+
+      <Button
+        style={{ marginTop: "12px", marginBottom: "12px" }}
         variant="contained"
         color="primary"
         fullWidth
         size="large"
-        onClick={onSubmit}
+        type="submit"
       >
         <FormattedMessage id="verify" />
-      </LoadingButton>
-    </div>
+      </Button>
+    </form>
   );
 };
 

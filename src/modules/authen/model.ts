@@ -7,17 +7,8 @@ export interface ISignUp {
   id: string;
   password: string;
   confirmPassword: string;
-  familyName: string;
-  givenName: string;
+  name: string;
   otp: string;
-}
-
-export interface ISignUpValidation {
-  id: boolean;
-  password: boolean;
-  confirmPassword: boolean;
-  familyName: boolean;
-  givenName: boolean;
 }
 
 export const defaultLoginData: ILogin = {
@@ -29,15 +20,6 @@ export const defaultSignUpData: ISignUp = {
   id: "",
   password: "",
   confirmPassword: "",
-  familyName: "",
-  givenName: "",
+  name: "",
   otp: "",
-};
-
-export const validSignUpValidation: ISignUpValidation = {
-  id: true,
-  password: true,
-  confirmPassword: true,
-  familyName: true,
-  givenName: true,
 };
