@@ -14,11 +14,12 @@ import { fetchThunk } from "../../common/redux/thunk";
 
 interface Props {
   src?: number;
+  id: number;
   onChange?: (avatar: string) => void;
 }
 
 const AvatarUpload = (props: Props) => {
-  const { src, onChange } = props;
+  const { src, onChange, id } = props;
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -50,7 +51,7 @@ const AvatarUpload = (props: Props) => {
     <Box>
       <IconButton style={{ padding: 0 }} component="label">
         <Avatar
-          src={API_PATHS.renderAvatar(src)}
+          src={API_PATHS.renderAvatar(id, src)}
           style={{ height: 100, width: 100 }}
         />
         <input

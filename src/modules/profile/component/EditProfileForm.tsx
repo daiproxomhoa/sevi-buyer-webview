@@ -25,7 +25,7 @@ const EditProfileForm = (props: Props) => {
   const history = useHistory();
   const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { register, handleSubmit, errors, control, reset, setValue } = useForm({
+  const { register, handleSubmit, errors, control, reset, watch } = useForm({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: profile,
@@ -52,7 +52,7 @@ const EditProfileForm = (props: Props) => {
           control={control}
           rules={{ required: intl.formatMessage({ id: "required" }) }}
           render={({ value, onChange }) => (
-            <AvatarUpload src={value} onChange={onChange} />
+            <AvatarUpload id={watch("id")} src={value} onChange={onChange} />
           )}
         />
         <Box width="100%">

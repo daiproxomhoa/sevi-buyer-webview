@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  ListItem,
-  makeStyles,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { ListItem, makeStyles, TextField, Typography } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import {
   Autocomplete,
@@ -15,7 +8,7 @@ import {
 import { debounce, isEqual } from "lodash";
 import React, { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
-import { BLUE, GREY_300 } from "../../../configs/colors";
+import { BLUE } from "../../../configs/colors";
 import { some } from "../constants";
 
 const autocompleteCS = makeStyles(() => ({
@@ -178,6 +171,7 @@ export const FormControlAutoComplete: <
           loadOptions &&
           setOption(options.length ? options : firstOption);
       }}
+      onMouseDownCapture={(e) => e.stopPropagation()}
       noOptionsText={<FormattedMessage id="noOption" />}
       renderInput={
         renderInput ||

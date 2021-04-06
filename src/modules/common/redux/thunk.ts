@@ -16,6 +16,7 @@ export function fetchThunk(
       let res: any;
       try {
         res = await fetch(url, {
+          credentials: "include",
           method,
           body,
           headers:
@@ -59,7 +60,7 @@ export function fetchThunk(
 
       let hasInternet = true;
       try {
-        await fetch("https://google.com", { mode: "no-cors" });
+        await fetch("https://www.google.com", { mode: "no-cors" });
       } catch (_) {
         hasInternet = false;
       }
