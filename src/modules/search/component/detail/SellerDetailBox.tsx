@@ -1,59 +1,40 @@
-import { Avatar, Button, Dialog, Typography } from "@material-ui/core";
-import React, { useState } from "react";
-import CardHeader from "../../../common/component/CardHeader";
-import { SlideLeft } from "../../../common/component/elements";
-import { WhiteIconButton } from "../../../common/component/IconButton";
+import { Avatar, Button, Typography } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { FormattedMessage, useIntl } from "react-intl";
 import FlagIcon from "@material-ui/icons/Flag";
-import { some } from "../../../common/constants";
+import { Skeleton } from "@material-ui/lab";
+import React, { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { HeaderDiv } from "../../../common/component/elements";
 import HeaderTab from "../../../common/component/HeaderTab";
+import { WhiteIconButton } from "../../../common/component/IconButton";
+import { some } from "../../../common/constants";
+import SellerInfo from "./SellerInfo";
+import SellerRating from "./SellerRating";
 
 interface Props {
-  open: boolean;
+  loading: boolean;
   info?: some;
   onClose(): void;
   onSendRequest(): void;
 }
 
 const SellerDetailBox = (props: Props) => {
-  const { open, info, onClose, onSendRequest } = props;
+  const { loading, info, onClose, onSendRequest } = props;
   const intl = useIntl();
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <Dialog
-      open={open}
-      TransitionComponent={SlideLeft}
-      style={{
-        alignItems: "flex-end",
-      }}
-      fullScreen
-      PaperProps={{
-        style: {
-          margin: 0,
-          width: "100%",
-        },
-      }}
-      onBackdropClick={onClose}
-    >
-      <div
+    <>
+      <HeaderDiv
         style={{
-          top: 0,
-          left: 0,
-          right: 0,
           position: "absolute",
+          padding: 0,
+          minHeight: "206px",
+          right: 0,
+          left: 0,
         }}
-      >
-        <CardHeader />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          padding: "24px 24px 0",
-        }}
-      >
+      />
+      <div style={{ zIndex: 2, padding: 24 }}>
         <div style={{ padding: "12px 0" }}>
           <WhiteIconButton onClick={onClose}>
             <ChevronLeftIcon style={{ width: "20px", height: "20px" }} />
@@ -78,19 +59,47 @@ const SellerDetailBox = (props: Props) => {
             variant="rounded"
           />
           <Typography variant="subtitle2">
-            {info?.familyName}&nbsp;{info?.givenName}
+            {loading ? (
+              <Skeleton style={{ width: "150px" }} />
+            ) : (
+              <>
+                {info?.familyName}&nbsp;{info?.givenName}
+              </>
+            )}
           </Typography>
         </div>
-      </div>
 
-      <HeaderTab
-        tabIndex={tabIndex}
-        tabList={[
-          intl.formatMessage({ id: "search.rating" }),
-          intl.formatMessage({ id: "search.info" }),
-        ]}
-        onChangeTab={(newIndex) => setTabIndex(newIndex)}
-      />
+        <HeaderTab
+          style={{ margin: 0 }}
+          tabIndex={tabIndex}
+          tabList={[
+            intl.formatMessage({ id: "search.rating" }),
+            intl.formatMessage({ id: "search.info" }),
+          ]}
+          onChangeTab={(newIndex) => setTabIndex(newIndex)}
+        />
+
+        {loading ? (
+          <div
+            style={{
+              padding: "24px 0",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Skeleton variant="rect" width="100%" height={64} />
+
+            <Skeleton variant="text" width="50%" style={{ margin: "8px 0" }} />
+
+            <Skeleton variant="rect" width="100%" height={180} />
+          </div>
+        ) : tabIndex === 0 ? (
+          <SellerRating info={info} />
+        ) : (
+          <SellerInfo />
+        )}
+      </div>
 
       <div
         style={{
@@ -114,7 +123,7 @@ const SellerDetailBox = (props: Props) => {
           <FormattedMessage id="search.sendRequest" />
         </Button>
       </div>
-    </Dialog>
+    </>
   );
 };
 

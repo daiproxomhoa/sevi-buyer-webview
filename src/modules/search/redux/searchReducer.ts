@@ -5,6 +5,7 @@ import { ActionType, createAction, getType } from "typesafe-actions";
 import { API_PATHS } from "../../../configs/api";
 import searchSuggestData from "../../../json/search.json";
 import sellerDetailData from "../../../json/sellerDetail.json";
+import searchWorkerData from "../../../json/searchWorker.json";
 import { AppState } from "../../../redux/reducer";
 import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
@@ -51,10 +52,16 @@ export const sellerSearch = (
   params: ISellerSearchParams
 ): ThunkAction<void, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
+    fetchMock.post(API_PATHS.sellerSearch, searchWorkerData, {
+      delay: 300,
+      overwriteRoutes: true,
+    });
+
     const json = await dispatch(
       fetchThunk(API_PATHS.sellerSearch, "post", JSON.stringify(params))
     );
 
+    console.log(json);
     if (json?.body) {
       dispatch(setSearchResult(json.body));
     }

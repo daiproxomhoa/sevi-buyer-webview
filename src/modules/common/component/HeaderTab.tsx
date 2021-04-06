@@ -6,12 +6,11 @@ interface Props {
   tabIndex: number;
   tabList: string[];
   onChangeTab(newTabIndex: number): void;
+  style?: React.CSSProperties;
 }
 
 const HeaderTab = (props: Props) => {
-  const { tabIndex, tabList, onChangeTab } = props;
-
-  const intl = useIntl();
+  const { style, tabIndex, tabList, onChangeTab } = props;
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     onChangeTab(newValue);
@@ -19,6 +18,7 @@ const HeaderTab = (props: Props) => {
 
   return (
     <CustomTabs
+      style={style}
       value={tabIndex}
       onChange={handleChange}
       indicatorColor="primary"

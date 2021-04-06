@@ -10,6 +10,7 @@ export const ROUTES = {
   profile: "/home/profile",
   editProfile: "/editProfile",
   changePass: "/changePass",
+  searchDetail: "/searchDetail",
   test: {
     value: "/test/:id/:slug",
     gen: (id: string, slug: string) => `/test/${id}/${slug}`,

@@ -67,6 +67,11 @@ export const MUI_THEME = createMuiTheme({
     MuiDivider: {
       root: { backgroundColor: GREY_300, margin: undefined },
     },
+    MuiSkeleton: {
+      text: {
+        borderRadius: "4px",
+      },
+    },
     MuiButton: {
       root: {
         borderRadius: "12px",

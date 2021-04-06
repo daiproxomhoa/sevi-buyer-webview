@@ -20,6 +20,7 @@ import EditProfile from "./modules/profile/page/EditProfile";
 import ProfilePage from "./modules/profile/page/ProfilePage";
 import RatingListPage from "./modules/rating/page/RatingListPage";
 import RequestListPage from "./modules/request/page/RequestListPage";
+import SearchDetailPage from "./modules/search/page/SearchDetailPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
 import styles from "./scss/webviewRouteTransition.module.scss";
@@ -108,6 +109,11 @@ const App: React.FC<Props> = ({ router, classes }) => {
                     component={ForgetPasswordPage}
                   />
                   <Route exact path={ROUTES.search} component={SearchPage} />
+                  <Route
+                    exact
+                    path={ROUTES.searchDetail}
+                    component={SearchDetailPage}
+                  />
                   <Route
                     exact
                     path={ROUTES.request}

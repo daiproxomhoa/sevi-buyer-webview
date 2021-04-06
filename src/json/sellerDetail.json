@@ -7,7 +7,24 @@
   "attitudeRating": 4.5,
   "reviews": [
     {
+      "id": 12321,
       "name": "Lê Bảo Linh",
+      "rating": 4.5,
+      "createdAt": "2021-01-03",
+      "content": "Lorem ipsum dolor sit amet, consectetur scing elit. Eget morbi convallis pharetra morbi vulput sit. Pellentesque cras. Pellentesque cras Lorem ipsum dolor sit amet, consectetur scing elit. Eget morbi convallis pharetra morbi vulput sit. Pellentesque cras. Pellentesque cras",
+      "images": [
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg",
+        "https://avatarfiles.alphacoders.com/252/thumb-252266.jpg"
+      ]
+    },
+    {
+      "id": 12221,
+      "name": "Lê Bảo Linh 1",
       "rating": 4.5,
       "createdAt": "2021-01-03",
       "content": "Lorem ipsum dolor sit amet, consectetur scing elit. Eget morbi convallis pharetra morbi vulput sit. Pellentesque cras. Pellentesque cras Lorem ipsum dolor sit amet, consectetur scing elit. Eget morbi convallis pharetra morbi vulput sit. Pellentesque cras. Pellentesque cras",

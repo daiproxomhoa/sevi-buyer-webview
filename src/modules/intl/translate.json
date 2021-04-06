@@ -59,6 +59,9 @@
   "search.rating": ["Đánh giá", ""],
   "search.info": ["Thông tin", ""],
   "search.loading": ["Đang tải dữ liệu", ""],
+  "search.noReview": ["Chưa có đánh giá", ""],
+  "search.attitude": ["Thái độ phục vụ", ""],
+  "search.reviewCount": ["Lượt đánh giá", ""],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],

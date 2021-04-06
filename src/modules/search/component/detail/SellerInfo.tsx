@@ -3,7 +3,7 @@ import React from "react";
 interface Props {}
 
 const SellerInfo = (props: Props) => {
-  return <div></div>;
+  return <div>SellerInfo</div>;
 };
 
 export default SellerInfo;

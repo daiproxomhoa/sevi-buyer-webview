@@ -1,20 +1,17 @@
+import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
 import FilterBox from "../component/FilterBox";
 import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
-import { fetchSellerDetail, sellerSearch } from "../redux/searchReducer";
-import queryString from "query-string";
-import SellerDetailBox from "../component/detail/SellerDetailBox";
-import SellerRequestBox from "../component/request/SellerRequestBox";
 import { ISeller } from "../model";
-import { some } from "../../common/constants";
-import { SUCCESS_CODE } from "../../../constants";
+import { sellerSearch } from "../redux/searchReducer";
 
 const mapStateToProps = (state: AppState) => ({
   data: state.search.data,
@@ -30,9 +27,6 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [openFilter, setOpenFilter] = React.useState<boolean>(false);
-  const [openSellerDetail, setOpenSellerDetail] = React.useState(false);
-  const [openSellerRequest, setOpenSellerRequest] = React.useState(false);
-  const [sellerDetail, setSellerDetail] = React.useState<some>();
 
   const searchParams = React.useMemo(() => {
     return queryString.parse(history.location.search);
@@ -66,17 +60,14 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     [dispatch]
   );
 
-  const onFetchSellerDetail = React.useCallback(
+  const onViewSearchDetail = React.useCallback(
     async (info: ISeller) => {
-      const json = await dispatch(fetchSellerDetail(info.id));
-      console.log(json);
-
-      if (json.status === SUCCESS_CODE) {
-        setSellerDetail(json.body);
-        setOpenSellerDetail(true);
-      }
+      history.push({
+        pathname: ROUTES.searchDetail,
+        search: queryString.stringify({ id: info.id }),
+      });
     },
-    [dispatch]
+    [history]
   );
 
   return (
@@ -93,23 +84,11 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
           loading={loading}
           searchParams={searchParams}
           data={data}
-          onSelectSeller={(info: ISeller) => onFetchSellerDetail(info)}
+          onSelectSeller={(info: ISeller) => onViewSearchDetail(info)}
         />
       </PageWrapper>
 
       <FilterBox open={openFilter} onClose={() => setOpenFilter(false)} />
-
-      <SellerDetailBox
-        open={openSellerDetail}
-        info={sellerDetail}
-        onClose={() => setOpenSellerDetail(false)}
-        onSendRequest={() => setOpenSellerRequest(true)}
-      />
-
-      <SellerRequestBox
-        open={openSellerRequest}
-        onClose={() => setOpenSellerRequest(false)}
-      />
     </>
   );
 };
