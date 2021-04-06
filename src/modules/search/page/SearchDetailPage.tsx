@@ -6,7 +6,10 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
-import { PageWrapper } from "../../common/component/elements";
+import {
+  PageWrapper,
+  PageWrapperNoScroll,
+} from "../../common/component/elements";
 import { some } from "../../common/constants";
 import SellerDetailBox from "../component/detail/SellerDetailBox";
 import { ISeller } from "../model";
@@ -41,14 +44,14 @@ const SearchDetailPage = (props: Props) => {
   }, [fetchData]);
 
   return (
-    <PageWrapper>
+    <PageWrapperNoScroll>
       <SellerDetailBox
         loading={loading}
         info={sellerDetail}
         onClose={() => history.goBack()}
         onSendRequest={() => {}}
       />
-    </PageWrapper>
+    </PageWrapperNoScroll>
   );
 };
 

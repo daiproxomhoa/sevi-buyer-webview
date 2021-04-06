@@ -15,7 +15,12 @@ const SellerRating = (props: Props) => {
   const { info } = props;
 
   return (
-    <div style={{ padding: "24px 0" }}>
+    <div
+      style={{
+        overflow: "auto",
+        WebkitOverflowScrolling: "touch",
+      }}
+    >
       {!info?.ratingCount ? (
         <CardDiv>
           <Typography

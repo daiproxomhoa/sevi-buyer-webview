@@ -34,7 +34,15 @@ const SellerDetailBox = (props: Props) => {
           left: 0,
         }}
       />
-      <div style={{ zIndex: 2, padding: 24 }}>
+      <div
+        style={{
+          zIndex: 2,
+          padding: "24px 24px 0",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
         <div style={{ padding: "12px 0" }}>
           <WhiteIconButton onClick={onClose}>
             <ChevronLeftIcon style={{ width: "20px", height: "20px" }} />
@@ -70,7 +78,7 @@ const SellerDetailBox = (props: Props) => {
         </div>
 
         <HeaderTab
-          style={{ margin: 0 }}
+          style={{ margin: "0px 0px 4px" }}
           tabIndex={tabIndex}
           tabList={[
             intl.formatMessage({ id: "search.rating" }),
@@ -103,12 +111,7 @@ const SellerDetailBox = (props: Props) => {
 
       <div
         style={{
-          position: "fixed",
-          bottom: 10,
-          left: 0,
-          right: 0,
-          zIndex: 5001,
-          padding: 24,
+          padding: "4px 24px 24px",
         }}
       >
         <Button
