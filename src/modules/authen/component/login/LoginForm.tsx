@@ -84,7 +84,7 @@ const LoginForm = (props: Props) => {
         )}
 
         <Button
-          style={{ margin: "12px 0" }}
+          style={{ margin: "24px 0px 12px" }}
           variant="contained"
           color="primary"
           fullWidth
