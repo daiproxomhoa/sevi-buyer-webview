@@ -1,5 +1,4 @@
 import {
-  AppBar,
   Avatar,
   Box,
   ButtonBase,
@@ -8,14 +7,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { ReactComponent as IconDotList } from "../../../svg/ic_dot_list.svg";
 import { FormattedMessage } from "react-intl";
 import { GREY_300 } from "../../../configs/colors";
 import { ROUTES } from "../../../configs/routes";
-import { RawLink } from "../../common/component/Link";
-import { CssIconButton } from "../../common/component/IconButton";
-import { ReactComponent as BackIcon } from "../../../svg/chevron-back.svg";
+import { ReactComponent as IconDotList } from "../../../svg/ic_dot_list.svg";
 import Header from "../../common/component/Header";
+import { RawLink } from "../../common/component/Link";
 
 interface Props {
   action?: () => void;

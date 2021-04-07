@@ -7,7 +7,6 @@ import {
   Popover,
   Slider,
   Theme,
-  Tooltip,
   Typography,
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -16,7 +15,7 @@ import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { LIGHT_GREY, PRIMARY, BACKGROUND } from "../../../configs/colors";
+import { LIGHT_GREY, PRIMARY } from "../../../configs/colors";
 import { SlideUp } from "../../common/component/elements";
 
 const FilterDialog = withStyles((theme: Theme) => ({

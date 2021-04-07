@@ -6,10 +6,7 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
-import {
-  PageWrapper,
-  PageWrapperNoScroll,
-} from "../../common/component/elements";
+import { PageWrapperNoScroll } from "../../common/component/elements";
 import { some } from "../../common/constants";
 import SellerDetailBox from "../component/detail/SellerDetailBox";
 import { ISeller } from "../model";

@@ -24,7 +24,7 @@ interface Props {}
 
 const EditProfile = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { data, loading } = useSelector((state: AppState) => state.profile);
+  const { data } = useSelector((state: AppState) => state.profile);
   const history = useHistory();
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();

@@ -79,7 +79,6 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
           onSellerSearch={onSellerSearch}
           openFilter={() => setOpenFilter(true)}
         />
-
         <SearchResultBox
           loading={loading}
           searchParams={searchParams}

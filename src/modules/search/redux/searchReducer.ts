@@ -26,7 +26,6 @@ export const searchKeyword = (
   str: string
 ): ThunkAction<Promise<string[]>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    const state = getState();
     fetchMock.post(API_PATHS.searchKeyword, searchSuggestData, {
       delay: 300,
     });
@@ -50,7 +49,7 @@ export const searchKeyword = (
 
 export const sellerSearch = (
   params: ISellerSearchParams
-): ThunkAction<void, AppState, null, Action<string>> => {
+): ThunkAction<Promise<void>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
     fetchMock.post(API_PATHS.sellerSearch, searchWorkerData, {
       delay: 300,

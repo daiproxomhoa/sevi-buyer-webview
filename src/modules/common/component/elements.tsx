@@ -25,6 +25,7 @@ import {
   LIGHT_GREY,
 } from "../../../configs/colors";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
+import { ReactComponent as HeaderSVG } from "../../../svg/header.svg";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 export const PageWrapper = styled.div`
@@ -44,12 +45,35 @@ export const PageWrapperNoScroll = styled.div`
   flex-direction: column;
 `;
 
-export const HeaderDiv = styled.div`
+interface HeaderDivProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
+  return (
+    <HeaderDivCore {...rest}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: -100,
+          bottom: 0,
+          overflow: "hidden",
+        }}
+      >
+        <HeaderSVG />
+      </div>
+      {children}
+    </HeaderDivCore>
+  );
+};
+
+const HeaderDivCore = styled.div`
   top: 0;
   position: sticky;
   position: -webkit-sticky;
   border-radius: 0px 0px 32px 32px;
-  padding: 48px 24px 24px;
+  padding: 28px 24px 24px 24px;
   background: linear-gradient(
     96deg,
     rgb(255, 174, 70) -31.54%,

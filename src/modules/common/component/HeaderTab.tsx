@@ -1,5 +1,4 @@
 import React from "react";
-import { useIntl } from "react-intl";
 import { CustomTab, CustomTabs } from "./CustomTab";
 
 interface Props {

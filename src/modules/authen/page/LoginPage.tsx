@@ -1,6 +1,4 @@
 import { Typography } from "@material-ui/core";
-import { replace } from "connected-react-router";
-import { set } from "js-cookie";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
@@ -11,7 +9,6 @@ import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
 import { RawLink } from "../../common/component/Link";
-import { TOKEN } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
 import HeaderBox from "../component/HeaderBox";
 import LoginForm from "../component/login/LoginForm";
@@ -40,9 +37,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
 
       if (json?.body?.tokenSignature) {
         dispatch(authenIn());
-        set(TOKEN, json.body.tokenSignature);
         dispatch(setAuthData({ ...json.body }));
-        dispatch(replace({ pathname: ROUTES.search }));
         return;
       }
 

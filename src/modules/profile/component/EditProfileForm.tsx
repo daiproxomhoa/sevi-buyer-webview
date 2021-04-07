@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
@@ -22,7 +21,6 @@ interface Props {
 
 const EditProfileForm = (props: Props) => {
   const { profile, onSubmit } = props;
-  const history = useHistory();
   const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { register, handleSubmit, errors, control, reset, watch } = useForm({

@@ -15,6 +15,8 @@ import ForgetPasswordPage from "./modules/authen/page/ForgetPasswordPage";
 import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
 import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
+import ProtectedRoute from "./modules/common/component/ProtectedRoute";
+import RedirectRoute from "./modules/common/component/RedirectRoute";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
 import EditProfile from "./modules/profile/page/EditProfile";
 import ProfilePage from "./modules/profile/page/ProfilePage";
@@ -36,13 +38,14 @@ export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
 
 const mapStateToProps = (state: AppState) => ({
   router: state.router,
+  authen: state.authen.authen,
 });
 
 interface Props
   extends ReturnType<typeof mapStateToProps>,
     WithStyles<typeof bodyStyles> {}
 
-const App: React.FC<Props> = ({ router, classes }) => {
+const App: React.FC<Props> = ({ router, classes, authen }) => {
   const { action } = router;
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
   const lastRouteYOffsetRef = React.useRef(0);
@@ -96,36 +99,56 @@ const App: React.FC<Props> = ({ router, classes }) => {
             return (
               <div style={{ ...style, width: "100%" }}>
                 <Switch location={location}>
-                  <Route exact path={ROUTES.login} component={LoginPage} />
+                  <RedirectRoute
+                    auth={authen}
+                    exact
+                    path={ROUTES.login}
+                    component={LoginPage}
+                  />
                   <Route exact path={ROUTES.signUp} component={SignUpPage} />
                   <Route
                     exact
                     path={ROUTES.verifyOtp}
                     component={VerifyOtpPage}
                   />
-                  <Route
+                  <ProtectedRoute
+                    auth={authen}
                     exact
                     path={ROUTES.forgotPass}
                     component={ForgetPasswordPage}
                   />
-                  <Route exact path={ROUTES.search} component={SearchPage} />
-                  <Route
+                  <ProtectedRoute
+                    auth={authen}
+                    exact
+                    path={ROUTES.search}
+                    component={SearchPage}
+                  />
+                  <ProtectedRoute
+                    auth={authen}
                     exact
                     path={ROUTES.searchDetail}
                     component={SearchDetailPage}
                   />
-                  <Route
+                  <ProtectedRoute
+                    auth={authen}
                     exact
                     path={ROUTES.request}
                     component={RequestListPage}
                   />
-                  <Route
+                  <ProtectedRoute
+                    auth={authen}
                     exact
                     path={ROUTES.rating}
                     component={RatingListPage}
                   />
-                  <Route exact path={ROUTES.profile} component={ProfilePage} />
-                  <Route
+                  <ProtectedRoute
+                    auth={authen}
+                    exact
+                    path={ROUTES.profile}
+                    component={ProfilePage}
+                  />
+                  <ProtectedRoute
+                    auth={authen}
                     exact
                     path={ROUTES.editProfile}
                     component={EditProfile}
