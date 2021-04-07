@@ -10,12 +10,11 @@ import { RawLink } from "../../../common/component/Link";
 import { defaultLoginData, ILogin } from "../../model";
 
 interface Props {
-  errorMessage?: string;
   onSubmit(data: ILogin): void;
 }
 
 const LoginForm = (props: Props) => {
-  const { errorMessage, onSubmit } = props;
+  const { onSubmit } = props;
   const intl = useIntl();
 
   const { handleSubmit, errors, control } = useForm<ILogin>({
@@ -75,13 +74,9 @@ const LoginForm = (props: Props) => {
           )}
         />
 
-        <FormHelperText error>{errors?.password?.message}</FormHelperText>
-
-        {!!errorMessage && (
-          <FormHelperText error style={{ textAlign: "center" }}>
-            <FormattedMessage id={`auth.${errorMessage}`} />
-          </FormHelperText>
-        )}
+        <FormHelperText error>
+          {errors?.password?.message || " "}
+        </FormHelperText>
 
         <Button
           style={{ margin: "24px 0px 12px" }}

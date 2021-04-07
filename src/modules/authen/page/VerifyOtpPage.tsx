@@ -1,6 +1,5 @@
 import { Typography } from "@material-ui/core";
 import { replace } from "connected-react-router";
-import { set } from "js-cookie";
 import queryString from "query-string";
 import React, { useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -12,7 +11,7 @@ import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
-import { RESPONSE_STATUS, TOKEN } from "../../common/constants";
+import { RESPONSE_STATUS } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
 import HeaderBox from "../component/HeaderBox";
 import { CountDown } from "../component/signUp/CountDown";
@@ -50,7 +49,6 @@ const VerifyOtpPage = (props: Props) => {
     setLoading(false);
     if (json?.body?.tokenSignature) {
       dispatch(authenIn());
-      set(TOKEN, json.body.tokenSignature);
       dispatch(replace({ pathname: ROUTES.search }));
       return;
     }

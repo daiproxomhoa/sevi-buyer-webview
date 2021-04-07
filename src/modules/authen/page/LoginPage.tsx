@@ -1,6 +1,7 @@
 import { Typography } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 import React from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { connect } from "react-redux";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -22,12 +23,13 @@ interface ILoginPageProps {
 const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
   const { dispatch } = props;
   const [loading, setLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const { enqueueSnackbar } = useSnackbar();
+  const intl = useIntl();
 
   const onSubmit = React.useCallback(
     async (values: ILogin) => {
       setLoading(true);
-      setErrorMessage("");
 
       const json = await dispatch(
         fetchThunk(API_PATHS.passwordSignIn, "post", JSON.stringify(values))
@@ -41,9 +43,15 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
         return;
       }
 
-      setErrorMessage(json?.body?.status);
+      enqueueSnackbar(
+        intl.formatMessage({ id: `auth.${json?.body?.status}` }),
+        {
+          anchorOrigin: { horizontal: "center", vertical: "top" },
+          variant: "error",
+        }
+      );
     },
-    [dispatch]
+    [dispatch, enqueueSnackbar, intl]
   );
 
   return (
@@ -57,15 +65,14 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
         }
       />
 
-      <LoginForm errorMessage={errorMessage} onSubmit={onSubmit} />
+      <LoginForm onSubmit={onSubmit} />
 
       <div
         style={{
           display: "flex",
-          flex: 1,
           justifyContent: "center",
           alignItems: "flex-end",
-          marginBottom: "52px",
+          marginBottom: "22px",
         }}
       >
         <Typography variant="body2" color="textSecondary">
