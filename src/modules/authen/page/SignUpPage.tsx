@@ -1,8 +1,9 @@
 import { Typography } from "@material-ui/core";
 import { push } from "connected-react-router";
+import { useSnackbar } from "notistack";
 import queryString from "query-string";
 import React, { useCallback, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -22,8 +23,10 @@ interface ISignUpPageProps {}
 
 const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const { enqueueSnackbar } = useSnackbar();
+  const intl = useIntl();
+
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = useCallback(
     async (values: ISignUp) => {
@@ -45,9 +48,15 @@ const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
         return;
       }
 
-      setErrorMessage(json?.body?.status);
+      enqueueSnackbar(
+        intl.formatMessage({ id: `auth.${json?.body?.status}` }),
+        {
+          anchorOrigin: { horizontal: "center", vertical: "top" },
+          variant: "error",
+        }
+      );
     },
-    [dispatch]
+    [dispatch, enqueueSnackbar, intl]
   );
 
   return (
@@ -61,7 +70,7 @@ const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
         }
       />
 
-      <SignUpForm errorMessage={errorMessage} onSubmit={onSubmit} />
+      <SignUpForm onSubmit={onSubmit} />
 
       <Footer />
 

@@ -1,14 +1,13 @@
 import { Typography } from "@material-ui/core";
-import { replace } from "connected-react-router";
+import { useSnackbar } from "notistack";
 import queryString from "query-string";
 import React, { useCallback, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
-import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
 import { RESPONSE_STATUS } from "../../common/constants";
@@ -19,7 +18,7 @@ import Footer from "../component/signUp/Footer";
 import VerifyOtpForm from "../component/signUp/VerifyOtpForm";
 import { OTP_VALID_SECONDS } from "../constants";
 import { defaultSignUpData, ISignUp } from "../model";
-import { authenIn } from "../redux/authenReducer";
+import { authenIn, setAuthData } from "../redux/authenReducer";
 
 interface Props {}
 
@@ -27,10 +26,12 @@ const VerifyOtpPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const location = useLocation();
 
+  const { enqueueSnackbar } = useSnackbar();
+  const intl = useIntl();
+
   const [signUpData, setSignUpData] = useState<ISignUp>(defaultSignUpData);
   const [loading, setLoading] = useState(false);
   const [counting, setCounting] = useState(OTP_VALID_SECONDS);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const updateQueryParams = useCallback(() => {
     if (location.search) {
@@ -41,7 +42,6 @@ const VerifyOtpPage = (props: Props) => {
 
   const onSubmit = useCallback(async () => {
     setLoading(true);
-    setErrorMessage("");
     const json = await dispatch(
       fetchThunk(API_PATHS.signUp, "post", JSON.stringify(signUpData))
     );
@@ -49,12 +49,15 @@ const VerifyOtpPage = (props: Props) => {
     setLoading(false);
     if (json?.body?.tokenSignature) {
       dispatch(authenIn());
-      dispatch(replace({ pathname: ROUTES.search }));
+      dispatch(setAuthData({ ...json.body }));
       return;
     }
 
-    setErrorMessage(json?.body?.status);
-  }, [dispatch, signUpData]);
+    enqueueSnackbar(intl.formatMessage({ id: `auth.${json?.body?.status}` }), {
+      anchorOrigin: { horizontal: "center", vertical: "top" },
+      variant: "error",
+    });
+  }, [dispatch, enqueueSnackbar, intl, signUpData]);
 
   const onResend = useCallback(async () => {
     setLoading(true);
@@ -99,11 +102,7 @@ const VerifyOtpPage = (props: Props) => {
         }
       />
 
-      <VerifyOtpForm
-        data={signUpData}
-        errorMessage={errorMessage}
-        onSubmit={onSubmit}
-      />
+      <VerifyOtpForm data={signUpData} onSubmit={onSubmit} />
 
       <CountDown
         key={counting}

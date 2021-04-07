@@ -5,7 +5,7 @@ export interface ISearchRecent {
 
 export interface ISeller {
   id: string;
-  avatar: string;
+  avatar: number;
   familyName: string;
   givenName: string;
   sellerType: string;

@@ -1,22 +1,21 @@
 import { Button, FormHelperText } from "@material-ui/core";
 import PhonelinkLockIcon from "@material-ui/icons/PhonelinkLock";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
-import { FormControlFreeTextField } from "../../../common/component/Form";
+import { FreeTextField } from "../../../common/component/elements";
 import { ISignUp } from "../../model";
 
 interface Props {
   data: ISignUp;
-  errorMessage?: string;
   onSubmit(values: ISignUp): void;
 }
 
 const VerifyOtpForm = (props: Props) => {
-  const { data, errorMessage, onSubmit } = props;
+  const { data, onSubmit } = props;
   const intl = useIntl();
 
-  const { register, handleSubmit, errors } = useForm<ISignUp>({
+  const { control, handleSubmit, errors } = useForm<ISignUp>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: data,
@@ -29,31 +28,28 @@ const VerifyOtpForm = (props: Props) => {
         margin: "24px 24px 0",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
       }}
     >
-      <FormControlFreeTextField
+      <Controller
         name="otp"
-        placeholder={intl.formatMessage({ id: "auth.enterOtp" })}
-        inputRef={register({
+        control={control}
+        rules={{
           required: intl.formatMessage({ id: "required" }),
-        })}
-        inputProps={{
-          maxLength: 6,
         }}
-        fullWidth
-        errorMessage={errors.otp?.message}
-        type="number"
-        startAdornmentIcon={
-          <PhonelinkLockIcon style={{ width: "20px", height: "20px" }} />
-        }
+        render={({ onChange, value }) => (
+          <FreeTextField
+            value={value}
+            placeholder={intl.formatMessage({ id: "auth.enterOtp" })}
+            type="number"
+            startAdornmentIcon={
+              <PhonelinkLockIcon style={{ width: "20px", height: "20px" }} />
+            }
+            onChange={onChange}
+          />
+        )}
       />
 
-      {!!errorMessage && (
-        <FormHelperText error style={{ textAlign: "center" }}>
-          <FormattedMessage id={`auth.${errorMessage}`} />
-        </FormHelperText>
-      )}
+      <FormHelperText error>{errors?.otp?.message}</FormHelperText>
 
       <Button
         style={{ marginTop: "12px", marginBottom: "12px" }}

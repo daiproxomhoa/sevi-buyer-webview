@@ -3,21 +3,20 @@ import PersonIcon from "@material-ui/icons/Person";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
-import { FormControlFreeTextField } from "../../../common/component/Form";
+import { FreeTextField } from "../../../common/component/elements";
 import { defaultSignUpData, ISignUp } from "../../model";
 
 interface Props {
-  errorMessage?: string;
   onSubmit(data: ISignUp): void;
 }
 
 const SignUpForm = (props: Props) => {
-  const { errorMessage, onSubmit } = props;
+  const { onSubmit } = props;
   const intl = useIntl();
 
-  const { register, handleSubmit, errors, getValues } = useForm<ISignUp>({
+  const { handleSubmit, errors, control, getValues } = useForm<ISignUp>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: defaultSignUpData,
@@ -30,75 +29,87 @@ const SignUpForm = (props: Props) => {
         margin: "24px",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
       }}
     >
-      <FormControlFreeTextField
+      <Controller
         name="id"
-        placeholder={intl.formatMessage({ id: "phoneNumber" })}
-        inputRef={register({
-          required: intl.formatMessage({ id: "required" }),
-        })}
-        inputProps={{
-          maxLength: 10,
-        }}
-        fullWidth
-        errorMessage={errors.id?.message}
-        type="tel"
-        startAdornmentIcon={
-          <PhoneIphoneIcon style={{ width: "20px", height: "20px" }} />
-        }
+        control={control}
+        rules={{ required: intl.formatMessage({ id: "required" }) }}
+        render={({ onChange, value }) => (
+          <FreeTextField
+            value={value}
+            placeholder={intl.formatMessage({ id: "phoneNumber" })}
+            type="tel"
+            startAdornmentIcon={
+              <PhoneIphoneIcon style={{ width: "20px", height: "20px" }} />
+            }
+            onChange={onChange}
+          />
+        )}
       />
 
-      <FormControlFreeTextField
+      <FormHelperText error>{errors?.id?.message}</FormHelperText>
+
+      <Controller
         name="name"
-        placeholder={intl.formatMessage({ id: "name" })}
-        inputRef={register({
-          required: intl.formatMessage({ id: "required" }),
-        })}
-        fullWidth
-        errorMessage={errors.name?.message}
-        startAdornmentIcon={
-          <PersonIcon style={{ width: "20px", height: "20px" }} />
-        }
+        control={control}
+        rules={{ required: intl.formatMessage({ id: "required" }) }}
+        render={({ onChange, value }) => (
+          <FreeTextField
+            value={value}
+            placeholder={intl.formatMessage({ id: "name" })}
+            startAdornmentIcon={
+              <PersonIcon style={{ width: "20px", height: "20px" }} />
+            }
+            onChange={onChange}
+          />
+        )}
       />
 
-      <FormControlFreeTextField
+      <FormHelperText error>{errors?.name?.message}</FormHelperText>
+
+      <Controller
         name="password"
-        placeholder={intl.formatMessage({ id: "password" })}
-        inputRef={register({
-          required: intl.formatMessage({ id: "required" }),
-        })}
-        fullWidth
-        errorMessage={errors.password?.message}
-        type="password"
-        startAdornmentIcon={
-          <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
-        }
+        control={control}
+        rules={{ required: intl.formatMessage({ id: "required" }) }}
+        render={({ onChange, value }) => (
+          <FreeTextField
+            value={value}
+            placeholder={intl.formatMessage({ id: "password" })}
+            type="password"
+            startAdornmentIcon={
+              <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
+            }
+            onChange={onChange}
+          />
+        )}
       />
 
-      <FormControlFreeTextField
+      <FormHelperText error>{errors?.password?.message}</FormHelperText>
+
+      <Controller
         name="confirmPassword"
-        placeholder={intl.formatMessage({ id: "repeatPassword" })}
-        inputRef={register({
+        control={control}
+        rules={{
           required: intl.formatMessage({ id: "required" }),
           validate: (value) =>
             value === getValues("password") ||
             intl.formatMessage({ id: "auth.confirmPasswordNotMatch" }),
-        })}
-        fullWidth
-        errorMessage={errors.confirmPassword?.message}
-        type="password"
-        startAdornmentIcon={
-          <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
-        }
+        }}
+        render={({ onChange, value }) => (
+          <FreeTextField
+            value={value}
+            placeholder={intl.formatMessage({ id: "repeatPassword" })}
+            type="password"
+            startAdornmentIcon={
+              <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
+            }
+            onChange={onChange}
+          />
+        )}
       />
 
-      {!!errorMessage && (
-        <FormHelperText error style={{ textAlign: "center" }}>
-          <FormattedMessage id={`auth.${errorMessage}`} />
-        </FormHelperText>
-      )}
+      <FormHelperText error>{errors?.confirmPassword?.message}</FormHelperText>
 
       <Button
         style={{ marginTop: "12px", marginBottom: "12px" }}
