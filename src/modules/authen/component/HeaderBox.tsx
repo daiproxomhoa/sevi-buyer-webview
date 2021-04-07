@@ -14,7 +14,7 @@ const HeaderBox = (props: Props) => {
   return (
     <div
       style={{
-        margin: "98px 16px 12px",
+        margin: "7vh 16px 12px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
