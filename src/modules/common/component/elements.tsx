@@ -82,6 +82,7 @@ const HeaderDivCore = styled.div`
     rgb(192, 15, 167) 98.43%
   );
   z-index: 1;
+  overflow: hidden;
 `;
 
 export const CardDiv = styled.div`
