@@ -22,7 +22,7 @@ const setLoading = createCustomAction(
     data,
   })
 );
-export function fetchTicketDataAndInsurancePackage(): ThunkAction<
+export function fetchProfile(): ThunkAction<
   Promise<void>,
   AppState,
   null,

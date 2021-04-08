@@ -17,7 +17,7 @@ import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
 import EditProfileForm from "../component/EditProfileForm";
 import HeaderProfile from "../component/HeaderProfile";
-import { fetchTicketDataAndInsurancePackage } from "../redux/profileReducer";
+import { fetchProfile } from "../redux/profileReducer";
 import { setData } from "../redux/profileReducer";
 
 interface Props {}
@@ -50,7 +50,7 @@ const EditProfile = (props: Props) => {
 
   useEffect(() => {
     if (!data) {
-      dispatch(fetchTicketDataAndInsurancePackage());
+      dispatch(fetchProfile());
     }
   }, [data, dispatch]);
 

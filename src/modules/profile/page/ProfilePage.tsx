@@ -9,7 +9,7 @@ import { PageWrapperNoScroll } from "../../common/component/elements";
 import LoadingIcon from "../../common/component/LoadingIcon";
 import HeaderProfile from "../component/HeaderProfile";
 import InfoBox from "../component/InfoBox";
-import { fetchTicketDataAndInsurancePackage } from "../redux/profileReducer";
+import { fetchProfile } from "../redux/profileReducer";
 
 interface Props {}
 
@@ -19,7 +19,7 @@ const ProfilePage = (props: Props) => {
 
   useEffect(() => {
     if (!data) {
-      dispatch(fetchTicketDataAndInsurancePackage());
+      dispatch(fetchProfile());
     }
   }, [dispatch, data]);
 
