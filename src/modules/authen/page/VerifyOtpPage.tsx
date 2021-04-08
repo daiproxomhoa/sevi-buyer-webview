@@ -12,6 +12,7 @@ import { AppState } from "../../../redux/reducer";
 import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
 import { RESPONSE_STATUS } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
+import { fetchProfile } from "../../profile/redux/profileReducer";
 import HeaderBox from "../component/HeaderBox";
 import { CountDown } from "../component/signUp/CountDown";
 import Footer from "../component/signUp/Footer";
@@ -50,6 +51,7 @@ const VerifyOtpPage = (props: Props) => {
     if (json?.body?.tokenSignature) {
       dispatch(authenIn());
       dispatch(setAuthData({ ...json.body }));
+      dispatch(fetchProfile());
       return;
     }
 

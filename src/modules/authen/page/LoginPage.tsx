@@ -11,6 +11,7 @@ import { AppState } from "../../../redux/reducer";
 import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
 import { RawLink } from "../../common/component/Link";
 import { fetchThunk } from "../../common/redux/thunk";
+import { fetchProfile } from "../../profile/redux/profileReducer";
 import HeaderBox from "../component/HeaderBox";
 import LoginForm from "../component/login/LoginForm";
 import { ILogin } from "../model";
@@ -40,6 +41,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
       if (json?.body?.tokenSignature) {
         dispatch(authenIn());
         dispatch(setAuthData({ ...json.body }));
+        dispatch(fetchProfile());
         return;
       }
 
