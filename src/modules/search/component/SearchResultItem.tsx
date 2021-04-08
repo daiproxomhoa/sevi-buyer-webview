@@ -2,6 +2,7 @@ import { Avatar, fade, ListItem, Typography } from "@material-ui/core";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
+import { API_PATHS } from "../../../configs/api";
 import { LIGHT_GREY, PRIMARY, SECONDARY } from "../../../configs/colors";
 import { ISeller } from "../model";
 
@@ -27,7 +28,7 @@ const SearchResultItem = (props: Props) => {
     >
       <Avatar
         alt={info.givenName}
-        src={info.avatar}
+        src={`${API_PATHS.getBuyer}`}
         style={{ width: "40px", height: "40px" }}
       />
       <div

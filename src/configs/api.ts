@@ -3,7 +3,7 @@ import { APIHost } from "./../modules/common/constants";
 enum APIService {
   auth,
   protected,
-  seller,
+  public,
 }
 
 function getBaseUrl(service: APIService) {
@@ -11,6 +11,8 @@ function getBaseUrl(service: APIService) {
     return `${APIHost}/auth`;
   } else if (service === APIService.protected) {
     return `${APIHost}/protected`;
+  } else if (service === APIService.public) {
+    return `${APIHost}`;
   }
 
   return "";
@@ -25,7 +27,8 @@ export const API_PATHS = {
   getBuyer: `${getBaseUrl(APIService.protected)}/buyer/get`,
 
   sellerSearch: `${getBaseUrl(APIService.protected)}/seller/search`,
-  sellerDetail: `${getBaseUrl(APIService.protected)}/seller/detail`,
+  sellerDetail: (id: string) =>
+    `${getBaseUrl(APIService.protected)}/seller/get?id=${id}`,
 
   popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
   searchKeyword: `${getBaseUrl(APIService.protected)}/protected/seller/search`,
