@@ -1,8 +1,7 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const router = {
-  "/api/auth": "https://buyer.freeginar.com/auth",
-  "/api/protected": "https://buyer.freeginar.com/protected",
+  "/api": "https://buyer.freeginar.com/",
 };
 
 module.exports = function (app) {
@@ -13,8 +12,7 @@ module.exports = function (app) {
       changeOrigin: true,
       secure: false,
       pathRewrite: {
-        "^/api/auth": "/",
-        "^/api/protected": "/",
+        "^/api": "/",
       },
       router,
       logLevel: "debug",
