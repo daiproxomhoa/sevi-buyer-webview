@@ -69,7 +69,7 @@ export const sellerSearch = (
 
 export const fetchSellerDetail = (
   id: string
-): ThunkAction<some, AppState, null, Action<string>> => {
+): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
     fetchMock.get(`${API_PATHS.sellerDetail}?id=${id}`, sellerDetailData, {
       delay: 200,

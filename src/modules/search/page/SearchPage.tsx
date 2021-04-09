@@ -1,7 +1,8 @@
+import { push, replace } from "connected-react-router";
 import queryString from "query-string";
 import * as React from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { ROUTES } from "../../../configs/routes";
@@ -23,22 +24,26 @@ interface ISearchPageProps extends ReturnType<typeof mapStateToProps> {
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   const { dispatch, data } = props;
-  const history = useHistory();
+
+  const location = useLocation();
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [openFilter, setOpenFilter] = React.useState<boolean>(false);
 
   const searchParams = React.useMemo(() => {
-    return queryString.parse(history.location.search);
-  }, [history.location.search]);
+    return queryString.parse(location.search);
+  }, [location]);
+  console.log(location.search, searchParams);
 
   const setSearchParams = React.useCallback(
     (search: string) => {
-      history.replace({
-        search: queryString.stringify({ search }),
-      });
+      dispatch(
+        replace({
+          search: queryString.stringify({ search }),
+        })
+      );
     },
-    [history]
+    [dispatch]
   );
 
   const onSellerSearch = React.useCallback(
@@ -62,12 +67,14 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
   const onViewSearchDetail = React.useCallback(
     async (info: ISeller) => {
-      history.push({
-        pathname: ROUTES.searchDetail,
-        search: queryString.stringify({ id: info.id }),
-      });
+      dispatch(
+        push({
+          pathname: ROUTES.searchDetail,
+          search: queryString.stringify({ id: info.id }),
+        })
+      );
     },
-    [history]
+    [dispatch]
   );
 
   return (

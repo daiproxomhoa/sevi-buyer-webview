@@ -1,7 +1,8 @@
+import { goBack } from "connected-react-router";
 import queryString from "query-string";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { SUCCESS_CODE } from "../../../constants";
@@ -16,15 +17,13 @@ interface Props {}
 
 const SearchDetailPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const history = useHistory();
+  const location = useLocation();
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [sellerDetail, setSellerDetail] = React.useState<some>();
 
   const fetchData = React.useCallback(async () => {
-    const info = (queryString.parse(
-      history.location.search
-    ) as unknown) as ISeller;
+    const info = (queryString.parse(location.search) as unknown) as ISeller;
 
     setLoading(true);
     const json = await dispatch(fetchSellerDetail(info.id));
@@ -34,7 +33,7 @@ const SearchDetailPage = (props: Props) => {
     if (json.status === SUCCESS_CODE) {
       setSellerDetail(json.body);
     }
-  }, [dispatch, history.location.search]);
+  }, [dispatch, location]);
 
   React.useEffect(() => {
     fetchData();
@@ -45,7 +44,9 @@ const SearchDetailPage = (props: Props) => {
       <SellerDetailBox
         loading={loading}
         info={sellerDetail}
-        onClose={() => history.goBack()}
+        onClose={() => {
+          dispatch(goBack());
+        }}
         onSendRequest={() => {}}
       />
     </PageWrapperNoScroll>
