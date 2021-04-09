@@ -139,7 +139,7 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
     <CustomInput
       {...rest}
       style={{
-        margin: "8px 0",
+        margin: "4px 0 0 0",
       }}
       fullWidth
       disableUnderline

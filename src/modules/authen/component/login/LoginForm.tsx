@@ -26,7 +26,7 @@ const LoginForm = (props: Props) => {
   return (
     <div
       style={{
-        margin: "24px",
+        margin: "16px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -34,7 +34,7 @@ const LoginForm = (props: Props) => {
     >
       <form
         style={{
-          width: "100%",
+          alignSelf: "stretch",
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -55,7 +55,7 @@ const LoginForm = (props: Props) => {
           )}
         />
 
-        <FormHelperText error>{errors?.id?.message}</FormHelperText>
+        <FormHelperText error>{errors?.id?.message || " "}</FormHelperText>
 
         <Controller
           name="password"
@@ -79,7 +79,7 @@ const LoginForm = (props: Props) => {
         </FormHelperText>
 
         <Button
-          style={{ margin: "24px 0px 12px" }}
+          style={{ margin: "10px 0px 12px" }}
           variant="contained"
           color="primary"
           fullWidth

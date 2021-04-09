@@ -48,7 +48,7 @@ const SignUpForm = (props: Props) => {
         )}
       />
 
-      <FormHelperText error>{errors?.id?.message}</FormHelperText>
+      <FormHelperText error>{errors?.id?.message || " "}</FormHelperText>
 
       <Controller
         name="name"
@@ -66,7 +66,7 @@ const SignUpForm = (props: Props) => {
         )}
       />
 
-      <FormHelperText error>{errors?.name?.message}</FormHelperText>
+      <FormHelperText error>{errors?.name?.message || " "}</FormHelperText>
 
       <Controller
         name="password"
@@ -85,7 +85,7 @@ const SignUpForm = (props: Props) => {
         )}
       />
 
-      <FormHelperText error>{errors?.password?.message}</FormHelperText>
+      <FormHelperText error>{errors?.password?.message || " "}</FormHelperText>
 
       <Controller
         name="confirmPassword"
@@ -109,7 +109,9 @@ const SignUpForm = (props: Props) => {
         )}
       />
 
-      <FormHelperText error>{errors?.confirmPassword?.message}</FormHelperText>
+      <FormHelperText error>
+        {errors?.confirmPassword?.message || " "}
+      </FormHelperText>
 
       <Button
         style={{ marginTop: "12px", marginBottom: "12px" }}
