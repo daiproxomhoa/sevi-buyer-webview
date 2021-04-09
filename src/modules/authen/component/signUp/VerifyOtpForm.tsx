@@ -40,8 +40,9 @@ const VerifyOtpForm = (props: Props) => {
         rules={{
           required: intl.formatMessage({ id: "required" }),
         }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
+            inputRef={ref}
             value={value}
             placeholder={intl.formatMessage({ id: "auth.enterOtp" })}
             type="number"

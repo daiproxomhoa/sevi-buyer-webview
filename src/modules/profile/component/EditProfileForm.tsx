@@ -136,7 +136,7 @@ const EditProfileForm = (props: Props) => {
                       <FormControlAutoComplete
                         className={"m-b-4"}
                         fullWidth
-                        // innerRef={ref}
+                        innerRef={ref}
                         label={intl.formatMessage({ id: "address" })}
                         value={value}
                         onChange={async (_, data) => {

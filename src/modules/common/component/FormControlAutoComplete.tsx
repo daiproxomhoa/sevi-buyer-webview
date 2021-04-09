@@ -6,7 +6,7 @@ import {
   AutocompleteRenderInputParams,
 } from "@material-ui/lab";
 import { debounce, isEqual } from "lodash";
-import React, { ReactNode } from "react";
+import React, { ReactNode, Ref } from "react";
 import { FormattedMessage } from "react-intl";
 import { BLUE } from "../../../configs/colors";
 import { some } from "../constants";
@@ -55,7 +55,7 @@ export interface FormControlAutoCompleteProps<
       "renderInput" | "options"
     >,
     FormControlAutoCompletePropsBase<T> {
-  innerRef?: React.RefObject<HTMLDivElement>;
+  innerRef?: Ref<any>;
 }
 
 function usePrevious(value: any) {
@@ -178,7 +178,6 @@ export const FormControlAutoComplete: <
         ((params) => (
           <TextField
             {...params}
-            inputRef={innerRef}
             placeholder={placeholder}
             inputProps={{
               ...params.inputProps,
@@ -191,7 +190,7 @@ export const FormControlAutoComplete: <
             InputProps={{
               ...params.InputProps,
               readOnly,
-
+              inputRef: innerRef,
               style: {
                 // minHeight: 32,
                 // padding: 0,

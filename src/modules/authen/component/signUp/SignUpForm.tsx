@@ -40,8 +40,9 @@ const SignUpForm = (props: Props) => {
         name="id"
         control={control}
         rules={{ required: intl.formatMessage({ id: "required" }) }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
+            inputRef={ref}
             value={value}
             placeholder={intl.formatMessage({ id: "phoneNumber" })}
             type="tel"
@@ -59,8 +60,9 @@ const SignUpForm = (props: Props) => {
         name="name"
         control={control}
         rules={{ required: intl.formatMessage({ id: "required" }) }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
+            inputRef={ref}
             value={value}
             placeholder={intl.formatMessage({ id: "name" })}
             startAdornmentIcon={
@@ -77,8 +79,9 @@ const SignUpForm = (props: Props) => {
         name="password"
         control={control}
         rules={{ required: intl.formatMessage({ id: "required" }) }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
+            inputRef={ref}
             value={value}
             placeholder={intl.formatMessage({ id: "password" })}
             type="password"
@@ -101,8 +104,9 @@ const SignUpForm = (props: Props) => {
             value === getValues("password") ||
             intl.formatMessage({ id: "auth.confirmPasswordNotMatch" }),
         }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
+            inputRef={ref}
             value={value}
             placeholder={intl.formatMessage({ id: "repeatPassword" })}
             type="password"

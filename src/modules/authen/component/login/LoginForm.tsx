@@ -46,9 +46,10 @@ const LoginForm = (props: Props) => {
           name="id"
           control={control}
           rules={{ required: intl.formatMessage({ id: "required" }) }}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value, ref } }) => (
             <FreeTextField
               value={value}
+              inputRef={ref}
               placeholder={intl.formatMessage({ id: "phoneNumber" })}
               type="tel"
               startAdornmentIcon={
@@ -65,8 +66,9 @@ const LoginForm = (props: Props) => {
           name="password"
           control={control}
           rules={{ required: intl.formatMessage({ id: "required" }) }}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value, ref } }) => (
             <FreeTextField
+              inputRef={ref}
               value={value}
               placeholder={intl.formatMessage({ id: "password" })}
               type="password"
