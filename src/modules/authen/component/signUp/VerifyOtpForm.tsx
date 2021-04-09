@@ -15,7 +15,11 @@ const VerifyOtpForm = (props: Props) => {
   const { data, onSubmit } = props;
   const intl = useIntl();
 
-  const { control, handleSubmit, errors } = useForm<ISignUp>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUp>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: data,
@@ -36,7 +40,7 @@ const VerifyOtpForm = (props: Props) => {
         rules={{
           required: intl.formatMessage({ id: "required" }),
         }}
-        render={({ onChange, value }) => (
+        render={({ field: { onChange, value } }) => (
           <FreeTextField
             value={value}
             placeholder={intl.formatMessage({ id: "auth.enterOtp" })}

@@ -23,7 +23,14 @@ const EditProfileForm = (props: Props) => {
   const { profile, onSubmit } = props;
   const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { register, handleSubmit, errors, control, reset, watch } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    reset,
+    watch,
+  } = useForm({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: profile,
@@ -43,37 +50,49 @@ const EditProfileForm = (props: Props) => {
       onSubmit={onSubmit && handleSubmit(onSubmit)}
       className="overflow-auto"
     >
-      <input type="hidden" ref={register} name="id" />
+      <input type="hidden" {...register("id")} />
       <Box className={"d-flex d-flex-column align-items-center p-24 p-b-0"}>
         <Controller
           name={"avatar"}
           control={control}
           rules={{ required: intl.formatMessage({ id: "required" }) }}
-          render={({ value, onChange }) => (
+          render={({ field: { onChange, value } }) => (
             <AvatarUpload id={watch("id")} src={value} onChange={onChange} />
           )}
         />
         <Box width="100%">
-          <FormControlTextField
-            className={"m-b-4 m-t-24"}
-            inputRef={register({
-              required: intl.formatMessage({ id: "required" }),
-            })}
-            name="givenName"
-            label={<FormattedMessage id={"givenName"} />}
-            fullWidth={true}
-            errorMessage={errors.givenName?.message}
+          <Controller
+            name={"givenName"}
+            control={control}
+            rules={{ required: intl.formatMessage({ id: "required" }) }}
+            render={({ field: { onChange, value, ref, name } }) => (
+              <FormControlTextField
+                className={"m-b-4 m-t-24"}
+                inputRef={ref}
+                label={<FormattedMessage id={"givenName"} />}
+                fullWidth={true}
+                name={name}
+                value={value}
+                onChange={onChange}
+                errorMessage={errors.givenName?.message}
+              />
+            )}
           />
-
-          <FormControlTextField
-            className={"m-b-4"}
-            inputRef={register({
-              required: intl.formatMessage({ id: "required" }),
-            })}
-            name="familyName"
-            label={<FormattedMessage id={"familyName"} />}
-            fullWidth={true}
-            errorMessage={errors.familyName?.message}
+          <Controller
+            name={"familyName"}
+            control={control}
+            rules={{ required: intl.formatMessage({ id: "required" }) }}
+            render={({ field: { onChange, value, ref } }) => (
+              <FormControlTextField
+                className={"m-b-4 m-t-24"}
+                inputRef={ref}
+                label={<FormattedMessage id={"familyName"} />}
+                fullWidth={true}
+                value={value}
+                onChange={onChange}
+                errorMessage={errors.familyName?.message}
+              />
+            )}
           />
         </Box>
       </Box>
@@ -92,7 +111,7 @@ const EditProfileForm = (props: Props) => {
                   name={`addresses[${index}].name`}
                   control={control}
                   rules={{ required: intl.formatMessage({ id: "required" }) }}
-                  render={({ value, onChange, ref }) => {
+                  render={({ field: { onChange, value, ref } }) => {
                     return (
                       <FormControlTextField
                         className={"m-b-4"}
@@ -112,12 +131,12 @@ const EditProfileForm = (props: Props) => {
                   rules={{
                     required: intl.formatMessage({ id: "required" }),
                   }}
-                  render={({ name, value, onChange, ref }, inputState) => {
+                  render={({ field: { onChange, value, ref } }) => {
                     return (
                       <FormControlAutoComplete
                         className={"m-b-4"}
                         fullWidth
-                        innerRef={ref}
+                        // innerRef={ref}
                         label={intl.formatMessage({ id: "address" })}
                         value={value}
                         onChange={async (_, data) => {

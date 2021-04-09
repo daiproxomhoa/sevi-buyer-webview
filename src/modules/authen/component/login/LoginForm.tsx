@@ -17,7 +17,11 @@ const LoginForm = (props: Props) => {
   const { onSubmit } = props;
   const intl = useIntl();
 
-  const { handleSubmit, errors, control } = useForm<ILogin>({
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<ILogin>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: defaultLoginData,
@@ -42,7 +46,7 @@ const LoginForm = (props: Props) => {
           name="id"
           control={control}
           rules={{ required: intl.formatMessage({ id: "required" }) }}
-          render={({ onChange, value }) => (
+          render={({ field: { onChange, value } }) => (
             <FreeTextField
               value={value}
               placeholder={intl.formatMessage({ id: "phoneNumber" })}
@@ -61,7 +65,7 @@ const LoginForm = (props: Props) => {
           name="password"
           control={control}
           rules={{ required: intl.formatMessage({ id: "required" }) }}
-          render={({ onChange, value }) => (
+          render={({ field: { onChange, value } }) => (
             <FreeTextField
               value={value}
               placeholder={intl.formatMessage({ id: "password" })}

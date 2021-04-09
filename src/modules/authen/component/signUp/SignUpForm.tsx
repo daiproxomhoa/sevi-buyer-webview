@@ -16,7 +16,12 @@ const SignUpForm = (props: Props) => {
   const { onSubmit } = props;
   const intl = useIntl();
 
-  const { handleSubmit, errors, control, getValues } = useForm<ISignUp>({
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    getValues,
+  } = useForm<ISignUp>({
     reValidateMode: "onChange",
     mode: "onChange",
     defaultValues: defaultSignUpData,
@@ -35,7 +40,7 @@ const SignUpForm = (props: Props) => {
         name="id"
         control={control}
         rules={{ required: intl.formatMessage({ id: "required" }) }}
-        render={({ onChange, value }) => (
+        render={({ field: { onChange, value } }) => (
           <FreeTextField
             value={value}
             placeholder={intl.formatMessage({ id: "phoneNumber" })}
@@ -54,7 +59,7 @@ const SignUpForm = (props: Props) => {
         name="name"
         control={control}
         rules={{ required: intl.formatMessage({ id: "required" }) }}
-        render={({ onChange, value }) => (
+        render={({ field: { onChange, value } }) => (
           <FreeTextField
             value={value}
             placeholder={intl.formatMessage({ id: "name" })}
@@ -72,7 +77,7 @@ const SignUpForm = (props: Props) => {
         name="password"
         control={control}
         rules={{ required: intl.formatMessage({ id: "required" }) }}
-        render={({ onChange, value }) => (
+        render={({ field: { onChange, value } }) => (
           <FreeTextField
             value={value}
             placeholder={intl.formatMessage({ id: "password" })}
@@ -96,7 +101,7 @@ const SignUpForm = (props: Props) => {
             value === getValues("password") ||
             intl.formatMessage({ id: "auth.confirmPasswordNotMatch" }),
         }}
-        render={({ onChange, value }) => (
+        render={({ field: { onChange, value } }) => (
           <FreeTextField
             value={value}
             placeholder={intl.formatMessage({ id: "repeatPassword" })}
