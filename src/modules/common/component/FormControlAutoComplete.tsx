@@ -109,6 +109,7 @@ export const FormControlAutoComplete: <
       if (loadOptions) {
         if (input) {
           const data = await loadOptions(input);
+          console.log("data", data);
           if (data && data.length > 0) {
             setOption(data);
             return;
@@ -155,6 +156,8 @@ export const FormControlAutoComplete: <
     }
   }, [loadOptions, options, previous]);
 
+  console.log("optionsTmp", optionsTmp);
+
   return (
     <Autocomplete
       id={id}
@@ -164,7 +167,7 @@ export const FormControlAutoComplete: <
         paper: classesComplete.paper,
       }}
       size="small"
-      options={optionsTmp || []}
+      options={optionsTmp}
       onInputChange={(event: object, value: string, reason: string) => {
         reason === "input" && loadOptions && onLoadOptions(value);
         (reason === "clear" || value === "") &&
@@ -226,6 +229,7 @@ export const FormControlAutoComplete: <
       }
       renderOption={(option, { selected }) => (
         <ListItem
+          key={getOptionLabel && getOptionLabel(option)}
           role={undefined}
           dense
           button
@@ -260,6 +264,9 @@ export const FormControlAutoComplete: <
         </ListItem>
       )}
       autoComplete
+      {...(loadOptions && {
+        filterOptions: (options) => options,
+      })}
       {...rest}
     />
   );
