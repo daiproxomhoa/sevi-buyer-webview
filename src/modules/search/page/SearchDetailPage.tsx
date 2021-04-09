@@ -7,8 +7,7 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
-import { PageWrapperNoScroll } from "../../common/component/elements";
-import { some } from "../../common/constants";
+import { PageWrapper } from "../../common/component/elements";
 import SellerDetailBox from "../component/detail/SellerDetailBox";
 import { ISeller } from "../model";
 import { fetchSellerDetail } from "../redux/searchReducer";
@@ -20,7 +19,7 @@ const SearchDetailPage = (props: Props) => {
   const location = useLocation();
 
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [sellerDetail, setSellerDetail] = React.useState<some>();
+  const [sellerDetail, setSellerDetail] = React.useState<ISeller>();
 
   const fetchData = React.useCallback(async () => {
     const info = (queryString.parse(location.search) as unknown) as ISeller;
@@ -31,7 +30,7 @@ const SearchDetailPage = (props: Props) => {
     setLoading(false);
 
     if (json.status === SUCCESS_CODE) {
-      setSellerDetail(json.body);
+      setSellerDetail(json.body.seller);
     }
   }, [dispatch, location]);
 
@@ -40,7 +39,7 @@ const SearchDetailPage = (props: Props) => {
   }, [fetchData]);
 
   return (
-    <PageWrapperNoScroll>
+    <PageWrapper>
       <SellerDetailBox
         loading={loading}
         info={sellerDetail}
@@ -49,7 +48,7 @@ const SearchDetailPage = (props: Props) => {
         }}
         onSendRequest={() => {}}
       />
-    </PageWrapperNoScroll>
+    </PageWrapper>
   );
 };
 

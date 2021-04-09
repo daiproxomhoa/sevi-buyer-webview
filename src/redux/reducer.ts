@@ -12,7 +12,7 @@ import authenReducer, {
   AuthenState,
 } from "../modules/authen/redux/authenReducer";
 import profileReducer, {
-  profileState,
+  ProfileState,
 } from "../modules/profile/redux/profileReducer";
 
 export interface AppState {
@@ -21,7 +21,7 @@ export interface AppState {
   common: CommonState;
   authen: AuthenState;
   search: SearchState;
-  profile: profileState;
+  profile: ProfileState;
 }
 
 export default function createRootReducer(history: History) {

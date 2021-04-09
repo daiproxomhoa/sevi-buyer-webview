@@ -4,16 +4,17 @@ import FlagIcon from "@material-ui/icons/Flag";
 import { Skeleton } from "@material-ui/lab";
 import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { API_PATHS } from "../../../../configs/api";
 import { HeaderDiv } from "../../../common/component/elements";
 import HeaderTab from "../../../common/component/HeaderTab";
 import { WhiteIconButton } from "../../../common/component/IconButton";
-import { some } from "../../../common/constants";
+import { ISeller } from "../../model";
 import SellerInfo from "./SellerInfo";
 import SellerRating from "./SellerRating";
 
 interface Props {
   loading: boolean;
-  info?: some;
+  info?: ISeller;
   onClose(): void;
   onSendRequest(): void;
 }
@@ -41,6 +42,7 @@ const SellerDetailBox = (props: Props) => {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
+          flex: 1,
         }}
       >
         <div style={{ padding: "12px 0" }}>
@@ -57,15 +59,22 @@ const SellerDetailBox = (props: Props) => {
           }}
         >
           <Avatar
-            src={"https://avatarfiles.alphacoders.com/252/thumb-252266.jpg"}
+            src={
+              loading || !info?.avatar
+                ? undefined
+                : API_PATHS.renderSellerAvatar(info?.id, info?.avatar)
+            }
             style={{
               height: 155,
               width: 155,
               borderRadius: 16,
               marginBottom: 16,
+              filter: loading ? "blur(2px)" : "none",
+              transition: loading ? "none" : "filter 0.3s ease-out",
             }}
             variant="rounded"
           />
+
           <Typography variant="subtitle2">
             {loading ? (
               <Skeleton style={{ width: "150px" }} />
@@ -105,7 +114,7 @@ const SellerDetailBox = (props: Props) => {
         ) : tabIndex === 0 ? (
           <SellerRating info={info} />
         ) : (
-          <SellerInfo />
+          <SellerInfo info={info} />
         )}
       </div>
 

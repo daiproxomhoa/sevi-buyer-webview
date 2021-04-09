@@ -1,7 +1,17 @@
+import { some } from "./../common/constants";
 export interface ISearchRecent {
   searchPopular: string[];
   searchRecent: string[];
 }
+
+export interface IPricedItem {
+  name: string;
+  minPrice: number;
+  maxPrice: number;
+  unit: string;
+}
+
+export interface ICertificate {}
 
 export interface ISeller {
   id: string;
@@ -11,6 +21,7 @@ export interface ISeller {
   sellerType: string;
   product: string;
   productEn: string;
+  desc: string;
   dateOfBirth: string;
   signDate: string;
   verified: true;
@@ -25,11 +36,15 @@ export interface ISeller {
   suspend: string;
   docId: string;
   docType: string;
+  idDocStamp: number;
   headId: string;
   point: number;
+  items: IPricedItem[];
+  reviews: some[];
+  certificates: some[];
 }
 
-export interface ISellerSearchParams {
+export interface ISellerSearchFilter {
   en: boolean;
   string: string;
   sortBy: string;
@@ -37,4 +52,18 @@ export interface ISellerSearchParams {
   radius: number;
   lat: number;
   lng: number;
+  searched: boolean;
+  page: number;
 }
+
+export const defaultSearchFilter: ISellerSearchFilter = {
+  en: false,
+  string: "",
+  sortBy: "quality",
+  radius: 5,
+  lat: 21.019779,
+  lng: 105.849649,
+  offset: 0,
+  searched: false,
+  page: 0,
+};

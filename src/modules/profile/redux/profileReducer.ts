@@ -1,13 +1,13 @@
 import { ThunkAction } from "redux-thunk";
 import { ActionType, createCustomAction, getType } from "typesafe-actions";
 import { AppState } from "../../../redux/reducer";
-import { some } from "../../common/constants";
 import { Action } from "redux";
 import { fetchThunk } from "../../common/redux/thunk";
 import { API_PATHS } from "../../../configs/api";
 import { SUCCESS_CODE } from "../../../constants";
+import { some } from "../../common/constants";
 
-export interface profileState {
+export interface ProfileState {
   data?: some;
   loading: boolean;
 }
@@ -41,7 +41,7 @@ export function fetchProfile(): ThunkAction<
 const actions = { setData, setLoading };
 
 export default function profileReducer(
-  state: profileState = { loading: false },
+  state: ProfileState = { loading: false },
   action: ActionType<typeof actions>
 ) {
   switch (action.type) {
