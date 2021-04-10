@@ -6,7 +6,6 @@ import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapperNoScroll } from "../../common/component/elements";
-import LoadingIcon from "../../common/component/LoadingIcon";
 import HeaderProfile from "../component/HeaderProfile";
 import InfoBox from "../component/InfoBox";
 import { fetchProfile } from "../redux/profileReducer";
@@ -23,20 +22,14 @@ const ProfilePage = (props: Props) => {
     }
   }, [dispatch, data]);
 
-  if (loading) {
-    return <LoadingIcon />;
-  }
-  if (!data) {
-    return null;
-  }
   return (
     <PageWrapperNoScroll>
       <HeaderProfile
-        title={`${data.familyName} ${data.givenName}`}
-        avatar={API_PATHS.renderAvatar(data.avatar)}
+        title={data && `${data.familyName} ${data.givenName}`}
+        avatar={API_PATHS.renderAvatar(data?.avatar)}
       />
       <Box className="p-24 p-t-8 overflow-auto">
-        <InfoBox profile={data} />
+        <InfoBox profile={data} loading={loading} />
       </Box>
     </PageWrapperNoScroll>
   );

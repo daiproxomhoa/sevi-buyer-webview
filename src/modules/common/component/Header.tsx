@@ -1,4 +1,5 @@
 import { AppBar, Box, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import React, { ReactNode } from "react";
 import { ReactComponent as BackIcon } from "../../../svg/chevron-back.svg";
 import { CssIconButton } from "./IconButton";
@@ -34,10 +35,15 @@ const Header = (props: Props) => {
         </CssIconButton>
       )}
       <Box flex={1} className="overflow-hidden">
-        <Typography variant="subtitle2" className="text-ellipsis">
-          {title}
-        </Typography>
+        {title ? (
+          <Typography variant="subtitle2" className="text-ellipsis">
+            {title}
+          </Typography>
+        ) : (
+          <Skeleton variant="text" height={32} />
+        )}
       </Box>
+
       {endAdornment}
     </AppBar>
   );

@@ -18,7 +18,8 @@ import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
 import ProtectedRoute from "./modules/common/component/ProtectedRoute";
 import RedirectRoute from "./modules/common/component/RedirectRoute";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
-import EditProfile from "./modules/profile/page/EditProfile";
+import ChangePassWordPage from "./modules/profile/page/ChangePassWordPage";
+import EditProfilePage from "./modules/profile/page/EditProfilePage";
 import ProfilePage from "./modules/profile/page/ProfilePage";
 import RatingListPage from "./modules/rating/page/RatingListPage";
 import RequestListPage from "./modules/request/page/RequestListPage";
@@ -151,7 +152,13 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
                     auth={authen}
                     exact
                     path={ROUTES.editProfile}
-                    component={EditProfile}
+                    component={EditProfilePage}
+                  />
+                  <ProtectedRoute
+                    auth={authen}
+                    exact
+                    path={ROUTES.changePass}
+                    component={ChangePassWordPage}
                   />
                   <Redirect to={ROUTES.login} />
                 </Switch>

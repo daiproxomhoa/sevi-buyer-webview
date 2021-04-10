@@ -1,4 +1,10 @@
-import { ListItem, makeStyles, TextField, Typography } from "@material-ui/core";
+import {
+  ListItem,
+  makeStyles,
+  OutlinedInputProps,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import {
   Autocomplete,
@@ -6,7 +12,7 @@ import {
   AutocompleteRenderInputParams,
 } from "@material-ui/lab";
 import { debounce, isEqual } from "lodash";
-import React, { ReactNode, Ref } from "react";
+import React, { Ref } from "react";
 import { FormattedMessage } from "react-intl";
 import { BLUE } from "../../../configs/colors";
 import { some } from "../constants";
@@ -30,19 +36,16 @@ export interface FormControlAutoCompletePropsBase<T> {
   id?: string;
   label?: React.ReactNode;
   formControlStyle?: React.CSSProperties;
-  inputStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
   errorMessage?: string;
   placeholder?: string;
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
   required?: boolean;
   loadOptions?: (input: string) => Promise<T[]>;
-  startAdornment?: ReactNode;
-  endAdornment?: ReactNode;
-  readOnly?: boolean;
   onChangeInput?: any;
   options?: T[];
   firstLoadString?: string;
+  InputProps?: OutlinedInputProps;
 }
 
 export interface FormControlAutoCompleteProps<
@@ -87,16 +90,13 @@ export const FormControlAutoComplete: <
     options = [],
     loadOptions,
     getOptionLabel,
-    startAdornment,
-    endAdornment,
-    inputStyle,
     labelStyle,
     innerRef,
-    readOnly,
     onChangeInput,
     errorMessage,
     firstLoadString,
     getOptionSelected,
+    InputProps,
     ...rest
   } = props;
 
@@ -191,24 +191,19 @@ export const FormControlAutoComplete: <
               shrink: true,
             }}
             InputProps={{
+              ...InputProps,
               ...params.InputProps,
-              readOnly,
               inputRef: innerRef,
-              style: {
-                // minHeight: 32,
-                // padding: 0,
-                ...inputStyle,
-              },
               startAdornment: (
                 <>
-                  {startAdornment}
+                  {InputProps?.startAdornment}
                   {params.InputProps.startAdornment}
                 </>
               ),
               endAdornment: (
                 <>
                   {params.InputProps.endAdornment}
-                  {endAdornment}
+                  {InputProps?.endAdornment}
                 </>
               ),
             }}

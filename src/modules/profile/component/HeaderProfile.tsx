@@ -8,11 +8,11 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router";
 import { GREY_300 } from "../../../configs/colors";
 import { ROUTES } from "../../../configs/routes";
 import { ReactComponent as IconDotList } from "../../../svg/ic_dot_list.svg";
 import Header from "../../common/component/Header";
-import { RawLink } from "../../common/component/Link";
 
 interface Props {
   action?: () => void;
@@ -22,6 +22,7 @@ interface Props {
 
 const HeaderProfile = (props: Props) => {
   const { action, title, avatar } = props;
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
   const handleClose = () => {
@@ -67,23 +68,27 @@ const HeaderProfile = (props: Props) => {
         elevation={1}
       >
         <Box className="d-flex d-flex-column">
-          <RawLink to={ROUTES.editProfile}>
-            <ButtonBase
-              style={{
-                borderBottom: `1px solid ${GREY_300}`,
-                padding: "8px 12px",
-              }}
-              className="justify-content-start"
-            >
-              <Typography variant="body1">
-                <FormattedMessage id="profile.edit" />
-              </Typography>
-            </ButtonBase>
-          </RawLink>
           <ButtonBase
+            disabled={!avatar}
+            onClick={() => history.push(ROUTES.editProfile)}
             style={{
               borderBottom: `1px solid ${GREY_300}`,
               padding: "8px 12px",
+              width: "100%",
+            }}
+            className="justify-content-start"
+          >
+            <Typography variant="body1">
+              <FormattedMessage id="profile.edit" />
+            </Typography>
+          </ButtonBase>
+          <ButtonBase
+            disabled={!avatar}
+            onClick={() => history.push(ROUTES.changePass)}
+            style={{
+              borderBottom: `1px solid ${GREY_300}`,
+              padding: "8px 12px",
+              width: "100%",
             }}
             className="justify-content-start"
           >
@@ -95,6 +100,7 @@ const HeaderProfile = (props: Props) => {
             style={{
               borderBottom: `1px solid ${GREY_300}`,
               padding: "8px 12px",
+              width: "100%",
             }}
             className="justify-content-start"
           >

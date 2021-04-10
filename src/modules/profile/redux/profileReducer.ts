@@ -12,7 +12,7 @@ export interface profileState {
   loading: boolean;
 }
 
-export const setData = createCustomAction("profile/setData", (data: some) => ({
+export const setData = createCustomAction("profile/setData", (data?: some) => ({
   data,
 }));
 
@@ -29,6 +29,7 @@ export function fetchProfile(): ThunkAction<
   Action<string>
 > {
   return async (dispatch, getState) => {
+    dispatch(setData());
     dispatch(setLoading(true));
     const json = await dispatch(fetchThunk(API_PATHS.getProfileInfo, "get"));
     if (json.status === SUCCESS_CODE) {

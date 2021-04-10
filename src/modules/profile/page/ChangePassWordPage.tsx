@@ -15,23 +15,26 @@ import {
 } from "../../common/component/elements";
 import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
-import EditProfileForm from "../component/EditProfileForm";
+import ChangePasswordForm from "../component/ChangePasswordForm";
 import HeaderProfile from "../component/HeaderProfile";
 import { fetchProfile } from "../redux/profileReducer";
-import { setData } from "../redux/profileReducer";
 
 interface Props {}
 
-const EditProfile = (props: Props) => {
+const ChangePassWordPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { data } = useSelector((state: AppState) => state.profile);
   const history = useHistory();
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const updateProfile = async (profile: some) => {
+  const changePassword = async (formData: some) => {
     const json = await dispatch(
-      fetchThunk(API_PATHS.updateProfile, "post", JSON.stringify(profile))
+      fetchThunk(
+        API_PATHS.setPassword,
+        "post",
+        JSON.stringify({ id: formData.id, password: formData.newPassword })
+      )
     );
     if (json.status === SUCCESS_CODE) {
       enqueueSnackbar(
@@ -45,7 +48,6 @@ const EditProfile = (props: Props) => {
         snackbarSetting((key) => closeSnackbar(key), { color: "error" })
       );
     }
-    dispatch(setData(profile));
   };
 
   useEffect(() => {
@@ -61,12 +63,12 @@ const EditProfile = (props: Props) => {
   return (
     <PageWrapperNoScroll>
       <HeaderProfile
-        title={`${data.familyName} ${data.givenName}`}
+        title={intl.formatMessage({ id: "profile.changePassword" })}
         action={() => history.goBack()}
       />
-      <EditProfileForm profile={data} onSubmit={updateProfile} />
+      <ChangePasswordForm profile={data} onSubmit={changePassword} />
     </PageWrapperNoScroll>
   );
 };
 
-export default EditProfile;
+export default ChangePassWordPage;

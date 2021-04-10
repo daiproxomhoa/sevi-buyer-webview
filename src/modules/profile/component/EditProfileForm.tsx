@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  InputBase,
+  Typography,
+} from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import React, { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -84,7 +91,7 @@ const EditProfileForm = (props: Props) => {
             rules={{ required: intl.formatMessage({ id: "required" }) }}
             render={({ field: { onChange, value, ref } }) => (
               <FormControlTextField
-                className={"m-b-4 m-t-24"}
+                className={"m-b-4"}
                 inputRef={ref}
                 label={<FormattedMessage id={"familyName"} />}
                 fullWidth={true}
@@ -95,8 +102,6 @@ const EditProfileForm = (props: Props) => {
             )}
           />
         </Box>
-      </Box>
-      <Box className={" p-l-24 p-b-0"}>
         {fields.map((item: some, index: number) => {
           const helperTextLocation = errors.addresses?.[index]?.name?.message;
           const helperTextAddress = errors.addresses?.[index]?.address?.message;
@@ -113,14 +118,26 @@ const EditProfileForm = (props: Props) => {
                   rules={{ required: intl.formatMessage({ id: "required" }) }}
                   render={({ field: { onChange, value, ref } }) => {
                     return (
-                      <FormControlTextField
+                      <InputBase
                         className={"m-b-4"}
                         inputRef={ref}
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
-                        label={<FormattedMessage id={"locationName"} />}
+                        placeholder={intl.formatMessage({ id: "locationName" })}
                         fullWidth={true}
-                        errorMessage={helperTextLocation}
+                        error={!!helperTextLocation}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => {
+                                remove(index);
+                              }}
+                              style={{ padding: 4 }}
+                            >
+                              <DeleteOutlineIcon fontSize="small" />
+                            </IconButton>
+                          </InputAdornment>
+                        }
                       />
                     );
                   }}
@@ -137,7 +154,7 @@ const EditProfileForm = (props: Props) => {
                         className={"m-b-4"}
                         fullWidth
                         innerRef={ref}
-                        label={intl.formatMessage({ id: "address" })}
+                        placeholder={intl.formatMessage({ id: "address" })}
                         value={value}
                         onChange={async (_, data) => {
                           if (data) {
@@ -172,18 +189,12 @@ const EditProfileForm = (props: Props) => {
                           );
                         }}
                         errorMessage={helperTextAddress}
+                        InputProps={{ rowsMax: 2, multiline: true }}
                       />
                     );
                   }}
                 />
               </Box>
-              <IconButton
-                onClick={() => {
-                  remove(index);
-                }}
-              >
-                <DeleteOutlineIcon />
-              </IconButton>
             </Box>
           );
         })}
