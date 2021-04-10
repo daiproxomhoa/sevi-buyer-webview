@@ -7,6 +7,7 @@ import {
   InputBase,
   InputProps,
   makeStyles,
+  Popover,
   Slide,
   Theme,
   Typography,
@@ -238,3 +239,14 @@ export const LoadingBackDrop: React.FC<BackdropProps> = (props) => {
     </Backdrop>
   );
 };
+
+export const CustomPopover = withStyles((theme: Theme) => ({
+  root: {
+    left: 24,
+  },
+  paper: {
+    marginTop: 3,
+    borderRadius: 12,
+    maxWidth: "calc(100% - 48px)",
+  },
+}))(Popover);

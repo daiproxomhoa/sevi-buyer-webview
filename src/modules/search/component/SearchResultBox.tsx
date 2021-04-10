@@ -1,20 +1,29 @@
-import { Chip, CircularProgress, List, Typography } from "@material-ui/core";
+import {
+  Button,
+  Chip,
+  CircularProgress,
+  List,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
-import { ISeller } from "../model";
+import { ISeller, ISellerSearchFilter } from "../model";
 import SearchResultItem from "./SearchResultItem";
 import { ReactComponent as NoDataIcon } from "../../../svg/ic_nodata.svg";
-import queryString from "query-string";
+import { SEARCH_PAGE_SIZE } from "../constants";
 
 interface Props {
   loading: boolean;
-  searchParams: queryString.ParsedQuery<string>;
+  filter: ISellerSearchFilter;
   data: ISeller[];
   onSelectSeller(seller: ISeller): void;
+  loadMore(): void;
 }
 
 const SearchResultBox = (props: Props) => {
-  const { loading, searchParams, data, onSelectSeller } = props;
+  const { loading, filter, data, onSelectSeller, loadMore } = props;
+
+  const pageSize = (filter.page + 1) * SEARCH_PAGE_SIZE;
 
   return loading ? (
     <div
@@ -38,7 +47,7 @@ const SearchResultBox = (props: Props) => {
       >
         <Typography variant="body1" style={{ flex: 1 }}>
           <FormattedMessage id="resultFor" />
-          &nbsp; “{searchParams?.search}”
+          &nbsp; “{filter?.string}”
         </Typography>
         <Chip
           label={<FormattedNumber value={data.length} />}
@@ -86,14 +95,38 @@ const SearchResultBox = (props: Props) => {
           }}
         >
           <List style={{ margin: "0 24px" }}>
-            {data.map((one) => (
-              <SearchResultItem
-                key={one.id}
-                info={one}
-                onSelect={() => onSelectSeller(one)}
-              />
-            ))}
+            {data.map(
+              (one, index) =>
+                index < pageSize && (
+                  <SearchResultItem
+                    key={one.id}
+                    info={one}
+                    onSelect={() => onSelectSeller(one)}
+                  />
+                )
+            )}
           </List>
+
+          <div
+            style={{
+              display: "flex",
+              padding: "0 0 64px",
+              justifyContent: "center",
+            }}
+          >
+            {pageSize < data.length && (
+              <Button
+                fullWidth
+                variant="outlined"
+                color="primary"
+                size="small"
+                style={{ width: "96px", height: "24px" }}
+                onClick={loadMore}
+              >
+                <FormattedMessage id="search.seeMore" />
+              </Button>
+            )}
+          </div>
         </div>
       )}
     </>

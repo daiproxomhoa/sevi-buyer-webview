@@ -28,7 +28,7 @@ const SearchResultItem = (props: Props) => {
     >
       <Avatar
         alt={info.givenName}
-        src={`${API_PATHS.getBuyer}`}
+        src={API_PATHS.renderSellerAvatar(info.id, info.avatar)}
         style={{ width: "40px", height: "40px" }}
       />
       <div
@@ -79,7 +79,7 @@ const SearchResultItem = (props: Props) => {
           </Typography>
         </div>
         <Typography variant="caption" color="textPrimary">
-          {info.product}
+          {info.desc}
         </Typography>
       </div>
     </ListItem>

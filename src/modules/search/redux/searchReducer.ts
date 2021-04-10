@@ -4,12 +4,10 @@ import { ThunkAction } from "redux-thunk";
 import { ActionType, createAction, getType } from "typesafe-actions";
 import { API_PATHS } from "../../../configs/api";
 import searchSuggestData from "../../../json/search.json";
-import sellerDetailData from "../../../json/sellerDetail.json";
-import searchWorkerData from "../../../json/searchWorker.json";
 import { AppState } from "../../../redux/reducer";
 import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
-import { ISellerSearchParams, ISeller } from "./../model";
+import { ISeller, ISellerSearchFilter } from "./../model";
 
 export interface SearchState {
   data: ISeller[];
@@ -48,19 +46,13 @@ export const searchKeyword = (
 };
 
 export const sellerSearch = (
-  params: ISellerSearchParams
+  params: ISellerSearchFilter
 ): ThunkAction<Promise<void>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    fetchMock.post(API_PATHS.sellerSearch, searchWorkerData, {
-      delay: 300,
-      overwriteRoutes: true,
-    });
-
     const json = await dispatch(
       fetchThunk(API_PATHS.sellerSearch, "post", JSON.stringify(params))
     );
 
-    console.log(json);
     if (json?.body) {
       dispatch(setSearchResult(json.body));
     }
@@ -71,14 +63,7 @@ export const fetchSellerDetail = (
   id: string
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    fetchMock.get(`${API_PATHS.sellerDetail}?id=${id}`, sellerDetailData, {
-      delay: 200,
-      overwriteRoutes: true,
-    });
-
-    return await dispatch(
-      fetchThunk(`${API_PATHS.sellerDetail}?id=${id}`, "get")
-    );
+    return await dispatch(fetchThunk(API_PATHS.sellerDetail(id), "get"));
   };
 };
 

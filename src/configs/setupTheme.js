@@ -58,6 +58,7 @@ export const MUI_THEME = createMuiTheme({
   },
   zIndex: {
     modal: 9999,
+    tooltip: 10000,
   },
   shadows: ["none", "0px 2px 8px rgba(0, 0, 0, 0.15)"],
   shape: {

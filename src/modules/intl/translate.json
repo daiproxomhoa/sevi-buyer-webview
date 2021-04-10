@@ -1,5 +1,6 @@
 {
   "welcome": ["Chào mừng tới SEVI", "Welcome to SEVI"],
+  "currency": ["đ", "VND"],
   "smsCode": ["se mk", "se mk"],
   "headCode": ["8105", "8105"],
   "appBookWork": ["Ứng dụng đặt việc trực tuyến", ""],
@@ -63,6 +64,17 @@
   "search.noReview": ["Chưa có đánh giá", ""],
   "search.attitude": ["Thái độ phục vụ", ""],
   "search.reviewCount": ["Lượt đánh giá", ""],
+  "search.job": ["Nghề nghiệp", ""],
+  "search.certificate": ["Chứng chỉ", ""],
+  "search.seeMore": ["Xem thêm", ""],
+  "search.price": ["Giá cả", ""],
+  "search.unitPrice": ["Đơn giá: {priceRange}", ""],
+
+  "search.filter.sortBy": ["Sắp xếp theo", ""],
+  "search.filter.rating": ["Đánh giá chung giảm dần", ""],
+  "search.filter.price": ["Giá tăng dần", ""],
+  "search.filter.quality": ["Chất lượng giảm dần", ""],
+  "search.filter.attitude": ["Thái độ phục vụ giảm dần", ""],
 
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],

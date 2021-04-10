@@ -3,12 +3,13 @@ import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import { SECONDARY } from "../../../../configs/colors";
 import { CardDiv } from "../../../common/component/elements";
-import { some } from "../../../common/constants";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import ReviewInfoItem from "./ReviewInfoItem";
+import { ISeller } from "../../model";
+import { some } from "../../../common/constants";
 
 interface Props {
-  info?: some;
+  info?: ISeller;
 }
 
 const SellerRating = (props: Props) => {

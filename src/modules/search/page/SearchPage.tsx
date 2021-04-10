@@ -8,10 +8,10 @@ import { ThunkDispatch } from "redux-thunk";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
-import FilterBox from "../component/FilterBox";
+import FilterBox from "../component/filter/FilterBox";
 import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
-import { ISeller } from "../model";
+import { defaultSearchFilter, ISeller, ISellerSearchFilter } from "../model";
 import { sellerSearch } from "../redux/searchReducer";
 
 const mapStateToProps = (state: AppState) => ({
@@ -24,22 +24,26 @@ interface ISearchPageProps extends ReturnType<typeof mapStateToProps> {
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   const { dispatch, data } = props;
-
   const location = useLocation();
 
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [filter, setFilter] = React.useState<ISellerSearchFilter>(
+    defaultSearchFilter
+  );
+
   const [openFilter, setOpenFilter] = React.useState<boolean>(false);
 
-  const searchParams = React.useMemo(() => {
-    return queryString.parse(location.search);
-  }, [location]);
-  console.log(location.search, searchParams);
+  const searchParams: ISellerSearchFilter = React.useMemo(() => {
+    return location.search
+      ? ((queryString.parse(location.search) as unknown) as ISellerSearchFilter)
+      : defaultSearchFilter;
+  }, [location.search]);
 
   const setSearchParams = React.useCallback(
-    (search: string) => {
+    (values: ISellerSearchFilter) => {
       dispatch(
         replace({
-          search: queryString.stringify({ search }),
+          search: queryString.stringify(values),
         })
       );
     },
@@ -47,22 +51,18 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   );
 
   const onSellerSearch = React.useCallback(
-    async (search: string) => {
+    async (values: ISellerSearchFilter) => {
+      setFilter(values);
+
+      setSearchParams(values);
+
       setLoading(true);
-      await dispatch(
-        sellerSearch({
-          en: false,
-          string: "tất cả",
-          sortBy: "quality",
-          radius: 10000,
-          lat: 21.019779,
-          lng: 105.849649,
-          offset: 0,
-        })
-      );
+
+      await dispatch(sellerSearch(values));
+
       setLoading(false);
     },
-    [dispatch]
+    [dispatch, setSearchParams]
   );
 
   const onViewSearchDetail = React.useCallback(
@@ -77,24 +77,44 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     [dispatch]
   );
 
+  React.useEffect(() => {
+    setFilter((searchParams as unknown) as ISellerSearchFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <PageWrapper>
         <SearchBox
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          onSellerSearch={onSellerSearch}
+          filter={filter}
+          onSellerSearch={(str: string) =>
+            onSellerSearch({ ...filter, string: str, searched: true, page: 0 })
+          }
           openFilter={() => setOpenFilter(true)}
         />
-        <SearchResultBox
-          loading={loading}
-          searchParams={searchParams}
-          data={data}
-          onSelectSeller={(info: ISeller) => onViewSearchDetail(info)}
-        />
+
+        {filter.searched ? (
+          <SearchResultBox
+            filter={filter}
+            loading={loading}
+            data={data}
+            onSelectSeller={(info: ISeller) => onViewSearchDetail(info)}
+            loadMore={() => {
+              const newFilter = { ...filter, page: filter.page + 1 };
+              setFilter(newFilter);
+              setSearchParams(newFilter);
+            }}
+          />
+        ) : (
+          <>Search Recent</>
+        )}
       </PageWrapper>
 
-      <FilterBox open={openFilter} onClose={() => setOpenFilter(false)} />
+      <FilterBox
+        filter={filter}
+        open={openFilter}
+        onClose={() => setOpenFilter(false)}
+      />
     </>
   );
 };
