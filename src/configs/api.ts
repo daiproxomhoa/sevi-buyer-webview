@@ -39,10 +39,8 @@ export const API_PATHS = {
   getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,
   updateProfile: `${getBaseUrl(APIService.protected)}/buyer/update`,
   setPassword: `${getBaseUrl(APIService.auth)}/buyer/setPassword`,
-  renderAvatar: (id: number | string, stamp?: number) =>
-    typeof stamp === "undefined"
-      ? `https://buyer.freeginar.com/getAvatar/${id}/${stamp}`
-      : undefined,
+  renderAvatar: (id?: number | string, stamp?: number) =>
+    id ? `https://buyer.freeginar.com/getAvatar/${id}/${stamp}` : undefined,
   suggestLocation: (term: string) =>
     `${getBaseUrl(
       APIService.protected

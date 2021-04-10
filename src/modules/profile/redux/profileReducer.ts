@@ -29,7 +29,6 @@ export function fetchProfile(): ThunkAction<
   Action<string>
 > {
   return async (dispatch, getState) => {
-    dispatch(setData());
     dispatch(setLoading(true));
     const json = await dispatch(fetchThunk(API_PATHS.getProfileInfo, "get"));
     if (json.status === SUCCESS_CODE) {
