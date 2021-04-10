@@ -1,6 +1,6 @@
 import { goBack } from "connected-react-router";
 import { useSnackbar } from "notistack";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -10,6 +10,7 @@ import { API_PATHS } from "../../../configs/api";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import {
+  LoadingBackDrop,
   PageWrapperNoScroll,
   snackbarSetting,
 } from "../../common/component/elements";
@@ -28,11 +29,14 @@ const EditProfilePage = (props: Props) => {
   const history = useHistory();
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const updateProfile = async (profile: some) => {
+    setLoading(true);
     const json = await dispatch(
       fetchThunk(API_PATHS.updateProfile, "post", JSON.stringify(profile))
     );
+    setLoading(false);
     if (json.status === SUCCESS_CODE) {
       enqueueSnackbar(
         intl.formatMessage({ id: "update_success" }),
@@ -65,6 +69,7 @@ const EditProfilePage = (props: Props) => {
         action={() => history.goBack()}
       />
       <EditProfileForm profile={data} onSubmit={updateProfile} />
+      <LoadingBackDrop open={loading} />
     </PageWrapperNoScroll>
   );
 };
