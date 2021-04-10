@@ -8,10 +8,12 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { GREY_300 } from "../../../configs/colors";
 import { ROUTES } from "../../../configs/routes";
 import { ReactComponent as IconDotList } from "../../../svg/ic_dot_list.svg";
+import { logout } from "../../authen/redux/authenReducer";
 import Header from "../../common/component/Header";
 
 interface Props {
@@ -22,6 +24,7 @@ interface Props {
 
 const HeaderProfile = (props: Props) => {
   const { action, title, avatar } = props;
+  const dispatch = useDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
@@ -103,6 +106,9 @@ const HeaderProfile = (props: Props) => {
               width: "100%",
             }}
             className="justify-content-start"
+            onClick={() => {
+              dispatch(logout());
+            }}
           >
             <Typography variant="body1">
               <FormattedMessage id="profile.logout" />
