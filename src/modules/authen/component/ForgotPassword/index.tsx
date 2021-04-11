@@ -1,21 +1,22 @@
-import React from "react";
-import { PageWrapper } from "../../../common/component/elements";
-import { ReactComponent as ForgotPassIcon } from "../../../../svg/ic_forgotpass.svg";
-import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { Button, ButtonBase, Typography } from "@material-ui/core";
+import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
+import { goBack } from "connected-react-router";
+import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { ReactComponent as ForgotPassIcon } from "../../../../svg/ic_forgotpass.svg";
+import { PageWrapper } from "../../../common/component/elements";
 import Header from "../../../common/component/Header";
 
 interface Props {}
 
 const ForgotPasswordBox = (props: Props) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <PageWrapper>
       <Header
-        action={() => history.goBack()}
+        action={() => dispatch(goBack())}
         title={<FormattedMessage id="forgotPassword" />}
       />
       <div
@@ -84,7 +85,7 @@ const ForgotPasswordBox = (props: Props) => {
         <ButtonBase
           disableRipple
           disableTouchRipple
-          onClick={() => history.goBack()}
+          onClick={() => dispatch(goBack())}
         >
           <Typography variant="body2" color="textSecondary">
             <FormattedMessage id="backToLogin" />

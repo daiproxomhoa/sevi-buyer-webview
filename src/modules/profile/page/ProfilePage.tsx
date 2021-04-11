@@ -5,10 +5,7 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { AppState } from "../../../redux/reducer";
-import {
-  LoadingBackDrop,
-  PageWrapperNoScroll,
-} from "../../common/component/elements";
+import { PageWrapperNoScroll } from "../../common/component/elements";
 import HeaderProfile from "../component/HeaderProfile";
 import InfoBox from "../component/InfoBox";
 import { fetchProfile } from "../redux/profileReducer";
@@ -18,7 +15,6 @@ interface Props {}
 const ProfilePage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { data, loading } = useSelector((state: AppState) => state.profile);
-  const loadingAuth = useSelector((state: AppState) => state.authen.loading);
 
   useEffect(() => {
     if (!data) {
@@ -35,7 +31,6 @@ const ProfilePage = (props: Props) => {
       <Box className="p-24 p-t-8 overflow-auto">
         <InfoBox profile={data} loading={loading} />
       </Box>
-      <LoadingBackDrop open={loadingAuth} />
     </PageWrapperNoScroll>
   );
 };

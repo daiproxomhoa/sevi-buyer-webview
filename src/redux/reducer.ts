@@ -14,6 +14,9 @@ import authenReducer, {
 import profileReducer, {
   ProfileState,
 } from "../modules/profile/redux/profileReducer";
+import ratingReducer, {
+  RatingState,
+} from "../modules/rating/redux/ratingReducer";
 
 export interface AppState {
   router: RouterState;
@@ -22,6 +25,7 @@ export interface AppState {
   authen: AuthenState;
   search: SearchState;
   profile: ProfileState;
+  rating: RatingState;
 }
 
 export default function createRootReducer(history: History) {
@@ -32,5 +36,6 @@ export default function createRootReducer(history: History) {
     authen: authenReducer,
     search: searchReducer,
     profile: profileReducer,
+    rating: ratingReducer,
   });
 }

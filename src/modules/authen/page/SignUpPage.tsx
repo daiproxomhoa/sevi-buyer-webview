@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core";
 import { push } from "connected-react-router";
 import { useSnackbar } from "notistack";
 import queryString from "query-string";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Action } from "redux";
@@ -10,8 +10,9 @@ import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
-import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
+import { PageWrapper } from "../../common/component/elements";
 import { RESPONSE_STATUS } from "../../common/constants";
+import { setLoadingBackDrop } from "../../common/redux/commonReducer";
 import { fetchThunk } from "../../common/redux/thunk";
 import HeaderBox from "../component/HeaderBox";
 import Footer from "../component/signUp/Footer";
@@ -26,18 +27,14 @@ const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const intl = useIntl();
 
-  const [loading, setLoading] = useState(false);
-
   const onSubmit = useCallback(
     async (values: ISignUp) => {
       const signUpInfo = transformSignUpInfo(values);
-
-      setLoading(true);
+      dispatch(setLoadingBackDrop(true));
       const json = await dispatch(
         fetchThunk(`${API_PATHS.otp}?id=${signUpInfo.id}`, "put")
       );
-
-      setLoading(false);
+      dispatch(setLoadingBackDrop(false));
       if (json?.status === RESPONSE_STATUS.SUCCESS) {
         dispatch(
           push({
@@ -73,8 +70,6 @@ const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
       <SignUpForm onSubmit={onSubmit} />
 
       <Footer />
-
-      <LoadingBackDrop open={loading} />
     </PageWrapper>
   );
 };

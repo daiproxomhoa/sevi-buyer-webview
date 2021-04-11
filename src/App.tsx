@@ -5,7 +5,7 @@ import {
   withStyles,
 } from "@material-ui/core/styles";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CSSTransitionClassNames } from "react-transition-group/CSSTransition";
@@ -15,6 +15,7 @@ import ForgetPasswordPage from "./modules/authen/page/ForgetPasswordPage";
 import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
 import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
+import { LoadingBackDrop } from "./modules/common/component/elements";
 import ProtectedRoute from "./modules/common/component/ProtectedRoute";
 import RedirectRoute from "./modules/common/component/RedirectRoute";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
@@ -50,6 +51,9 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
   const { action } = router;
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
   const lastRouteYOffsetRef = React.useRef(0);
+  const setLoadingBackDrop = useSelector(
+    (state: AppState) => state.common.loadingBackDrop
+  );
 
   const actionRef = React.useRef(action);
   actionRef.current = action;
@@ -178,6 +182,7 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
       >
         <Route path={ROUTES.home} component={BottomNavigation} />
       </div>
+      <LoadingBackDrop open={setLoadingBackDrop} />
     </>
   );
 };

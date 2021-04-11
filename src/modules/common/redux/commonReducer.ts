@@ -3,7 +3,13 @@ import { ActionType, createCustomAction, getType } from "typesafe-actions";
 export interface CommonState {
   readonly networkErrorMsg?: string;
   readonly commonErrorMsg?: string;
+  loadingBackDrop: boolean;
 }
+
+export const setLoadingBackDrop = createCustomAction(
+  "common/setLoading",
+  (loading: boolean) => ({ loading })
+);
 
 export const setNetworkError = createCustomAction(
   "common/setNetworkError",
@@ -18,12 +24,13 @@ export const setCommonError = createCustomAction(
 const actions = {
   setNetworkError,
   setCommonError,
+  setLoadingBackDrop,
 };
 
 type ActionT = ActionType<typeof actions>;
 
 export default function reducer(
-  state: CommonState = {},
+  state: CommonState = { loadingBackDrop: false },
   action: ActionT
 ): CommonState {
   switch (action.type) {
@@ -31,6 +38,8 @@ export default function reducer(
       return { ...state, networkErrorMsg: action.errorMsg };
     case getType(setCommonError):
       return { ...state, commonErrorMsg: action.errorMsg };
+    case getType(setLoadingBackDrop):
+      return { ...state, loadingBackDrop: action.loading };
     default:
       return state;
   }

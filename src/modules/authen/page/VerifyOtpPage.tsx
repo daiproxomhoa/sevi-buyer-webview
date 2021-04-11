@@ -9,8 +9,9 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { AppState } from "../../../redux/reducer";
-import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
+import { PageWrapper } from "../../common/component/elements";
 import { RESPONSE_STATUS } from "../../common/constants";
+import { setLoadingBackDrop } from "../../common/redux/commonReducer";
 import { fetchThunk } from "../../common/redux/thunk";
 import { fetchProfile } from "../../profile/redux/profileReducer";
 import HeaderBox from "../component/HeaderBox";
@@ -26,12 +27,10 @@ interface Props {}
 const VerifyOtpPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const location = useLocation();
-
   const { enqueueSnackbar } = useSnackbar();
   const intl = useIntl();
 
   const [signUpData, setSignUpData] = useState<ISignUp>(defaultSignUpData);
-  const [loading, setLoading] = useState(false);
   const [counting, setCounting] = useState(OTP_VALID_SECONDS);
 
   const updateQueryParams = useCallback(() => {
@@ -42,12 +41,12 @@ const VerifyOtpPage = (props: Props) => {
   }, [location.search]);
 
   const onSubmit = useCallback(async () => {
-    setLoading(true);
+    dispatch(setLoadingBackDrop(true));
     const json = await dispatch(
       fetchThunk(API_PATHS.signUp, "post", JSON.stringify(signUpData))
     );
 
-    setLoading(false);
+    dispatch(setLoadingBackDrop(false));
     if (json?.body?.tokenSignature) {
       dispatch(authenIn());
       dispatch(setAuthData({ ...json.body }));
@@ -62,13 +61,11 @@ const VerifyOtpPage = (props: Props) => {
   }, [dispatch, enqueueSnackbar, intl, signUpData]);
 
   const onResend = useCallback(async () => {
-    setLoading(true);
-
+    dispatch(setLoadingBackDrop(true));
     const json = await dispatch(
       fetchThunk(`${API_PATHS.otp}?id=${signUpData.id}`, "put")
     );
-
-    setLoading(false);
+    dispatch(setLoadingBackDrop(false));
     if (json?.status === RESPONSE_STATUS.SUCCESS) {
       setCounting(OTP_VALID_SECONDS);
     }
@@ -114,8 +111,6 @@ const VerifyOtpPage = (props: Props) => {
       />
 
       <Footer />
-
-      <LoadingBackDrop open={loading} />
     </PageWrapper>
   );
 };

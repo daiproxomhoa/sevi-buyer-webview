@@ -1,16 +1,18 @@
 import {
-  makeStyles,
   BottomNavigation as MUIBottomNavigation,
   BottomNavigationAction,
+  makeStyles,
   Theme,
 } from "@material-ui/core";
-import * as React from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import ListIcon from "@material-ui/icons/List";
 import AssistantIcon from "@material-ui/icons/Assistant";
+import ListIcon from "@material-ui/icons/List";
 import PersonIcon from "@material-ui/icons/Person";
+import SearchIcon from "@material-ui/icons/Search";
 import { withStyles } from "@material-ui/styles";
-import { useHistory } from "react-router";
+import { push, replace } from "connected-react-router";
+import * as React from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router";
 import { ROUTES } from "../../../configs/routes";
 
 const useStyles = makeStyles({
@@ -53,22 +55,23 @@ interface IBottomNavigationProps {}
 const BottomNavigation: React.FunctionComponent<IBottomNavigationProps> = (
   props
 ) => {
-  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(history.location.pathname);
+  const [value, setValue] = React.useState(location.pathname);
   const routerArr = React.useMemo(
     () => [ROUTES.search, ROUTES.request, ROUTES.rating, ROUTES.profile],
     []
   );
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
-    const currentIndex = routerArr.indexOf(history.location.pathname);
+    const currentIndex = routerArr.indexOf(location.pathname);
     const nextIndex = routerArr.indexOf(newValue);
 
     currentIndex > nextIndex
-      ? history.replace(newValue)
-      : history.push(newValue);
+      ? dispatch(replace(newValue))
+      : dispatch(push(newValue));
 
     setValue(newValue);
   };

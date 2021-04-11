@@ -7,10 +7,11 @@ import {
 } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import { goBack } from "connected-react-router";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
 import { FormControlTextField } from "../../common/component/Form";
 import { some } from "../../common/constants";
 
@@ -22,7 +23,7 @@ interface Props {
 const ChangePasswordForm = (props: Props) => {
   const { profile, onSubmit } = props;
   const intl = useIntl();
-  const history = useHistory();
+  const dispatch = useDispatch();
   const [typeInput, setTypeInput] = useState<some>({});
   const {
     register,
@@ -202,7 +203,7 @@ const ChangePasswordForm = (props: Props) => {
           fullWidth
           size={"large"}
           onClick={() => {
-            history.goBack();
+            dispatch(goBack());
           }}
           disableRipple
         >

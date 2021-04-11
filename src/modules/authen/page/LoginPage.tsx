@@ -8,8 +8,9 @@ import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
-import { LoadingBackDrop, PageWrapper } from "../../common/component/elements";
+import { PageWrapper } from "../../common/component/elements";
 import { RawLink } from "../../common/component/Link";
+import { setLoadingBackDrop } from "../../common/redux/commonReducer";
 import { fetchThunk } from "../../common/redux/thunk";
 import { fetchProfile } from "../../profile/redux/profileReducer";
 import HeaderBox from "../component/HeaderBox";
@@ -23,20 +24,18 @@ interface ILoginPageProps {
 
 const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
   const { dispatch } = props;
-  const [loading, setLoading] = React.useState(false);
-
   const { enqueueSnackbar } = useSnackbar();
   const intl = useIntl();
 
   const onSubmit = React.useCallback(
     async (values: ILogin) => {
-      setLoading(true);
+      dispatch(setLoadingBackDrop(true));
 
       const json = await dispatch(
         fetchThunk(API_PATHS.passwordSignIn, "post", JSON.stringify(values))
       );
 
-      setLoading(false);
+      dispatch(setLoadingBackDrop(false));
 
       if (json?.body?.tokenSignature) {
         dispatch(authenIn());
@@ -92,7 +91,6 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
           </RawLink>
         </Typography>
       </div>
-      <LoadingBackDrop open={loading} />
     </PageWrapper>
   );
 };

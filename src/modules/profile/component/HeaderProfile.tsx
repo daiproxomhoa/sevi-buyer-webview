@@ -6,10 +6,10 @@ import {
   Popover,
   Typography,
 } from "@material-ui/core";
+import { push } from "connected-react-router";
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
 import { GREY_300 } from "../../../configs/colors";
 import { ROUTES } from "../../../configs/routes";
 import { ReactComponent as IconDotList } from "../../../svg/ic_dot_list.svg";
@@ -25,7 +25,6 @@ interface Props {
 const HeaderProfile = (props: Props) => {
   const { action, title, avatar } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
   const handleClose = () => {
@@ -73,7 +72,7 @@ const HeaderProfile = (props: Props) => {
         <Box className="d-flex d-flex-column">
           <ButtonBase
             disabled={!avatar}
-            onClick={() => history.push(ROUTES.editProfile)}
+            onClick={() => dispatch(push(ROUTES.editProfile))}
             style={{
               borderBottom: `1px solid ${GREY_300}`,
               padding: "8px 12px",
@@ -87,7 +86,7 @@ const HeaderProfile = (props: Props) => {
           </ButtonBase>
           <ButtonBase
             disabled={!avatar}
-            onClick={() => history.push(ROUTES.changePass)}
+            onClick={() => dispatch(push(ROUTES.changePass))}
             style={{
               borderBottom: `1px solid ${GREY_300}`,
               padding: "8px 12px",

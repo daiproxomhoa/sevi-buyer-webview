@@ -42,6 +42,8 @@
   "givenName": ["Tên"],
   "familyName": ["Họ"],
   "noOption": ["Không có dữ liệu", ""],
+  "getDataFail": ["Có lỗi xảy ra", ""],
+  "loadMore": ["Xem thêm", ""],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
 
