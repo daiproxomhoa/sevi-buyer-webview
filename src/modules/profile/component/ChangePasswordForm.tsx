@@ -8,7 +8,7 @@ import {
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import { goBack } from "connected-react-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -16,12 +16,11 @@ import { FormControlTextField } from "../../common/component/Form";
 import { some } from "../../common/constants";
 
 interface Props {
-  profile: some;
   onSubmit?: (profile: some) => void;
 }
 
 const ChangePasswordForm = (props: Props) => {
-  const { profile, onSubmit } = props;
+  const { onSubmit } = props;
   const intl = useIntl();
   const dispatch = useDispatch();
   const [typeInput, setTypeInput] = useState<some>({});
@@ -30,17 +29,10 @@ const ChangePasswordForm = (props: Props) => {
     handleSubmit,
     formState: { errors },
     control,
-    reset,
     watch,
   } = useForm({
     reValidateMode: "onChange",
-    defaultValues: profile,
   });
-
-  useEffect(() => {
-    reset();
-  }, [profile, reset]);
-  console.log("errors", errors);
 
   return (
     <form

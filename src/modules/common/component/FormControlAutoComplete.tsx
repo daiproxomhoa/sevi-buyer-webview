@@ -12,10 +12,11 @@ import {
   AutocompleteRenderInputParams,
 } from "@material-ui/lab";
 import { debounce, isEqual } from "lodash";
-import React, { Ref } from "react";
+import React, { Ref, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { BLUE } from "../../../configs/colors";
 import { some } from "../constants";
+import LoadingIcon from "./LoadingIcon";
 
 const autocompleteCS = makeStyles(() => ({
   endAdornment: {
@@ -100,16 +101,18 @@ export const FormControlAutoComplete: <
     ...rest
   } = props;
 
-  const [firstOption, setFirstOption] = React.useState<typeof options>(options);
-  const [optionsTmp, setOption] = React.useState<typeof options>(options);
+  const [firstOption, setFirstOption] = useState<typeof options>(options);
+  const [optionsTmp, setOption] = useState<typeof options>(options);
   const previous = usePrevious(optionsTmp);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onLoadOptions = debounce(
     async (input: string) => {
       if (loadOptions) {
         if (input) {
+          setLoading(true);
           const data = await loadOptions(input);
-          console.log("data", data);
+          setLoading(false);
           if (data && data.length > 0) {
             setOption(data);
             return;
@@ -176,6 +179,8 @@ export const FormControlAutoComplete: <
       }}
       onMouseDownCapture={(e) => e.stopPropagation()}
       noOptionsText={<FormattedMessage id="noOption" />}
+      loadingText={<LoadingIcon style={{ minHeight: 0 }} />}
+      loading={loading}
       renderInput={
         renderInput ||
         ((params) => (

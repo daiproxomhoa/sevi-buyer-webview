@@ -90,7 +90,6 @@ const SearchBox = (props: Props) => {
             <CircularProgress color="inherit" size={16} />
           </div>
         }
-        onMouseDownCapture={(e) => e.stopPropagation()}
         renderInput={(params) => (
           <SearchInput
             {...params}

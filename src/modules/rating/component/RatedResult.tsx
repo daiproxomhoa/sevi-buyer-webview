@@ -1,9 +1,9 @@
 import { Avatar, Button, Typography } from "@material-ui/core";
+import Rating from "@material-ui/lab/Rating";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { CardDiv } from "../../common/component/elements";
 import RatingDetailItem from "./RatingDetailItem";
-import Rating from "@material-ui/lab/Rating";
-import { FormattedMessage } from "react-intl";
 
 interface Props {}
 
@@ -34,7 +34,13 @@ const RatedResult = (props: Props) => {
         </div>
         <Rating readOnly value={5} size="small" />
       </div>
-      <Button fullWidth variant="contained" color="primary" size="small">
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        size="small"
+        className={"m-t-8"}
+      >
         <FormattedMessage id="rating.requestAgain" />
       </Button>
     </CardDiv>

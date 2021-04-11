@@ -1,6 +1,5 @@
 import { Avatar, Box, Button, Divider } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import Rating from "@material-ui/lab/Rating";
 import React from "react";
 import { CardDiv } from "../../common/component/elements";
 
@@ -8,7 +7,7 @@ interface Props {
   isRated?: boolean;
 }
 
-const RatedResultSkeleton = (props: Props) => {
+const PendingRateBoxSkeleton = (props: Props) => {
   const { isRated } = props;
   return (
     <CardDiv>
@@ -23,22 +22,16 @@ const RatedResultSkeleton = (props: Props) => {
         <Box className="flex-1">
           <Skeleton variant="text" width="50%" />
         </Box>
-        {isRated ? (
-          <Rating readOnly value={0} size="small" />
-        ) : (
-          <Skeleton variant="text" width="20%" />
-        )}
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          disabled={true}
+          style={{ minWidth: 136 }}
+        />
       </Box>
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        size="small"
-        className={"m-t-8"}
-        disabled={true}
-      />
     </CardDiv>
   );
 };
 
-export default RatedResultSkeleton;
+export default PendingRateBoxSkeleton;

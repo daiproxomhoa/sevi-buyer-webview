@@ -5,7 +5,7 @@ import {
   withStyles,
 } from "@material-ui/core/styles";
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CSSTransitionClassNames } from "react-transition-group/CSSTransition";
@@ -23,6 +23,7 @@ import ChangePassWordPage from "./modules/profile/page/ChangePassWordPage";
 import EditProfilePage from "./modules/profile/page/EditProfilePage";
 import ProfilePage from "./modules/profile/page/ProfilePage";
 import RatingListPage from "./modules/rating/page/RatingListPage";
+import { watchPendingRateData } from "./modules/rating/redux/ratingSaga";
 import RequestListPage from "./modules/request/page/RequestListPage";
 import SearchDetailPage from "./modules/search/page/SearchDetailPage";
 import SearchPage from "./modules/search/page/SearchPage";
@@ -49,6 +50,7 @@ interface Props
 
 const App: React.FC<Props> = ({ router, classes, authen }) => {
   const { action } = router;
+  const dispatch = useDispatch();
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
   const lastRouteYOffsetRef = React.useRef(0);
   const setLoadingBackDrop = useSelector(
@@ -61,6 +63,11 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
   React.useEffect(() => {
     document.body.className = classes.body;
   }, [classes.body]);
+
+  React.useEffect(() => {
+    dispatch(watchPendingRateData());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (actionRef.current === "PUSH") {
     transitionClassNamesRef.current.enter = styles.enter;

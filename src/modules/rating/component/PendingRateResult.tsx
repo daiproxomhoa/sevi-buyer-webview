@@ -1,9 +1,9 @@
 import { Avatar, Button, Typography } from "@material-ui/core";
+import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { CardDiv } from "../../common/component/elements";
 import RatingDetailItem from "./RatingDetailItem";
-import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 
 interface Props {}
 
@@ -32,7 +32,12 @@ const PendingRateResult = (props: Props) => {
           />
           <Typography variant="caption">Xuân Hòa</Typography>
         </div>
-        <Button variant="contained" color="primary" size="small">
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          style={{ minWidth: 136 }}
+        >
           <GradeRoundedIcon
             style={{ width: "16px", height: "16px", marginRight: "6px" }}
           />
