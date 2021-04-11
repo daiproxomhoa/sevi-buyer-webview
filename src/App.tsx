@@ -65,9 +65,10 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
   }, [classes.body]);
 
   React.useEffect(() => {
-    dispatch(watchPendingRateData());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (authen) {
+      dispatch(watchPendingRateData());
+    }
+  }, [authen, dispatch]);
 
   if (actionRef.current === "PUSH") {
     transitionClassNamesRef.current.enter = styles.enter;
