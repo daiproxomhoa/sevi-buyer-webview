@@ -60,6 +60,8 @@ export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
           zIndex: -100,
           bottom: 0,
           overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <HeaderSVG />
