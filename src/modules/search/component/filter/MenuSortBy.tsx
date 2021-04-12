@@ -28,11 +28,19 @@ const MenuSortBy = (props: Props) => {
           marginTop: "16px",
           backgroundColor: LIGHT_GREY,
           justifyContent: "flex-start",
-          padding: "6px 32px 6px 16px",
+          padding: "6px 16px",
           height: "56px",
         }}
         size="large"
         onClick={(event) => setAnchorEl(event.currentTarget)}
+        endIcon={
+          <ChevronLeftIcon
+            fontSize="small"
+            style={{
+              transform: "rotate(270deg)",
+            }}
+          />
+        }
       >
         <div
           style={{
@@ -58,13 +66,6 @@ const MenuSortBy = (props: Props) => {
             <FormattedMessage id={`search.filter.${filter.sortBy}`} />
           </Typography>
         </div>
-
-        <ChevronLeftIcon
-          fontSize="small"
-          style={{
-            transform: "rotate(270deg)",
-          }}
-        />
       </Button>
 
       <Menu

@@ -1,4 +1,6 @@
+import { IAddresses } from "../profile/model";
 import { some } from "./../common/constants";
+import { defaultAddressFilter } from "./constants";
 export interface ISearchRecent {
   searchPopular: string[];
   searchRecent: string[];
@@ -54,16 +56,18 @@ export interface ISellerSearchFilter {
   lng: number;
   searched: boolean;
   page: number;
+  address: IAddresses;
 }
 
 export const defaultSearchFilter: ISellerSearchFilter = {
   en: false,
   string: "",
   sortBy: "quality",
-  radius: 5,
+  radius: 20,
   lat: 21.019779,
   lng: 105.849649,
   offset: 0,
   searched: false,
   page: 0,
+  address: defaultAddressFilter[0],
 };

@@ -47,7 +47,7 @@ const SellerInfo = (props: Props) => {
           </Typography>
 
           {info.items.map((one) => (
-            <CardDiv>
+            <CardDiv key={one.name}>
               <Typography variant="body2" style={{ fontWeight: 500 }}>
                 {one.name}
               </Typography>

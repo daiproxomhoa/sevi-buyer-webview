@@ -1,7 +1,9 @@
-import { Dialog, Divider, Theme } from "@material-ui/core";
+import { Button, Dialog, Divider, Theme, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { SlideUp } from "../../../common/component/elements";
+import { some } from "../../../common/constants";
 import { ISellerSearchFilter } from "../../model";
 import MenuSortBy from "./MenuSortBy";
 import SelectAddress from "./SelectAddress";
@@ -16,13 +18,19 @@ const FilterDialog = withStyles((theme: Theme) => ({
 
 interface Props {
   filter: ISellerSearchFilter;
+  profile?: some;
   open: boolean;
   onClose(): void;
+  onFilter(data: ISellerSearchFilter): void;
 }
 
 const FilterBox = (props: Props) => {
-  const { filter, open, onClose } = props;
+  const { filter, profile, open, onClose, onFilter } = props;
   const [filterTmp, setFilterTmp] = React.useState(props.filter);
+
+  React.useEffect(() => {
+    setFilterTmp(filter);
+  }, [filter]);
 
   return (
     <FilterDialog
@@ -33,15 +41,39 @@ const FilterBox = (props: Props) => {
       }}
       PaperProps={{
         style: {
-          padding: "24px",
+          padding: "12px 24px 24px",
           margin: 0,
           width: "100%",
           borderRadius: "16px 16px 0 0",
         },
       }}
-      onBackdropClick={onClose}
+      onBackdropClick={() => {
+        setFilterTmp(filter);
+        onClose();
+      }}
     >
-      <SelectAddress />
+      <div
+        style={{
+          display: "flex",
+          paddingBottom: "12px",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Button onClick={() => onFilter(filterTmp)} size="small">
+          <Typography
+            variant="body1"
+            color="primary"
+            style={{ fontWeight: 500, padding: 6 }}
+          >
+            <FormattedMessage id="confirm" />
+          </Typography>
+        </Button>
+      </div>
+      <SelectAddress
+        profile={profile}
+        filter={filterTmp}
+        setFilter={(data) => setFilterTmp(data)}
+      />
 
       <SlideRadius
         filter={filterTmp}

@@ -13,9 +13,11 @@ import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
 import { defaultSearchFilter, ISeller, ISellerSearchFilter } from "../model";
 import { sellerSearch } from "../redux/searchReducer";
+import { parseSearchParams, stringifySearchParams } from "../utils";
 
 const mapStateToProps = (state: AppState) => ({
   data: state.search.data,
+  profile: state.profile.data,
 });
 
 interface ISearchPageProps extends ReturnType<typeof mapStateToProps> {
@@ -23,7 +25,7 @@ interface ISearchPageProps extends ReturnType<typeof mapStateToProps> {
 }
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
-  const { dispatch, data } = props;
+  const { dispatch, data, profile } = props;
   const location = useLocation();
 
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -33,17 +35,11 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
   const [openFilter, setOpenFilter] = React.useState<boolean>(false);
 
-  const searchParams: ISellerSearchFilter = React.useMemo(() => {
-    return location.search
-      ? ((queryString.parse(location.search) as unknown) as ISellerSearchFilter)
-      : defaultSearchFilter;
-  }, [location.search]);
-
   const setSearchParams = React.useCallback(
     (values: ISellerSearchFilter) => {
       dispatch(
         replace({
-          search: queryString.stringify(values),
+          search: stringifySearchParams(values),
         })
       );
     },
@@ -78,7 +74,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   );
 
   React.useEffect(() => {
-    setFilter((searchParams as unknown) as ISellerSearchFilter);
+    setFilter(parseSearchParams(location.search, profile));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -112,8 +108,13 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
       <FilterBox
         filter={filter}
+        profile={profile}
         open={openFilter}
         onClose={() => setOpenFilter(false)}
+        onFilter={(data) => {
+          onSellerSearch({ ...data, searched: true, page: 0 });
+          setOpenFilter(false);
+        }}
       />
     </>
   );

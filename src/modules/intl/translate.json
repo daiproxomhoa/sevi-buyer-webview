@@ -78,6 +78,7 @@
   "search.filter.quality": ["Chất lượng giảm dần", ""],
   "search.filter.attitude": ["Thái độ phục vụ giảm dần", ""],
 
+  "request.sendRequest": ["Gửi yêu cầu", ""],
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
   "request.cancel": ["Hủy bỏ", ""],

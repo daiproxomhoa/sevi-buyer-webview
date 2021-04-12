@@ -31,10 +31,9 @@ const CustomSlider = withStyles((theme: Theme) => ({
   active: {},
   valueLabel: {
     left: "calc(-50% + 12px)",
-    top: -22,
+    top: 20,
     "& *": {
       background: "transparent",
-      color: "#000",
     },
   },
   markLabel: {
@@ -67,7 +66,7 @@ interface ValueLabelProps {
   value: number;
 }
 
-function ValueLabelComponent(props: ValueLabelProps) {
+const ValueLabelComponent: React.FC<ValueLabelProps> = (props) => {
   const { children, open, value } = props;
 
   return (
@@ -87,11 +86,11 @@ function ValueLabelComponent(props: ValueLabelProps) {
       {children}
     </Tooltip>
   );
-}
+};
 
-function CustomThumbComponent(props: any) {
+const CustomThumbComponent: React.FC = (props: any) => {
   return <FiberManualRecordIcon {...props} />;
-}
+};
 
 interface Props {
   filter: ISellerSearchFilter;
@@ -104,9 +103,8 @@ const SlideRadius = (props: Props) => {
   return (
     <CustomSlider
       marks={slideMarks}
-      defaultValue={filter.radius}
+      value={filter.radius}
       max={20}
-      ValueLabelComponent={ValueLabelComponent}
       ThumbComponent={CustomThumbComponent}
       onChange={(event, newValue) =>
         setFilter({ ...filter, radius: newValue as number })

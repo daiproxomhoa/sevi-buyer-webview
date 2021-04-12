@@ -108,7 +108,7 @@ const SellerRating = (props: Props) => {
             </Typography>
           </Typography>
 
-          {info.reviews.map((one: some) => (
+          {info?.reviews?.map((one: some) => (
             <ReviewInfoItem data={one} key={one.id} />
           ))}
         </>

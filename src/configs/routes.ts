@@ -11,6 +11,7 @@ export const ROUTES = {
   editProfile: "/editProfile",
   changePass: "/changePass",
   searchDetail: "/searchDetail",
+  sendRequest: "/sendRequest",
   test: {
     value: "/test/:id/:slug",
     gen: (id: string, slug: string) => `/test/${id}/${slug}`,

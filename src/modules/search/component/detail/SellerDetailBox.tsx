@@ -45,56 +45,58 @@ const SellerDetailBox = (props: Props) => {
           flex: 1,
         }}
       >
-        <div style={{ padding: "12px 0" }}>
-          <WhiteIconButton onClick={onClose}>
-            <ChevronLeftIcon style={{ width: "20px", height: "20px" }} />
-          </WhiteIconButton>
-        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "12px 0" }}>
+            <WhiteIconButton onClick={onClose}>
+              <ChevronLeftIcon style={{ width: "20px", height: "20px" }} />
+            </WhiteIconButton>
+          </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar
-            src={
-              loading || !info?.avatar
-                ? undefined
-                : API_PATHS.renderSellerAvatar(info?.id, info?.avatar)
-            }
+          <div
             style={{
-              height: 155,
-              width: 155,
-              borderRadius: 16,
-              marginBottom: 16,
-              filter: loading ? "blur(2px)" : "none",
-              transition: loading ? "none" : "filter 0.3s ease-out",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
-            variant="rounded"
+          >
+            <Avatar
+              src={
+                loading || !info?.avatar
+                  ? undefined
+                  : API_PATHS.renderSellerAvatar(info?.id, info?.avatar)
+              }
+              style={{
+                height: 155,
+                width: 155,
+                borderRadius: 16,
+                marginBottom: 16,
+                filter: loading ? "blur(2px)" : "none",
+                transition: loading ? "none" : "filter 0.3s ease-out",
+              }}
+              variant="rounded"
+            />
+
+            <Typography variant="subtitle2">
+              {loading ? (
+                <Skeleton style={{ width: "150px" }} />
+              ) : (
+                <>
+                  {info?.familyName}&nbsp;{info?.givenName}
+                </>
+              )}
+            </Typography>
+          </div>
+
+          <HeaderTab
+            style={{ margin: "0px 0px 4px" }}
+            tabIndex={tabIndex}
+            tabList={[
+              intl.formatMessage({ id: "search.rating" }),
+              intl.formatMessage({ id: "search.info" }),
+            ]}
+            onChangeTab={(newIndex) => setTabIndex(newIndex)}
           />
-
-          <Typography variant="subtitle2">
-            {loading ? (
-              <Skeleton style={{ width: "150px" }} />
-            ) : (
-              <>
-                {info?.familyName}&nbsp;{info?.givenName}
-              </>
-            )}
-          </Typography>
         </div>
-
-        <HeaderTab
-          style={{ margin: "0px 0px 4px" }}
-          tabIndex={tabIndex}
-          tabList={[
-            intl.formatMessage({ id: "search.rating" }),
-            intl.formatMessage({ id: "search.info" }),
-          ]}
-          onChangeTab={(newIndex) => setTabIndex(newIndex)}
-        />
 
         {loading ? (
           <div
