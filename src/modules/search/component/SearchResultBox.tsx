@@ -1,10 +1,4 @@
-import {
-  Button,
-  Chip,
-  CircularProgress,
-  List,
-  Typography,
-} from "@material-ui/core";
+import { Button, Chip, List, Typography } from "@material-ui/core";
 import React from "react";
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import { ISeller, ISellerSearchFilter } from "../model";
