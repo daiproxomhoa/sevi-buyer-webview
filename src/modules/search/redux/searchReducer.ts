@@ -1,9 +1,7 @@
-import fetchMock from "fetch-mock";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType, createAction, getType } from "typesafe-actions";
 import { API_PATHS } from "../../../configs/api";
-import searchSuggestData from "../../../json/search.json";
 import { AppState } from "../../../redux/reducer";
 import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
@@ -24,21 +22,12 @@ export const searchKeyword = (
   str: string
 ): ThunkAction<Promise<string[]>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    fetchMock.post(API_PATHS.searchKeyword, searchSuggestData, {
-      delay: 300,
-    });
-
     const json = await dispatch(
-      fetchThunk(
-        API_PATHS.searchKeyword,
-        "post",
-        JSON.stringify({ search: "123123" })
-      )
+      fetchThunk(`${API_PATHS.suggestSearches}?str=${str}`)
     );
-    fetchMock.reset();
 
-    if (json?.body?.data) {
-      return json.body.data;
+    if (json?.body) {
+      return json.body;
     }
 
     return [];

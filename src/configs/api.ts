@@ -31,9 +31,11 @@ export const API_PATHS = {
     `${getBaseUrl(APIService.protected)}/seller/get?id=${id}`,
   renderSellerAvatar: (id?: string, stamp?: number) =>
     `${getBaseUrl(APIService.public)}/seller/getAvatar/${id}/${stamp}`,
+  suggestSearches: `${getBaseUrl(
+    APIService.protected
+  )}/request/suggestSearches`,
 
   popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
-  searchKeyword: `${getBaseUrl(APIService.protected)}/protected/seller/search`,
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
   setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
   getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,
