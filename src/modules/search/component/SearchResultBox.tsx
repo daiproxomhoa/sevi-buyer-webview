@@ -11,6 +11,7 @@ import { ISeller, ISellerSearchFilter } from "../model";
 import SearchResultItem from "./SearchResultItem";
 import { ReactComponent as NoDataIcon } from "../../../svg/ic_nodata.svg";
 import { SEARCH_PAGE_SIZE } from "../constants";
+import SearchResultSkeleton from "./SearchResultSkeleton";
 
 interface Props {
   loading: boolean;
@@ -29,12 +30,16 @@ const SearchResultBox = (props: Props) => {
     <div
       style={{
         flex: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        padding: "24px",
       }}
     >
-      <CircularProgress />
+      <SearchResultSkeleton />
+      <SearchResultSkeleton />
+      <SearchResultSkeleton />
+      <SearchResultSkeleton />
+      <SearchResultSkeleton />
+      <SearchResultSkeleton />
+      <SearchResultSkeleton />
     </div>
   ) : (
     <>
@@ -79,7 +84,7 @@ const SearchResultBox = (props: Props) => {
                     color="textPrimary"
                     component="span"
                   >
-                    Thở sửa chữa
+                    {filter.string}
                   </Typography>
                 ),
               }}

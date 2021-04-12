@@ -72,7 +72,7 @@ const SearchResultItem = (props: Props) => {
               variant="caption"
               style={{ color: SECONDARY }}
             >
-              <FormattedNumber value={info.rating} />
+              <FormattedNumber value={info.ratingCount} />
             </Typography>
             &nbsp;
             <FormattedMessage id="review" />
