@@ -10,6 +10,7 @@ import { fetchThunk } from "../../common/redux/thunk";
 export interface RatingState {
   pendingRateData?: some;
   loading: boolean;
+  disableLoadMore: boolean;
 }
 
 export const setPendingRateData = createCustomAction(
@@ -25,15 +26,22 @@ export const setLoading = createCustomAction(
     data,
   })
 );
+export const setDisableLoadMore = createCustomAction(
+  "rating/setDisableLoadMore",
+  (data: boolean) => ({
+    data,
+  })
+);
 
 export function fetchPendingRateData(
   pageOffset = 0
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {
   return async (dispatch, getState) => {
     dispatch(setLoading(true));
+    dispatch(setDisableLoadMore(true));
     const json = await dispatch(
       fetchThunk(
-        API_PATHS.deferRating,
+        API_PATHS.getConfirmed,
         "post",
         JSON.stringify({
           accept: true,
@@ -44,26 +52,31 @@ export function fetchPendingRateData(
     );
     if (json.status === SUCCESS_CODE) {
       dispatch(setPendingRateData(json.body));
+      if (!json.body?.requests?.length) {
+        dispatch(setDisableLoadMore(true));
+      }
     }
     dispatch(setLoading(false));
     return json;
   };
 }
 
-const actions = { setRequestConfirmedData: setPendingRateData, setLoading };
+const actions = { setPendingRateData, setLoading, setDisableLoadMore };
 
 export default function ratingReducer(
-  state: RatingState = { loading: false },
+  state: RatingState = { loading: false, disableLoadMore: false },
   action: ActionType<typeof actions>
 ) {
   switch (action.type) {
     case getType(setPendingRateData):
       return {
         ...state,
-        requestConfirmedData: action.data,
+        pendingRateData: action.data,
       };
     case getType(setLoading):
       return { ...state, loading: action.data };
+    case getType(setDisableLoadMore):
+      return { ...state, disableLoadMore: action.data };
     default:
       return state;
   }
