@@ -30,7 +30,7 @@ const SellerDetailBox = (props: Props) => {
         style={{
           position: "absolute",
           padding: 0,
-          minHeight: "206px",
+          minHeight: "180px",
           right: 0,
           left: 0,
         }}
@@ -38,7 +38,7 @@ const SellerDetailBox = (props: Props) => {
       <div
         style={{
           zIndex: 2,
-          padding: "24px 24px 0",
+          padding: "5px 24px 0",
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
