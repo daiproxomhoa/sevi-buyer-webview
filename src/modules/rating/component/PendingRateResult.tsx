@@ -3,15 +3,18 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { CardDiv } from "../../common/component/elements";
+import { some } from "../../common/constants";
 import RatingDetailItem from "./RatingDetailItem";
 
-interface Props {}
+interface Props {
+  request: some;
+}
 
 const PendingRateResult = (props: Props) => {
+  const { request } = props;
   return (
     <CardDiv>
       <RatingDetailItem />
-
       <div
         style={{
           display: "flex",

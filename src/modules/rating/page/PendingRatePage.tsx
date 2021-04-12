@@ -1,7 +1,7 @@
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { SUCCESS_CODE } from "../../../constants";
@@ -20,9 +20,9 @@ const PendingRatePage = (props: Props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
   const [offset, setPageOffset] = useState<number>(0);
-  const { loading, pendingRateData } = useSelector(
-    (state: AppState) => state.rating
-  );
+  const fuck = useSelector((state: AppState) => state.rating, shallowEqual);
+  const { loading, pendingRateData, disableLoadMore } = fuck;
+
   const fetchData = useCallback(async () => {
     const json = await dispatch(fetchPendingRateData(offset));
     if (json.status !== SUCCESS_CODE) {
@@ -37,12 +37,15 @@ const PendingRatePage = (props: Props) => {
     fetchData();
   }, [dispatch, fetchData]);
 
+  console.log("pendingRateData", fuck, pendingRateData);
+
   return (
     <PageWrapperNoScroll>
       <PendingRateBox
         data={pendingRateData}
         setPage={() => setPageOffset((one) => one + 1)}
         loading={loading}
+        disableLoadMore={disableLoadMore}
       />
     </PageWrapperNoScroll>
   );
