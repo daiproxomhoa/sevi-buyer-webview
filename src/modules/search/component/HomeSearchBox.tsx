@@ -19,9 +19,13 @@ const CustomChip = withStyles((theme: Theme) => ({
   },
 }))(Chip);
 
-interface Props {}
+interface Props {
+  onSearch(str: string): void;
+}
 
 const HomeSearchBox = (props: Props) => {
+  const { onSearch } = props;
+
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [popularSearches, setPopularSearches] = React.useState<string[]>([]);
   const [recentSearches, setRecentSearches] = React.useState<IRecentSearch[]>();
@@ -65,7 +69,12 @@ const HomeSearchBox = (props: Props) => {
             {recentSearches.map(
               (one) =>
                 one.search && (
-                  <CustomChip key={one.search} label={one.search} clickable />
+                  <CustomChip
+                    key={one.search}
+                    label={one.search}
+                    clickable
+                    onClick={() => onSearch(one.search)}
+                  />
                 )
             )}
           </div>
@@ -85,7 +94,15 @@ const HomeSearchBox = (props: Props) => {
             style={{ display: "flex", flexWrap: "wrap", margin: "0px 18px" }}
           >
             {popularSearches?.map(
-              (one) => one && <CustomChip key={one} label={one} clickable />
+              (one) =>
+                one && (
+                  <CustomChip
+                    key={one}
+                    label={one}
+                    clickable
+                    onClick={() => onSearch(one)}
+                  />
+                )
             )}
           </div>
         </div>

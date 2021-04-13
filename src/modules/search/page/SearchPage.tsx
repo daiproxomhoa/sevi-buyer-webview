@@ -103,7 +103,11 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
             }}
           />
         ) : (
-          <HomeSearchBox />
+          <HomeSearchBox
+            onSearch={(string) =>
+              onSellerSearch({ ...filter, searched: true, string })
+            }
+          />
         )}
       </PageWrapper>
 
