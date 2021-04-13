@@ -1,9 +1,10 @@
 import { IAddresses } from "../profile/model";
 import { some } from "./../common/constants";
 import { defaultAddressFilter } from "./constants";
-export interface ISearchRecent {
-  searchPopular: string[];
-  searchRecent: string[];
+
+export interface IRecentSearch {
+  search: string;
+  time: string;
 }
 
 export interface IPricedItem {

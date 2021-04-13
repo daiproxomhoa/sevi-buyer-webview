@@ -36,7 +36,11 @@ export const API_PATHS = {
     APIService.protected
   )}/request/suggestSearches`,
 
-  popularKeyword: `${getBaseUrl(APIService.protected)}/popularKeyword`,
+  popularSearches: `${getBaseUrl(
+    APIService.protected
+  )}/request/popularSearches`,
+  recentSearches: `${getBaseUrl(APIService.protected)}/buyer/recentSearches`,
+
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
   setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
   getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,

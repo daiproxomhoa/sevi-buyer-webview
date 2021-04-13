@@ -9,6 +9,7 @@ import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
 import FilterBox from "../component/filter/FilterBox";
+import HomeSearchBox from "../component/HomeSearchBox";
 import SearchBox from "../component/SearchBox";
 import SearchResultBox from "../component/SearchResultBox";
 import { defaultSearchFilter, ISeller, ISellerSearchFilter } from "../model";
@@ -102,7 +103,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
             }}
           />
         ) : (
-          <>Search Recent</>
+          <HomeSearchBox />
         )}
       </PageWrapper>
 

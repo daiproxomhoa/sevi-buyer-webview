@@ -1,20 +1,19 @@
 import { Chip, Theme, Typography, withStyles } from "@material-ui/core";
-import fetchMock from "fetch-mock";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
-import keywordSearch from "../../../json/searchHistory.json";
+import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { fetchThunk } from "../../common/redux/thunk";
-import { ISearchRecent } from "../model";
+import { IRecentSearch } from "../model";
 
 const CustomChip = withStyles((theme: Theme) => ({
   root: {
     borderRadius: 64,
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.grey[300],
     margin: 6,
     fontSize: theme.typography.body2.fontSize,
   },
@@ -22,23 +21,25 @@ const CustomChip = withStyles((theme: Theme) => ({
 
 interface Props {}
 
-const PopularKeywordSearchBox = (props: Props) => {
+const HomeSearchBox = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [data, setData] = React.useState<ISearchRecent>({
-    searchPopular: [],
-    searchRecent: [],
-  });
+  const [popularSearches, setPopularSearches] = React.useState<string[]>([]);
+  const [recentSearches, setRecentSearches] = React.useState<IRecentSearch[]>();
 
   const fetchPopularKeyword = React.useCallback(async () => {
-    fetchMock.get(API_PATHS.popularKeyword, keywordSearch);
+    const popularSearchCall = dispatch(fetchThunk(API_PATHS.popularSearches));
+    const recentSearchCall = dispatch(fetchThunk(API_PATHS.recentSearches));
 
-    const json = await dispatch(fetchThunk(API_PATHS.popularKeyword));
-    if (json?.body) {
-      setData(json.body);
-      console.log(json.body);
+    const popularJson = await popularSearchCall;
+    const recentJson = await recentSearchCall;
+
+    if (popularJson?.status === SUCCESS_CODE) {
+      setPopularSearches(popularJson.body);
     }
 
-    fetchMock.reset();
+    if (recentJson?.status === SUCCESS_CODE) {
+      setRecentSearches(recentJson?.body?.searches);
+    }
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -53,7 +54,7 @@ const PopularKeywordSearchBox = (props: Props) => {
         WebkitOverflowScrolling: "touch",
       }}
     >
-      {!!data?.searchRecent.length && (
+      {!!recentSearches?.length && (
         <div>
           <Typography variant="subtitle1" style={{ margin: "24px 24px 10px" }}>
             <FormattedMessage id="searchRecent" />
@@ -61,14 +62,17 @@ const PopularKeywordSearchBox = (props: Props) => {
           <div
             style={{ display: "flex", flexWrap: "wrap", margin: "0px 18px" }}
           >
-            {data?.searchRecent?.map((one) => (
-              <CustomChip key={one} label={one} clickable />
-            ))}
+            {recentSearches.map(
+              (one) =>
+                one.search && (
+                  <CustomChip key={one.search} label={one.search} clickable />
+                )
+            )}
           </div>
         </div>
       )}
 
-      {!!data?.searchPopular.length && (
+      {!!popularSearches?.length && (
         <div
           style={{
             marginBottom: "80px",
@@ -80,9 +84,9 @@ const PopularKeywordSearchBox = (props: Props) => {
           <div
             style={{ display: "flex", flexWrap: "wrap", margin: "0px 18px" }}
           >
-            {data?.searchPopular?.map((one) => (
-              <CustomChip key={one} label={one} clickable />
-            ))}
+            {popularSearches?.map(
+              (one) => one && <CustomChip key={one} label={one} clickable />
+            )}
           </div>
         </div>
       )}
@@ -90,4 +94,4 @@ const PopularKeywordSearchBox = (props: Props) => {
   );
 };
 
-export default PopularKeywordSearchBox;
+export default HomeSearchBox;
