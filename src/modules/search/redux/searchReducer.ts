@@ -65,6 +65,19 @@ export const fetchSellerDetail = (
   };
 };
 
+export const fetchSellerRating = (
+  id: string
+): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
+  return async (dispatch, getState) => {
+    return await dispatch(
+      fetchThunk(
+        `${API_PATHS.sellerRatings}?id=${id}&sellerYear=2021&pageOffset=0`,
+        "get"
+      )
+    );
+  };
+};
+
 const actions = {
   setSearchResult,
 };

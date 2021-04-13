@@ -25,6 +25,7 @@ import ProfilePage from "./modules/profile/page/ProfilePage";
 import RatingListPage from "./modules/rating/page/RatingListPage";
 import { watchPendingRateData } from "./modules/rating/redux/ratingSaga";
 import RequestListPage from "./modules/request/page/RequestListPage";
+import SendRequestPage from "./modules/request/page/SendRequestPage";
 import SearchDetailPage from "./modules/search/page/SearchDetailPage";
 import SearchPage from "./modules/search/page/SearchPage";
 import { AppState } from "./redux/reducer";
@@ -124,8 +125,7 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
                     path={ROUTES.verifyOtp}
                     component={VerifyOtpPage}
                   />
-                  <ProtectedRoute
-                    auth={authen}
+                  <Route
                     exact
                     path={ROUTES.forgotPass}
                     component={ForgetPasswordPage}
@@ -147,6 +147,12 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
                     exact
                     path={ROUTES.request}
                     component={RequestListPage}
+                  />
+                  <ProtectedRoute
+                    auth={authen}
+                    exact
+                    path={ROUTES.sendRequest}
+                    component={SendRequestPage}
                   />
                   <ProtectedRoute
                     auth={authen}

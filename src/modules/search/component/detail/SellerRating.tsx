@@ -5,15 +5,16 @@ import { SECONDARY } from "../../../../configs/colors";
 import { CardDiv } from "../../../common/component/elements";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import ReviewInfoItem from "./ReviewInfoItem";
-import { ISeller } from "../../model";
+import { ISeller, ISellerRating } from "../../model";
 import { some } from "../../../common/constants";
 
 interface Props {
   info?: ISeller;
+  ratings?: ISellerRating[];
 }
 
 const SellerRating = (props: Props) => {
-  const { info } = props;
+  const { info, ratings } = props;
 
   return (
     <div
@@ -108,8 +109,8 @@ const SellerRating = (props: Props) => {
             </Typography>
           </Typography>
 
-          {info?.reviews?.map((one: some) => (
-            <ReviewInfoItem data={one} key={one.id} />
+          {ratings?.map((one: some) => (
+            <ReviewInfoItem data={one} key={one.rateDate} />
           ))}
         </>
       )}

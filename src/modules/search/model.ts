@@ -15,6 +15,16 @@ export interface IPricedItem {
 
 export interface ICertificate {}
 
+export interface ISellerRating {
+  buyerId: string;
+  content: string;
+  rating: string;
+  qualityRating: string;
+  priceRating: string;
+  attitudeRating: string;
+  rateDate: string;
+}
+
 export interface ISeller {
   id: string;
   avatar: number;
@@ -42,7 +52,6 @@ export interface ISeller {
   headId: string;
   point: number;
   items: IPricedItem[];
-  reviews: some[];
   certificates: some[];
 }
 

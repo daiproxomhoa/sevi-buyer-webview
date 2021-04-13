@@ -20,7 +20,7 @@ const ReviewInfoItem = (props: Props) => {
         style={{ width: "40px", height: "40px", marginRight: "8px" }}
       />
       <div>
-        <Typography variant="body2">{data.name}</Typography>
+        <Typography variant="body2">{data.buyerId}</Typography>
         <div
           style={{ display: "flex", alignItems: "center", paddingTop: "4px" }}
         >
@@ -32,7 +32,7 @@ const ReviewInfoItem = (props: Props) => {
             style={{ marginRight: "8px", fontSize: "12px" }}
           />
           <Typography variant="caption" color="textSecondary">
-            {data.createdAt}
+            {data.rateDate}
           </Typography>
         </div>
 

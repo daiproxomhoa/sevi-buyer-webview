@@ -9,8 +9,8 @@ import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
 import SellerDetailBox from "../component/detail/SellerDetailBox";
-import { ISeller } from "../model";
-import { fetchSellerDetail } from "../redux/searchReducer";
+import { ISeller, ISellerRating } from "../model";
+import { fetchSellerDetail, fetchSellerRating } from "../redux/searchReducer";
 
 interface Props {}
 
@@ -20,17 +20,26 @@ const SearchDetailPage = (props: Props) => {
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [sellerDetail, setSellerDetail] = React.useState<ISeller>();
+  const [sellerRatings, setSellerRatings] = React.useState<ISellerRating[]>([]);
 
   const fetchData = React.useCallback(async () => {
     const info = (queryString.parse(location.search) as unknown) as ISeller;
 
     setLoading(true);
-    const json = await dispatch(fetchSellerDetail(info.id));
+    const sellerCall = dispatch(fetchSellerDetail(info.id));
+    const ratingCall = dispatch(fetchSellerRating(info.id));
+
+    const sellerJson = await sellerCall;
+    const ratingJson = await ratingCall;
 
     setLoading(false);
 
-    if (json.status === SUCCESS_CODE) {
-      setSellerDetail(json.body.seller);
+    if (sellerJson.status === SUCCESS_CODE) {
+      setSellerDetail(sellerJson.body.seller);
+    }
+
+    if (ratingJson.status === SUCCESS_CODE) {
+      setSellerRatings(ratingJson.body.ratings);
     }
   }, [dispatch, location]);
 
@@ -43,6 +52,7 @@ const SearchDetailPage = (props: Props) => {
       <SellerDetailBox
         loading={loading}
         info={sellerDetail}
+        ratings={sellerRatings}
         onClose={() => {
           dispatch(goBack());
         }}

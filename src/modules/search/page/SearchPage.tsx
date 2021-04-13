@@ -76,7 +76,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   React.useEffect(() => {
     setFilter(parseSearchParams(location.search, profile));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [profile]);
 
   return (
     <>

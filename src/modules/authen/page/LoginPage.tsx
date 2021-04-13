@@ -38,9 +38,9 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
       dispatch(setLoadingBackDrop(false));
 
       if (json?.body?.tokenSignature) {
-        dispatch(authenIn());
         dispatch(setAuthData({ ...json.body }));
         dispatch(fetchProfile());
+        dispatch(authenIn());
         return;
       }
 
