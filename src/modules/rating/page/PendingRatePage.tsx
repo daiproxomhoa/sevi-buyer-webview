@@ -37,8 +37,6 @@ const PendingRatePage = (props: Props) => {
     fetchData();
   }, [dispatch, fetchData]);
 
-  console.log("pendingRateData", fuck, pendingRateData);
-
   return (
     <PageWrapperNoScroll>
       <PendingRateBox

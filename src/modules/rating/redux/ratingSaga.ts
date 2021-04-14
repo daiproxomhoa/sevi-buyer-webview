@@ -9,15 +9,15 @@ export const watchPendingRateData = createCustomAction(
 
 export function* ratingSaga() {
   function* watchPendingRate() {
-    const location = yield select((state: AppState) => state.router.location);
     while (true) {
+      const location = yield select((state: AppState) => state.router.location);
       if (location.pathname !== ROUTES.rating) {
         const json = yield put(fetchPendingRateData(0) as any);
         json.then((value) => {
           console.log(value);
         });
       }
-      yield delay(300000);
+      yield delay(60000);
     }
   }
 
