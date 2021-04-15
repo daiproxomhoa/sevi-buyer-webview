@@ -2,6 +2,7 @@
   "welcome": ["Chào mừng tới SEVI", "Welcome to SEVI"],
   "currency": ["đ", "VND"],
   "smsCode": ["se mk", "se mk"],
+  "detail": ["Chi Tiết", ""],
   "headCode": ["8105", "8105"],
   "appBookWork": ["Ứng dụng đặt việc trực tuyến", ""],
   "login": ["Đăng nhập", "Login"],
@@ -133,6 +134,15 @@
   "auth.ALREADY_CREATED": ["Số điện thoại đã tồn tại", ""],
   "auth.WRONG_OTP": ["Mã OTP không chính xác", ""],
   "auth.BAD_INPUTS": ["Đầu vào không hợp lệ", ""],
+
+  "ratingRemind.HELLO": ["Xin chào!", ""],
+  "ratingRemind.REMIND": [
+    "Công việc bạn giao đã được hoàn thành.\n Vui lòng đánh giá dịch vụ!",
+    ""
+  ],
+  "ratingRemind.JOB": ["Công việc", ""],
+  "ratingRemind.REVIEW": ["Đánh giá ngay", ""],
+  "ratingRemind.REMIND_LETTER": ["Nhắc lại sau", ""],
 
   "profile.edit": ["Chỉnh sửa thông tin", ""],
   "profile.changePassword": ["Đổi mật khẩu", ""],

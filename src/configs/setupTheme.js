@@ -1,5 +1,5 @@
 import { createMuiTheme, darken, fade } from "@material-ui/core/styles";
-import { PRIMARY, SECONDARY, BLACK_TEXT, GREY_300 } from "./colors";
+import { BLACK_TEXT, GREY_300, PRIMARY, SECONDARY } from "./colors";
 
 export const MUI_THEME = createMuiTheme({
   palette: {

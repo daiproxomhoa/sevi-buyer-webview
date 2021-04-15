@@ -22,6 +22,7 @@ import BottomNavigation from "./modules/home/component/BottomNavigation";
 import ChangePassWordPage from "./modules/profile/page/ChangePassWordPage";
 import EditProfilePage from "./modules/profile/page/EditProfilePage";
 import ProfilePage from "./modules/profile/page/ProfilePage";
+import PendingRateRemindDialog from "./modules/rating/page/PendingRateRemindDialog";
 import RatingListPage from "./modules/rating/page/RatingListPage";
 import { watchPendingRateData } from "./modules/rating/redux/ratingSaga";
 import RequestListPage from "./modules/request/page/RequestListPage";
@@ -197,6 +198,7 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
         <Route path={ROUTES.home} component={BottomNavigation} />
       </div>
       <LoadingBackDrop open={setLoadingBackDrop} />
+      <PendingRateRemindDialog />
     </>
   );
 };
