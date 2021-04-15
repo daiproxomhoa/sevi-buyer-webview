@@ -30,7 +30,7 @@ const EditProfilePage = (props: Props) => {
   const updateProfile = async (profile: some) => {
     dispatch(setLoadingBackDrop(true));
     const json = await dispatch(
-      fetchThunk(API_PATHS.updateProfile, "post", JSON.stringify(profile))
+      fetchThunk(API_PATHS.updateProfile, "post", profile)
     );
     dispatch(setLoadingBackDrop(false));
     if (json.status === SUCCESS_CODE) {

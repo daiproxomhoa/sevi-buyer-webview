@@ -43,7 +43,7 @@ const VerifyOtpPage = (props: Props) => {
   const onSubmit = useCallback(async () => {
     dispatch(setLoadingBackDrop(true));
     const json = await dispatch(
-      fetchThunk(API_PATHS.signUp, "post", JSON.stringify(signUpData))
+      fetchThunk(API_PATHS.signUp, "post", signUpData)
     );
 
     dispatch(setLoadingBackDrop(false));

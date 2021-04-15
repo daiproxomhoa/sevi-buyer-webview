@@ -32,7 +32,7 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
       dispatch(setLoadingBackDrop(true));
 
       const json = await dispatch(
-        fetchThunk(API_PATHS.passwordSignIn, "post", JSON.stringify(values))
+        fetchThunk(API_PATHS.passwordSignIn, "post", values)
       );
 
       dispatch(setLoadingBackDrop(false));

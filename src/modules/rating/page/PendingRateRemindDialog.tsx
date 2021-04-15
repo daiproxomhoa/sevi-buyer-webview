@@ -1,14 +1,23 @@
-import { Box, Button, Dialog, Typography } from "@material-ui/core";
+import { Badge, Box, Button, Dialog, Typography } from "@material-ui/core";
 import InsertInvitationIcon from "@material-ui/icons/InsertInvitation";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
-import React, { useEffect, useState } from "react";
-import { FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
+import moment from "moment";
+import { useSnackbar } from "notistack";
+import React, { useCallback, useMemo } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
+import { Action } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
+import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { ReactComponent as IconSchedule } from "../../../svg/schedule.svg";
+import { snackbarSetting } from "../../common/component/elements";
 import { some } from "../../common/constants";
+import { fetchThunk } from "../../common/redux/thunk";
+import { fetchPendingRateData } from "../redux/ratingReducer";
 
 const OPTIONS_DEFER = [
   {
@@ -16,38 +25,72 @@ const OPTIONS_DEFER = [
     title: "day",
   },
   {
-    value: 1,
+    value: 7,
     title: "week",
   },
   {
-    value: 2,
+    value: 14,
     title: "week",
   },
 ];
 interface Props {}
 const PendingRateRemindDialog = (props: Props) => {
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { pendingRateData, disableLoadMore, loading } = useSelector(
     (state: AppState) => state.rating
   );
   const location = useLocation();
-  const [open, setOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (location.pathname !== ROUTES.rating) {
-      setOpen(pendingRateData?.requests?.length > 0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const intl = useIntl();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const data = useMemo(() => {
+    return pendingRateData?.requests?.[0];
   }, [pendingRateData]);
 
-  if (!pendingRateData) {
+  const numberDeferRating = useMemo(() => {
+    return pendingRateData?.requests.filter((item: some) =>
+      item.deferRatingTo
+        ? moment(item.deferRatingTo).endOf("day").isBefore(moment())
+        : true
+    )?.length;
+  }, [pendingRateData?.requests]);
+
+  const deferRating = useCallback(
+    async (deferDay: number) => {
+      if (!data) {
+        return;
+      }
+      const json = await dispatch(
+        fetchThunk(API_PATHS.deferRating, "post", {
+          deferDay,
+          otherId: data?.sellerId,
+          requestDate: moment().format(),
+          deferTo: moment().add(deferDay, "days").format(),
+        })
+      );
+      if (json.status === SUCCESS_CODE) {
+        dispatch(fetchPendingRateData(0));
+      } else {
+        enqueueSnackbar(
+          intl.formatMessage({ id: "getDataFail" }),
+          snackbarSetting((key) => closeSnackbar(key), { color: "error" })
+        );
+      }
+    },
+    [closeSnackbar, data, dispatch, enqueueSnackbar, intl]
+  );
+  console.log("data", data);
+
+  if (
+    !pendingRateData ||
+    !data ||
+    numberDeferRating === 0 ||
+    location.pathname === ROUTES.rating
+  ) {
     return null;
   }
   return (
     <Dialog
-      open={open}
-      onClose={() => {
-        setOpen(false);
-      }}
+      open={true}
       PaperProps={{
         style: {
           width: "100%",
@@ -61,6 +104,11 @@ const PendingRateRemindDialog = (props: Props) => {
         },
       }}
     >
+      <Badge
+        badgeContent={numberDeferRating > 10 ? "9+" : numberDeferRating}
+        color="secondary"
+        style={{ position: "absolute", top: 20, right: 22 }}
+      />
       <Typography variant="h6">
         <FormattedMessage id="ratingRemind.HELLO" />
       </Typography>
@@ -69,11 +117,11 @@ const PendingRateRemindDialog = (props: Props) => {
       </Typography>
       <Typography variant="body2" className="m-b-12">
         <FormattedMessage id="ratingRemind.JOB" />
-        :&nbsp;
+        :&nbsp;{data?.desc}
       </Typography>
-      <Box className="d-flex">
+      <Box className="d-flex align-items-center">
         <InsertInvitationIcon />
-        &emsp;
+        &emsp;{data?.time}&nbsp;-&nbsp;{data?.date}
       </Box>
       <Button
         variant="contained"
@@ -118,6 +166,9 @@ const PendingRateRemindDialog = (props: Props) => {
                 minWidth: 48,
                 padding: 0,
               }}
+              onClick={() => {
+                deferRating(option.value);
+              }}
             >
               <Box className="d-flex d-flex-column justify-content-center">
                 <Typography
@@ -126,7 +177,7 @@ const PendingRateRemindDialog = (props: Props) => {
                   component="span"
                   style={{ lineHeight: 1 }}
                 >
-                  {option.value}
+                  {Number(option.value % 7 || option.value / 7).toFixed(0)}
                 </Typography>
                 <Typography variant="caption" component="span">
                   <FormattedMessage id={option.title} />

@@ -7,7 +7,7 @@ import { setCommonError, setNetworkError } from "./commonReducer";
 export function fetchThunk(
   url: string,
   method: "delete" | "put" | "get" | "post" = "get",
-  body?: string | FormData,
+  body?: some | FormData,
   fallback = { cancelled: false, data: {} },
   contentType?: string
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {
@@ -18,7 +18,7 @@ export function fetchThunk(
         res = await fetch(url, {
           credentials: "include",
           method,
-          body,
+          body: typeof body === "object" ? JSON.stringify(body) : body,
           headers:
             contentType !== "multipart/form-data"
               ? {

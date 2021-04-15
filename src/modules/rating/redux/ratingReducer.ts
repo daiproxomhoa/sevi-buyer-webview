@@ -40,15 +40,11 @@ export function fetchPendingRateData(
     dispatch(setLoading(true));
     dispatch(setDisableLoadMore(true));
     const json = await dispatch(
-      fetchThunk(
-        API_PATHS.getConfirmed,
-        "post",
-        JSON.stringify({
-          accept: true,
-          offset: pageOffset,
-          ratedFilter: "rated",
-        })
-      )
+      fetchThunk(API_PATHS.getConfirmed, "post", {
+        accept: true,
+        offset: pageOffset,
+        ratedFilter: "rated",
+      })
     );
     if (json.status === SUCCESS_CODE) {
       dispatch(setPendingRateData(json.body));
