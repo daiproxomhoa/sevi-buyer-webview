@@ -9,12 +9,21 @@ import { ISeller, ISellerSearchFilter } from "./../model";
 
 export interface SearchState {
   data: ISeller[];
+  sessionStamp: number;
+  searchString: string;
 }
 
 export const setSearchResult = createAction(
   "search/setSearchResult",
   (data: ISeller[]) => ({
     data,
+  })
+)();
+
+export const setSearchString = createAction(
+  "search/setSearchString",
+  (val: string) => ({
+    val,
   })
 )();
 
@@ -80,17 +89,27 @@ export const fetchSellerRating = (
 
 const actions = {
   setSearchResult,
+  setSearchString,
 };
 
 type ActionT = ActionType<typeof actions>;
 
 export default function searchReducer(
-  state = { data: [] },
+  state = { data: [], sessionStamp: 0, searchString: "" },
   action: ActionT
 ): SearchState {
   switch (action.type) {
     case getType(setSearchResult):
-      return { ...state, data: action.payload.data };
+      return {
+        ...state,
+        data: action.payload.data,
+        sessionStamp: new Date().getTime(),
+      };
+    case getType(setSearchString):
+      return {
+        ...state,
+        searchString: action.payload.val,
+      };
     default:
       return state;
   }

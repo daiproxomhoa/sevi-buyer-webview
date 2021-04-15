@@ -8,6 +8,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { ROUTES } from "../../../configs/routes";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
+import { setDescription } from "../../request/redux/requestReducer";
 import FilterBox from "../component/filter/FilterBox";
 import HomeSearchBox from "../component/HomeSearchBox";
 import SearchBox from "../component/SearchBox";
@@ -56,6 +57,8 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
       setLoading(true);
 
       await dispatch(sellerSearch(values));
+
+      dispatch(setDescription(values.string));
 
       setLoading(false);
     },

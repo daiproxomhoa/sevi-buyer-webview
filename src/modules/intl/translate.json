@@ -46,6 +46,7 @@
   "loadMore": ["Xem thêm", ""],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
+  "chooseRequired": ["Vui lòng chọn dữ liệu", ""],
 
   "search.nodata": [
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
@@ -82,6 +83,14 @@
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
   "request.cancel": ["Hủy bỏ", ""],
+  "request.anyDay": ["Ngày bất kỳ", ""],
+  "request.anyTime": ["Giờ bất kỳ", ""],
+  "request.chooseDate": ["Chọn ngày", ""],
+  "request.chooseTime": ["Chọn giờ", ""],
+  "request.jobDesc": ["Tên công việc", ""],
+  "request.iWantFind": ["Tôi muốn tìm {text}", ""],
+  "request.time": ["Giờ", ""],
+  "request.date": ["Ngày", ""],
   "request.confirmCancelRequest": ["Xác nhận hủy yêu cầu", ""],
   "request.youAreSureCancel": [
     "Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?",
