@@ -20,3 +20,9 @@ export interface ICreateRequestForm {
   date: string;
   time: string;
 }
+
+export interface ICreateRequestResult {
+  result: string;
+  reqDate: string;
+  remaining: number;
+}

@@ -6,12 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { TIME_FORMAT } from "../../../constants";
+import { SUCCESS_CODE, TIME_FORMAT } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
 import Header from "../../common/component/Header";
+import { setLoadingBackDrop } from "../../common/redux/commonReducer";
+import RequestResultDialog from "../component/sendRequest/RequestResultDialog";
 import SendRequestForm from "../component/sendRequest/SendRequestForm";
-import { ICreateRequest, ICreateRequestForm } from "../model";
+import {
+  ICreateRequest,
+  ICreateRequestForm,
+  ICreateRequestResult,
+} from "../model";
 import { createRequest, setDescription } from "../redux/requestReducer";
 
 interface Props {}
@@ -29,8 +35,15 @@ const SendRequestPage = (props: Props) => {
     })
   );
 
+  const [result, setResult] = React.useState<ICreateRequestResult>({
+    result: "tooManyRequests",
+    remaining: 9,
+    reqDate: "2020-04-04",
+  });
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+
   const onSubmit = React.useCallback(
-    (values: ICreateRequestForm) => {
+    async (values: ICreateRequestForm) => {
       const searchParams = new URLSearchParams(location.search);
 
       const sellerId = searchParams.get("id");
@@ -55,7 +68,16 @@ const SendRequestPage = (props: Props) => {
         },
       };
 
-      dispatch(createRequest(params));
+      dispatch(setLoadingBackDrop(true));
+
+      const json = await dispatch(createRequest(params));
+
+      dispatch(setLoadingBackDrop(false));
+
+      if (json?.status === SUCCESS_CODE) {
+        setResult(json.body);
+        setOpenDialog(true);
+      }
     },
     [dispatch, location.search, sessionStamp]
   );
@@ -73,6 +95,12 @@ const SendRequestPage = (props: Props) => {
         locale={locale}
         onUpdateDescription={(str: string) => dispatch(setDescription(str))}
         onSubmit={onSubmit}
+      />
+
+      <RequestResultDialog
+        open={openDialog}
+        result={result}
+        onClose={() => setOpenDialog(false)}
       />
     </PageWrapper>
   );

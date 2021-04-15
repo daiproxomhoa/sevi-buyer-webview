@@ -2,8 +2,8 @@ import { ThunkAction } from "redux-thunk";
 import { Action, ActionType, createAction, getType } from "typesafe-actions";
 import { API_PATHS } from "../../../configs/api";
 import { AppState } from "../../../redux/reducer";
+import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
-import { setSearchResult } from "../../search/redux/searchReducer";
 import { ICreateRequest } from "../model";
 
 export interface RequestState {
@@ -19,9 +19,9 @@ export const setDescription = createAction(
 
 export const createRequest = (
   params: ICreateRequest
-): ThunkAction<Promise<void>, AppState, null, Action<string>> => {
+): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    const json = await dispatch(
+    return await dispatch(
       fetchThunk(
         API_PATHS.createRequest,
         "put",
@@ -30,8 +30,6 @@ export const createRequest = (
         })
       )
     );
-
-    console.log(json);
   };
 };
 
