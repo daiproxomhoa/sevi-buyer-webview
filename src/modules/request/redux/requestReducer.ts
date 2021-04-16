@@ -22,13 +22,9 @@ export const createRequest = (
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
     return await dispatch(
-      fetchThunk(
-        API_PATHS.createRequest,
-        "put",
-        JSON.stringify({
-          ...params,
-        })
-      )
+      fetchThunk(API_PATHS.createRequest, "put", {
+        ...params,
+      })
     );
   };
 };

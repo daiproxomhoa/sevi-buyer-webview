@@ -1,13 +1,14 @@
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { AppState } from "../../../redux/reducer";
+import { authenOut } from "../../authen/redux/authenReducer";
 import { some } from "../constants";
 import { setCommonError, setNetworkError } from "./commonReducer";
 
 export function fetchThunk(
   url: string,
   method: "delete" | "put" | "get" | "post" = "get",
-  body?: string | FormData,
+  body?: some | FormData,
   fallback = { cancelled: false, data: {} },
   contentType?: string
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {
@@ -18,7 +19,7 @@ export function fetchThunk(
         res = await fetch(url, {
           credentials: "include",
           method,
-          body,
+          body: typeof body === "object" ? JSON.stringify(body) : body,
           headers:
             contentType !== "multipart/form-data"
               ? {
@@ -46,7 +47,7 @@ export function fetchThunk(
         }
 
         if (res.status === 401) {
-          // dispatch(logout());
+          dispatch(authenOut());
           return { status: 401, body: fallback.data };
         }
         if (res.status === 403) {

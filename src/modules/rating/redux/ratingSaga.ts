@@ -17,7 +17,7 @@ export function* ratingSaga() {
           console.log(value);
         });
       }
-      yield delay(60000);
+      yield delay(60000 * 60 * 12);
     }
   }
 

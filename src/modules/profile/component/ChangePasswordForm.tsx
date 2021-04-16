@@ -74,9 +74,9 @@ const ChangePasswordForm = (props: Props) => {
                     }}
                   >
                     {typeInput?.[name] ? (
-                      <VisibilityOffIcon />
-                    ) : (
                       <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
                     )}
                   </IconButton>
                 </InputAdornment>
@@ -120,10 +120,10 @@ const ChangePasswordForm = (props: Props) => {
                       }));
                     }}
                   >
-                    {typeInput?.newPassword ? (
-                      <VisibilityOffIcon />
-                    ) : (
+                    {typeInput?.[name] ? (
                       <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
                     )}
                   </IconButton>
                 </InputAdornment>
@@ -168,9 +168,9 @@ const ChangePasswordForm = (props: Props) => {
                     }}
                   >
                     {typeInput?.[name] ? (
-                      <VisibilityOffIcon />
-                    ) : (
                       <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
                     )}
                   </IconButton>
                 </InputAdornment>

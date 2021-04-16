@@ -137,7 +137,7 @@
 
   "ratingRemind.HELLO": ["Xin chào!", ""],
   "ratingRemind.REMIND": [
-    "Công việc bạn giao đã được hoàn thành.\n Vui lòng đánh giá dịch vụ!",
+    "Công việc của bạn đã được giao thành công.\n Hay đánh giá ngay sau khi dịch vụ đã hoàn thành hoặc nhắc lại sau!",
     ""
   ],
   "ratingRemind.JOB": ["Công việc", ""],

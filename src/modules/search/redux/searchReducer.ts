@@ -48,16 +48,12 @@ export const sellerSearch = (
 ): ThunkAction<Promise<void>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
     const json = await dispatch(
-      fetchThunk(
-        API_PATHS.sellerSearch,
-        "post",
-        JSON.stringify({
-          ...params,
-          lat: params.address.address.lat,
-          lng: params.address.address.lng,
-          radius: params.radius * 1000,
-        })
-      )
+      fetchThunk(API_PATHS.sellerSearch, "post", {
+        ...params,
+        lat: params.address.address.lat,
+        lng: params.address.address.lng,
+        radius: params.radius * 1000,
+      })
     );
 
     if (json?.body) {

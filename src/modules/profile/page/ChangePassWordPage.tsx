@@ -28,14 +28,10 @@ const ChangePassWordPage = (props: Props) => {
   const changePassword = async (formData: some) => {
     dispatch(setLoadingBackDrop(true));
     const json = await dispatch(
-      fetchThunk(
-        API_PATHS.changePassword,
-        "post",
-        JSON.stringify({
-          newPassword: formData.newPassword,
-          oldPassword: formData.oldPassword,
-        })
-      )
+      fetchThunk(API_PATHS.changePassword, "post", {
+        newPassword: formData.newPassword,
+        oldPassword: formData.oldPassword,
+      })
     );
     dispatch(setLoadingBackDrop(false));
     if (json.status === SUCCESS_CODE) {

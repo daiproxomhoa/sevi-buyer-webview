@@ -159,8 +159,6 @@ export const FormControlAutoComplete: <
     }
   }, [loadOptions, options, previous]);
 
-  console.log("optionsTmp", optionsTmp);
-
   return (
     <Autocomplete
       id={id}

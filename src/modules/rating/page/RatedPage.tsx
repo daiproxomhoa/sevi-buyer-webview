@@ -28,11 +28,11 @@ const RatedPage = (props: Props) => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     const json = await dispatch(
-      fetchThunk(
-        API_PATHS.updateProfile,
-        "post",
-        JSON.stringify({ offset: page })
-      )
+      fetchThunk(API_PATHS.getConfirmed, "post", {
+        accept: true,
+        offset: page,
+        ratedFilter: "rated",
+      })
     );
     if (json.status === SUCCESS_CODE) {
       setData((one) => ({ ...(one || []), ...json.body }));
