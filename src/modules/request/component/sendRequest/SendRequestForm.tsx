@@ -17,7 +17,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
 import { GREY_300 } from "../../../../configs/colors";
-import { DATE_FORMAT, TIME_FORMAT } from "../../../../constants";
+import { DATE_FORMAT, TIME_FORMAT } from "../../../../models/moment";
 import { some } from "../../../common/constants";
 import { ICreateRequestForm } from "../../model";
 import ChooseDateDialog from "./ChooseDateDialog";

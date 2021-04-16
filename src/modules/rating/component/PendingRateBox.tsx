@@ -13,7 +13,6 @@ interface Props {
 }
 const PendingRateBox = (props: Props) => {
   const { data, loading, setPage, disableLoadMore } = props;
-  console.log("data", data);
 
   return (
     <Box className="p-24 p-t-8 overflow-auto flex-1">

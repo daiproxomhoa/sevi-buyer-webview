@@ -2,7 +2,6 @@ import * as React from "react";
 import { useIntl } from "react-intl";
 import { PageWrapperNoScroll } from "../../common/component/elements";
 import HeaderTab from "../../common/component/HeaderTab";
-import PendingRateBox from "../component/PendingRateBox";
 import { RATING_TAB_INDEX } from "../constants";
 import PendingRatePage from "./PendingRatePage";
 import RatedPage from "./RatedPage";

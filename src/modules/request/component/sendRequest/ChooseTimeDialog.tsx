@@ -9,7 +9,7 @@ import { KeyboardTimePicker } from "@material-ui/pickers";
 import moment, { Moment } from "moment";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { TIME_FORMAT } from "../../../../constants";
+import { TIME_FORMAT } from "../../../../models/moment";
 
 interface Props {
   open: boolean;

@@ -11,7 +11,7 @@ import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { ROUTES } from "../../../configs/routes";
-import { SUCCESS_CODE } from "../../../constants";
+import { DATE_TIME_FORMAT } from "../../../models/moment";
 import { AppState } from "../../../redux/reducer";
 import { ReactComponent as IconSchedule } from "../../../svg/schedule.svg";
 import { snackbarSetting } from "../../common/component/elements";
@@ -36,23 +36,24 @@ const OPTIONS_DEFER = [
 interface Props {}
 const PendingRateRemindDialog = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { pendingRateData, disableLoadMore, loading } = useSelector(
-    (state: AppState) => state.rating
-  );
+  const { pendingRateData } = useSelector((state: AppState) => state.rating);
   const location = useLocation();
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const data = useMemo(() => {
-    return pendingRateData?.requests?.[0];
-  }, [pendingRateData]);
 
-  const numberDeferRating = useMemo(() => {
-    return pendingRateData?.requests.filter((item: some) =>
-      item.deferRatingTo
-        ? moment(item.deferRatingTo).endOf("day").isBefore(moment())
-        : true
-    )?.length;
+  const arrayDeferRating = useMemo(() => {
+    return (
+      pendingRateData?.requests.filter((item: some) =>
+        item.deferRatingTo
+          ? moment(item.deferRatingTo, DATE_TIME_FORMAT).isBefore(moment())
+          : true
+      ) || []
+    );
   }, [pendingRateData?.requests]);
+
+  const data = useMemo(() => {
+    return arrayDeferRating?.[0];
+  }, [arrayDeferRating]);
 
   const deferRating = useCallback(
     async (deferDay: number) => {
@@ -63,11 +64,13 @@ const PendingRateRemindDialog = (props: Props) => {
         fetchThunk(API_PATHS.deferRating, "post", {
           deferDay,
           otherId: data?.sellerId,
-          requestDate: moment().format(),
-          deferTo: moment().add(deferDay, "days").format(),
+          requestDate: data?.createDate,
+          deferTo: moment(data?.createDate, DATE_TIME_FORMAT)
+            .add(deferDay, "days")
+            .format(DATE_TIME_FORMAT),
         })
       );
-      if (json.status === SUCCESS_CODE) {
+      if (json.body) {
         dispatch(fetchPendingRateData(0));
       } else {
         enqueueSnackbar(
@@ -78,12 +81,11 @@ const PendingRateRemindDialog = (props: Props) => {
     },
     [closeSnackbar, data, dispatch, enqueueSnackbar, intl]
   );
-  console.log("data", data);
 
   if (
     !pendingRateData ||
     !data ||
-    numberDeferRating === 0 ||
+    arrayDeferRating?.length === 0 ||
     location.pathname === ROUTES.rating
   ) {
     return null;
@@ -105,7 +107,9 @@ const PendingRateRemindDialog = (props: Props) => {
       }}
     >
       <Badge
-        badgeContent={numberDeferRating > 10 ? "9+" : numberDeferRating}
+        badgeContent={
+          arrayDeferRating.length > 10 ? "9+" : arrayDeferRating.length
+        }
         color="secondary"
         style={{ position: "absolute", top: 20, right: 22 }}
       />

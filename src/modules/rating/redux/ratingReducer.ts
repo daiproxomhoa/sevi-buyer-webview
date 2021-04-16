@@ -43,7 +43,7 @@ export function fetchPendingRateData(
       fetchThunk(API_PATHS.getConfirmed, "post", {
         accept: true,
         offset: pageOffset,
-        ratedFilter: "rated",
+        ratedFilter: "unrated",
       })
     );
     if (json.status === SUCCESS_CODE) {
