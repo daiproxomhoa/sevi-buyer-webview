@@ -1,10 +1,10 @@
-import { goBack } from "connected-react-router";
-import queryString from "query-string";
+import { goBack, push } from "connected-react-router";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { ROUTES } from "../../../configs/routes";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
@@ -23,11 +23,17 @@ const SearchDetailPage = (props: Props) => {
   const [sellerRatings, setSellerRatings] = React.useState<ISellerRating[]>([]);
 
   const fetchData = React.useCallback(async () => {
-    const info = (queryString.parse(location.search) as unknown) as ISeller;
+    const params = new URLSearchParams(location.search);
+
+    const sellerId = params.get("id");
+
+    if (!sellerId) {
+      return;
+    }
 
     setLoading(true);
-    const sellerCall = dispatch(fetchSellerDetail(info.id));
-    const ratingCall = dispatch(fetchSellerRating(info.id));
+    const sellerCall = dispatch(fetchSellerDetail(sellerId));
+    const ratingCall = dispatch(fetchSellerRating(sellerId));
 
     const sellerJson = await sellerCall;
     const ratingJson = await ratingCall;
@@ -56,7 +62,14 @@ const SearchDetailPage = (props: Props) => {
         onClose={() => {
           dispatch(goBack());
         }}
-        onSendRequest={() => {}}
+        onSendRequest={() =>
+          dispatch(
+            push({
+              pathname: ROUTES.sendRequest,
+              search: `?id=${sellerDetail?.id}`,
+            })
+          )
+        }
       />
     </PageWrapper>
   );

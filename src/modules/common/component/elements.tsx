@@ -4,30 +4,22 @@ import {
   createStyles,
   Input,
   InputAdornment,
-  InputBase,
   InputProps,
   makeStyles,
-  Popover,
   Slide,
   Theme,
   Typography,
   withStyles,
 } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { TransitionProps } from "@material-ui/core/transitions";
 import { Alert, AlertProps, AlertTitle } from "@material-ui/lab";
 import { OptionsObject, SnackbarMessage } from "notistack";
 import React from "react";
 import styled from "styled-components";
-import {
-  BACKGROUND,
-  GREY_100,
-  GREY_400,
-  GREY_500,
-  LIGHT_GREY,
-} from "../../../configs/colors";
-import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
+import { BACKGROUND, LIGHT_GREY } from "../../../configs/colors";
 import { ReactComponent as HeaderSVG } from "../../../svg/header.svg";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
 
 export const PageWrapper = styled.div`
   background-size: cover;
@@ -160,39 +152,6 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
     />
   );
 };
-
-export const BootstrapInput = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      minHeight: 32,
-      padding: 0,
-      borderBottom: `1px solid ${GREY_400}`,
-      position: "relative",
-      backgroundColor: theme.palette.common.white,
-      transition: theme.transitions.create(["border-color", "box-shadow"]),
-      overflow: "hidden",
-      "&:hover": {
-        borderColor: theme.palette.primary.main,
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: "relative",
-      fontSize: theme.typography.body2.fontSize,
-      padding: "8px",
-    },
-    focused: {
-      borderColor: theme.palette.primary.main,
-    },
-    error: {
-      borderColor: theme.palette.error.main,
-    },
-    disabled: {
-      backgroundColor: GREY_100,
-      color: GREY_500,
-    },
-  })
-)(InputBase);
 
 export function snackbarSetting(
   closeSnackbar: (key: string) => void,

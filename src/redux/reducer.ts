@@ -1,3 +1,6 @@
+import requestReducer, {
+  RequestState,
+} from "./../modules/request/redux/requestReducer";
 import searchReducer, {
   SearchState,
 } from "./../modules/search/redux/searchReducer";
@@ -24,6 +27,7 @@ export interface AppState {
   common: CommonState;
   authen: AuthenState;
   search: SearchState;
+  request: RequestState;
   profile: ProfileState;
   rating: RatingState;
 }
@@ -35,6 +39,7 @@ export default function createRootReducer(history: History) {
     common: commonReducer,
     authen: authenReducer,
     search: searchReducer,
+    request: requestReducer,
     profile: profileReducer,
     rating: ratingReducer,
   });

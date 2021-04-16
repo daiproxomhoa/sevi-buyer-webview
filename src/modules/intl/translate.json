@@ -45,8 +45,10 @@
   "noOption": ["Không có dữ liệu", ""],
   "getDataFail": ["Có lỗi xảy ra", ""],
   "loadMore": ["Xem thêm", ""],
+  "sendMessage": ["Nhắn tin", ""],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
+  "chooseRequired": ["Vui lòng chọn dữ liệu", ""],
 
   "search.nodata": [
     "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
@@ -83,7 +85,34 @@
   "request.requesting": ["Đang yêu cầu", ""],
   "request.received": ["Đã được nhận", ""],
   "request.cancel": ["Hủy bỏ", ""],
+  "request.anyDay": ["Ngày bất kỳ", ""],
+  "request.anyTime": ["Giờ bất kỳ", ""],
+  "request.chooseDate": ["Chọn ngày", ""],
+  "request.chooseTime": ["Chọn giờ", ""],
+  "request.jobDesc": ["Tên công việc", ""],
+  "request.iWantFind": ["Tôi muốn tìm {text}", ""],
+  "request.time": ["Giờ", ""],
+  "request.date": ["Ngày", ""],
   "request.confirmCancelRequest": ["Xác nhận hủy yêu cầu", ""],
+
+  "request.success": ["Gửi yêu cầu thành công", ""],
+  "request.error": ["Gửi yêu cầu thất bại", ""],
+  "request.backSearchPage": ["Quay lại kết quả tìm kiếm", ""],
+  "request.remaining": ["Số lượt gửi còn lại: {num}", ""],
+  "request.response.success": [
+    "Yêu cầu của bạn đã được gửi đi. Vui lòng chờ xác nhận.",
+    ""
+  ],
+  "request.response.duplicateRequest": [
+    "Bạn đã gửi yêu cầu cho thợ trước đó. Vui lòng không gửi lại",
+    ""
+  ],
+  "request.response.otherFailure ": ["Có lỗi trong quá trình gửi yêu cầu", ""],
+  "request.response.tooManyRequests": [
+    "Bạn không thể gửi yêu cầu. Do số lượt gửi yêu cầu đã hết. Vui lòng hủy các yêu cầu khác để gửi lại yêu cầu.",
+    ""
+  ],
+
   "request.youAreSureCancel": [
     "Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?",
     ""

@@ -143,6 +143,7 @@ const SellerDetailBox = (props: Props) => {
         }}
       >
         <Button
+          disabled={loading}
           variant="contained"
           color="primary"
           fullWidth
