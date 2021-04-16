@@ -1,7 +1,7 @@
 import { go, goBack } from "connected-react-router";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -31,7 +31,8 @@ const SendRequestPage = (props: Props) => {
       locale: state.intl.locale,
       description: state.request.description,
       sessionStamp: state.search.sessionStamp,
-    })
+    }),
+    shallowEqual
   );
 
   const [result, setResult] = React.useState<ICreateRequestResult>({
