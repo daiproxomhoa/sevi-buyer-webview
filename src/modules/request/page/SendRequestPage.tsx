@@ -1,12 +1,11 @@
-import { goBack } from "connected-react-router";
-import moment from "moment";
+import { go, goBack } from "connected-react-router";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { SUCCESS_CODE, TIME_FORMAT } from "../../../constants";
+import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { PageWrapper } from "../../common/component/elements";
 import Header from "../../common/component/Header";
@@ -52,20 +51,13 @@ const SendRequestPage = (props: Props) => {
         return;
       }
 
-      const requestTime = moment(values.time, TIME_FORMAT);
-
       const params: ICreateRequest = {
         sellerId,
         sessionStamp,
         date: values.date,
         location: values.location,
         desc: values.desc,
-        time: {
-          hour: requestTime.hours(),
-          minute: requestTime.minutes(),
-          second: 0,
-          nano: 0,
-        },
+        time: `${values.time}:00`,
       };
 
       dispatch(setLoadingBackDrop(true));
@@ -101,6 +93,10 @@ const SendRequestPage = (props: Props) => {
         open={openDialog}
         result={result}
         onClose={() => setOpenDialog(false)}
+        backToSearch={() => {
+          setOpenDialog(false);
+          dispatch(go(-2));
+        }}
       />
     </PageWrapper>
   );

@@ -9,10 +9,11 @@ interface Props {
   open: boolean;
   onClose(): void;
   result?: ICreateRequestResult;
+  backToSearch(): void;
 }
 
 const RequestResultDialog = (props: Props) => {
-  const { result, open, onClose } = props;
+  const { result, open, onClose, backToSearch } = props;
 
   if (!result) {
     return <></>;
@@ -69,7 +70,7 @@ const RequestResultDialog = (props: Props) => {
             <FormattedMessage id="sendMessage" />
           </Button>
 
-          <ButtonBase disableRipple>
+          <ButtonBase disableRipple onClick={backToSearch}>
             <Typography variant="body1" color="textSecondary">
               <FormattedMessage id="request.backSearchPage" />
             </Typography>
