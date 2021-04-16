@@ -35,11 +35,7 @@ const SendRequestPage = (props: Props) => {
     shallowEqual
   );
 
-  const [result, setResult] = React.useState<ICreateRequestResult>({
-    result: "tooManyRequests",
-    remaining: 9,
-    reqDate: "2020-04-04",
-  });
+  const [result, setResult] = React.useState<ICreateRequestResult>();
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
   const onSubmit = React.useCallback(
