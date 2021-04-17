@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { API_PATHS } from "../../../../configs/api";
 import { BACKGROUND } from "../../../../configs/colors";
-import { HeaderDiv } from "../../../common/component/elements";
+import { Header2Div } from "../../../common/component/elements";
 import HeaderTab from "../../../common/component/HeaderTab";
 import { WhiteIconButton } from "../../../common/component/IconButton";
 import { ISeller, ISellerRating } from "../../model";
@@ -39,7 +39,7 @@ const SellerDetailBox = (props: Props) => {
           background: BACKGROUND,
         }}
       >
-        <HeaderDiv
+        <Header2Div
           style={{
             position: "absolute",
             padding: 0,

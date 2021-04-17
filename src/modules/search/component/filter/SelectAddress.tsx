@@ -27,6 +27,16 @@ const CustomPopover = withStyles((theme: Theme) => ({
   },
 }))(Popover);
 
+const CustomButton = withStyles((theme: Theme) => ({
+  root: {},
+  label: {
+    display: "flex",
+  },
+  endIcon: {
+    flexShrink: 0,
+  },
+}))(Button);
+
 interface Props {
   filter: ISellerSearchFilter;
   profile?: some;
@@ -77,7 +87,7 @@ const SelectAddress = (props: Props) => {
           />
         </div>
 
-        <Button
+        <CustomButton
           fullWidth
           style={{
             backgroundColor: LIGHT_GREY,
@@ -99,7 +109,7 @@ const SelectAddress = (props: Props) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
-              width: "100%",
+              width: "90%",
             }}
           >
             <Typography variant="caption" color="textSecondary">
@@ -118,7 +128,7 @@ const SelectAddress = (props: Props) => {
               {filter.address.address.formattedAddress}
             </Typography>
           </div>
-        </Button>
+        </CustomButton>
       </div>
 
       <CustomPopover
@@ -146,6 +156,10 @@ const SelectAddress = (props: Props) => {
           <ListItem
             key={JSON.stringify(one)}
             button
+            selected={
+              filter.address.address.formattedAddress ===
+              one?.address?.formattedAddress
+            }
             style={{
               display: "flex",
               flexDirection: "column",

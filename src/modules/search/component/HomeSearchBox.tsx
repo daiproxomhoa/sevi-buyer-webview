@@ -1,4 +1,5 @@
 import { Chip, Theme, Typography, withStyles } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -9,6 +10,7 @@ import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import { fetchThunk } from "../../common/redux/thunk";
 import { IRecentSearch } from "../model";
+import HomeSearchSkeleton from "./HomeSearchSkeleton";
 
 const CustomChip = withStyles((theme: Theme) => ({
   root: {
@@ -29,14 +31,17 @@ const HomeSearchBox = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [popularSearches, setPopularSearches] = React.useState<string[]>([]);
   const [recentSearches, setRecentSearches] = React.useState<IRecentSearch[]>();
+  const [loading, setLoading] = React.useState(false);
 
   const fetchPopularKeyword = React.useCallback(async () => {
+    setLoading(true);
     const popularSearchCall = dispatch(fetchThunk(API_PATHS.popularSearches));
     const recentSearchCall = dispatch(fetchThunk(API_PATHS.recentSearches));
 
     const popularJson = await popularSearchCall;
     const recentJson = await recentSearchCall;
 
+    setLoading(false);
     if (popularJson?.status === SUCCESS_CODE) {
       setPopularSearches(popularJson.body);
     }
@@ -58,11 +63,14 @@ const HomeSearchBox = (props: Props) => {
         WebkitOverflowScrolling: "touch",
       }}
     >
-      {!!recentSearches?.length && (
-        <div>
-          <Typography variant="subtitle1" style={{ margin: "24px 24px 10px" }}>
-            <FormattedMessage id="searchRecent" />
-          </Typography>
+      <div>
+        <Typography variant="subtitle1" style={{ margin: "24px 24px 10px" }}>
+          <FormattedMessage id="searchRecent" />
+        </Typography>
+
+        {loading && <HomeSearchSkeleton />}
+
+        {!!recentSearches?.length && (
           <div
             style={{ display: "flex", flexWrap: "wrap", margin: "0px 18px" }}
           >
@@ -78,18 +86,21 @@ const HomeSearchBox = (props: Props) => {
                 )
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {!!popularSearches?.length && (
-        <div
-          style={{
-            marginBottom: "80px",
-          }}
-        >
-          <Typography variant="subtitle1" style={{ margin: "24px 24px 10px" }}>
-            <FormattedMessage id="popularKeyword" />
-          </Typography>
+      <div
+        style={{
+          marginBottom: "80px",
+        }}
+      >
+        <Typography variant="subtitle1" style={{ margin: "24px 24px 10px" }}>
+          <FormattedMessage id="popularKeyword" />
+        </Typography>
+
+        {loading && <HomeSearchSkeleton />}
+
+        {!!popularSearches?.length && (
           <div
             style={{ display: "flex", flexWrap: "wrap", margin: "0px 18px" }}
           >
@@ -105,8 +116,8 @@ const HomeSearchBox = (props: Props) => {
                 )
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

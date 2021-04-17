@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import { PageWrapperNoScroll } from "../../common/component/elements";
+import { PageWrapper } from "../../common/component/elements";
 import HeaderTab from "../../common/component/HeaderTab";
 import ReceivedBox from "../component/ReceivedBox";
 import RequestingBox from "../component/RequestingBox";
@@ -16,7 +16,7 @@ const RequestListPage: React.FunctionComponent<IRequestListPageProps> = (
   const [tabIndex, setTabIndex] = useState(REQUEST_TAB_INDEX.REQUESTING);
 
   return (
-    <PageWrapperNoScroll>
+    <PageWrapper>
       <HeaderTab
         tabIndex={tabIndex}
         tabList={[
@@ -31,7 +31,7 @@ const RequestListPage: React.FunctionComponent<IRequestListPageProps> = (
       ) : (
         <ReceivedBox />
       )}
-    </PageWrapperNoScroll>
+    </PageWrapper>
   );
 };
 

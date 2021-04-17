@@ -5,11 +5,14 @@ import {
   Input,
   InputAdornment,
   Theme,
+  Typography,
   withStyles,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import TuneIcon from "@material-ui/icons/Tune";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { debounce } from "lodash";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -18,7 +21,6 @@ import { ThunkDispatch } from "redux-thunk";
 import { BACKGROUND, BLACK } from "../../../configs/colors";
 import { AppState } from "../../../redux/reducer";
 import { HeaderDiv } from "../../common/component/elements";
-import FormControlAutoComplete from "../../common/component/FormControlAutoComplete";
 import { WhiteIconButton } from "../../common/component/IconButton";
 import { ISellerSearchFilter } from "../model";
 import { searchKeyword } from "../redux/searchReducer";
@@ -46,9 +48,24 @@ const SearchBox = (props: Props) => {
   const { filter, onSellerSearch, openFilter } = props;
   const intl = useIntl();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const [options, setOptions] = React.useState<string[]>([]);
 
   const [searchString, setSearchString] = React.useState(filter.string);
   const [loading, setLoading] = React.useState(false);
+
+  const loadOptions = debounce(
+    async (str: string) => {
+      setLoading(true);
+      const json = await dispatch(searchKeyword(str));
+      setLoading(false);
+      setOptions(json);
+    },
+    300,
+    {
+      trailing: true,
+      leading: false,
+    }
+  );
 
   React.useEffect(() => {
     if (filter.string) {
@@ -58,25 +75,24 @@ const SearchBox = (props: Props) => {
 
   return (
     <HeaderDiv style={{ display: "flex" }}>
-      <FormControlAutoComplete
+      <Autocomplete
         fullWidth
         freeSolo
+        autoHighlight
+        autoComplete
         value={searchString}
+        options={options}
         onChange={async (e, str: string | null) => {
           setSearchString(str || "");
           if (str) {
             onSellerSearch(str);
           }
         }}
-        loadOptions={async (str: string) => {
-          setLoading(true);
-          const json = await dispatch(searchKeyword(str));
-          setLoading(false);
-          return json;
-        }}
-        getOptionLabel={(value: string) => value}
-        getOptionSelected={(option: string, value: string) => option === value}
+        onInputChange={(event: object, value: string, reason: string) =>
+          loadOptions(value)
+        }
         loading={loading}
+        onMouseDownCapture={(e) => !searchString && e.stopPropagation()}
         loadingText={
           <div
             style={{
@@ -90,6 +106,9 @@ const SearchBox = (props: Props) => {
             <CircularProgress color="inherit" size={16} />
           </div>
         }
+        noOptionsText={<FormattedMessage id="noOption" />}
+        getOptionLabel={(value: string) => value}
+        getOptionSelected={(option: string, value: string) => option === value}
         renderInput={(params) => (
           <SearchInput
             {...params}
@@ -129,6 +148,19 @@ const SearchBox = (props: Props) => {
               </>
             }
           />
+        )}
+        renderOption={(option, { selected }) => (
+          <Typography
+            variant="body2"
+            style={{
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              flex: 1,
+            }}
+          >
+            {option}
+          </Typography>
         )}
       />
 
