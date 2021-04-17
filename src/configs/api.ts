@@ -42,6 +42,7 @@ export const API_PATHS = {
   recentSearches: `${getBaseUrl(APIService.protected)}/buyer/recentSearches`,
 
   createRequest: `${getBaseUrl(APIService.protected)}/request/create`,
+  getUnconfirmed: `${getBaseUrl(APIService.protected)}/request/getUnconfirmed`,
 
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
   setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,

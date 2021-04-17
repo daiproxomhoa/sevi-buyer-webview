@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useIntl } from "react-intl";
 import { PageWrapper } from "../../common/component/elements";
 import HeaderTab from "../../common/component/HeaderTab";
-import ReceivedBox from "../component/ReceivedBox";
-import RequestingBox from "../component/RequestingBox";
 import { REQUEST_TAB_INDEX } from "../constants";
+import AcceptedRequestPage from "./AcceptedRequestPage";
+import RequestingPage from "./RequestingPage";
 
 interface IRequestListPageProps {}
 
@@ -27,9 +27,9 @@ const RequestListPage: React.FunctionComponent<IRequestListPageProps> = (
       />
 
       {tabIndex === REQUEST_TAB_INDEX.REQUESTING ? (
-        <RequestingBox />
+        <RequestingPage />
       ) : (
-        <ReceivedBox />
+        <AcceptedRequestPage />
       )}
     </PageWrapper>
   );

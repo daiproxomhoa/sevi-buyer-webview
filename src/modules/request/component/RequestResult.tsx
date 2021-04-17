@@ -1,14 +1,32 @@
+import { ButtonBase } from "@material-ui/core";
 import React from "react";
-import { CardDiv } from "../../common/component/elements";
-import RequestResultItem from "./RequestResultItem";
+import { LIGHT_GREY } from "../../../configs/colors";
+import { IRequest } from "../model";
+import ResultItemInfo from "./ResultItemInfo";
 
-interface Props {}
+interface Props {
+  info: IRequest;
+}
 
 const RequestResult = (props: Props) => {
+  const { info } = props;
+
   return (
-    <CardDiv>
-      <RequestResultItem />
-    </CardDiv>
+    <ButtonBase
+      style={{
+        width: "100%",
+        borderRadius: "12px",
+        marginTop: "12px",
+        backgroundColor: LIGHT_GREY,
+        justifyContent: "flex-start",
+        padding: "12px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+      }}
+    >
+      <ResultItemInfo info={info} />
+    </ButtonBase>
   );
 };
 
