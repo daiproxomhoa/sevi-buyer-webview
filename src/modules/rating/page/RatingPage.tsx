@@ -10,12 +10,15 @@ import {
   PageWrapperNoScroll,
   snackbarSetting,
 } from "../../common/component/elements";
-import PendingRateBox from "../component/PendingRateBox";
+import PendingRateBox from "../component/RatingBox";
 import { fetchPendingRateData } from "../redux/ratingReducer";
 
-interface Props {}
+interface Props {
+  mode: "rated" | "unrated";
+}
 
-const PendingRatePage = (props: Props) => {
+const RatingPage = (props: Props) => {
+  const { mode } = props;
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
@@ -24,14 +27,14 @@ const PendingRatePage = (props: Props) => {
   const { loading, pendingRateData, disableLoadMore } = fuck;
 
   const fetchData = useCallback(async () => {
-    const json = await dispatch(fetchPendingRateData(offset));
+    const json = await dispatch(fetchPendingRateData(offset, mode));
     if (json.status !== SUCCESS_CODE) {
       enqueueSnackbar(
         intl.formatMessage({ id: "getDataFail" }),
         snackbarSetting((key) => closeSnackbar(key), { color: "error" })
       );
     }
-  }, [closeSnackbar, dispatch, enqueueSnackbar, intl, offset]);
+  }, [closeSnackbar, dispatch, enqueueSnackbar, intl, offset, mode]);
 
   useEffect(() => {
     fetchData();
@@ -44,9 +47,10 @@ const PendingRatePage = (props: Props) => {
         setPage={() => setPageOffset((one) => one + 1)}
         loading={loading}
         disableLoadMore={disableLoadMore}
+        mode={mode}
       />
     </PageWrapperNoScroll>
   );
 };
 
-export default PendingRatePage;
+export default RatingPage;

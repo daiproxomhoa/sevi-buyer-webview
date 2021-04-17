@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType, createCustomAction, getType } from "typesafe-actions";
@@ -34,20 +35,34 @@ export const setDisableLoadMore = createCustomAction(
 );
 
 export function fetchPendingRateData(
-  pageOffset = 0
+  pageOffset = 0,
+  ratedFilter = "unrated"
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {
   return async (dispatch, getState) => {
+    if (!pageOffset) {
+      dispatch(setPendingRateData());
+    }
+    const { pendingRateData = {} } = getState().rating;
+
     dispatch(setLoading(true));
     dispatch(setDisableLoadMore(true));
     const json = await dispatch(
       fetchThunk(API_PATHS.getConfirmed, "post", {
         accept: true,
         offset: pageOffset,
-        ratedFilter: "unrated",
+        ratedFilter,
       })
     );
     if (json.status === SUCCESS_CODE) {
-      dispatch(setPendingRateData(json.body));
+      dispatch(
+        setPendingRateData({
+          ...json.body,
+          requests: [
+            ...get(pendingRateData, "requests", []),
+            ...get(json.body, "requests", []),
+          ],
+        })
+      );
       if (!json.body?.requests?.length) {
         dispatch(setDisableLoadMore(true));
       }

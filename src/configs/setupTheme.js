@@ -109,7 +109,6 @@ export const MUI_THEME = createMuiTheme({
       },
       sizeSmall: {
         height: "30px",
-        borderRadius: "500px",
         fontSize: "14px",
       },
       sizeLarge: {

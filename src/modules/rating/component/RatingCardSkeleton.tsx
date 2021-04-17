@@ -1,15 +1,14 @@
 import { Avatar, Box, Button, Divider } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import Rating from "@material-ui/lab/Rating";
+import { Rating, Skeleton } from "@material-ui/lab";
 import React from "react";
 import { CardDiv } from "../../common/component/elements";
 
 interface Props {
-  isRated?: boolean;
+  mode: "rated" | "unrated";
 }
 
-const RatedResultSkeleton = (props: Props) => {
-  const { isRated } = props;
+const RatingCardSkeleton = (props: Props) => {
+  const { mode } = props;
   return (
     <CardDiv>
       <Skeleton variant="text" width="50%" style={{ height: 26 }} />
@@ -23,22 +22,30 @@ const RatedResultSkeleton = (props: Props) => {
         <Box className="flex-1">
           <Skeleton variant="text" width="50%" />
         </Box>
-        {isRated ? (
-          <Rating readOnly value={0} size="small" />
+        {mode === "unrated" ? (
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            disabled={true}
+            style={{ minWidth: 136 }}
+          />
         ) : (
-          <Skeleton variant="text" width="20%" />
+          <Rating readOnly value={0} size="small" />
         )}
       </Box>
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        size="small"
-        className={"m-t-8"}
-        disabled={true}
-      />
+      {mode === "rated" && (
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          size="small"
+          className={"m-t-8"}
+          disabled={true}
+        />
+      )}
     </CardDiv>
   );
 };
 
-export default RatedResultSkeleton;
+export default RatingCardSkeleton;

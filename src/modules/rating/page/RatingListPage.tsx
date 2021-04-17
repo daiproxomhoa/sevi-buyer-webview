@@ -3,8 +3,7 @@ import { useIntl } from "react-intl";
 import { PageWrapperNoScroll } from "../../common/component/elements";
 import HeaderTab from "../../common/component/HeaderTab";
 import { RATING_TAB_INDEX } from "../constants";
-import PendingRatePage from "./PendingRatePage";
-import RatedPage from "./RatedPage";
+import RatingPage from "./RatingPage";
 
 interface IRatingListPageProps {}
 
@@ -26,9 +25,9 @@ const RatingListPage: React.FunctionComponent<IRatingListPageProps> = (
       />
 
       {tabIndex === RATING_TAB_INDEX.PENDING ? (
-        <PendingRatePage />
+        <RatingPage mode={"unrated"} />
       ) : (
-        <RatedPage />
+        <RatingPage mode={"rated"} />
       )}
     </PageWrapperNoScroll>
   );
