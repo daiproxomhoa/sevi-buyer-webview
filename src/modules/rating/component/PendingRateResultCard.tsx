@@ -4,7 +4,9 @@ import { Rating } from "@material-ui/lab";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { API_PATHS } from "../../../configs/api";
+import { ROUTES } from "../../../configs/routes";
 import { CardDiv } from "../../common/component/elements";
+import { RawLink } from "../../common/component/Link";
 import { some } from "../../common/constants";
 import { getFullName } from "../utils";
 
@@ -34,17 +36,19 @@ const PendingRateResultCard = (props: Props) => {
           <Typography variant="caption">{getFullName(seller)}</Typography>
         </Box>
         {mode === "unrated" ? (
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            style={{ minWidth: 136 }}
-          >
-            <GradeRoundedIcon
-              style={{ width: "16px", height: "16px", marginRight: "6px" }}
-            />
-            <FormattedMessage id="rating.rateNow" />
-          </Button>
+          <RawLink to={ROUTES.review}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{ minWidth: 136 }}
+            >
+              <GradeRoundedIcon
+                style={{ width: "16px", height: "16px", marginRight: "6px" }}
+              />
+              <FormattedMessage id="rating.rateNow" />
+            </Button>
+          </RawLink>
         ) : (
           <Rating readOnly value={0} size="small" />
         )}

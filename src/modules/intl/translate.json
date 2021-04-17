@@ -122,6 +122,11 @@
   "rating.rated": ["Đã đánh giá", ""],
   "rating.rateNow": ["Đánh giá ngay", ""],
   "rating.requestAgain": ["Yêu cầu lại", ""],
+  "review.job": ["Bạn đánh giá công việc tôi làm thế nào?", ""],
+  "review.price": ["Giá cả tôi làm thế nào?", ""],
+  "review.quality": ["Bạn có hài lòng với chất lượng công việc?", ""],
+  "review.attitude": ["Thái độ phục vụ của tôi có khiến bạn hài lòng?", ""],
+  "review.title": ["Đánh giá", ""],
 
   "auth.enterOtp": ["Nhập mã OTP", "Enter OTP"],
   "auth.verifyOtp": ["Xác thực OTP", "Verify OTP"],

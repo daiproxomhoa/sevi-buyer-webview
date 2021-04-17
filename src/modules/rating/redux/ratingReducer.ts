@@ -39,13 +39,13 @@ export function fetchPendingRateData(
   ratedFilter = "unrated"
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {
   return async (dispatch, getState) => {
+    dispatch(setLoading(true));
+    dispatch(setDisableLoadMore(true));
     if (!pageOffset) {
       dispatch(setPendingRateData());
     }
     const { pendingRateData = {} } = getState().rating;
 
-    dispatch(setLoading(true));
-    dispatch(setDisableLoadMore(true));
     const json = await dispatch(
       fetchThunk(API_PATHS.getConfirmed, "post", {
         accept: true,
