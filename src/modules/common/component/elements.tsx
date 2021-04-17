@@ -18,7 +18,8 @@ import { OptionsObject, SnackbarMessage } from "notistack";
 import React from "react";
 import styled from "styled-components";
 import { BACKGROUND, LIGHT_GREY } from "../../../configs/colors";
-import HeaderSVG from "../../../svg/header.svg";
+import { ReactComponent as HeaderSVG } from "../../../svg/header.svg";
+import { ReactComponent as Header2SVG } from "../../../svg/header2.svg";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
 
 export const PageWrapper = styled.div`
@@ -56,12 +57,68 @@ export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
           alignItems: "center",
         }}
       >
-        <img
-          src={HeaderSVG}
-          alt=""
+        <HeaderSVG
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
           width="100%"
           height="100%"
-          style={{ objectFit: "cover" }}
+        />
+      </div>
+      {children}
+    </HeaderDivCore>
+  );
+};
+
+export const Header2Div: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
+  return (
+    <HeaderDivCore {...rest}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: -100,
+          bottom: 0,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Header2SVG
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
+          width="100%"
+          height="100%"
+        />
+      </div>
+      {children}
+    </HeaderDivCore>
+  );
+};
+
+// big in iOS, need 2 svg files so inline gradients won't collide
+export const HeaderDiv2: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
+  return (
+    <HeaderDivCore {...rest}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: -100,
+          bottom: 0,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <HeaderSVG
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
+          width="100%"
+          height="100%"
         />
       </div>
       {children}
