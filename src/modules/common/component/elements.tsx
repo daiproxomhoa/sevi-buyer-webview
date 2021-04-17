@@ -18,7 +18,7 @@ import { OptionsObject, SnackbarMessage } from "notistack";
 import React from "react";
 import styled from "styled-components";
 import { BACKGROUND, LIGHT_GREY } from "../../../configs/colors";
-import { ReactComponent as HeaderSVG } from "../../../svg/header.svg";
+import HeaderSVG from "../../../svg/header.svg";
 import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
 
 export const PageWrapper = styled.div`
@@ -56,11 +56,12 @@ export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
           alignItems: "center",
         }}
       >
-        <HeaderSVG
-          viewBox="0 0 1200 800"
-          preserveAspectRatio="none"
+        <img
+          src={HeaderSVG}
+          alt=""
           width="100%"
           height="100%"
+          style={{ objectFit: "cover" }}
         />
       </div>
       {children}
