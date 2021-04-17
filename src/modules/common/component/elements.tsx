@@ -56,7 +56,12 @@ export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
           alignItems: "center",
         }}
       >
-        <HeaderSVG />
+        <HeaderSVG
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
+          width="100%"
+          height="100%"
+        />
       </div>
       {children}
     </HeaderDivCore>
@@ -69,13 +74,6 @@ const HeaderDivCore = styled.div`
   position: -webkit-sticky;
   border-radius: 0px 0px 32px 32px;
   padding: 28px 24px 24px 24px;
-  background: linear-gradient(
-    96deg,
-    rgb(255, 174, 70) -31.54%,
-    rgb(255, 151, 85) -2.71%,
-    rgb(202, 30, 120) 59.37%,
-    rgb(192, 15, 167) 98.43%
-  );
   z-index: 1;
   overflow: hidden;
 `;
