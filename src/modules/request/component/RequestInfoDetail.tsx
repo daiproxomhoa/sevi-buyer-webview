@@ -24,6 +24,7 @@ const RequestInfoDetail = (props: Props) => {
         alignItems: "flex-end",
       }}
       onExited={onExited}
+      hideBackdrop
     >
       <Header action={onClose} title={info?.desc} />
 
