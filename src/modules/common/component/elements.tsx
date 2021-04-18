@@ -1,6 +1,7 @@
 import {
   Backdrop,
   BackdropProps,
+  Chip,
   createStyles,
   Input,
   InputAdornment,
@@ -220,8 +221,8 @@ export function snackbarSetting(
       horizontal: "right",
     },
     preventDuplicate: true,
-    autoHideDuration: 1000,
-    style: { width: "100%" },
+    autoHideDuration: 100000,
+    style: { width: "calc(100vw - 16px)" },
     // persist: true,
     content: (key: string, msg: SnackbarMessage) => (
       <Alert
@@ -256,3 +257,12 @@ export const LoadingBackDrop: React.FC<BackdropProps> = (props) => {
     </Backdrop>
   );
 };
+
+export const CustomChip = withStyles((theme: Theme) => ({
+  root: {
+    borderRadius: 64,
+    backgroundColor: theme.palette.grey[300],
+    margin: 6,
+    fontSize: theme.typography.body2.fontSize,
+  },
+}))(Chip);

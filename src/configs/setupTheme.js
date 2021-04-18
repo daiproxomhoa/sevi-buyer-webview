@@ -1,5 +1,5 @@
 import { createMuiTheme, darken, fade } from "@material-ui/core/styles";
-import { BLACK_TEXT, GREY_300, PRIMARY, SECONDARY } from "./colors";
+import { BACKGROUND, BLACK_TEXT, GREY_300, PRIMARY, SECONDARY } from "./colors";
 
 export const MUI_THEME = createMuiTheme({
   palette: {
@@ -103,21 +103,22 @@ export const MUI_THEME = createMuiTheme({
       root: {
         borderRadius: "12px",
         height: "48px",
-        "&$contained:hover": {
-          boxShadow: "none",
-        },
+        background: BACKGROUND,
+        // "&$contained:hover": {
+        //   boxShadow: "none",
+        // },
       },
       sizeSmall: {
         height: "30px",
         fontSize: "14px",
       },
       sizeLarge: {
-        boxShadow: "none",
+        // boxShadow: "none",
       },
       contained: {
-        boxShadow: "none",
+        // boxShadow: "none",
       },
-      disableElevation: true,
+      // disableElevation: true,
     },
     MuiIconButton: {
       root: {},

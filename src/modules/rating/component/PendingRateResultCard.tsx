@@ -17,7 +17,8 @@ interface Props {
 
 const PendingRateResultCard = (props: Props) => {
   const { request = {}, mode } = props;
-  const { seller, desc } = request;
+  const { seller, desc, createDate } = request;
+
   return (
     <CardDiv>
       {desc && (
@@ -29,14 +30,14 @@ const PendingRateResultCard = (props: Props) => {
       <Box className="d-flex justify-content-between align-items-center m-t-4 m-b-4">
         <Avatar
           alt=""
-          src={API_PATHS.renderAvatar(seller.id, seller.avatar)}
+          src={API_PATHS.renderSellerAvatar(seller.id, seller.avatar)}
           style={{ width: "28px", height: "28px", marginRight: "8px" }}
         />
         <Box className="flex-1">
           <Typography variant="caption">{getFullName(seller)}</Typography>
         </Box>
         {mode === "unrated" ? (
-          <RawLink to={ROUTES.review}>
+          <RawLink to={ROUTES.review.gen(seller?.id, createDate)}>
             <Button
               variant="contained"
               color="primary"
@@ -46,7 +47,7 @@ const PendingRateResultCard = (props: Props) => {
               <GradeRoundedIcon
                 style={{ width: "16px", height: "16px", marginRight: "6px" }}
               />
-              <FormattedMessage id="rating.rateNow" />
+              <FormattedMessage id="rating.RATENOW" />
             </Button>
           </RawLink>
         ) : (
@@ -61,7 +62,7 @@ const PendingRateResultCard = (props: Props) => {
           size="small"
           className={"m-t-8"}
         >
-          <FormattedMessage id="rating.requestAgain" />
+          <FormattedMessage id="rating.REQUEST_AGAIN" />
         </Button>
       )}
     </CardDiv>

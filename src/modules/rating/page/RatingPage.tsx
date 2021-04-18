@@ -23,8 +23,10 @@ const RatingPage = (props: Props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
   const [offset, setPageOffset] = useState<number>(0);
-  const fuck = useSelector((state: AppState) => state.rating, shallowEqual);
-  const { loading, pendingRateData, disableLoadMore } = fuck;
+  const { loading, pendingRateData, disableLoadMore } = useSelector(
+    (state: AppState) => state.rating,
+    shallowEqual
+  );
 
   const fetchData = useCallback(async () => {
     const json = await dispatch(fetchPendingRateData(offset, mode));

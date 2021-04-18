@@ -18,8 +18,8 @@ const RatingListPage: React.FunctionComponent<IRatingListPageProps> = (
       <HeaderTab
         tabIndex={tabIndex}
         tabList={[
-          intl.formatMessage({ id: "rating.pending" }),
-          intl.formatMessage({ id: "rating.rated" }),
+          intl.formatMessage({ id: "rating.PENDDING" }),
+          intl.formatMessage({ id: "rating.RATED" }),
         ]}
         onChangeTab={(newIndex) => setTabIndex(newIndex)}
       />

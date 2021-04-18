@@ -51,10 +51,13 @@ export const API_PATHS = {
   getRequestConfirm: `${getBaseUrl(APIService.protected)}/request/confirm`,
   getConfirmed: `${getBaseUrl(APIService.protected)}/request/getConfirmed`,
   deferRating: `${getBaseUrl(APIService.protected)}/buyer/deferRating`,
+  getRating: `${getBaseUrl(APIService.protected)}/rating/rate`,
 
   changePassword: `${getBaseUrl(APIService.protected)}/buyer/changePassword`,
   renderAvatar: (id?: number | string, stamp?: number) =>
-    id ? `https://buyer.freeginar.com/getAvatar/${id}/${stamp}` : undefined,
+    id
+      ? `${getBaseUrl(APIService.public)}/getAvatar/${id}/${stamp}`
+      : undefined,
   suggestLocation: (term: string) =>
     `${getBaseUrl(
       APIService.protected

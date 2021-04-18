@@ -14,7 +14,7 @@ import { ROUTES } from "../../../configs/routes";
 import { DATE_TIME_FORMAT } from "../../../models/moment";
 import { AppState } from "../../../redux/reducer";
 import { ReactComponent as IconSchedule } from "../../../svg/schedule.svg";
-import { snackbarSetting } from "../../common/component/elements";
+import { CustomChip, snackbarSetting } from "../../common/component/elements";
 import { some } from "../../common/constants";
 import { fetchThunk } from "../../common/redux/thunk";
 import { fetchPendingRateData } from "../redux/ratingReducer";
@@ -96,7 +96,6 @@ const PendingRateRemindDialog = (props: Props) => {
       PaperProps={{
         style: {
           width: "100%",
-          height: "70%",
           position: "relative",
           padding: "42px 24px",
           display: "flex",
@@ -127,17 +126,7 @@ const PendingRateRemindDialog = (props: Props) => {
         <InsertInvitationIcon />
         &emsp;{data?.time}&nbsp;-&nbsp;{data?.date}
       </Box>
-      <Button
-        variant="contained"
-        className="m-t-12 m-b-24"
-        style={{
-          borderRadius: 24,
-          padding: "0px 24px",
-        }}
-        size="small"
-      >
-        <FormattedMessage id="detail" />
-      </Button>
+      <CustomChip label={<FormattedMessage id="detail" />} clickable />
       <IconSchedule />
       <Button
         variant="contained"
@@ -164,7 +153,7 @@ const PendingRateRemindDialog = (props: Props) => {
               className="m-4"
               variant="contained"
               style={{
-                borderRadius: "50%",
+                borderRadius: "30%",
                 height: 48,
                 width: 48,
                 minWidth: 48,
@@ -183,7 +172,11 @@ const PendingRateRemindDialog = (props: Props) => {
                 >
                   {Number(option.value % 7 || option.value / 7).toFixed(0)}
                 </Typography>
-                <Typography variant="caption" component="span">
+                <Typography
+                  variant="caption"
+                  component="span"
+                  style={{ lineHeight: 1 }}
+                >
                   <FormattedMessage id={option.title} />
                 </Typography>
               </Box>

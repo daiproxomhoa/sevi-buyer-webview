@@ -2,7 +2,7 @@
   "welcome": ["Chào mừng tới SEVI", "Welcome to SEVI"],
   "currency": ["đ", "VND"],
   "smsCode": ["se mk", "se mk"],
-  "detail": ["Chi Tiết", ""],
+  "detail": ["Chi tiết", ""],
   "headCode": ["8105", "8105"],
   "appBookWork": ["Ứng dụng đặt việc trực tuyến", ""],
   "login": ["Đăng nhập", "Login"],
@@ -60,6 +60,8 @@
   "locationName": ["Tên địa điểm"],
   "update_success": ["Cập nhật thành công"],
   "update_fail": ["Cập nhật thất bại"],
+  "rating_success": ["Đánh giá thành công"],
+  "rating_fail": ["Có lỗi khi đánh giá"],
 
   "search.distance": ["Khoảng cách", ""],
   "search.yourLocation": ["Vị trí của bạn", ""],
@@ -118,15 +120,24 @@
     ""
   ],
 
-  "rating.pending": ["Chờ đánh giá", ""],
-  "rating.rated": ["Đã đánh giá", ""],
-  "rating.rateNow": ["Đánh giá ngay", ""],
-  "rating.requestAgain": ["Yêu cầu lại", ""],
+  "rating.PENDDING": ["Chờ đánh giá", ""],
+  "rating.RATED": ["Đã đánh giá", ""],
+  "rating.RATENOW": ["Đánh giá ngay", ""],
+  "rating.REQUEST_AGAIN": ["Yêu cầu lại", ""],
+  "rating.REQUIRED": ["Bạn cần đánh giá mục này", ""],
+  "rating.SUCCESS": ["Thành công", ""],
+  "rating.SUCCESS_NOTE": [
+    "Cảm ơn bạn đã tin dùng dịch vụ của tôi.\n Đánh giá của bạn sẽ là góp ý để tôi cải thiện thêm kỹ năng và thái độ của mình!",
+    ""
+  ],
+
   "review.job": ["Bạn đánh giá công việc tôi làm thế nào?", ""],
   "review.price": ["Giá cả tôi làm thế nào?", ""],
   "review.quality": ["Bạn có hài lòng với chất lượng công việc?", ""],
   "review.attitude": ["Thái độ phục vụ của tôi có khiến bạn hài lòng?", ""],
   "review.title": ["Đánh giá", ""],
+  "review.comment": ["Nhận xét", ""],
+  "review.unacceptable": ["Không chấp nhận được", ""],
 
   "auth.enterOtp": ["Nhập mã OTP", "Enter OTP"],
   "auth.verifyOtp": ["Xác thực OTP", "Verify OTP"],
