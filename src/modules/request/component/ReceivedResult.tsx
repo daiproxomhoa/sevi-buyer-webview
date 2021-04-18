@@ -3,19 +3,25 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { RED } from "../../../configs/colors";
 import { CardDiv } from "../../common/component/elements";
-import RequestResultItem from "./RequestResultItem";
+import { IAccept } from "../model";
+import ResultItemInfo from "./ResultItemInfo";
 
-interface Props {}
+interface Props {
+  info: IAccept;
+}
 
 const ReceivedResult = (props: Props) => {
+  const { info } = props;
+
   return (
     <CardDiv>
-      <RequestResultItem />
+      <ResultItemInfo info={info} />
+
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginTop: "4px",
+          marginTop: "8px",
         }}
       >
         <Button
