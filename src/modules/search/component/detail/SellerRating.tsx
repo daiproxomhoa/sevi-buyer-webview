@@ -109,7 +109,7 @@ const SellerRating = (props: Props) => {
             </Typography>
           </Typography>
 
-          {ratings?.map((one: some) => (
+          {ratings?.map((one: ISellerRating) => (
             <ReviewInfoItem data={one} key={one.rateDate} />
           ))}
         </>

@@ -16,16 +16,6 @@ export interface IPricedItem {
 
 export interface ICertificate {}
 
-export interface ISellerRating {
-  buyerId: string;
-  content: string;
-  rating: string;
-  qualityRating: string;
-  priceRating: string;
-  attitudeRating: string;
-  rateDate: string;
-}
-
 export interface ISeller {
   id: string;
   avatar: number;
@@ -54,6 +44,17 @@ export interface ISeller {
   point: number;
   items: IPricedItem[];
   certificates: some[];
+}
+
+export interface ISellerRating {
+  buyerId: string;
+  content: string;
+  rating: number;
+  qualityRating: string;
+  priceRating: string;
+  attitudeRating: string;
+  rateDate: string;
+  buyer: ISeller;
 }
 
 export interface ISellerSearchFilter {
