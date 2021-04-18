@@ -10,10 +10,17 @@ interface Props {
   requestingData: IRequest[];
   showLoadMore: boolean;
   onLoadMore(): void;
+  onViewRequestDetail(data: IRequest): void;
 }
 
 const RequestingBox = (props: Props) => {
-  const { loading, requestingData, showLoadMore, onLoadMore } = props;
+  const {
+    loading,
+    requestingData,
+    showLoadMore,
+    onLoadMore,
+    onViewRequestDetail,
+  } = props;
 
   return (
     <div
@@ -23,7 +30,11 @@ const RequestingBox = (props: Props) => {
       }}
     >
       {requestingData.map((one) => (
-        <RequestResult key={one.createDate} info={one} />
+        <RequestResult
+          key={one.createDate}
+          info={one}
+          onViewRequestDetail={() => onViewRequestDetail(one)}
+        />
       ))}
 
       {loading ? (

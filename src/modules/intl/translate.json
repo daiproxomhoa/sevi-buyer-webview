@@ -97,6 +97,11 @@
   "request.date": ["Ngày", ""],
   "request.confirmCancelRequest": ["Xác nhận hủy yêu cầu", ""],
 
+  "request.detail.time": ["Thời gian", ""],
+  "request.detail.note": ["Ghi chú", ""],
+  "request.detail.contactInfo": ["Thông tin liên hệ", ""],
+  "request.detail.fullName": ["Họ tên", ""],
+
   "request.success": ["Gửi yêu cầu thành công", ""],
   "request.error": ["Gửi yêu cầu thất bại", ""],
   "request.backSearchPage": ["Quay lại kết quả tìm kiếm", ""],

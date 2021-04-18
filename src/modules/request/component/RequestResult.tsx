@@ -6,10 +6,11 @@ import ResultItemInfo from "./ResultItemInfo";
 
 interface Props {
   info: IRequest;
+  onViewRequestDetail(): void;
 }
 
 const RequestResult = (props: Props) => {
-  const { info } = props;
+  const { info, onViewRequestDetail } = props;
 
   return (
     <ButtonBase
@@ -24,6 +25,7 @@ const RequestResult = (props: Props) => {
         flexDirection: "column",
         alignItems: "flex-start",
       }}
+      onClick={onViewRequestDetail}
     >
       <ResultItemInfo info={info} />
     </ButtonBase>

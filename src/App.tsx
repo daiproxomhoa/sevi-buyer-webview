@@ -24,7 +24,6 @@ import EditProfilePage from "./modules/profile/page/EditProfilePage";
 import ProfilePage from "./modules/profile/page/ProfilePage";
 import PendingRateRemindDialog from "./modules/rating/page/PendingRateRemindDialog";
 import RatingListPage from "./modules/rating/page/RatingListPage";
-import ReviewPage from "./modules/rating/page/ReviewPage";
 import { watchPendingRateData } from "./modules/rating/redux/ratingSaga";
 import RequestListPage from "./modules/request/page/RequestListPage";
 import SendRequestPage from "./modules/request/page/SendRequestPage";
@@ -161,12 +160,6 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
                     exact
                     path={ROUTES.rating}
                     component={RatingListPage}
-                  />
-                  <ProtectedRoute
-                    auth={authen}
-                    exact
-                    path={ROUTES.review.path}
-                    component={ReviewPage}
                   />
                   <ProtectedRoute
                     auth={authen}
