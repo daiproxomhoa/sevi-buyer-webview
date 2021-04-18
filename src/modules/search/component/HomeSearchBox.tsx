@@ -1,5 +1,4 @@
-import { Chip, Theme, Typography, withStyles } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Typography } from "@material-ui/core";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch } from "react-redux";
@@ -8,18 +7,10 @@ import { ThunkDispatch } from "redux-thunk";
 import { API_PATHS } from "../../../configs/api";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
+import { CustomChip } from "../../common/component/elements";
 import { fetchThunk } from "../../common/redux/thunk";
 import { IRecentSearch } from "../model";
 import HomeSearchSkeleton from "./HomeSearchSkeleton";
-
-const CustomChip = withStyles((theme: Theme) => ({
-  root: {
-    borderRadius: 64,
-    backgroundColor: theme.palette.grey[300],
-    margin: 6,
-    fontSize: theme.typography.body2.fontSize,
-  },
-}))(Chip);
 
 interface Props {
   onSearch(str: string): void;

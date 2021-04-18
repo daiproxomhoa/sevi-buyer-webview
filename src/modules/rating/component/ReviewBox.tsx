@@ -88,7 +88,12 @@ const ReviewBox = (props: Props) => {
                     required: intl.formatMessage({ id: "required" }),
                   }}
                   render={({ field: { onChange, value, name } }) => (
-                    <Rating name={name} onChange={onChange} value={value} />
+                    <Rating
+                      className={"m-t-12 m-b-24"}
+                      name={name}
+                      onChange={onChange}
+                      value={value}
+                    />
                   )}
                 />
                 {errors?.[field.name]?.message}

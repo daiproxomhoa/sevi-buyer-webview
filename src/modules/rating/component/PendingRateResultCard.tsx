@@ -18,6 +18,7 @@ interface Props {
 const PendingRateResultCard = (props: Props) => {
   const { request = {}, mode } = props;
   const { seller, desc } = request;
+
   return (
     <CardDiv>
       {desc && (
@@ -29,7 +30,7 @@ const PendingRateResultCard = (props: Props) => {
       <Box className="d-flex justify-content-between align-items-center m-t-4 m-b-4">
         <Avatar
           alt=""
-          src={API_PATHS.renderAvatar(seller.id, seller.avatar)}
+          src={API_PATHS.renderSellerAvatar(seller.id, seller.avatar)}
           style={{ width: "28px", height: "28px", marginRight: "8px" }}
         />
         <Box className="flex-1">

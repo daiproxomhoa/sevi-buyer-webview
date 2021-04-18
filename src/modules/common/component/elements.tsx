@@ -1,6 +1,7 @@
 import {
   Backdrop,
   BackdropProps,
+  Chip,
   createStyles,
   Input,
   InputAdornment,
@@ -256,3 +257,12 @@ export const LoadingBackDrop: React.FC<BackdropProps> = (props) => {
     </Backdrop>
   );
 };
+
+export const CustomChip = withStyles((theme: Theme) => ({
+  root: {
+    borderRadius: 64,
+    backgroundColor: theme.palette.grey[300],
+    margin: 6,
+    fontSize: theme.typography.body2.fontSize,
+  },
+}))(Chip);

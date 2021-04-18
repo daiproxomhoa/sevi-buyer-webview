@@ -53,7 +53,9 @@ export const API_PATHS = {
 
   changePassword: `${getBaseUrl(APIService.protected)}/buyer/changePassword`,
   renderAvatar: (id?: number | string, stamp?: number) =>
-    id ? `https://buyer.freeginar.com/getAvatar/${id}/${stamp}` : undefined,
+    id
+      ? `${getBaseUrl(APIService.public)}/getAvatar/${id}/${stamp}`
+      : undefined,
   suggestLocation: (term: string) =>
     `${getBaseUrl(
       APIService.protected
