@@ -1,42 +1,78 @@
+import { goBack } from "connected-react-router";
 import { useSnackbar } from "notistack";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
+import { API_PATHS } from "../../../configs/api";
+import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
+import { snackbarSetting } from "../../common/component/elements";
+import { some } from "../../common/constants";
+import { setLoadingBackDrop } from "../../common/redux/commonReducer";
+import { fetchThunk } from "../../common/redux/thunk";
+import RatingSuccessDialog from "../component/RatingSuccessDialog";
 import ReviewBox from "../component/ReviewBox";
 
-interface Props {
-  mode: "rated" | "unrated";
-}
+interface Props {}
 
 const ReviewPage = (props: Props) => {
-  const { mode } = props;
+  const { sellerId, reqDate } = useParams<{
+    sellerId?: string;
+    reqDate?: string;
+  }>();
+
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
-  const [offset, setPageOffset] = useState<number>(0);
-  const fuck = useSelector((state: AppState) => state.rating, shallowEqual);
-  const { loading, pendingRateData, disableLoadMore } = fuck;
-  const location = useLocation();
+  const [open, setOpen] = useState<boolean>(false);
 
-  // const fetchData = useCallback(async () => {
-  //   const json = await dispatch(fetchPendingRateData(offset, mode));
-  //   if (json.status !== SUCCESS_CODE) {
-  //     enqueueSnackbar(
-  //       intl.formatMessage({ id: "getDataFail" }),
-  //       snackbarSetting((key) => closeSnackbar(key), { color: "error" })
-  //     );
-  //   }
-  // }, [closeSnackbar, dispatch, enqueueSnackbar, intl, offset, mode]);
+  const onSubmit = useCallback(
+    async (data: some) => {
+      if (!sellerId || !reqDate) {
+        return;
+      }
+      dispatch(setLoadingBackDrop(true));
+      const json = await dispatch(
+        fetchThunk(API_PATHS.getRating, "post", { ...data, sellerId, reqDate })
+      );
+      dispatch(setLoadingBackDrop(false));
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [dispatch, fetchData]);
+      if (json.status === SUCCESS_CODE) {
+        setOpen(true);
+        enqueueSnackbar(
+          intl.formatMessage({ id: "rating_success" }),
+          snackbarSetting((key) => closeSnackbar(key))
+        );
+      } else {
+        enqueueSnackbar(
+          intl.formatMessage({ id: "rating_fail" }),
+          snackbarSetting((key) => closeSnackbar(key), { color: "error" })
+        );
+      }
+    },
+    [sellerId, reqDate, dispatch, enqueueSnackbar, intl, closeSnackbar]
+  );
 
-  return <ReviewBox onSubmit={(value) => console.log(value)} />;
+  useEffect(() => {
+    if (!sellerId || !reqDate) {
+      dispatch(goBack());
+    }
+  }, [dispatch, reqDate, sellerId]);
+
+  return (
+    <>
+      <ReviewBox onSubmit={onSubmit} />
+      <RatingSuccessDialog
+        open={open}
+        onClose={() => {
+          dispatch(goBack());
+        }}
+      />
+    </>
+  );
 };
 
 export default ReviewPage;

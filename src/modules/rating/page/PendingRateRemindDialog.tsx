@@ -96,7 +96,6 @@ const PendingRateRemindDialog = (props: Props) => {
       PaperProps={{
         style: {
           width: "100%",
-          height: "70%",
           position: "relative",
           padding: "42px 24px",
           display: "flex",

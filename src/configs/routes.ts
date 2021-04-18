@@ -8,7 +8,11 @@ export const ROUTES = {
   request: "/home/request",
   profile: "/home/profile",
   rating: "/home/rating",
-  review: "/review",
+  review: {
+    path: "/review/:sellerId/:reqDate",
+    gen: (sellerId?: string, reqDate?: string) =>
+      `/review/${sellerId}/${reqDate}`,
+  },
   editProfile: "/editProfile",
   changePass: "/changePass",
   searchDetail: "/searchDetail",

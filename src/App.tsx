@@ -165,7 +165,7 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
                   <ProtectedRoute
                     auth={authen}
                     exact
-                    path={ROUTES.review}
+                    path={ROUTES.review.path}
                     component={ReviewPage}
                   />
                   <ProtectedRoute

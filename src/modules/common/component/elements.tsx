@@ -221,8 +221,8 @@ export function snackbarSetting(
       horizontal: "right",
     },
     preventDuplicate: true,
-    autoHideDuration: 1000,
-    style: { width: "100%" },
+    autoHideDuration: 100000,
+    style: { width: "calc(100vw - 16px)" },
     // persist: true,
     content: (key: string, msg: SnackbarMessage) => (
       <Alert

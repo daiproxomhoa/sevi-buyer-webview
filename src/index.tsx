@@ -1,5 +1,6 @@
 import { MuiThemeProvider } from "@material-ui/core";
 import { ConnectedRouter } from "connected-react-router";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -8,12 +9,11 @@ import smoothscroll from "smoothscroll-polyfill";
 import App from "./App";
 import { MUI_THEME } from "./configs/setupTheme";
 import "./index.css";
-import "./scss/stylesheet.scss";
 import ConnectedIntlProvider from "./modules/intl/component/ConnectedIntlProvider";
 import { setLocale } from "./modules/intl/redux/intlReducer";
 import configureStore, { history } from "./redux/configureStore";
 import reportWebVitals from "./reportWebVitals";
-import { SnackbarProvider } from "notistack";
+import "./scss/stylesheet.scss";
 
 smoothscroll.polyfill();
 

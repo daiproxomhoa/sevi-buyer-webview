@@ -104,21 +104,21 @@ export const MUI_THEME = createMuiTheme({
         borderRadius: "12px",
         height: "48px",
         background: BACKGROUND,
-        "&$contained:hover": {
-          boxShadow: "none",
-        },
+        // "&$contained:hover": {
+        //   boxShadow: "none",
+        // },
       },
       sizeSmall: {
         height: "30px",
         fontSize: "14px",
       },
       sizeLarge: {
-        boxShadow: "none",
+        // boxShadow: "none",
       },
       contained: {
-        boxShadow: "none",
+        // boxShadow: "none",
       },
-      disableElevation: true,
+      // disableElevation: true,
     },
     MuiIconButton: {
       root: {},

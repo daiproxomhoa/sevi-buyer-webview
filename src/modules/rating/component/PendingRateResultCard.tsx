@@ -17,7 +17,7 @@ interface Props {
 
 const PendingRateResultCard = (props: Props) => {
   const { request = {}, mode } = props;
-  const { seller, desc } = request;
+  const { seller, desc, createDate } = request;
 
   return (
     <CardDiv>
@@ -37,7 +37,7 @@ const PendingRateResultCard = (props: Props) => {
           <Typography variant="caption">{getFullName(seller)}</Typography>
         </Box>
         {mode === "unrated" ? (
-          <RawLink to={ROUTES.review}>
+          <RawLink to={ROUTES.review.gen(seller?.id, createDate)}>
             <Button
               variant="contained"
               color="primary"
@@ -47,7 +47,7 @@ const PendingRateResultCard = (props: Props) => {
               <GradeRoundedIcon
                 style={{ width: "16px", height: "16px", marginRight: "6px" }}
               />
-              <FormattedMessage id="rating.rateNow" />
+              <FormattedMessage id="rating.RATENOW" />
             </Button>
           </RawLink>
         ) : (
@@ -62,7 +62,7 @@ const PendingRateResultCard = (props: Props) => {
           size="small"
           className={"m-t-8"}
         >
-          <FormattedMessage id="rating.requestAgain" />
+          <FormattedMessage id="rating.REQUEST_AGAIN" />
         </Button>
       )}
     </CardDiv>

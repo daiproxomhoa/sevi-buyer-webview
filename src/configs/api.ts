@@ -51,6 +51,7 @@ export const API_PATHS = {
   getRequestConfirm: `${getBaseUrl(APIService.protected)}/request/confirm`,
   getConfirmed: `${getBaseUrl(APIService.protected)}/request/getConfirmed`,
   deferRating: `${getBaseUrl(APIService.protected)}/buyer/deferRating`,
+  getRating: `${getBaseUrl(APIService.protected)}/rating/rate`,
 
   changePassword: `${getBaseUrl(APIService.protected)}/buyer/changePassword`,
   renderAvatar: (id?: number | string, stamp?: number) =>
