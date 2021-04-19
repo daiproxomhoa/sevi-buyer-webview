@@ -59,7 +59,6 @@ const BottomNavigation: React.FunctionComponent<IBottomNavigationProps> = (
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(location.pathname);
   const routerArr = React.useMemo(
     () => [ROUTES.search, ROUTES.request, ROUTES.rating, ROUTES.profile],
     []
@@ -72,13 +71,11 @@ const BottomNavigation: React.FunctionComponent<IBottomNavigationProps> = (
     currentIndex > nextIndex
       ? dispatch(replace(newValue))
       : dispatch(push(newValue));
-
-    setValue(newValue);
   };
 
   return (
     <MUIBottomNavigation
-      value={value}
+      value={location.pathname}
       onChange={handleChange}
       className={classes.root}
     >

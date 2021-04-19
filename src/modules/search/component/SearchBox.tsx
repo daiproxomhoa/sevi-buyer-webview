@@ -79,7 +79,6 @@ const SearchBox = (props: Props) => {
         fullWidth
         freeSolo
         autoHighlight
-        autoComplete
         value={searchString}
         options={options}
         onChange={async (e, str: string | null) => {
@@ -109,10 +108,10 @@ const SearchBox = (props: Props) => {
         noOptionsText={<FormattedMessage id="noOption" />}
         getOptionLabel={(value: string) => value}
         getOptionSelected={(option: string, value: string) => option === value}
-        renderInput={(params) => (
+        renderInput={({ InputProps, InputLabelProps, ...params }) => (
           <SearchInput
             {...params}
-            ref={params.InputProps.ref}
+            ref={InputProps.ref}
             inputProps={params.inputProps}
             fullWidth
             placeholder={intl.formatMessage({ id: "enterSearchInfo" })}

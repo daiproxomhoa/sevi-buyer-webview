@@ -1,5 +1,5 @@
 import { createMuiTheme, darken, fade } from "@material-ui/core/styles";
-import { BACKGROUND, BLACK_TEXT, GREY_300, PRIMARY, SECONDARY } from "./colors";
+import { BLACK_TEXT, GREY_300, PRIMARY, SECONDARY } from "./colors";
 
 export const MUI_THEME = createMuiTheme({
   palette: {
@@ -103,7 +103,7 @@ export const MUI_THEME = createMuiTheme({
       root: {
         borderRadius: "12px",
         height: "48px",
-        background: BACKGROUND,
+        // background: BACKGROUND, Trung: Do NOT hard background color in here so text buttons can be transparent
         // "&$contained:hover": {
         //   boxShadow: "none",
         // },
