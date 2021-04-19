@@ -20,8 +20,8 @@ interface Props {}
 
 const ReviewPage = (props: Props) => {
   const { sellerId, reqDate } = useParams<{
-    sellerId?: string;
-    reqDate?: string;
+    sellerId: string;
+    reqDate: string;
   }>();
 
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -42,10 +42,6 @@ const ReviewPage = (props: Props) => {
 
       if (json.status === SUCCESS_CODE) {
         setOpen(true);
-        enqueueSnackbar(
-          intl.formatMessage({ id: "rating_success" }),
-          snackbarSetting((key) => closeSnackbar(key))
-        );
       } else {
         enqueueSnackbar(
           intl.formatMessage({ id: "rating_fail" }),

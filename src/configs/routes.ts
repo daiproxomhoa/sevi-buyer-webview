@@ -9,8 +9,8 @@ export const ROUTES = {
   profile: "/home/profile",
   rating: "/home/rating",
   review: {
-    path: "/review/:sellerId/:reqDate",
-    gen: (sellerId?: string, reqDate?: string) =>
+    value: "/review/:sellerId/:reqDate",
+    gen: (sellerId: string, reqDate: string) =>
       `/review/${sellerId}/${reqDate}`,
   },
   editProfile: "/editProfile",

@@ -77,7 +77,6 @@ const ReviewBox = (props: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const {
-    register,
     handleSubmit,
     formState: { errors },
     control,

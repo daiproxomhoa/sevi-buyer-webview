@@ -29,7 +29,7 @@ const PendingRateResultCard = (props: Props) => {
       )}
       <Box className="d-flex justify-content-between align-items-center m-t-4 m-b-4">
         <Avatar
-          alt=""
+          alt={seller.givenName}
           src={API_PATHS.renderSellerAvatar(seller.id, seller.avatar)}
           style={{ width: "28px", height: "28px", marginRight: "8px" }}
         />

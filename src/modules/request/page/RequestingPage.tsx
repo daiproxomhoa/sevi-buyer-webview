@@ -1,9 +1,7 @@
-import { push } from "connected-react-router";
 import React, { useCallback } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { ROUTES } from "../../../configs/routes";
 import { SUCCESS_CODE } from "../../../constants";
 import { AppState } from "../../../redux/reducer";
 import RequestInfoDetail from "../component/RequestInfoDetail";
