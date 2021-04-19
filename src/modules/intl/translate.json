@@ -46,6 +46,8 @@
   "getDataFail": ["Có lỗi xảy ra", ""],
   "loadMore": ["Xem thêm", ""],
   "sendMessage": ["Nhắn tin", ""],
+  "serverProblem": ["Máy chủ gặp vấn đề"],
+  "retry": ["Thử lại"],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
   "chooseRequired": ["Vui lòng chọn dữ liệu", ""],

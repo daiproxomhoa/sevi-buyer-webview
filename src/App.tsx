@@ -16,8 +16,10 @@ import LoginPage from "./modules/authen/page/LoginPage";
 import SignUpPage from "./modules/authen/page/SignUpPage";
 import VerifyOtpPage from "./modules/authen/page/VerifyOtpPage";
 import { LoadingBackDrop } from "./modules/common/component/elements";
+import FetchErrorDialog from "./modules/common/component/FetchErrorDialog";
 import ProtectedRoute from "./modules/common/component/ProtectedRoute";
 import RedirectRoute from "./modules/common/component/RedirectRoute";
+import { setNetworkError } from "./modules/common/redux/commonReducer";
 import BottomNavigation from "./modules/home/component/BottomNavigation";
 import ChangePassWordPage from "./modules/profile/page/ChangePassWordPage";
 import EditProfilePage from "./modules/profile/page/EditProfilePage";
@@ -45,13 +47,14 @@ export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
 const mapStateToProps = (state: AppState) => ({
   router: state.router,
   authen: state.authen.authen,
+  networkErrorMsg: state.common.networkErrorMsg,
 });
 
 interface Props
   extends ReturnType<typeof mapStateToProps>,
     WithStyles<typeof bodyStyles> {}
 
-const App: React.FC<Props> = ({ router, classes, authen }) => {
+const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
   const { action } = router;
   const dispatch = useDispatch();
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
@@ -206,6 +209,10 @@ const App: React.FC<Props> = ({ router, classes, authen }) => {
       </div>
       <LoadingBackDrop open={setLoadingBackDrop} />
       <PendingRateRemindDialog />
+      <FetchErrorDialog
+        msgId={networkErrorMsg}
+        onClose={() => dispatch(setNetworkError(undefined))}
+      />
     </>
   );
 };
