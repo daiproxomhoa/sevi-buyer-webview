@@ -1,9 +1,8 @@
-import { Avatar, Box, Divider, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import Rating from "@material-ui/lab/Rating";
-import { FormattedMessage } from "react-intl";
-import { CardDiv } from "../../common/component/elements";
-import { some } from "../../common/constants";
+import { Box, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import { FormattedMessage } from 'react-intl';
+import { CardDiv } from '../../common/component/elements';
+import { some } from '../../common/constants';
 
 interface Props {
   profile?: some;
@@ -24,7 +23,7 @@ const InfoBox = (props: Props) => {
             .fill(0)
             .map((value: some, index: number) => {
               return (
-                <Box className={`${index && "border-top p-b-8"} p-t-8`}>
+                <Box className={`${index && 'border-top p-b-8'} p-t-8`}>
                   <Skeleton variant="text" width="40%" />
                   <Skeleton variant="text" />
                 </Box>
@@ -34,23 +33,6 @@ const InfoBox = (props: Props) => {
         <Typography variant="subtitle2" className="m-t-24 m-b-16">
           <FormattedMessage id="profile.review" />
         </Typography>
-        {Array(3)
-          .fill(0)
-          .map((value: some, index: number) => {
-            return (
-              <CardDiv>
-                <Typography variant="subtitle2">
-                  <Skeleton variant="text" width="50%" />
-                </Typography>
-                <Divider className="m-t-8 m-b-8" />
-                <div className="d-flex align-items-center">
-                  <Avatar className="m-r-4" style={{ height: 32, width: 32 }} />
-                  <Skeleton variant="text" className="flex-1 m-r-24" />
-                  <Rating value={0} size="small" />
-                </div>
-              </CardDiv>
-            );
-          })}
       </>
     );
   }
@@ -67,11 +49,11 @@ const InfoBox = (props: Props) => {
         </Box>
         {profile?.addresses?.map((address: some, index: number) => {
           return (
-            <Box className={`${index && "border-top p-b-8"} p-t-8`}>
+            <Box className={`${index && 'border-top p-b-8'} p-t-8`}>
               <Typography variant="caption" color="textSecondary">
                 {address.name}
               </Typography>
-              <Typography variant="body2" style={{ margin: "2px 0px 10px" }}>
+              <Typography variant="body2" style={{ margin: '2px 0px 10px' }}>
                 {address?.address?.formattedAddress}
               </Typography>
             </Box>
@@ -81,26 +63,6 @@ const InfoBox = (props: Props) => {
       <Typography variant="subtitle2" className="m-t-24 m-b-16">
         <FormattedMessage id="profile.review" />
       </Typography>
-      {profile?.reviews?.map((review: some, index: number) => {
-        const { title, assessor, rating } = review;
-        return (
-          <CardDiv>
-            <Typography variant="subtitle2">{title}</Typography>
-            <Divider className="m-t-8 m-b-8" />
-            <div className="d-flex align-items-center">
-              <Avatar
-                src={assessor?.avatar}
-                className="m-r-4"
-                style={{ height: 32, width: 32 }}
-              />
-              <Typography variant="caption" className="flex-1">
-                {assessor?.name}
-              </Typography>
-              <Rating value={rating} size="small" />
-            </div>
-          </CardDiv>
-        );
-      })}
     </>
   );
 };

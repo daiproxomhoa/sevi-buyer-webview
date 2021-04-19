@@ -21,15 +21,9 @@
   "repeatPassword": ["Nhập lại mật khẩu", ""],
   "minPassWordValid": ["Tối thiểu 4 kí tự", ""],
   "alreadyHaveAnAccount": ["Bạn đã có tài khoản?", ""],
-  "setupPasswordTemp": [
-    "Để để đặt mật khẩu tạm thời vui lòng soạn tin nhắn với cú pháp:",
-    ""
-  ],
+  "setupPasswordTemp": ["Để để đặt mật khẩu tạm thời vui lòng soạn tin nhắn với cú pháp:", ""],
   "smsFormat": ["“{smsCode}” gửi {headCode}", ""],
-  "setupPasswordTempDescription": [
-    "Trong đó “mk” là mật khẩu đăng nhập của bạn",
-    ""
-  ],
+  "setupPasswordTempDescription": ["Trong đó “mk” là mật khẩu đăng nhập của bạn", ""],
   "openSms": ["Mở tin nhắn", ""],
   "backToLogin": ["Quay lại trang đăng nhập", ""],
   "forgotPassword": ["Quên mật khẩu?", ""],
@@ -46,18 +40,13 @@
   "getDataFail": ["Có lỗi xảy ra", ""],
   "loadMore": ["Xem thêm", ""],
   "sendMessage": ["Nhắn tin", ""],
-  "serverProblem": [
-    "Máy chủ hoặc ứng dụng gặp vấn đề. Hãy thử lại hoặc khởi động lại ứng dụng"
-  ],
+  "serverProblem": ["Máy chủ hoặc ứng dụng gặp vấn đề. Hãy thử lại hoặc khởi động lại ứng dụng"],
   "retry": ["Thử lại"],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
   "chooseRequired": ["Vui lòng chọn dữ liệu", ""],
 
-  "search.nodata": [
-    "Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!",
-    []
-  ],
+  "search.nodata": ["Không tìm thấy kết quả liên quan tới từ khóa “{text}”. Vui lòng kiểm tra và thử lại!", []],
   "search.sendRequest": ["Gửi yêu cầu", ""],
 
   "address": ["Địa chỉ"],
@@ -110,24 +99,15 @@
   "request.error": ["Gửi yêu cầu thất bại", ""],
   "request.backSearchPage": ["Quay lại kết quả tìm kiếm", ""],
   "request.remaining": ["Số lượt gửi còn lại: {num}", ""],
-  "request.response.success": [
-    "Yêu cầu của bạn đã được gửi đi. Vui lòng chờ xác nhận.",
-    ""
-  ],
-  "request.response.duplicateRequest": [
-    "Bạn đã gửi yêu cầu cho thợ trước đó. Vui lòng không gửi lại",
-    ""
-  ],
+  "request.response.success": ["Yêu cầu của bạn đã được gửi đi. Vui lòng chờ xác nhận.", ""],
+  "request.response.duplicateRequest": ["Bạn đã gửi yêu cầu cho thợ trước đó. Vui lòng không gửi lại", ""],
   "request.response.otherFailure ": ["Có lỗi trong quá trình gửi yêu cầu", ""],
   "request.response.tooManyRequests": [
     "Bạn không thể gửi yêu cầu. Do số lượt gửi yêu cầu đã hết. Vui lòng hủy các yêu cầu khác để gửi lại yêu cầu.",
     ""
   ],
 
-  "request.youAreSureCancel": [
-    "Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?",
-    ""
-  ],
+  "request.youAreSureCancel": ["Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?", ""],
 
   "rating.PENDDING": ["Chờ đánh giá", ""],
   "rating.RATED": ["Đã đánh giá", ""],
@@ -147,6 +127,7 @@
   "review.title": ["Đánh giá", ""],
   "review.comment": ["Nhận xét", ""],
   "review.unacceptable": ["Không chấp nhận được", ""],
+  "review.comment_required": ["Vui lòng đưa ra nhận xét", ""],
 
   "auth.enterOtp": ["Nhập mã OTP", "Enter OTP"],
   "auth.verifyOtp": ["Xác thực OTP", "Verify OTP"],

@@ -11,17 +11,17 @@ import {
   Theme,
   Typography,
   withStyles,
-} from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { TransitionProps } from "@material-ui/core/transitions";
-import { Alert, AlertProps, AlertTitle } from "@material-ui/lab";
-import { OptionsObject, SnackbarMessage } from "notistack";
-import React from "react";
-import styled from "styled-components";
-import { BACKGROUND, LIGHT_GREY } from "../../../configs/colors";
-import { ReactComponent as HeaderSVG } from "../../../svg/header.svg";
-import { ReactComponent as Header2SVG } from "../../../svg/header2.svg";
-import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
+} from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { TransitionProps } from '@material-ui/core/transitions';
+import { Alert, AlertProps, AlertTitle } from '@material-ui/lab';
+import { OptionsObject, SnackbarMessage } from 'notistack';
+import React from 'react';
+import styled from 'styled-components';
+import { BACKGROUND, LIGHT_GREY } from '../../../configs/colors';
+import { ReactComponent as HeaderSVG } from '../../../svg/header.svg';
+import { ReactComponent as Header2SVG } from '../../../svg/header2.svg';
+import { ReactComponent as RectangleIcon } from '../../../svg/ic_rectangle.svg';
 
 export const PageWrapper = styled.div`
   background-size: cover;
@@ -47,23 +47,18 @@ export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
     <HeaderDivCore {...rest}>
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           zIndex: -100,
           bottom: 0,
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <HeaderSVG
-          viewBox="0 0 1200 800"
-          preserveAspectRatio="none"
-          width="100%"
-          height="100%"
-        />
+        <HeaderSVG viewBox="0 0 1200 800" preserveAspectRatio="none" width="100%" height="100%" />
       </div>
       {children}
     </HeaderDivCore>
@@ -75,23 +70,18 @@ export const Header2Div: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
     <HeaderDivCore {...rest}>
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           zIndex: -100,
           bottom: 0,
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <Header2SVG
-          viewBox="0 0 1200 800"
-          preserveAspectRatio="none"
-          width="100%"
-          height="100%"
-        />
+        <Header2SVG viewBox="0 0 1200 800" preserveAspectRatio="none" width="100%" height="100%" />
       </div>
       {children}
     </HeaderDivCore>
@@ -104,23 +94,18 @@ export const HeaderDiv2: React.FC<HeaderDivProps> = ({ children, ...rest }) => {
     <HeaderDivCore {...rest}>
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           zIndex: -100,
           bottom: 0,
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <HeaderSVG
-          viewBox="0 0 1200 800"
-          preserveAspectRatio="none"
-          width="100%"
-          height="100%"
-        />
+        <HeaderSVG viewBox="0 0 1200 800" preserveAspectRatio="none" width="100%" height="100%" />
       </div>
       {children}
     </HeaderDivCore>
@@ -146,21 +131,21 @@ export const CardDiv = styled.div`
 
 export const SlideUp = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export const SlideRight = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
 export const SlideLeft = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
@@ -168,13 +153,13 @@ export const SlideLeft = React.forwardRef(function Transition(
 export const CustomInput = withStyles((theme: Theme) => ({
   root: {
     borderRadius: 12,
-    position: "relative",
+    position: 'relative',
     backgroundColor: LIGHT_GREY,
-    border: "none",
+    border: 'none',
     fontSize: 16,
   },
   input: {
-    padding: "18px 8px",
+    padding: '18px 8px',
   },
 }))(Input);
 
@@ -191,18 +176,15 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
     <CustomInput
       {...rest}
       style={{
-        margin: "4px 0 0 0",
+        margin: '4px 0 0 0',
       }}
       fullWidth
       disableUnderline
       startAdornment={
         !!startAdornmentIcon && (
-          <InputAdornment
-            position="start"
-            style={{ marginLeft: "16px", opacity: 0.6 }}
-          >
+          <InputAdornment position="start" style={{ marginLeft: '16px', opacity: 0.6 }}>
             {startAdornmentIcon}
-            <RectangleIcon style={{ marginLeft: "8px" }} />
+            <RectangleIcon style={{ marginLeft: '8px' }} />
           </InputAdornment>
         )
       }
@@ -213,16 +195,16 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
 export function snackbarSetting(
   closeSnackbar: (key: string) => void,
   alertProps?: AlertProps,
-  alertTitle?: React.ReactNode
+  alertTitle?: React.ReactNode,
 ) {
   return {
     anchorOrigin: {
-      vertical: "top",
-      horizontal: "right",
+      vertical: 'top',
+      horizontal: 'right',
     },
     preventDuplicate: true,
-    autoHideDuration: 100000,
-    style: { width: "calc(100vw - 16px)" },
+    autoHideDuration: 1000,
+    style: { width: 'calc(100vw - 16px)' },
     // persist: true,
     content: (key: string, msg: SnackbarMessage) => (
       <Alert
@@ -245,7 +227,7 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.modal + 1,
       color: BACKGROUND,
     },
-  })
+  }),
 );
 
 export const LoadingBackDrop: React.FC<BackdropProps> = (props) => {

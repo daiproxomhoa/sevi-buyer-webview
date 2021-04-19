@@ -1,20 +1,18 @@
-import { useSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
-import { useIntl } from "react-intl";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { SUCCESS_CODE } from "../../../constants";
-import { AppState } from "../../../redux/reducer";
-import {
-  PageWrapperNoScroll,
-  snackbarSetting,
-} from "../../common/component/elements";
-import PendingRateBox from "../component/RatingBox";
-import { fetchPendingRateData } from "../redux/ratingReducer";
+import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { SUCCESS_CODE } from '../../../constants';
+import { PAGE_OFFSET } from '../../../models/paginations';
+import { AppState } from '../../../redux/reducer';
+import { PageWrapperNoScroll, snackbarSetting } from '../../common/component/elements';
+import PendingRateBox from '../component/RatingBox';
+import { fetchPendingRateData } from '../redux/ratingReducer';
 
 interface Props {
-  mode: "rated" | "unrated";
+  mode: 'rated' | 'unrated';
 }
 
 const RatingPage = (props: Props) => {
@@ -23,17 +21,14 @@ const RatingPage = (props: Props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
   const [offset, setPageOffset] = useState<number>(0);
-  const { loading, pendingRateData, disableLoadMore } = useSelector(
-    (state: AppState) => state.rating,
-    shallowEqual
-  );
+  const { loading, pendingRateData, disableLoadMore } = useSelector((state: AppState) => state.rating, shallowEqual);
 
   const fetchData = useCallback(async () => {
     const json = await dispatch(fetchPendingRateData(offset, mode));
     if (json.status !== SUCCESS_CODE) {
       enqueueSnackbar(
-        intl.formatMessage({ id: "getDataFail" }),
-        snackbarSetting((key) => closeSnackbar(key), { color: "error" })
+        intl.formatMessage({ id: 'getDataFail' }),
+        snackbarSetting((key) => closeSnackbar(key), { color: 'error' }),
       );
     }
   }, [closeSnackbar, dispatch, enqueueSnackbar, intl, offset, mode]);
@@ -46,7 +41,7 @@ const RatingPage = (props: Props) => {
     <PageWrapperNoScroll>
       <PendingRateBox
         data={pendingRateData}
-        setPage={() => setPageOffset((one) => one + 1)}
+        setPage={() => setPageOffset((one) => one + PAGE_OFFSET)}
         loading={loading}
         disableLoadMore={disableLoadMore}
         mode={mode}

@@ -1,4 +1,4 @@
-import { APIHost } from "./../modules/common/constants";
+import { APIHost } from './../modules/common/constants';
 
 enum APIService {
   auth,
@@ -15,7 +15,7 @@ function getBaseUrl(service: APIService) {
     return `${APIHost}`;
   }
 
-  return "";
+  return '';
 }
 
 export const API_PATHS = {
@@ -27,18 +27,13 @@ export const API_PATHS = {
   getBuyer: `${getBaseUrl(APIService.protected)}/buyer/get`,
 
   sellerSearch: `${getBaseUrl(APIService.protected)}/seller/search`,
-  sellerDetail: (id: string) =>
-    `${getBaseUrl(APIService.protected)}/seller/get?id=${id}`,
+  sellerDetail: (id: string) => `${getBaseUrl(APIService.protected)}/seller/get?id=${id}`,
   sellerRatings: `${getBaseUrl(APIService.protected)}/seller/ratings`,
   renderSellerAvatar: (id?: string, stamp?: number) =>
     `${getBaseUrl(APIService.public)}/seller/getAvatar/${id}/${stamp}`,
-  suggestSearches: `${getBaseUrl(
-    APIService.protected
-  )}/request/suggestSearches`,
+  suggestSearches: `${getBaseUrl(APIService.protected)}/request/suggestSearches`,
 
-  popularSearches: `${getBaseUrl(
-    APIService.protected
-  )}/request/popularSearches`,
+  popularSearches: `${getBaseUrl(APIService.protected)}/request/popularSearches`,
   recentSearches: `${getBaseUrl(APIService.protected)}/buyer/recentSearches`,
 
   createRequest: `${getBaseUrl(APIService.protected)}/request/create`,
@@ -48,6 +43,7 @@ export const API_PATHS = {
   setAvatar: `${getBaseUrl(APIService.protected)}/buyer/setAvatar`,
   getProfileInfo: `${getBaseUrl(APIService.protected)}/buyer/get`,
   updateProfile: `${getBaseUrl(APIService.protected)}/buyer/update`,
+  myRatings: `${getBaseUrl(APIService.protected)}/rating/myRatings`,
   getRequestConfirm: `${getBaseUrl(APIService.protected)}/request/confirm`,
   getConfirmed: `${getBaseUrl(APIService.protected)}/request/getConfirmed`,
   deferRating: `${getBaseUrl(APIService.protected)}/buyer/deferRating`,
@@ -55,15 +51,9 @@ export const API_PATHS = {
 
   changePassword: `${getBaseUrl(APIService.protected)}/buyer/changePassword`,
   renderAvatar: (id?: number | string, stamp?: number) =>
-    id
-      ? `${getBaseUrl(APIService.public)}/getAvatar/${id}/${stamp}`
-      : undefined,
+    id ? `${getBaseUrl(APIService.public)}/getAvatar/${id}/${stamp}` : undefined,
   suggestLocation: (term: string) =>
-    `${getBaseUrl(
-      APIService.protected
-    )}/google/place/autocomplete?q=${encodeURIComponent(term)}`,
+    `${getBaseUrl(APIService.protected)}/google/place/autocomplete?q=${encodeURIComponent(term)}`,
   getDetailLocation: (id: string) =>
-    `${getBaseUrl(
-      APIService.protected
-    )}/google/place/detail?id=${encodeURIComponent(id)}`,
+    `${getBaseUrl(APIService.protected)}/google/place/detail?id=${encodeURIComponent(id)}`,
 };
