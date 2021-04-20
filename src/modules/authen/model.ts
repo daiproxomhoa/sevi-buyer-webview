@@ -1,4 +1,4 @@
-import { UserType } from "./constants";
+import { UserType } from './constants';
 
 export interface ILogin {
   id: string;
@@ -9,21 +9,23 @@ export interface ISignUp {
   id: string;
   password: string;
   confirmPassword: string;
-  name: string;
+  familyName: string;
+  givenName: string;
   otp: string;
 }
 
 export const defaultLoginData: ILogin = {
-  id: "",
-  password: "",
+  id: '',
+  password: '',
 };
 
 export const defaultSignUpData: ISignUp = {
-  id: "",
-  password: "",
-  confirmPassword: "",
-  name: "",
-  otp: "",
+  id: '',
+  password: '',
+  confirmPassword: '',
+  familyName: '',
+  givenName: '',
+  otp: '',
 };
 
 export interface IToken {

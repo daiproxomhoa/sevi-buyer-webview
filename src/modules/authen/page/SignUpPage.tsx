@@ -18,7 +18,6 @@ import HeaderBox from '../component/HeaderBox';
 import Footer from '../component/signUp/Footer';
 import SignUpForm from '../component/signUp/SignUpForm';
 import { ISignUp } from '../model';
-import { transformSignUpInfo } from '../utils';
 
 interface ISignUpPageProps {}
 
@@ -29,15 +28,14 @@ const SignUpPage: React.FunctionComponent<ISignUpPageProps> = (props) => {
 
   const onSubmit = useCallback(
     async (values: ISignUp) => {
-      const signUpInfo = transformSignUpInfo(values);
       dispatch(setLoadingBackDrop(true));
-      const json = await dispatch(fetchThunk(`${API_PATHS.otp}?id=${signUpInfo.id}`, 'post'));
+      const json = await dispatch(fetchThunk(`${API_PATHS.otp}?id=${values.id}`, 'post'));
       dispatch(setLoadingBackDrop(false));
       if (json?.status === RESPONSE_STATUS.SUCCESS) {
         dispatch(
           push({
             pathname: ROUTES.verifyOtp,
-            search: queryString.stringify(signUpInfo),
+            search: queryString.stringify(values),
           }),
         );
         return;

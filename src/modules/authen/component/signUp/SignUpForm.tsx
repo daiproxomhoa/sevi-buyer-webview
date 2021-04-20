@@ -56,26 +56,46 @@ const SignUpForm = (props: Props) => {
       <FormHelperText error>{errors?.id?.message || ' '}</FormHelperText>
 
       <Controller
-        name="name"
+        name="familyName"
         control={control}
         rules={{ required: intl.formatMessage({ id: 'required' }) }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
             value={value}
-            placeholder={intl.formatMessage({ id: 'name' })}
+            placeholder={intl.formatMessage({ id: 'familyName' })}
             startAdornmentIcon={<PersonIcon style={{ width: '20px', height: '20px' }} />}
             onChange={onChange}
           />
         )}
       />
 
-      <FormHelperText error>{errors?.name?.message || ' '}</FormHelperText>
+      <FormHelperText error>{errors?.familyName?.message || ' '}</FormHelperText>
+
+      <Controller
+        name="givenName"
+        control={control}
+        rules={{ required: intl.formatMessage({ id: 'required' }) }}
+        render={({ field: { onChange, value, ref } }) => (
+          <FreeTextField
+            inputRef={ref}
+            value={value}
+            placeholder={intl.formatMessage({ id: 'givenName' })}
+            startAdornmentIcon={<PersonIcon style={{ width: '20px', height: '20px' }} />}
+            onChange={onChange}
+          />
+        )}
+      />
+
+      <FormHelperText error>{errors?.givenName?.message || ' '}</FormHelperText>
 
       <Controller
         name="password"
         control={control}
-        rules={{ required: intl.formatMessage({ id: 'required' }) }}
+        rules={{
+          required: intl.formatMessage({ id: 'required' }),
+          minLength: { value: 6, message: intl.formatMessage({ id: 'minPassWordValid' }) },
+        }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
