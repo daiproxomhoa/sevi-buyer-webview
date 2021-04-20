@@ -1,29 +1,29 @@
-import { Action } from "redux";
-import { ThunkAction } from "redux-thunk";
-import { AppState } from "../../../redux/reducer";
-import { authenOut } from "../../authen/redux/authenReducer";
-import { some } from "../constants";
-import { setCommonError, setNetworkError } from "./commonReducer";
+import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../../../redux/reducer';
+import { authenOut } from '../../authen/redux/authenReducer';
+import { some } from '../constants';
+import { setCommonError, setNetworkError } from './commonReducer';
 
 export function fetchThunk(
   url: string,
-  method: "delete" | "put" | "get" | "post" = "get",
+  method: 'get' | 'post' = 'get',
   body?: some | FormData,
   fallback = { cancelled: false, data: {} },
-  contentType?: string
+  contentType?: string,
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {
   return async (dispatch, getState) => {
     while (true) {
       let res: any;
       try {
         res = await fetch(url, {
-          credentials: "include",
+          credentials: 'include',
           method,
-          body: typeof body === "object" ? JSON.stringify(body) : body,
+          body: typeof body === 'object' ? JSON.stringify(body) : body,
           headers:
-            contentType !== "multipart/form-data"
+            contentType !== 'multipart/form-data'
               ? {
-                  "Content-Type": contentType || "application/json",
+                  'Content-Type': contentType || 'application/json',
                 }
               : {},
         });
@@ -31,15 +31,12 @@ export function fetchThunk(
 
       if (res) {
         if (res.ok) {
-          if (method === "delete") {
-            return {};
-          }
           if (fallback.cancelled) {
             return fallback.data;
           }
 
           try {
-            const json = (await res.text()) || "{}";
+            const json = (await res.text()) || '{}';
             return { status: res.status, body: JSON.parse(json) };
           } catch (e) {
             return { status: res.status, body: fallback.data };
@@ -51,7 +48,7 @@ export function fetchThunk(
           return { status: 401, body: fallback.data };
         }
         if (res.status === 403) {
-          dispatch(setCommonError("forbidden"));
+          dispatch(setCommonError('forbidden'));
           return { status: 403, body: fallback.data };
         }
         if (res.status !== 500) {
@@ -61,14 +58,12 @@ export function fetchThunk(
 
       let hasInternet = true;
       try {
-        await fetch("https://www.google.com", { mode: "no-cors" });
+        await fetch('https://www.google.com', { mode: 'no-cors' });
       } catch (_) {
         hasInternet = false;
       }
 
-      dispatch(
-        setNetworkError(hasInternet ? "serverProblem" : "unstableNetwork")
-      );
+      dispatch(setNetworkError(hasInternet ? 'serverProblem' : 'unstableNetwork'));
 
       do {
         await new Promise((resolve) => setTimeout(resolve, 250));
