@@ -5,6 +5,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { MIN_PASSWORD_LENGTH } from '../../../../constants';
 import { FreeTextField } from '../../../common/component/elements';
 import { defaultSignUpData, ISignUp } from '../../model';
 
@@ -94,7 +95,7 @@ const SignUpForm = (props: Props) => {
         control={control}
         rules={{
           required: intl.formatMessage({ id: 'required' }),
-          minLength: { value: 6, message: intl.formatMessage({ id: 'minPassWordValid' }) },
+          minLength: { value: MIN_PASSWORD_LENGTH, message: intl.formatMessage({ id: 'minPassWordValid' }) },
         }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
