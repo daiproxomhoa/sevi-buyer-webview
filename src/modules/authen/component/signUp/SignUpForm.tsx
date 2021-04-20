@@ -1,12 +1,12 @@
-import { Button, FormHelperText } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
-import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
-import { FormattedMessage, useIntl } from "react-intl";
-import { FreeTextField } from "../../../common/component/elements";
-import { defaultSignUpData, ISignUp } from "../../model";
+import { Button, FormHelperText } from '@material-ui/core';
+import PersonIcon from '@material-ui/icons/Person';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FreeTextField } from '../../../common/component/elements';
+import { defaultSignUpData, ISignUp } from '../../model';
 
 interface Props {
   onSubmit(data: ISignUp): void;
@@ -20,10 +20,11 @@ const SignUpForm = (props: Props) => {
     handleSubmit,
     formState: { errors },
     control,
+    trigger,
     getValues,
   } = useForm<ISignUp>({
-    reValidateMode: "onChange",
-    mode: "onChange",
+    reValidateMode: 'onChange',
+    mode: 'onChange',
     defaultValues: defaultSignUpData,
   });
 
@@ -31,99 +32,94 @@ const SignUpForm = (props: Props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       style={{
-        margin: "24px",
-        display: "flex",
-        flexDirection: "column",
+        margin: '24px',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Controller
         name="id"
         control={control}
-        rules={{ required: intl.formatMessage({ id: "required" }) }}
+        rules={{ required: intl.formatMessage({ id: 'required' }) }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
             value={value}
-            placeholder={intl.formatMessage({ id: "phoneNumber" })}
+            placeholder={intl.formatMessage({ id: 'phoneNumber' })}
             type="tel"
-            startAdornmentIcon={
-              <PhoneIphoneIcon style={{ width: "20px", height: "20px" }} />
-            }
+            startAdornmentIcon={<PhoneIphoneIcon style={{ width: '20px', height: '20px' }} />}
             onChange={onChange}
           />
         )}
       />
 
-      <FormHelperText error>{errors?.id?.message || " "}</FormHelperText>
+      <FormHelperText error>{errors?.id?.message || ' '}</FormHelperText>
 
       <Controller
         name="name"
         control={control}
-        rules={{ required: intl.formatMessage({ id: "required" }) }}
+        rules={{ required: intl.formatMessage({ id: 'required' }) }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
             value={value}
-            placeholder={intl.formatMessage({ id: "name" })}
-            startAdornmentIcon={
-              <PersonIcon style={{ width: "20px", height: "20px" }} />
-            }
+            placeholder={intl.formatMessage({ id: 'name' })}
+            startAdornmentIcon={<PersonIcon style={{ width: '20px', height: '20px' }} />}
             onChange={onChange}
           />
         )}
       />
 
-      <FormHelperText error>{errors?.name?.message || " "}</FormHelperText>
+      <FormHelperText error>{errors?.name?.message || ' '}</FormHelperText>
 
       <Controller
         name="password"
         control={control}
-        rules={{ required: intl.formatMessage({ id: "required" }) }}
+        rules={{ required: intl.formatMessage({ id: 'required' }) }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
             value={value}
-            placeholder={intl.formatMessage({ id: "password" })}
+            placeholder={intl.formatMessage({ id: 'password' })}
             type="password"
-            startAdornmentIcon={
-              <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
-            }
-            onChange={onChange}
+            startAdornmentIcon={<VpnKeyIcon style={{ width: '20px', height: '20px' }} />}
+            onChange={(e) => {
+              onChange(e);
+              trigger(['confirmPassword', 'password']);
+            }}
           />
         )}
       />
 
-      <FormHelperText error>{errors?.password?.message || " "}</FormHelperText>
+      <FormHelperText error>{errors?.password?.message || ' '}</FormHelperText>
 
       <Controller
         name="confirmPassword"
         control={control}
         rules={{
-          required: intl.formatMessage({ id: "required" }),
+          required: intl.formatMessage({ id: 'required' }),
           validate: (value) =>
-            value === getValues("password") ||
-            intl.formatMessage({ id: "auth.confirmPasswordNotMatch" }),
+            value === getValues('password') || intl.formatMessage({ id: 'auth.confirmPasswordNotMatch' }),
         }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
             value={value}
-            placeholder={intl.formatMessage({ id: "repeatPassword" })}
+            placeholder={intl.formatMessage({ id: 'repeatPassword' })}
             type="password"
-            startAdornmentIcon={
-              <VpnKeyIcon style={{ width: "20px", height: "20px" }} />
-            }
-            onChange={onChange}
+            startAdornmentIcon={<VpnKeyIcon style={{ width: '20px', height: '20px' }} />}
+            onChange={(e) => {
+              onChange(e);
+              trigger(['confirmPassword', 'password']);
+            }}
           />
         )}
       />
 
-      <FormHelperText error>
-        {errors?.confirmPassword?.message || " "}
-      </FormHelperText>
+      <FormHelperText error>{errors?.confirmPassword?.message || ' '}</FormHelperText>
 
       <Button
-        style={{ marginTop: "12px", marginBottom: "12px" }}
+        style={{ marginTop: '12px', marginBottom: '12px' }}
         variant="contained"
         color="primary"
         fullWidth

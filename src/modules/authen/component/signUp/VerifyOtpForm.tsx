@@ -1,10 +1,10 @@
-import { Button, FormHelperText } from "@material-ui/core";
-import PhonelinkLockIcon from "@material-ui/icons/PhonelinkLock";
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
-import { FormattedMessage, useIntl } from "react-intl";
-import { FreeTextField } from "../../../common/component/elements";
-import { ISignUp } from "../../model";
+import { Button, FormHelperText } from '@material-ui/core';
+import PhonelinkLockIcon from '@material-ui/icons/PhonelinkLock';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { FreeTextField } from '../../../common/component/elements';
+import { ISignUp } from '../../model';
 
 interface Props {
   data: ISignUp;
@@ -20,8 +20,8 @@ const VerifyOtpForm = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ISignUp>({
-    reValidateMode: "onChange",
-    mode: "onChange",
+    reValidateMode: 'onChange',
+    mode: 'onChange',
     defaultValues: data,
   });
 
@@ -29,35 +29,33 @@ const VerifyOtpForm = (props: Props) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       style={{
-        margin: "24px 24px 0",
-        display: "flex",
-        flexDirection: "column",
+        margin: '24px 24px 0',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Controller
         name="otp"
         control={control}
         rules={{
-          required: intl.formatMessage({ id: "required" }),
+          required: intl.formatMessage({ id: 'required' }),
         }}
         render={({ field: { onChange, value, ref } }) => (
           <FreeTextField
             inputRef={ref}
             value={value}
-            placeholder={intl.formatMessage({ id: "auth.enterOtp" })}
+            placeholder={intl.formatMessage({ id: 'auth.enterOtp' })}
             type="number"
-            startAdornmentIcon={
-              <PhonelinkLockIcon style={{ width: "20px", height: "20px" }} />
-            }
+            startAdornmentIcon={<PhonelinkLockIcon style={{ width: '20px', height: '20px' }} />}
             onChange={onChange}
           />
         )}
       />
 
-      <FormHelperText error>{errors?.otp?.message}</FormHelperText>
+      <FormHelperText error>{errors?.otp?.message || ' '}</FormHelperText>
 
       <Button
-        style={{ marginTop: "12px", marginBottom: "12px" }}
+        style={{ marginTop: '12px', marginBottom: '12px' }}
         variant="contained"
         color="primary"
         fullWidth

@@ -40,23 +40,26 @@ const VerifyOtpPage = (props: Props) => {
     }
   }, [location.search]);
 
-  const onSubmit = useCallback(async () => {
-    dispatch(setLoadingBackDrop(true));
-    const json = await dispatch(fetchThunk(API_PATHS.signUp, 'post', signUpData));
+  const onSubmit = useCallback(
+    async (data: ISignUp) => {
+      dispatch(setLoadingBackDrop(true));
+      const json = await dispatch(fetchThunk(API_PATHS.signUp, 'post', { ...signUpData, otp: data.otp }));
 
-    dispatch(setLoadingBackDrop(false));
-    if (json?.body?.tokenSignature) {
-      dispatch(authenIn());
-      dispatch(setAuthData({ ...json.body }));
-      dispatch(fetchProfile());
-      return;
-    }
+      dispatch(setLoadingBackDrop(false));
+      if (json?.body?.tokenSignature) {
+        dispatch(authenIn());
+        dispatch(setAuthData({ ...json.body }));
+        dispatch(fetchProfile());
+        return;
+      }
 
-    enqueueSnackbar(intl.formatMessage({ id: `auth.${json?.body?.status}` }), {
-      anchorOrigin: { horizontal: 'center', vertical: 'top' },
-      variant: 'error',
-    });
-  }, [dispatch, enqueueSnackbar, intl, signUpData]);
+      enqueueSnackbar(intl.formatMessage({ id: `auth.${json?.body?.status}` }), {
+        anchorOrigin: { horizontal: 'center', vertical: 'top' },
+        variant: 'error',
+      });
+    },
+    [dispatch, enqueueSnackbar, intl, signUpData],
+  );
 
   const onResend = useCallback(async () => {
     dispatch(setLoadingBackDrop(true));
