@@ -34,14 +34,12 @@ export const createRequest = (params: ICreateRequest): ThunkAction<Promise<some>
   };
 };
 
-export const fetchRequesting = (): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
+export const fetchRequesting = (offset: number): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
-    const requestingData = getState().request.requestingData;
-
     return await dispatch(
       fetchThunk(API_PATHS.getUnconfirmed, 'post', {
+        offset,
         accept: false,
-        offset: requestingData.length,
         ratedFilter: 'rated',
       }),
     );

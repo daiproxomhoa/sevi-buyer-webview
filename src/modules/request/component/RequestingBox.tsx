@@ -1,41 +1,34 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { IRequest } from "../model";
-import RequestResult from "./RequestResult";
-import ResultItemSkeleton from "./ResultItemSkeleton";
+import { Box, Button, Typography } from '@material-ui/core';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { some } from '../../common/constants';
+import { IRequest } from '../model';
+import RequestResult from './RequestResult';
+import ResultItemSkeleton from './ResultItemSkeleton';
 
 interface Props {
   loading: boolean;
-  requestingData: IRequest[];
+  data?: some[];
   showLoadMore: boolean;
   onLoadMore(): void;
   onViewRequestDetail(data: IRequest): void;
 }
 
 const RequestingBox = (props: Props) => {
-  const {
-    loading,
-    requestingData,
-    showLoadMore,
-    onLoadMore,
-    onViewRequestDetail,
-  } = props;
+  const { loading, data, showLoadMore, onLoadMore, onViewRequestDetail } = props;
 
   return (
     <div
       style={{
         flex: 1,
-        padding: "0 24px 24px",
+        padding: '0 24px 24px',
       }}
     >
-      {requestingData.map((one) => (
-        <RequestResult
-          key={one.createDate}
-          info={one}
-          onViewRequestDetail={() => onViewRequestDetail(one)}
-        />
-      ))}
+      {data?.map((one) =>
+        one?.map((request: IRequest) => (
+          <RequestResult key={one.createDate} info={request} onViewRequestDetail={() => onViewRequestDetail(request)} />
+        )),
+      )}
 
       {loading ? (
         <>
@@ -49,7 +42,7 @@ const RequestingBox = (props: Props) => {
       ) : (
         <Box
           className="justify-content-center justify-content-center"
-          style={{ display: !showLoadMore ? "none" : "flex" }}
+          style={{ display: !showLoadMore ? 'none' : 'flex' }}
         >
           <Button
             variant="outlined"
@@ -58,7 +51,7 @@ const RequestingBox = (props: Props) => {
             style={{
               marginBottom: 80,
               marginTop: 16,
-              padding: "0px 16px",
+              padding: '0px 16px',
             }}
             onClick={onLoadMore}
           >

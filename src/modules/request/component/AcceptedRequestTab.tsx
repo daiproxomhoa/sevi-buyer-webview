@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { SUCCESS_CODE } from "../../../constants";
-import { AppState } from "../../../redux/reducer";
-import ReceivedBox from "../component/ReceivedBox";
-import { fetchAcceptedRequest, setAcceptedData } from "../redux/requestReducer";
+import React, { useCallback } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { SUCCESS_CODE } from '../../../constants';
+import { AppState } from '../../../redux/reducer';
+import ReceivedBox from './ReceivedBox';
+import { fetchAcceptedRequest, setAcceptedData } from '../redux/requestReducer';
 
 interface Props {}
 
@@ -15,7 +15,7 @@ const AcceptedRequestPage = (props: Props) => {
     (state: AppState) => ({
       acceptedData: state.request.acceptedData,
     }),
-    shallowEqual
+    shallowEqual,
   );
 
   const [showLoadMore, setShowLoadMore] = React.useState(true);
