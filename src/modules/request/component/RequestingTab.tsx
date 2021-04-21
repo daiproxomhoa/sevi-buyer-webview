@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import useSWR, { useSWRInfinite } from 'swr';
+import { useSWRInfinite } from 'swr';
 import { API_PATHS } from '../../../configs/api';
 import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
-import RequestInfoDetail from './RequestInfoDetail';
-import RequestingBox from './RequestingBox';
 import { IRequest } from '../model';
 import { fetchRequesting } from '../redux/requestReducer';
+import RequestInfoDetail from './RequestInfoDetail';
+import RequestingBox from './RequestingBox';
 
 interface Props {}
 

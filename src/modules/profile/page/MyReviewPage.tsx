@@ -7,6 +7,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { API_PATHS } from '../../../configs/api';
 import { SUCCESS_CODE } from '../../../constants';
+import { PAGE_OFFSET } from '../../../models/paginations';
 import { AppState } from '../../../redux/reducer';
 import { snackbarSetting } from '../../common/component/elements';
 import { some } from '../../common/constants';
@@ -30,13 +31,13 @@ const MyReviewPage = (props: Props) => {
     setLoading(false);
     if (json.status === SUCCESS_CODE) {
       setData((one) => ({ ...one, ratings: [...get(one, 'ratings', []), ...get(json, 'body.ratings', [])] }));
-      if (!json.body?.ratings?.length) {
+      if (json.body?.ratings?.length < PAGE_OFFSET) {
         setDisableLoadMore(true);
       }
     } else {
       enqueueSnackbar(
         intl.formatMessage({ id: 'getDataFail' }),
-        snackbarSetting((key) => closeSnackbar(key), { color: 'error' }),
+        snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
       );
     }
   }, [closeSnackbar, dispatch, enqueueSnackbar, intl, offset]);

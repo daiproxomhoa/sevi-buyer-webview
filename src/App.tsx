@@ -116,7 +116,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
                   <ProtectedRoute auth={authen} exact path={ROUTES.request} component={RequestListPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.sendRequest} component={SendRequestPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.rating} component={RatingListPage} />
-                  <ProtectedRoute auth={authen} exact path={ROUTES.review.value} component={ReviewPage} />
+                  <ProtectedRoute auth={authen} exact path={ROUTES.review.path} component={ReviewPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.profile} component={ProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.editProfile} component={EditProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.changePass} component={ChangePassWordPage} />

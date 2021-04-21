@@ -28,7 +28,9 @@ const RatingPage = (props: Props) => {
     if (json.status !== SUCCESS_CODE) {
       enqueueSnackbar(
         intl.formatMessage({ id: 'getDataFail' }),
-        snackbarSetting((key) => closeSnackbar(key), { color: 'error' }),
+        snackbarSetting((key) => closeSnackbar(key), {
+          variant: 'error',
+        }),
       );
     }
   }, [closeSnackbar, dispatch, enqueueSnackbar, intl, offset, mode]);

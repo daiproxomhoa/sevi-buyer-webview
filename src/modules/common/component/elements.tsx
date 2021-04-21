@@ -9,13 +9,11 @@ import {
   makeStyles,
   Slide,
   Theme,
-  Typography,
   withStyles,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { TransitionProps } from '@material-ui/core/transitions';
-import { Alert, AlertProps, AlertTitle } from '@material-ui/lab';
-import { OptionsObject, SnackbarMessage } from 'notistack';
+import { OptionsObject } from 'notistack';
 import React from 'react';
 import styled from 'styled-components';
 import { BACKGROUND, LIGHT_GREY } from '../../../configs/colors';
@@ -192,11 +190,7 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
   );
 };
 
-export function snackbarSetting(
-  closeSnackbar: (key: string) => void,
-  alertProps?: AlertProps,
-  alertTitle?: React.ReactNode,
-) {
+export function snackbarSetting(closeSnackbar: (key: string) => void, optionProps?: OptionsObject) {
   return {
     anchorOrigin: {
       vertical: 'top',
@@ -204,20 +198,8 @@ export function snackbarSetting(
     },
     preventDuplicate: true,
     autoHideDuration: 1000,
-    style: { width: 'calc(100vw - 16px)' },
-    // persist: true,
-    content: (key: string, msg: SnackbarMessage) => (
-      <Alert
-        // onClose={() => closeSnackbar(key)}
-        severity={alertProps?.color}
-        {...alertProps}
-      >
-        {alertTitle && <AlertTitle>{alertTitle}</AlertTitle>}
-        <Typography variant="body2" color="inherit">
-          {msg}
-        </Typography>
-      </Alert>
-    ),
+    variant: 'success',
+    ...optionProps,
   } as OptionsObject;
 }
 
