@@ -137,9 +137,9 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
         }}
       >
         <Route path={ROUTES.home} component={BottomNavigation} />
+        <Route path={ROUTES.home} render={() => <PendingRateRemindDialog />} />
       </div>
       <LoadingBackDrop open={setLoadingBackDrop} />
-      <PendingRateRemindDialog />
       <FetchErrorDialog msgId={networkErrorMsg} onClose={() => dispatch(setNetworkError(undefined))} />
     </>
   );
