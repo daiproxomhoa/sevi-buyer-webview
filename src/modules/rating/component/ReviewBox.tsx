@@ -101,7 +101,7 @@ const ReviewBox = (props: Props) => {
           title={<FormattedMessage id="review.title" />}
           endAdornment={
             <Button variant="contained" color="primary" style={{ height: 36, borderRadius: 18 }} type="submit">
-              <FormattedMessage id="finish" />
+              <FormattedMessage id="review.finish" />
             </Button>
           }
         />
