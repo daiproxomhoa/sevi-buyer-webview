@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Dialog,
-  FormControlLabel,
-  Typography,
-} from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import moment, { Moment } from "moment";
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { PRIMARY } from "../../../../configs/colors";
-import { DATE_FORMAT } from "../../../../models/moment";
+import { Box, Button, Checkbox, Dialog, FormControlLabel, Typography } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import moment, { Moment } from 'moment';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { PRIMARY } from '../../../../configs/colors';
+import { DATE_FORMAT } from '../../../../models/moment';
 
 interface Props {
   open: boolean;
@@ -24,9 +17,7 @@ const ChooseDateDialog = (props: Props) => {
   const { open, date, onClose, onChooseDate } = props;
 
   const [isAnyDate, setIsAnyDate] = React.useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = React.useState<Moment | null>(
-    moment()
-  );
+  const [selectedDate, setSelectedDate] = React.useState<Moment | null>(moment());
 
   const onExited = () => {
     const inputDate = moment(date, DATE_FORMAT);
@@ -39,6 +30,7 @@ const ChooseDateDialog = (props: Props) => {
   return (
     <Dialog open={open} onClose={onClose} onExited={onExited}>
       <KeyboardDatePicker
+        disableToolbar
         variant="static"
         disablePast
         value={selectedDate}
@@ -46,36 +38,36 @@ const ChooseDateDialog = (props: Props) => {
         ToolbarComponent={({ date }) => (
           <Box
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textTransform: "capitalize",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textTransform: 'capitalize',
               background: PRIMARY,
-              color: "white",
+              color: 'white',
             }}
             paddingBottom="8px"
           >
             <Typography
               variant="body2"
               style={{
-                background: "#A503CB",
-                width: "100%",
-                textAlign: "center",
-                padding: "8px 0",
+                background: '#A503CB',
+                width: '100%',
+                textAlign: 'center',
+                padding: '8px 0',
               }}
             >
-              {date?.format("dddd")}
+              {date?.format('dddd')}
             </Typography>
-            <Typography variant="subtitle1">{date?.format("MMMM")}</Typography>
-            <Typography variant="h2">{date?.format("DD")}</Typography>
-            <Typography variant="subtitle1" style={{ fontWeight: "normal" }}>
-              {date?.format("YYYY")}
+            <Typography variant="subtitle1">{date?.format('MMMM')}</Typography>
+            <Typography variant="h2">{date?.format('DD')}</Typography>
+            <Typography variant="subtitle1" style={{ fontWeight: 'normal' }}>
+              {date?.format('YYYY')}
             </Typography>
           </Box>
         )}
       />
 
-      <div style={{ padding: "0 24px 24px" }}>
+      <div style={{ padding: '0 24px 24px' }}>
         <FormControlLabel
           control={
             <Checkbox
@@ -94,29 +86,18 @@ const ChooseDateDialog = (props: Props) => {
 
         <div
           style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
           }}
         >
           <Button onClick={onClose} size="small">
-            <Typography
-              variant="body1"
-              color="primary"
-              style={{ fontWeight: 500, padding: 6, margin: "0 8px" }}
-            >
+            <Typography variant="body1" color="primary" style={{ fontWeight: 500, padding: 6, margin: '0 8px' }}>
               <FormattedMessage id="cancel" />
             </Typography>
           </Button>
-          <Button
-            onClick={() => onChooseDate(selectedDate, isAnyDate)}
-            size="small"
-          >
-            <Typography
-              variant="body1"
-              color="primary"
-              style={{ fontWeight: 500, padding: 6 }}
-            >
+          <Button onClick={() => onChooseDate(selectedDate, isAnyDate)} size="small">
+            <Typography variant="body1" color="primary" style={{ fontWeight: 500, padding: 6 }}>
               <FormattedMessage id="ok" />
             </Typography>
           </Button>

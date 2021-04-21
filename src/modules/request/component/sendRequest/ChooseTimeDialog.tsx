@@ -1,15 +1,9 @@
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  FormControlLabel,
-  Typography,
-} from "@material-ui/core";
-import { KeyboardTimePicker } from "@material-ui/pickers";
-import moment, { Moment } from "moment";
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { TIME_FORMAT } from "../../../../models/moment";
+import { Button, Checkbox, Dialog, FormControlLabel, Typography } from '@material-ui/core';
+import { KeyboardTimePicker } from '@material-ui/pickers';
+import moment, { Moment } from 'moment';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { TIME_FORMAT } from '../../../../models/moment';
 
 interface Props {
   open: boolean;
@@ -21,9 +15,7 @@ interface Props {
 const ChooseTimeDialog = (props: Props) => {
   const { open, date, onClose, onChooseTime } = props;
   const [isAnyTime, setIsAnyTime] = React.useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = React.useState<Moment | null>(
-    moment()
-  );
+  const [selectedDate, setSelectedDate] = React.useState<Moment | null>(moment());
 
   const onExited = () => {
     const inputDate = moment(date, TIME_FORMAT);
@@ -36,6 +28,7 @@ const ChooseTimeDialog = (props: Props) => {
   return (
     <Dialog open={open} onClose={onClose} onExited={onExited}>
       <KeyboardTimePicker
+        disableToolbar
         variant="static"
         openTo="hours"
         minutesStep={5}
@@ -43,7 +36,7 @@ const ChooseTimeDialog = (props: Props) => {
         onChange={(date: Moment | null) => setSelectedDate(date)}
       />
 
-      <div style={{ padding: "0 24px 24px" }}>
+      <div style={{ padding: '0 24px 24px' }}>
         <FormControlLabel
           control={
             <Checkbox
@@ -62,29 +55,18 @@ const ChooseTimeDialog = (props: Props) => {
 
         <div
           style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
           }}
         >
           <Button onClick={onClose} size="small">
-            <Typography
-              variant="body1"
-              color="primary"
-              style={{ fontWeight: 500, padding: 6, margin: "0 8px" }}
-            >
+            <Typography variant="body1" color="primary" style={{ fontWeight: 500, padding: 6, margin: '0 8px' }}>
               <FormattedMessage id="cancel" />
             </Typography>
           </Button>
-          <Button
-            onClick={() => onChooseTime(selectedDate, isAnyTime)}
-            size="small"
-          >
-            <Typography
-              variant="body1"
-              color="primary"
-              style={{ fontWeight: 500, padding: 6 }}
-            >
+          <Button onClick={() => onChooseTime(selectedDate, isAnyTime)} size="small">
+            <Typography variant="body1" color="primary" style={{ fontWeight: 500, padding: 6 }}>
               <FormattedMessage id="ok" />
             </Typography>
           </Button>
