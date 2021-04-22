@@ -72,6 +72,7 @@ const ReviewBox = (props: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const {
+    register,
     handleSubmit,
     formState: { errors },
     control,
@@ -83,6 +84,8 @@ const ReviewBox = (props: Props) => {
   useEffect(() => {
     reset();
   }, [reset]);
+
+  console.log('errors', errors);
 
   return (
     <PageWrapperNoScroll>
@@ -98,7 +101,7 @@ const ReviewBox = (props: Props) => {
           title={<FormattedMessage id="review.title" />}
           endAdornment={
             <Button variant="contained" color="primary" style={{ height: 36, borderRadius: 18 }} type="submit">
-              <FormattedMessage id="finish" />
+              <FormattedMessage id="review.finish" />
             </Button>
           }
         />
@@ -158,7 +161,7 @@ const ReviewBox = (props: Props) => {
             name={'content'}
             control={control}
             rules={{
-              required: intl.formatMessage({ id: 'required' }),
+              required: intl.formatMessage({ id: 'review.comment_required' }),
             }}
             render={({ field: { onChange, value, ref, name } }) => (
               <FormControlTextField

@@ -1,36 +1,37 @@
-import { Badge, Box, Button, Dialog, Typography } from "@material-ui/core";
-import InsertInvitationIcon from "@material-ui/icons/InsertInvitation";
-import StarOutlineIcon from "@material-ui/icons/StarOutline";
-import moment from "moment";
-import { useSnackbar } from "notistack";
-import React, { useCallback, useMemo } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { API_PATHS } from "../../../configs/api";
-import { ROUTES } from "../../../configs/routes";
-import { DATE_TIME_FORMAT } from "../../../models/moment";
-import { AppState } from "../../../redux/reducer";
-import { ReactComponent as IconSchedule } from "../../../svg/schedule.svg";
-import { CustomChip, snackbarSetting } from "../../common/component/elements";
-import { some } from "../../common/constants";
-import { fetchThunk } from "../../common/redux/thunk";
-import { fetchPendingRateData } from "../redux/ratingReducer";
+import { Badge, Box, Button, Dialog, Typography } from '@material-ui/core';
+import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
+import StarOutlineIcon from '@material-ui/icons/StarOutline';
+import moment from 'moment';
+import { useSnackbar } from 'notistack';
+import React, { useCallback, useMemo } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { matchPath, useLocation } from 'react-router';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { API_PATHS } from '../../../configs/api';
+import { ROUTES } from '../../../configs/routes';
+import { DATE_TIME_FORMAT } from '../../../models/moment';
+import { AppState } from '../../../redux/reducer';
+import { ReactComponent as IconSchedule } from '../../../svg/schedule.svg';
+import { CustomChip, snackbarSetting } from '../../common/component/elements';
+import { RawLink } from '../../common/component/Link';
+import { some } from '../../common/constants';
+import { fetchThunk } from '../../common/redux/thunk';
+import { fetchPendingRateData } from '../redux/ratingReducer';
 
 const OPTIONS_DEFER = [
   {
     value: 3,
-    title: "day",
+    title: 'day',
   },
   {
     value: 7,
-    title: "week",
+    title: 'week',
   },
   {
     value: 14,
-    title: "week",
+    title: 'week',
   },
 ];
 interface Props {}
@@ -44,9 +45,7 @@ const PendingRateRemindDialog = (props: Props) => {
   const arrayDeferRating = useMemo(() => {
     return (
       pendingRateData?.requests.filter((item: some) =>
-        item.deferRatingTo
-          ? moment(item.deferRatingTo, DATE_TIME_FORMAT).isBefore(moment())
-          : true
+        item.deferRatingTo ? moment(item.deferRatingTo, DATE_TIME_FORMAT).isBefore(moment()) : true,
       ) || []
     );
   }, [pendingRateData?.requests]);
@@ -61,56 +60,56 @@ const PendingRateRemindDialog = (props: Props) => {
         return;
       }
       const json = await dispatch(
-        fetchThunk(API_PATHS.deferRating, "post", {
+        fetchThunk(API_PATHS.deferRating, 'post', {
           deferDay,
           otherId: data?.sellerId,
           requestDate: data?.createDate,
-          deferTo: moment(data?.createDate, DATE_TIME_FORMAT)
-            .add(deferDay, "days")
-            .format(DATE_TIME_FORMAT),
-        })
+          deferTo: moment(data?.createDate, DATE_TIME_FORMAT).add(deferDay, 'days').format(DATE_TIME_FORMAT),
+        }),
       );
       if (json.body) {
         dispatch(fetchPendingRateData(0));
       } else {
         enqueueSnackbar(
-          intl.formatMessage({ id: "getDataFail" }),
-          snackbarSetting((key) => closeSnackbar(key), { color: "error" })
+          intl.formatMessage({ id: 'getDataFail' }),
+          snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
         );
       }
     },
-    [closeSnackbar, data, dispatch, enqueueSnackbar, intl]
+    [closeSnackbar, data, dispatch, enqueueSnackbar, intl],
   );
 
   if (
     !pendingRateData ||
     !data ||
     arrayDeferRating?.length === 0 ||
-    location.pathname === ROUTES.rating
+    location.pathname === ROUTES.rating ||
+    !!matchPath(location.pathname, {
+      path: ROUTES.review.path,
+    })
   ) {
     return null;
   }
+
   return (
     <Dialog
       open={true}
       PaperProps={{
         style: {
-          width: "100%",
-          position: "relative",
-          padding: "42px 24px",
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          textAlign: "center",
+          width: '100%',
+          position: 'relative',
+          padding: '42px 24px',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          textAlign: 'center',
         },
       }}
     >
       <Badge
-        badgeContent={
-          arrayDeferRating.length > 10 ? "9+" : arrayDeferRating.length
-        }
+        badgeContent={arrayDeferRating.length > 10 ? '9+' : arrayDeferRating.length}
         color="secondary"
-        style={{ position: "absolute", top: 20, right: 22 }}
+        style={{ position: 'absolute', top: 20, right: 22 }}
       />
       <Typography variant="h6">
         <FormattedMessage id="ratingRemind.HELLO" />
@@ -128,21 +127,14 @@ const PendingRateRemindDialog = (props: Props) => {
       </Box>
       <CustomChip label={<FormattedMessage id="detail" />} clickable />
       <IconSchedule />
-      <Button
-        variant="contained"
-        color="primary"
-        className="m-t-24"
-        style={{ minWidth: 200 }}
-      >
-        <StarOutlineIcon />
-        &nbsp;
-        <FormattedMessage id="ratingRemind.REVIEW" />
-      </Button>
-      <Typography
-        variant="body1"
-        className="m-t-16 m-b-12"
-        color="textSecondary"
-      >
+      <RawLink to={ROUTES.review.gen(data?.sellerId, data?.createDate)}>
+        <Button variant="contained" color="primary" className="m-t-24" style={{ minWidth: 200 }}>
+          <StarOutlineIcon />
+          &nbsp;
+          <FormattedMessage id="ratingRemind.REVIEW" />
+        </Button>
+      </RawLink>
+      <Typography variant="body1" className="m-t-16 m-b-12" color="textSecondary">
         <FormattedMessage id="ratingRemind.REMIND_LETTER" />
       </Typography>
       <Box className="d-flex">
@@ -153,7 +145,7 @@ const PendingRateRemindDialog = (props: Props) => {
               className="m-4"
               variant="contained"
               style={{
-                borderRadius: "30%",
+                borderRadius: '30%',
                 height: 48,
                 width: 48,
                 minWidth: 48,
@@ -164,19 +156,10 @@ const PendingRateRemindDialog = (props: Props) => {
               }}
             >
               <Box className="d-flex d-flex-column justify-content-center">
-                <Typography
-                  variant="subtitle2"
-                  color="textPrimary"
-                  component="span"
-                  style={{ lineHeight: 1 }}
-                >
+                <Typography variant="subtitle2" color="textPrimary" component="span" style={{ lineHeight: 1 }}>
                   {Number(option.value % 7 || option.value / 7).toFixed(0)}
                 </Typography>
-                <Typography
-                  variant="caption"
-                  component="span"
-                  style={{ lineHeight: 1 }}
-                >
+                <Typography variant="caption" component="span" style={{ lineHeight: 1 }}>
                   <FormattedMessage id={option.title} />
                 </Typography>
               </Box>

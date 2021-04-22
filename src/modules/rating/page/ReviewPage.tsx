@@ -1,20 +1,21 @@
-import { goBack } from "connected-react-router";
-import { useSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
-import { useIntl } from "react-intl";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { API_PATHS } from "../../../configs/api";
-import { SUCCESS_CODE } from "../../../constants";
-import { AppState } from "../../../redux/reducer";
-import { snackbarSetting } from "../../common/component/elements";
-import { some } from "../../common/constants";
-import { setLoadingBackDrop } from "../../common/redux/commonReducer";
-import { fetchThunk } from "../../common/redux/thunk";
-import RatingSuccessDialog from "../component/RatingSuccessDialog";
-import ReviewBox from "../component/ReviewBox";
+import { goBack } from 'connected-react-router';
+import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { API_PATHS } from '../../../configs/api';
+import { SUCCESS_CODE } from '../../../constants';
+import { AppState } from '../../../redux/reducer';
+import { snackbarSetting } from '../../common/component/elements';
+import { some } from '../../common/constants';
+import { setLoadingBackDrop } from '../../common/redux/commonReducer';
+import { fetchThunk } from '../../common/redux/thunk';
+import RatingSuccessDialog from '../component/RatingSuccessDialog';
+import ReviewBox from '../component/ReviewBox';
+import { fetchPendingRateData } from '../redux/ratingReducer';
 
 interface Props {}
 
@@ -35,21 +36,20 @@ const ReviewPage = (props: Props) => {
         return;
       }
       dispatch(setLoadingBackDrop(true));
-      const json = await dispatch(
-        fetchThunk(API_PATHS.getRating, "post", { ...data, sellerId, reqDate })
-      );
+      const json = await dispatch(fetchThunk(API_PATHS.getRating, 'post', { ...data, sellerId, reqDate }));
       dispatch(setLoadingBackDrop(false));
 
       if (json.status === SUCCESS_CODE) {
         setOpen(true);
+        dispatch(fetchPendingRateData());
       } else {
         enqueueSnackbar(
-          intl.formatMessage({ id: "rating_fail" }),
-          snackbarSetting((key) => closeSnackbar(key), { color: "error" })
+          intl.formatMessage({ id: 'rating_fail' }),
+          snackbarSetting((key) => closeSnackbar(key), { color: 'error' }),
         );
       }
     },
-    [sellerId, reqDate, dispatch, enqueueSnackbar, intl, closeSnackbar]
+    [sellerId, reqDate, dispatch, enqueueSnackbar, intl, closeSnackbar],
   );
 
   useEffect(() => {
