@@ -1,23 +1,21 @@
-import { go, goBack } from "connected-react-router";
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { SUCCESS_CODE } from "../../../constants";
-import { AppState } from "../../../redux/reducer";
-import { PageWrapper } from "../../common/component/elements";
-import Header from "../../common/component/Header";
-import { setLoadingBackDrop } from "../../common/redux/commonReducer";
-import RequestResultDialog from "../component/sendRequest/RequestResultDialog";
-import SendRequestForm from "../component/sendRequest/SendRequestForm";
-import {
-  ICreateRequest,
-  ICreateRequestForm,
-  ICreateRequestResult,
-} from "../model";
-import { createRequest, setDescription } from "../redux/requestReducer";
+import { go, goBack } from 'connected-react-router';
+import moment from 'moment';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { SUCCESS_CODE } from '../../../constants';
+import { DATE_FORMAT, TIME_FORMAT } from '../../../models/moment';
+import { AppState } from '../../../redux/reducer';
+import { PageWrapper } from '../../common/component/elements';
+import Header from '../../common/component/Header';
+import { setLoadingBackDrop } from '../../common/redux/commonReducer';
+import RequestResultDialog from '../component/sendRequest/RequestResultDialog';
+import SendRequestForm from '../component/sendRequest/SendRequestForm';
+import { ICreateRequest, ICreateRequestForm, ICreateRequestResult } from '../model';
+import { createRequest, setDescription } from '../redux/requestReducer';
 
 interface Props {}
 
@@ -32,7 +30,7 @@ const SendRequestPage = (props: Props) => {
       description: state.request.description,
       sessionStamp: state.search.sessionStamp,
     }),
-    shallowEqual
+    shallowEqual,
   );
 
   const [result, setResult] = React.useState<ICreateRequestResult>();
@@ -42,7 +40,7 @@ const SendRequestPage = (props: Props) => {
     async (values: ICreateRequestForm) => {
       const searchParams = new URLSearchParams(location.search);
 
-      const sellerId = searchParams.get("id");
+      const sellerId = searchParams.get('id');
 
       if (!sellerId) {
         return;
@@ -51,10 +49,10 @@ const SendRequestPage = (props: Props) => {
       const params: ICreateRequest = {
         sellerId,
         sessionStamp,
-        date: values.date,
+        date: moment(values.date, DATE_FORMAT).isValid() ? values.date : null,
         location: values.location,
         desc: values.desc,
-        time: `${values.time}:00`,
+        time: moment(values.time, TIME_FORMAT).isValid() ? `${values.time}:00` : null,
       };
 
       dispatch(setLoadingBackDrop(true));
@@ -68,15 +66,12 @@ const SendRequestPage = (props: Props) => {
         setOpenDialog(true);
       }
     },
-    [dispatch, location.search, sessionStamp]
+    [dispatch, location.search, sessionStamp],
   );
 
   return (
     <PageWrapper>
-      <Header
-        title={<FormattedMessage id="request.sendRequest" />}
-        action={() => dispatch(goBack())}
-      />
+      <Header title={<FormattedMessage id="request.sendRequest" />} action={() => dispatch(goBack())} />
 
       <SendRequestForm
         profile={profile}

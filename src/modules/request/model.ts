@@ -1,4 +1,4 @@
-import { ISeller } from "./../search/model";
+import { ISeller } from './../search/model';
 
 export interface IRequest {
   accept: boolean;
@@ -22,8 +22,8 @@ export interface ICreateRequest {
   sessionStamp: number;
   desc: string;
   location: string;
-  date: string;
-  time: string;
+  date: string | null;
+  time: string | null;
 }
 
 export interface ICreateRequestForm {
@@ -42,5 +42,5 @@ export interface ICreateRequestResult {
 export interface IGetRequestParams {
   accept: boolean;
   offset: number;
-  ratedFilter: "rated" | " unrated";
+  ratedFilter: 'rated' | ' unrated';
 }
