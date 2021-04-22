@@ -1,21 +1,22 @@
-import { push, replace } from "connected-react-router";
-import queryString from "query-string";
-import * as React from "react";
-import { connect } from "react-redux";
-import { useLocation } from "react-router";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { ROUTES } from "../../../configs/routes";
-import { AppState } from "../../../redux/reducer";
-import { PageWrapper } from "../../common/component/elements";
-import { setDescription } from "../../request/redux/requestReducer";
-import FilterBox from "../component/filter/FilterBox";
-import HomeSearchBox from "../component/HomeSearchBox";
-import SearchBox from "../component/SearchBox";
-import SearchResultBox from "../component/SearchResultBox";
-import { defaultSearchFilter, ISeller, ISellerSearchFilter } from "../model";
-import { sellerSearch } from "../redux/searchReducer";
-import { parseSearchParams, stringifySearchParams } from "../utils";
+import { push, replace } from 'connected-react-router';
+import queryString from 'query-string';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { useLocation } from 'react-router';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ROUTES } from '../../../configs/routes';
+import { AppState } from '../../../redux/reducer';
+import { PageWrapper } from '../../common/component/elements';
+import { setProfileData, updateProfile } from '../../profile/redux/profileReducer';
+import { setDescription } from '../../request/redux/requestReducer';
+import FilterBox from '../component/filter/FilterBox';
+import HomeSearchBox from '../component/HomeSearchBox';
+import SearchBox from '../component/SearchBox';
+import SearchResultBox from '../component/SearchResultBox';
+import { defaultSearchFilter, ISeller, ISellerSearchFilter } from '../model';
+import { sellerSearch } from '../redux/searchReducer';
+import { parseSearchParams, stringifySearchParams } from '../utils';
 
 const mapStateToProps = (state: AppState) => ({
   data: state.search.data,
@@ -31,9 +32,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   const location = useLocation();
 
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [filter, setFilter] = React.useState<ISellerSearchFilter>(
-    defaultSearchFilter
-  );
+  const [filter, setFilter] = React.useState<ISellerSearchFilter>(defaultSearchFilter);
 
   const [openFilter, setOpenFilter] = React.useState<boolean>(false);
 
@@ -42,10 +41,10 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
       dispatch(
         replace({
           search: stringifySearchParams(values),
-        })
+        }),
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const onSellerSearch = React.useCallback(
@@ -62,7 +61,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
       setLoading(false);
     },
-    [dispatch, setSearchParams]
+    [dispatch, setSearchParams],
   );
 
   const onViewSearchDetail = React.useCallback(
@@ -71,10 +70,34 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
         push({
           pathname: ROUTES.searchDetail,
           search: queryString.stringify({ id: info.id }),
-        })
+        }),
       );
     },
-    [dispatch]
+    [dispatch],
+  );
+
+  const onUpdateProfile = React.useCallback(
+    async (data: ISellerSearchFilter) => {
+      const addresses = profile?.addresses;
+
+      if (addresses && addresses.length > 1) {
+        const index = addresses.findIndex(
+          (obj) => obj.address.formattedAddress === data.address.address.formattedAddress,
+        );
+
+        if (index > 0) {
+          const adr = addresses.splice(index, 1);
+          addresses.unshift(...adr);
+        }
+
+        const newProfile = { ...profile, addresses };
+
+        dispatch(updateProfile(newProfile));
+
+        dispatch(setProfileData(newProfile));
+      }
+    },
+    [dispatch, profile],
   );
 
   React.useEffect(() => {
@@ -87,9 +110,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
       <PageWrapper>
         <SearchBox
           filter={filter}
-          onSellerSearch={(str: string) =>
-            onSellerSearch({ ...filter, string: str, searched: true, page: 0 })
-          }
+          onSellerSearch={(str: string) => onSellerSearch({ ...filter, string: str, searched: true, page: 0 })}
           openFilter={() => setOpenFilter(true)}
         />
 
@@ -106,11 +127,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
             }}
           />
         ) : (
-          <HomeSearchBox
-            onSearch={(string) =>
-              onSellerSearch({ ...filter, searched: true, string })
-            }
-          />
+          <HomeSearchBox onSearch={(string) => onSellerSearch({ ...filter, searched: true, string })} />
         )}
       </PageWrapper>
 
@@ -120,6 +137,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
         open={openFilter}
         onClose={() => setOpenFilter(false)}
         onFilter={(data) => {
+          onUpdateProfile(data);
           onSellerSearch({ ...data, searched: true, page: 0 });
           setOpenFilter(false);
         }}

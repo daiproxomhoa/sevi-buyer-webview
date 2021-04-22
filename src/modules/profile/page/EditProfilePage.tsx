@@ -9,9 +9,10 @@ import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
 import { PageWrapperNoScroll, snackbarSetting } from '../../common/component/elements';
 import { some } from '../../common/constants';
+import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import EditProfileForm from '../component/EditProfileForm';
 import HeaderProfile from '../component/HeaderProfile';
-import { fetchProfile, setProfileData, updateProfile } from '../redux/profileReducer';
+import { fetchProfile, updateProfile } from '../redux/profileReducer';
 
 interface Props {}
 
@@ -22,15 +23,17 @@ const EditProfilePage = (props: Props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const onSubmit = async (profile: some) => {
+    dispatch(setLoadingBackDrop(true));
+
     const json = await dispatch(updateProfile(profile));
+
+    dispatch(setLoadingBackDrop(false));
 
     if (json.status === SUCCESS_CODE) {
       enqueueSnackbar(
         intl.formatMessage({ id: 'update_success' }),
         snackbarSetting((key) => closeSnackbar(key), {}),
       );
-
-      dispatch(setProfileData(profile));
 
       dispatch(goBack());
       return;

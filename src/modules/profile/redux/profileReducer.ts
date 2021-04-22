@@ -12,7 +12,7 @@ export interface ProfileState {
   loading: boolean;
 }
 
-export const setProfileData = createCustomAction('profile/setData', (data?: some) => ({
+export const setProfileData = createCustomAction('profile/setProfileData', (data?: some) => ({
   data,
 }));
 
@@ -33,11 +33,7 @@ export function fetchProfile(): ThunkAction<Promise<void>, AppState, null, Actio
 
 export function updateProfile(profile: some): ThunkAction<Promise<some>, AppState, null, Action<string>> {
   return async (dispatch, getState) => {
-    dispatch(setLoading(true));
-
     const json = await dispatch(fetchThunk(API_PATHS.updateProfile, 'post', profile));
-
-    dispatch(setLoading(false));
 
     return json;
   };
