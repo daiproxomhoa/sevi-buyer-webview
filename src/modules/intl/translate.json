@@ -42,6 +42,7 @@
   "sendMessage": ["Nhắn tin", ""],
   "serverProblem": ["Máy chủ hoặc ứng dụng gặp vấn đề. Hãy thử lại hoặc khởi động lại ứng dụng"],
   "retry": ["Thử lại"],
+  "conversation": ["Trò chuyện", ""],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
   "chooseRequired": ["Vui lòng chọn dữ liệu", ""],
@@ -88,7 +89,9 @@
   "request.iWantFind": ["Tôi muốn tìm {text}", ""],
   "request.time": ["Giờ", ""],
   "request.date": ["Ngày", ""],
+  "request.cancelRequest": ["Hủy công việc", ""],
   "request.confirmCancelRequest": ["Xác nhận hủy yêu cầu", ""],
+  "request.cancelRequestDes": ["Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?", ""],
 
   "request.detail.time": ["Thời gian", ""],
   "request.detail.note": ["Ghi chú", ""],

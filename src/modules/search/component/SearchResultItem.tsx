@@ -1,4 +1,4 @@
-import { Avatar, fade, ListItem, Typography } from '@material-ui/core';
+import { fade, ListItem, Typography } from '@material-ui/core';
 import GradeRoundedIcon from '@material-ui/icons/GradeRounded';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';

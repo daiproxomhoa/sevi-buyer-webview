@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 import { PageWrapper } from '../../common/component/elements';
 import HeaderTab from '../../common/component/HeaderTab';
 import { REQUEST_TAB_INDEX } from '../constants';
-import AcceptedRequestTab from '../component/AcceptedRequestTab';
-import RequestingTab from '../component/RequestingTab';
+import AcceptedRequestTab from '../component/requestReceived/AcceptedRequestTab';
+import RequestingTab from '../component/requesting/RequestingTab';
 
 interface IRequestListPageProps {}
 

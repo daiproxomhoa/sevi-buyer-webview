@@ -23,6 +23,7 @@ import PendingRateRemindDialog from './modules/rating/page/PendingRateRemindDial
 import RatingListPage from './modules/rating/page/RatingListPage';
 import ReviewPage from './modules/rating/page/ReviewPage';
 import { watchPendingRateData } from './modules/rating/redux/ratingSaga';
+import RequestInfoDetailPage from './modules/request/page/RequestInfoDetailPage';
 import RequestListPage from './modules/request/page/RequestListPage';
 import SendRequestPage from './modules/request/page/SendRequestPage';
 import SearchDetailPage from './modules/search/page/SearchDetailPage';
@@ -114,6 +115,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
                   <ProtectedRoute auth={authen} exact path={ROUTES.search} component={SearchPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.searchDetail} component={SearchDetailPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.request} component={RequestListPage} />
+                  <ProtectedRoute auth={authen} exact path={ROUTES.requestDetail} component={RequestInfoDetailPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.sendRequest} component={SendRequestPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.rating} component={RatingListPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.review.path} component={ReviewPage} />
