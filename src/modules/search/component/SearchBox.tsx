@@ -7,34 +7,34 @@ import {
   Theme,
   Typography,
   withStyles,
-} from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
-import SearchIcon from "@material-ui/icons/Search";
-import TuneIcon from "@material-ui/icons/Tune";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { debounce } from "lodash";
-import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch } from "react-redux";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { BACKGROUND, BLACK } from "../../../configs/colors";
-import { AppState } from "../../../redux/reducer";
-import { HeaderDiv } from "../../common/component/elements";
-import { WhiteIconButton } from "../../common/component/IconButton";
-import { ISellerSearchFilter } from "../model";
-import { searchKeyword } from "../redux/searchReducer";
+} from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
+import SearchIcon from '@material-ui/icons/Search';
+import TuneIcon from '@material-ui/icons/Tune';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { debounce } from 'lodash';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { BACKGROUND, BLACK } from '../../../configs/colors';
+import { AppState } from '../../../redux/reducer';
+import { HeaderDiv } from '../../common/component/elements';
+import { WhiteIconButton } from '../../common/component/IconButton';
+import { ISellerSearchFilter } from '../model';
+import { searchKeyword } from '../redux/searchReducer';
 
 const SearchInput = withStyles((theme: Theme) => ({
   root: {
     borderRadius: 500,
-    position: "relative",
-    border: "none",
+    position: 'relative',
+    border: 'none',
     fontSize: theme.typography.body2.fontSize,
     backgroundColor: BACKGROUND,
   },
   input: {
-    padding: "10px 8px",
+    padding: '10px 8px',
   },
 }))(Input);
 
@@ -64,7 +64,7 @@ const SearchBox = (props: Props) => {
     {
       trailing: true,
       leading: false,
-    }
+    },
   );
 
   React.useEffect(() => {
@@ -74,7 +74,7 @@ const SearchBox = (props: Props) => {
   }, [filter.string]);
 
   return (
-    <HeaderDiv style={{ display: "flex" }}>
+    <HeaderDiv style={{ display: 'flex' }}>
       <Autocomplete
         fullWidth
         freeSolo
@@ -82,22 +82,20 @@ const SearchBox = (props: Props) => {
         value={searchString}
         options={options}
         onChange={async (e, str: string | null) => {
-          setSearchString(str || "");
+          setSearchString(str || '');
           if (str) {
             onSellerSearch(str);
           }
         }}
-        onInputChange={(event: object, value: string, reason: string) =>
-          loadOptions(value)
-        }
+        onInputChange={(event: object, value: string, reason: string) => loadOptions(value)}
         loading={loading}
         onMouseDownCapture={(e) => !searchString && e.stopPropagation()}
         loadingText={
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <FormattedMessage id="search.loading" />
@@ -107,21 +105,18 @@ const SearchBox = (props: Props) => {
         }
         noOptionsText={<FormattedMessage id="noOption" />}
         getOptionLabel={(value: string) => value}
-        getOptionSelected={(option: string, value: string) => option === value}
+        getOptionSelected={(option: string, value: string) => false}
         renderInput={({ InputProps, InputLabelProps, ...params }) => (
           <SearchInput
             {...params}
             ref={InputProps.ref}
             inputProps={params.inputProps}
             fullWidth
-            placeholder={intl.formatMessage({ id: "enterSearchInfo" })}
+            placeholder={intl.formatMessage({ id: 'enterSearchInfo' })}
             disableUnderline
             startAdornment={
-              <InputAdornment
-                position="start"
-                style={{ marginLeft: "16px", opacity: 0.6 }}
-              >
-                <SearchIcon style={{ width: "20px", height: "20px" }} />
+              <InputAdornment position="start" style={{ marginLeft: '16px', opacity: 0.6 }}>
+                <SearchIcon style={{ width: '20px', height: '20px' }} />
               </InputAdornment>
             }
             endAdornment={
@@ -130,17 +125,17 @@ const SearchBox = (props: Props) => {
                   <InputAdornment position="end">
                     <ButtonBase
                       onClick={() => {
-                        setSearchString("");
+                        setSearchString('');
                       }}
                       style={{
-                        borderRadius: "50%",
-                        marginRight: "16px",
-                        padding: "1px",
+                        borderRadius: '50%',
+                        marginRight: '16px',
+                        padding: '1px',
                         color: BACKGROUND,
                         backgroundColor: fade(BLACK, 0.34),
                       }}
                     >
-                      <ClearIcon style={{ width: "15px", height: "15px" }} />
+                      <ClearIcon style={{ width: '15px', height: '15px' }} />
                     </ButtonBase>
                   </InputAdornment>
                 )}
@@ -152,9 +147,9 @@ const SearchBox = (props: Props) => {
           <Typography
             variant="body2"
             style={{
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
               flex: 1,
             }}
           >
@@ -165,13 +160,13 @@ const SearchBox = (props: Props) => {
 
       <div
         style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginLeft: "12px",
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginLeft: '12px',
         }}
       >
         <WhiteIconButton onClick={openFilter}>
-          <TuneIcon style={{ width: "20px", height: "20px" }} />
+          <TuneIcon style={{ width: '20px', height: '20px' }} />
         </WhiteIconButton>
       </div>
     </HeaderDiv>
