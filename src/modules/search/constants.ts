@@ -1,6 +1,6 @@
 import { IAddresses } from '../profile/model';
 
-export const SEARCH_PAGE_SIZE = 2;
+export const SEARCH_PAGE_SIZE = 50;
 
 export const SEARCH_PARAM_NAMES = {
   string: 'string',

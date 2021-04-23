@@ -19,7 +19,7 @@ import HomeSearchBox from '../component/HomeSearchBox';
 import SearchBox from '../component/SearchBox';
 import SearchResultBox from '../component/SearchResultBox';
 import { SEARCH_PAGE_SIZE } from '../constants';
-import { defaultSearchFilter, ISeller, ISellerSearchRequestBody, ISellerSearchFilter } from '../model';
+import { defaultSearchFilter, ISeller, ISellerSearchFilter } from '../model';
 import { parseSearchParams, stringifySearchParams } from '../utils';
 
 interface ISearchPageProps {}
@@ -53,42 +53,40 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     [dispatch],
   );
 
-  const memoedFilter = React.useMemo((): ISellerSearchRequestBody => {
-    return {
-      en: filter.en,
-      lat: filter.address.address.lat,
-      lng: filter.address.address.lng,
-      offset: filter.offset,
-      radius: filter.radius,
-      sortBy: filter.sortBy,
-      string: filter.string,
-    };
-  }, [
-    filter.en,
-    filter.address.address.lat,
-    filter.address.address.lng,
-    filter.offset,
-    filter.radius,
-    filter.sortBy,
-    filter.string,
-  ]);
-
   const { data, size, setSize, isValidating } = useSWRInfinite(
     (pageIndex) => {
-      if (!memoedFilter.string.trim()) {
+      if (!filter.string.trim()) {
         return null;
       }
-      return [API_PATHS.sellerSearch, pageIndex, memoedFilter];
+      return [
+        API_PATHS.sellerSearch,
+        pageIndex,
+        filter.en,
+        filter.address.address.lat,
+        filter.address.address.lng,
+        filter.radius,
+        filter.sortBy,
+        filter.string,
+      ];
     },
-    async (url: string, pageIndex: number, filterParams: ISellerSearchRequestBody) => {
+    async (
+      url: string,
+      pageIndex: number,
+      en: string,
+      lat: number,
+      lng: number,
+      radius: number,
+      sortBy: string,
+      string: string,
+    ) => {
       const res = await dispatch(
         fetchThunk(url, 'post', {
-          sortBy: filterParams.sortBy,
-          string: filterParams.string,
-          en: filterParams.en,
-          lat: filterParams.lat,
-          lng: filterParams.lng,
-          radius: filterParams.radius * 1000,
+          sortBy: sortBy,
+          string: string,
+          en: en,
+          lat: lat,
+          lng: lng,
+          radius: radius * 1000,
           offset: pageIndex * SEARCH_PAGE_SIZE,
         }),
       );
