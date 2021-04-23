@@ -4,7 +4,7 @@ import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
-import { IAcceptRequest, ICreateRequest, IRequest } from '../model';
+import { IAcceptRequest, ICreateRequestBody, IRequest } from '../model';
 
 export interface RequestState {
   description: string;
@@ -14,7 +14,9 @@ export const setDescription = createAction('request/setDescription', (val: strin
   val,
 }))();
 
-export const createRequest = (params: ICreateRequest): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
+export const createRequest = (
+  params: ICreateRequestBody,
+): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
     return await dispatch(
       fetchThunk(API_PATHS.createRequest, 'post', {

@@ -14,7 +14,7 @@ import Header from '../../common/component/Header';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import RequestResultDialog from '../component/sendRequest/RequestResultDialog';
 import SendRequestForm from '../component/sendRequest/SendRequestForm';
-import { ICreateRequest, ICreateRequestForm, ICreateRequestResult } from '../model';
+import { ICreateRequestBody, ICreateRequestForm, ICreateRequestResult } from '../model';
 import { createRequest, setDescription } from '../redux/requestReducer';
 
 interface Props {}
@@ -46,7 +46,7 @@ const SendRequestPage = (props: Props) => {
         return;
       }
 
-      const params: ICreateRequest = {
+      const params: ICreateRequestBody = {
         sellerId,
         sessionStamp,
         date: moment(values.date, DATE_FORMAT).isValid() ? values.date : null,
