@@ -38,7 +38,12 @@ const AcceptedRequestPage = (props: Props) => {
   );
 
   return (
-    <ReceivedBox loading={isValidating} data={data} showLoadMore={showLoadMore} onLoadMore={() => setSize(size + 1)} />
+    <ReceivedBox
+      loading={isValidating && size !== data?.length}
+      data={data}
+      showLoadMore={showLoadMore}
+      onLoadMore={() => setSize(size + 1)}
+    />
   );
 };
 

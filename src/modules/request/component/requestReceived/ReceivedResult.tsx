@@ -1,7 +1,6 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RED } from '../../../../configs/colors';
 import { CardDiv } from '../../../common/component/elements';
 import { IAccept } from '../../model';
 import ResultItemInfo from '../ResultItemInfo';

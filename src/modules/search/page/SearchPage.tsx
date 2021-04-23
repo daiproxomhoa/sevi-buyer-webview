@@ -174,7 +174,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
         {filter.searched ? (
           <SearchResultBox
             filter={filter}
-            loading={isValidating}
+            loading={isValidating && size !== data?.length}
             disableLoadMore={disableLoadMore}
             data={data}
             onSelectSeller={(info: ISeller) => onViewSearchDetail(info)}

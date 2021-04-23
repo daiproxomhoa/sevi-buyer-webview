@@ -51,7 +51,7 @@ const ConfirmedRequestListBox = (props: Props) => {
       {data?.map((page) =>
         page.requests?.map((one: some) => <PendingRateResultCard key={one.createDate} request={one} mode={mode} />),
       )}
-      {isValidating ? (
+      {isValidating && size !== data?.length ? (
         <>
           <RatingCardSkeleton mode={mode} />
           <RatingCardSkeleton mode={mode} />
