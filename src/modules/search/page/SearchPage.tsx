@@ -53,12 +53,33 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     [dispatch],
   );
 
+  const memoedFilter = React.useMemo((): ISellerSearchFilter => {
+    return {
+      address: filter.address,
+      en: filter.en,
+      lat: filter.lat,
+      lng: filter.lng,
+      offset: filter.offset,
+      radius: filter.radius,
+      searched: true,
+      sortBy: filter.sortBy,
+      string: filter.string,
+    };
+  }, [filter.address, filter.en, filter.lat, filter.lng, filter.offset, filter.radius, filter.sortBy, filter.string]);
+
   const { data, size, setSize, isValidating } = useSWRInfinite(
-    (pageIndex) => [API_PATHS.sellerSearch, pageIndex, filter],
+    (pageIndex) => {
+      if (!memoedFilter.string.trim()) {
+        return null;
+      }
+      return [API_PATHS.sellerSearch, pageIndex, memoedFilter];
+    },
     async (url: string, pageIndex: number, filterParams: ISellerSearchFilter) => {
       const res = await dispatch(
         fetchThunk(url, 'post', {
-          ...filterParams,
+          sortBy: filterParams.sortBy,
+          string: filterParams.string,
+          en: filterParams.en,
           lat: filterParams.address.address.lat,
           lng: filterParams.address.address.lng,
           radius: filterParams.radius * 1000,
