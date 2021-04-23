@@ -13,7 +13,7 @@ import RequestingBox from './RequestingBox';
 
 interface Props {}
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 20;
 
 const RequestingPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
