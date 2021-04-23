@@ -108,6 +108,7 @@ const SearchBox = (props: Props) => {
         noOptionsText={<FormattedMessage id="noOption" />}
         getOptionLabel={(value: string) => value}
         filterSelectedOptions={true}
+        getOptionSelected={() => false}
         renderInput={({ InputProps, InputLabelProps, ...params }) => (
           <SearchInput
             {...params}
