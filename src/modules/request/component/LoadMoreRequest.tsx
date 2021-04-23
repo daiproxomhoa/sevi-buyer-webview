@@ -18,8 +18,8 @@ const LoadMoreRequest = (props: Props) => {
         size="small"
         style={{
           padding: '0px 16px',
-          display: showLoadMore ? undefined : 'none',
         }}
+        disabled={!showLoadMore}
         onClick={onLoadMore}
       >
         <Typography variant="caption">
