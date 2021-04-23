@@ -23,7 +23,7 @@ const ResultItemInfo = (props: Props) => {
         </Typography>
         {!info.accept && (
           <Typography variant="caption" color="textSecondary">
-            {!!info.date ? info.date : <FormattedMessage id="request.anyDay" />}
+            {info.createDate}
           </Typography>
         )}
       </Box>
@@ -44,7 +44,7 @@ const ResultItemInfo = (props: Props) => {
 
         {info.accept ? (
           <Typography variant="caption" color="textSecondary">
-            {!!info.date ? info.date : <FormattedMessage id="request.anyDay" />}
+            {info.createDate}
           </Typography>
         ) : (
           <Button
