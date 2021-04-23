@@ -55,17 +55,25 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
   const memoedFilter = React.useMemo((): ISellerSearchFilter => {
     return {
-      address: filter.address,
+      address: { name: 'not needed', address: { formattedAddress: 'not needed', lat: 0, lng: 0 } },
       en: filter.en,
-      lat: filter.lat,
-      lng: filter.lng,
+      lat: filter.address.address.lat,
+      lng: filter.address.address.lng,
       offset: filter.offset,
       radius: filter.radius,
       searched: true,
       sortBy: filter.sortBy,
       string: filter.string,
     };
-  }, [filter.address, filter.en, filter.lat, filter.lng, filter.offset, filter.radius, filter.sortBy, filter.string]);
+  }, [
+    filter.en,
+    filter.address.address.lat,
+    filter.address.address.lng,
+    filter.offset,
+    filter.radius,
+    filter.sortBy,
+    filter.string,
+  ]);
 
   const { data, size, setSize, isValidating } = useSWRInfinite(
     (pageIndex) => {
@@ -80,8 +88,8 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
           sortBy: filterParams.sortBy,
           string: filterParams.string,
           en: filterParams.en,
-          lat: filterParams.address.address.lat,
-          lng: filterParams.address.address.lng,
+          lat: filterParams.lat,
+          lng: filterParams.lng,
           radius: filterParams.radius * 1000,
           offset: pageIndex * SEARCH_PAGE_SIZE,
         }),
