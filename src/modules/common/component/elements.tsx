@@ -29,15 +29,6 @@ export const PageWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const PageWrapperNoScroll = styled.div`
-  background-size: cover;
-  height: ${window.innerHeight}px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
 interface HeaderDivProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const HeaderDiv: React.FC<HeaderDivProps> = ({ children, ...rest }) => {

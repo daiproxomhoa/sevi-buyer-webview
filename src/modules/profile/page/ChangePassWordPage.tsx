@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { API_PATHS } from '../../../configs/api';
 import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
-import { PageWrapperNoScroll, snackbarSetting } from '../../common/component/elements';
+import { PageWrapper, snackbarSetting } from '../../common/component/elements';
 import { some } from '../../common/constants';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import { fetchThunk } from '../../common/redux/thunk';
@@ -46,10 +46,10 @@ const ChangePassWordPage = (props: Props) => {
   };
 
   return (
-    <PageWrapperNoScroll>
+    <PageWrapper>
       <HeaderProfile title={intl.formatMessage({ id: 'profile.changePassword' })} action={() => dispatch(goBack())} />
       <ChangePasswordForm onSubmit={changePassword} />
-    </PageWrapperNoScroll>
+    </PageWrapper>
   );
 };
 

@@ -9,7 +9,7 @@ import RequestingTab from '../component/requesting/RequestingTab';
 
 interface IRequestListPageProps {}
 
-const RequestListPage: React.FunctionComponent<IRequestListPageProps> = (props) => {
+const UnconfirmedRequestListPage: React.FunctionComponent<IRequestListPageProps> = (props) => {
   const intl = useIntl();
   const [tabIndex, setTabIndex] = useState(REQUEST_TAB_INDEX.REQUESTING);
 
@@ -26,4 +26,4 @@ const RequestListPage: React.FunctionComponent<IRequestListPageProps> = (props) 
   );
 };
 
-export default RequestListPage;
+export default UnconfirmedRequestListPage;

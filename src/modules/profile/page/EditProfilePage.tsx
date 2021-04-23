@@ -7,7 +7,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
-import { PageWrapperNoScroll, snackbarSetting } from '../../common/component/elements';
+import { PageWrapper, snackbarSetting } from '../../common/component/elements';
 import { some } from '../../common/constants';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import EditProfileForm from '../component/EditProfileForm';
@@ -56,11 +56,11 @@ const EditProfilePage = (props: Props) => {
   }
 
   return (
-    <PageWrapperNoScroll>
+    <PageWrapper>
       <HeaderProfile title={`${data.familyName} ${data.givenName}`} action={() => dispatch(goBack())} />
 
       <EditProfileForm profile={data} onSubmit={onSubmit} />
-    </PageWrapperNoScroll>
+    </PageWrapper>
   );
 };
 

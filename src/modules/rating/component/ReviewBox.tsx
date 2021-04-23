@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { PageWrapperNoScroll } from '../../common/component/elements';
+import { PageWrapper } from '../../common/component/elements';
 import { FormControlTextField } from '../../common/component/Form';
 import Header from '../../common/component/Header';
 import { some } from '../../common/constants';
@@ -88,7 +88,7 @@ const ReviewBox = (props: Props) => {
   console.log('errors', errors);
 
   return (
-    <PageWrapperNoScroll>
+    <PageWrapper>
       <form
         onSubmit={handleSubmit((value: some) => {
           onSubmit && onSubmit(value);
@@ -180,7 +180,7 @@ const ReviewBox = (props: Props) => {
           />
         </Box>
       </form>
-    </PageWrapperNoScroll>
+    </PageWrapper>
   );
 };
 

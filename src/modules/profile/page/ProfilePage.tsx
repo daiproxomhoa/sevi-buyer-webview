@@ -5,7 +5,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
-import { PageWrapperNoScroll } from '../../common/component/elements';
+import { PageWrapper } from '../../common/component/elements';
 import HeaderProfile from '../component/HeaderProfile';
 import InfoBox from '../component/InfoBox';
 import { fetchProfile } from '../redux/profileReducer';
@@ -24,7 +24,7 @@ const ProfilePage = (props: Props) => {
   }, [dispatch, data]);
 
   return (
-    <PageWrapperNoScroll>
+    <PageWrapper>
       <HeaderProfile
         title={data && `${data.familyName} ${data.givenName}`}
         avatar={API_PATHS.renderAvatar(data?.id, data?.avatar)}
@@ -33,7 +33,7 @@ const ProfilePage = (props: Props) => {
         <InfoBox profile={data} loading={loading} />
         <MyReviewPage />
       </Box>
-    </PageWrapperNoScroll>
+    </PageWrapper>
   );
 };
 
