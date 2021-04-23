@@ -1,19 +1,19 @@
-import { Avatar, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import React from "react";
-import { CardDiv } from "../../common/component/elements";
+import { Avatar, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import React from 'react';
+import { CardDiv } from '../../common/component/elements';
 
 interface Props {}
 
 const SearchResultSkeleton = (props: Props) => {
   return (
-    <CardDiv style={{ display: "flex" }}>
+    <CardDiv style={{ display: 'flex', marginTop: 0, marginBottom: 12 }}>
       <div>
         <Skeleton variant="circle">
-          <Avatar alt="" style={{ width: "40px", height: "40px" }} />
+          <Avatar alt="" style={{ width: '40px', height: '40px' }} />
         </Skeleton>
       </div>
-      <div style={{ paddingLeft: "12px" }}>
+      <div style={{ paddingLeft: '12px' }}>
         <Typography variant="body2">
           <Skeleton width={100} />
         </Typography>

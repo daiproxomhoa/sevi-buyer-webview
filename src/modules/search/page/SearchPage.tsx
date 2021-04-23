@@ -1,38 +1,44 @@
 import { push, replace } from 'connected-react-router';
 import queryString from 'query-string';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { useSWRInfinite } from 'swr';
+import { API_PATHS } from '../../../configs/api';
 import { ROUTES } from '../../../configs/routes';
+import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
 import { PageWrapper } from '../../common/component/elements';
+import { fetchThunk } from '../../common/redux/thunk';
 import { setProfileData, updateProfile } from '../../profile/redux/profileReducer';
 import { setDescription } from '../../request/redux/requestReducer';
 import FilterBox from '../component/filter/FilterBox';
 import HomeSearchBox from '../component/HomeSearchBox';
 import SearchBox from '../component/SearchBox';
 import SearchResultBox from '../component/SearchResultBox';
+import { SEARCH_PAGE_SIZE } from '../constants';
 import { defaultSearchFilter, ISeller, ISellerSearchFilter } from '../model';
-import { sellerSearch } from '../redux/searchReducer';
 import { parseSearchParams, stringifySearchParams } from '../utils';
 
-const mapStateToProps = (state: AppState) => ({
-  data: state.search.data,
-  profile: state.profile.data,
-});
-
-interface ISearchPageProps extends ReturnType<typeof mapStateToProps> {
-  dispatch: ThunkDispatch<AppState, null, Action<string>>;
-}
+interface ISearchPageProps {}
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
-  const { dispatch, data, profile } = props;
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+
   const location = useLocation();
 
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const { profile } = useSelector(
+    (state: AppState) => ({
+      profile: state.profile.data,
+    }),
+    shallowEqual,
+  );
+
   const [filter, setFilter] = React.useState<ISellerSearchFilter>(defaultSearchFilter);
+
+  const [disableLoadMore, setDisableLoadMore] = React.useState<boolean>(false);
 
   const [openFilter, setOpenFilter] = React.useState<boolean>(false);
 
@@ -47,21 +53,47 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     [dispatch],
   );
 
+  const { data, size, setSize, isValidating } = useSWRInfinite(
+    (pageIndex) => [API_PATHS.sellerSearch, pageIndex, filter],
+    async (url: string, pageIndex: number, filterParams: ISellerSearchFilter) => {
+      const res = await dispatch(
+        fetchThunk(url, 'post', {
+          ...filterParams,
+          lat: filterParams.address.address.lat,
+          lng: filterParams.address.address.lng,
+          radius: filterParams.radius * 1000,
+          offset: pageIndex * SEARCH_PAGE_SIZE,
+        }),
+      );
+
+      if (res.status !== SUCCESS_CODE) {
+        throw new Error(res.status);
+      }
+
+      if (res.body.length < SEARCH_PAGE_SIZE) {
+        setDisableLoadMore(true);
+      } else {
+        setDisableLoadMore(false);
+      }
+
+      return {
+        searchData: res.body,
+        pageIndex,
+      };
+    },
+  );
+
   const onSellerSearch = React.useCallback(
     async (values: ISellerSearchFilter) => {
       setFilter(values);
 
+      setSize(1);
+
       setSearchParams(values);
 
-      setLoading(true);
-
-      await dispatch(sellerSearch(values));
-
       dispatch(setDescription(values.string));
-
-      setLoading(false);
     },
-    [dispatch, setSearchParams],
+    [dispatch, setSearchParams, setSize],
   );
 
   const onViewSearchDetail = React.useCallback(
@@ -105,26 +137,24 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile]);
 
+  console.log(data);
   return (
     <>
       <PageWrapper>
         <SearchBox
           filter={filter}
-          onSellerSearch={(str: string) => onSellerSearch({ ...filter, string: str, searched: true, page: 0 })}
+          onSellerSearch={(str: string) => onSellerSearch({ ...filter, string: str, searched: true })}
           openFilter={() => setOpenFilter(true)}
         />
 
         {filter.searched ? (
           <SearchResultBox
             filter={filter}
-            loading={loading}
+            loading={isValidating}
+            disableLoadMore={disableLoadMore}
             data={data}
             onSelectSeller={(info: ISeller) => onViewSearchDetail(info)}
-            loadMore={() => {
-              const newFilter = { ...filter, page: filter.page + 1 };
-              setFilter(newFilter);
-              setSearchParams(newFilter);
-            }}
+            loadMore={() => setSize(size + 1)}
           />
         ) : (
           <HomeSearchBox onSearch={(string) => onSellerSearch({ ...filter, searched: true, string })} />
@@ -138,7 +168,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
         onClose={() => setOpenFilter(false)}
         onFilter={(data) => {
           onUpdateProfile(data);
-          onSellerSearch({ ...data, searched: true, page: 0 });
+          onSellerSearch({ ...data, searched: true });
           setOpenFilter(false);
         }}
       />
@@ -146,4 +176,4 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(SearchPage);
+export default SearchPage;
