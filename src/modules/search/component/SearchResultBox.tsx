@@ -19,6 +19,7 @@ interface Props {
 const SearchResultBox = (props: Props) => {
   const { loading, disableLoadMore, filter, data, onSelectSeller, loadMore } = props;
 
+  console.log(data);
   return (
     <>
       <Box display="flex" margin="12px 24px 10px" alignItems="center">
@@ -27,7 +28,7 @@ const SearchResultBox = (props: Props) => {
           &nbsp; “{filter?.string}”
         </Typography>
         <Chip
-          label={<FormattedNumber value={data?.length || 0} />}
+          label={data && data.length > 1 ? '50+' : data ? data[0].searchData.length : 0}
           color="primary"
           style={{ height: '24px', minWidth: '56px' }}
         />
