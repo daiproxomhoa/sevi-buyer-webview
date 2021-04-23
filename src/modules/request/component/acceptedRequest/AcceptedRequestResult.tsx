@@ -2,15 +2,16 @@ import { Button } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardDiv } from '../../../common/component/elements';
-import { IAccept } from '../../model';
+import { IAcceptRequest } from '../../model';
 import ResultItemInfo from '../ResultItemInfo';
 
 interface Props {
-  info: IAccept;
+  info: IAcceptRequest;
+  onConfirm(val: IAcceptRequest): void;
 }
 
 const AcceptedRequestResult = (props: Props) => {
-  const { info } = props;
+  const { info, onConfirm } = props;
 
   return (
     <CardDiv>
@@ -26,7 +27,14 @@ const AcceptedRequestResult = (props: Props) => {
         <Button fullWidth variant="outlined" color="secondary" size="small" style={{ marginRight: '4px' }}>
           <FormattedMessage id="conversation" />
         </Button>
-        <Button fullWidth variant="contained" color="primary" size="small" style={{ marginLeft: '4px' }}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          size="small"
+          style={{ marginLeft: '4px' }}
+          onClick={() => onConfirm(info)}
+        >
           <FormattedMessage id="confirm" />
         </Button>
       </div>

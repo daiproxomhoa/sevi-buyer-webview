@@ -4,7 +4,7 @@ import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
-import { ICreateRequest, IRequest } from '../model';
+import { IAcceptRequest, ICreateRequest, IRequest } from '../model';
 
 export interface RequestState {
   description: string;
@@ -34,6 +34,17 @@ export const fetchUnconfirmed = (
         offset,
         accept,
         ratedFilter: 'rated',
+      }),
+    );
+  };
+};
+
+export const confirmRequest = (info: IAcceptRequest): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
+  return async (dispatch, getState) => {
+    return await dispatch(
+      fetchThunk(API_PATHS.confirmRequest, 'post', {
+        sellerId: info.sellerId,
+        requestDate: info.createDate,
       }),
     );
   };

@@ -36,7 +36,7 @@ const RequestInfoDetailPage = (props: Props) => {
   const onSubmit = React.useCallback(async () => {
     dispatch(setLoadingBackDrop(true));
 
-    const json = await dispatch(cancelRequest(detail));
+    await dispatch(cancelRequest(detail));
 
     dispatch(setLoadingBackDrop(false));
 

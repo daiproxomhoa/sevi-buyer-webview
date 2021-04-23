@@ -38,6 +38,7 @@ export const API_PATHS = {
 
   createRequest: `${getBaseUrl(APIService.protected)}/request/create`,
   getUnconfirmed: `${getBaseUrl(APIService.protected)}/request/getUnconfirmed`,
+  confirmRequest: `${getBaseUrl(APIService.protected)}/request/confirm`,
   cancelRequest: `${getBaseUrl(APIService.protected)}/request/cancel`,
 
   searchWorker: `${getBaseUrl(APIService.protected)}/searchWorker`,
