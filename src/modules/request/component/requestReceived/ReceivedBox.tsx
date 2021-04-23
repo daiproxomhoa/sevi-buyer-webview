@@ -18,7 +18,7 @@ const ReceivedBox = (props: Props) => {
 
   return (
     <Box padding="0 24px 24px" flex={1}>
-      {data?.map((arr) => arr?.map((info: IAccept) => <ReceivedResult key={info.createDate} info={info} />))}
+      {data?.map((page) => page.requests?.map((info: IAccept) => <ReceivedResult key={info.createDate} info={info} />))}
 
       {loading ? (
         <>

@@ -4,6 +4,9 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { CSSTransitionClassNames } from 'react-transition-group/CSSTransition';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { SWRConfig } from 'swr';
 import { BACKGROUND } from './configs/colors';
 import { ROUTES } from './configs/routes';
 import ForgetPasswordPage from './modules/authen/page/ForgetPasswordPage';
@@ -15,6 +18,7 @@ import FetchErrorDialog from './modules/common/component/FetchErrorDialog';
 import ProtectedRoute from './modules/common/component/ProtectedRoute';
 import RedirectRoute from './modules/common/component/RedirectRoute';
 import { setNetworkError } from './modules/common/redux/commonReducer';
+import { fetchThunk } from './modules/common/redux/thunk';
 import BottomNavigation from './modules/home/component/BottomNavigation';
 import ChangePassWordPage from './modules/profile/page/ChangePassWordPage';
 import EditProfilePage from './modules/profile/page/EditProfilePage';
@@ -50,7 +54,7 @@ interface Props extends ReturnType<typeof mapStateToProps>, WithStyles<typeof bo
 
 const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
   const { action } = router;
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
   const lastRouteYOffsetRef = React.useRef(0);
   const setLoadingBackDrop = useSelector((state: AppState) => state.common.loadingBackDrop);
@@ -81,7 +85,14 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
   }
 
   return (
-    <>
+    <SWRConfig
+      value={{
+        fetcher: async (url: string, method: 'get' | 'post', body: string) => {
+          console.log('a');
+          return dispatch(fetchThunk(url, method, body));
+        },
+      }}
+    >
       <TransitionGroup style={{ background: BACKGROUND, position: 'relative' }}>
         <CSSTransition
           key={router.location.pathname}
@@ -143,7 +154,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
       </div>
       <LoadingBackDrop open={setLoadingBackDrop} />
       <FetchErrorDialog msgId={networkErrorMsg} onClose={() => dispatch(setNetworkError(undefined))} />
-    </>
+    </SWRConfig>
   );
 };
 

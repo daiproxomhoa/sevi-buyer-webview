@@ -8,7 +8,7 @@ import { setCommonError, setNetworkError } from './commonReducer';
 export function fetchThunk(
   url: string,
   method: 'get' | 'post' = 'get',
-  body?: some | FormData,
+  body?: some | FormData | string,
   fallback = { cancelled: false, data: {} },
   contentType?: string,
 ): ThunkAction<Promise<some>, AppState, null, Action<string>> {

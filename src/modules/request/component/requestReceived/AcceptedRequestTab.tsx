@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { useSWRInfinite } from 'swr';
+import { API_PATHS } from '../../../../configs/api';
 import { SUCCESS_CODE } from '../../../../constants';
 import { AppState } from '../../../../redux/reducer';
-import { REQUEST_PAGE_SIZE } from '../../constants';
-import { fetchUnconfirmed } from '../../redux/requestReducer';
+import { fetchThunk } from '../../../common/redux/thunk';
 import ReceivedBox from './ReceivedBox';
 
 interface Props {}
@@ -14,28 +14,29 @@ interface Props {}
 const AcceptedRequestPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
-  const [showLoadMore, setShowLoadMore] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-
-  const { data, size, setSize } = useSWRInfinite(
-    () => 'fetchAcceptedRequest',
-    async () => {
-      if (size === 1 && !data?.[0].length) {
-        setLoading(true);
+  const [showLoadMore, setShowLoadMore] = React.useState(true);
+  const { data, size, setSize, isValidating } = useSWRInfinite(
+    (index, prevData) => [API_PATHS.getUnconfirmed, JSON.stringify({ accept: true, offset: prevData?.offset || 0 })],
+    async (...args) => {
+      const res = await dispatch(fetchThunk(args[0], 'post', args[1]));
+      if (res.status !== SUCCESS_CODE) {
+        throw new Error(res.status);
       }
 
-      const json = await dispatch(fetchUnconfirmed((size - 1) * REQUEST_PAGE_SIZE, true));
-      setLoading(false);
-      if (json?.status === SUCCESS_CODE) {
-        if (json?.body?.requests?.length < 10) {
-          setShowLoadMore(false);
-        }
-        return json?.body?.requests;
+      if (res.body.requests.length < 20) {
+        setShowLoadMore(false);
       }
+
+      return {
+        requests: res.body.requests,
+        offset: JSON.parse(args[1]).offset + res.body.requests.length,
+      };
     },
   );
 
-  return <ReceivedBox loading={loading} data={data} showLoadMore={showLoadMore} onLoadMore={() => setSize(size + 1)} />;
+  return (
+    <ReceivedBox loading={isValidating} data={data} showLoadMore={showLoadMore} onLoadMore={() => setSize(size + 1)} />
+  );
 };
 
 export default AcceptedRequestPage;

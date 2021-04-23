@@ -4,11 +4,11 @@ import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { useSWRInfinite } from 'swr';
+import { API_PATHS } from '../../../../configs/api';
 import { ROUTES } from '../../../../configs/routes';
 import { SUCCESS_CODE } from '../../../../constants';
 import { AppState } from '../../../../redux/reducer';
-import { REQUEST_PAGE_SIZE } from '../../constants';
-import { fetchUnconfirmed } from '../../redux/requestReducer';
+import { fetchThunk } from '../../../common/redux/thunk';
 import RequestingBox from './RequestingBox';
 
 interface Props {}
@@ -16,30 +16,30 @@ interface Props {}
 const RequestingPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
-  const [showLoadMore, setShowLoadMore] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [showLoadMore, setShowLoadMore] = React.useState(true);
 
-  const { data, size, setSize } = useSWRInfinite(
-    () => 'fetchRequesting',
-    async () => {
-      if (size === 1 && !data?.[0].length) {
-        setLoading(true);
+  const { data, size, setSize, isValidating } = useSWRInfinite(
+    (index, prevData) => [API_PATHS.getUnconfirmed, JSON.stringify({ accept: false, offset: prevData?.offset || 0 })],
+    async (url, body) => {
+      const res = await dispatch(fetchThunk(url, 'post', body));
+      if (res.status !== SUCCESS_CODE) {
+        throw new Error(res.status);
       }
 
-      const json = await dispatch(fetchUnconfirmed((size - 1) * REQUEST_PAGE_SIZE, false));
-      setLoading(false);
-      if (json?.status === SUCCESS_CODE) {
-        if (json?.body?.requests?.length < 10) {
-          setShowLoadMore(false);
-        }
-        return json?.body?.requests;
+      if (res.body.requests.length < 20) {
+        setShowLoadMore(false);
       }
+
+      return {
+        requests: res.body.requests,
+        offset: JSON.parse(body).offset + res.body.requests.length,
+      };
     },
   );
 
   return (
     <RequestingBox
-      loading={loading}
+      loading={isValidating}
       data={data}
       showLoadMore={showLoadMore}
       onLoadMore={() => setSize(size + 1)}

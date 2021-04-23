@@ -16,11 +16,10 @@ interface Props {
 
 const RequestingBox = (props: Props) => {
   const { loading, data, showLoadMore, onLoadMore, onViewRequestDetail } = props;
-
   return (
     <Box flex={1} padding="0 24px 24px">
-      {data?.map((requests) =>
-        requests?.map((one: IRequest) => (
+      {data?.map((page) =>
+        page.requests?.map((one: IRequest) => (
           <RequestResult key={one.createDate} info={one} onViewRequestDetail={() => onViewRequestDetail(one)} />
         )),
       )}
