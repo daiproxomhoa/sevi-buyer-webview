@@ -1,4 +1,4 @@
-import { Box, Button, Chip, List, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Grow, List, Typography } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { ISeller, ISellerSearchFilter } from '../model';
@@ -55,7 +55,9 @@ const SearchResultBox = (props: Props) => {
         <List style={{ margin: '0 24px' }}>
           {data?.map((page) =>
             page.searchData?.map((one: ISeller) => (
-              <SearchResultItem key={one.id} info={one} onSelect={() => onSelectSeller(one)} />
+              <Grow in key={one.id}>
+                <SearchResultItem key={one.id} info={one} onSelect={() => onSelectSeller(one)} />
+              </Grow>
             )),
           )}
         </List>
