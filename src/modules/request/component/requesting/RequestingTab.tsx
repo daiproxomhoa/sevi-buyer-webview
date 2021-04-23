@@ -13,33 +13,35 @@ import RequestingBox from './RequestingBox';
 
 interface Props {}
 
+const PAGE_SIZE = 2;
+
 const RequestingPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   const [showLoadMore, setShowLoadMore] = React.useState(true);
 
   const { data, size, setSize, isValidating } = useSWRInfinite(
-    (index, prevData) => [API_PATHS.getUnconfirmed, JSON.stringify({ accept: false, offset: prevData?.offset || 0 })],
-    async (url, body) => {
-      const res = await dispatch(fetchThunk(url, 'post', body));
+    (pageIndex) => [API_PATHS.getUnconfirmed, pageIndex, false],
+    async (url, pageIndex, accept) => {
+      const res = await dispatch(fetchThunk(url, 'post', { offset: pageIndex * PAGE_SIZE, accept }));
       if (res.status !== SUCCESS_CODE) {
         throw new Error(res.status);
       }
 
-      if (res.body.requests.length < 20) {
+      if (res.body.requests.length < PAGE_SIZE) {
         setShowLoadMore(false);
       }
 
       return {
         requests: res.body.requests,
-        offset: JSON.parse(body).offset + res.body.requests.length,
+        pageIndex,
       };
     },
   );
 
   return (
     <RequestingBox
-      loading={isValidating && !data}
+      loading={isValidating}
       data={data}
       showLoadMore={showLoadMore}
       onLoadMore={() => setSize(size + 1)}

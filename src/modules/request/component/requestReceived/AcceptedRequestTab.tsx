@@ -10,37 +10,33 @@ import { fetchThunk } from '../../../common/redux/thunk';
 import ReceivedBox from './ReceivedBox';
 
 interface Props {}
+const PAGE_SIZE = 20;
 
 const AcceptedRequestPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   const [showLoadMore, setShowLoadMore] = React.useState(true);
   const { data, size, setSize, isValidating } = useSWRInfinite(
-    (index, prevData) => [API_PATHS.getUnconfirmed, JSON.stringify({ accept: true, offset: prevData?.offset || 0 })],
-    async (url, body) => {
-      const res = await dispatch(fetchThunk(url, 'post', body));
+    (pageIndex) => [API_PATHS.getUnconfirmed, pageIndex, true],
+    async (url, pageIndex, accept) => {
+      const res = await dispatch(fetchThunk(url, 'post', { offset: pageIndex * PAGE_SIZE, accept }));
       if (res.status !== SUCCESS_CODE) {
         throw new Error(res.status);
       }
 
-      if (res.body.requests.length < 20) {
+      if (res.body.requests.length < PAGE_SIZE) {
         setShowLoadMore(false);
       }
 
       return {
         requests: res.body.requests,
-        offset: JSON.parse(body).offset + res.body.requests.length,
+        pageIndex,
       };
     },
   );
 
   return (
-    <ReceivedBox
-      loading={isValidating && !data}
-      data={data}
-      showLoadMore={showLoadMore}
-      onLoadMore={() => setSize(size + 1)}
-    />
+    <ReceivedBox loading={isValidating} data={data} showLoadMore={showLoadMore} onLoadMore={() => setSize(size + 1)} />
   );
 };
 
