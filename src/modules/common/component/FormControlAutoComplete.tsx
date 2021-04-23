@@ -1,29 +1,18 @@
-import {
-  ListItem,
-  makeStyles,
-  OutlinedInputProps,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import DoneIcon from "@material-ui/icons/Done";
-import {
-  Autocomplete,
-  AutocompleteProps,
-  AutocompleteRenderInputParams,
-} from "@material-ui/lab";
-import { debounce, isEqual } from "lodash";
-import React, { Ref, useState } from "react";
-import { FormattedMessage } from "react-intl";
-import { BLUE } from "../../../configs/colors";
-import { some } from "../constants";
-import LoadingIcon from "./LoadingIcon";
+import { CircularProgress, ListItem, makeStyles, OutlinedInputProps, TextField, Typography } from '@material-ui/core';
+import DoneIcon from '@material-ui/icons/Done';
+import { Autocomplete, AutocompleteProps, AutocompleteRenderInputParams } from '@material-ui/lab';
+import { debounce, isEqual } from 'lodash';
+import React, { Ref, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { BLUE } from '../../../configs/colors';
+import { some } from '../constants';
 
 const autocompleteCS = makeStyles(() => ({
   endAdornment: {
     top: 0,
     bottom: 0,
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
   option: {
     padding: 0,
@@ -54,10 +43,7 @@ export interface FormControlAutoCompleteProps<
   Multiple extends boolean | undefined = undefined,
   DisableClearable extends boolean | undefined = undefined,
   FreeSolo extends boolean | undefined = undefined
-> extends Omit<
-      AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
-      "renderInput" | "options"
-    >,
+> extends Omit<AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>, 'renderInput' | 'options'>,
     FormControlAutoCompletePropsBase<T> {
   innerRef?: Ref<any>;
 }
@@ -76,10 +62,8 @@ export const FormControlAutoComplete: <
   DisableClearable extends boolean | undefined = undefined,
   FreeSolo extends boolean | undefined = undefined
 >(
-  prop: FormControlAutoCompleteProps<T, Multiple, DisableClearable, FreeSolo>
-) => React.ReactElement<
-  FormControlAutoCompleteProps<T, Multiple, DisableClearable, FreeSolo>
-> = (props) => {
+  prop: FormControlAutoCompleteProps<T, Multiple, DisableClearable, FreeSolo>,
+) => React.ReactElement<FormControlAutoCompleteProps<T, Multiple, DisableClearable, FreeSolo>> = (props) => {
   const classesComplete = autocompleteCS(props);
   const {
     id,
@@ -125,12 +109,12 @@ export const FormControlAutoComplete: <
     {
       trailing: true,
       leading: false,
-    }
+    },
   );
 
   const onFirstLoadOptions = debounce(
     async () => {
-      if (loadOptions && typeof firstLoadString === "string") {
+      if (loadOptions && typeof firstLoadString === 'string') {
         const data = await loadOptions(firstLoadString);
         if (data && data.length > 0) {
           setOption(data);
@@ -142,7 +126,7 @@ export const FormControlAutoComplete: <
     {
       trailing: true,
       leading: false,
-    }
+    },
   );
 
   React.useEffect(() => {
@@ -170,14 +154,24 @@ export const FormControlAutoComplete: <
       size="small"
       options={optionsTmp}
       onInputChange={(event: object, value: string, reason: string) => {
-        reason === "input" && loadOptions && onLoadOptions(value);
-        (reason === "clear" || value === "") &&
-          loadOptions &&
-          setOption(options.length ? options : firstOption);
+        reason === 'input' && loadOptions && onLoadOptions(value);
+        (reason === 'clear' || value === '') && loadOptions && setOption(options.length ? options : firstOption);
       }}
       onMouseDownCapture={(e) => e.stopPropagation()}
       noOptionsText={<FormattedMessage id="noOption" />}
-      loadingText={<LoadingIcon style={{ minHeight: 0 }} />}
+      loadingText={
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <FormattedMessage id="search.loading" />
+          &nbsp;
+          <CircularProgress color="inherit" size={16} />
+        </div>
+      }
       loading={loading}
       renderInput={
         renderInput ||
@@ -187,8 +181,8 @@ export const FormControlAutoComplete: <
             placeholder={placeholder}
             inputProps={{
               ...params.inputProps,
-              autoComplete: "off",
-              style: { padding: "6px 0px" },
+              autoComplete: 'off',
+              style: { padding: '6px 0px' },
             }}
             InputLabelProps={{
               shrink: true,
@@ -213,17 +207,13 @@ export const FormControlAutoComplete: <
             label={label}
             onChange={onChangeInput}
             error={!!errorMessage}
-            helperText={errorMessage || " "}
+            helperText={errorMessage || ' '}
           />
         ))
       }
-      getOptionLabel={(option: any) =>
-        getOptionLabel ? getOptionLabel(option) : option.label
-      }
+      getOptionLabel={(option: any) => (getOptionLabel ? getOptionLabel(option) : option.label)}
       getOptionSelected={(option, value) =>
-        getOptionSelected
-          ? getOptionSelected(option, value)
-          : isEqual(option, value)
+        getOptionSelected ? getOptionSelected(option, value) : isEqual(option, value)
       }
       renderOption={(option, { selected }) => (
         <ListItem
@@ -232,18 +222,18 @@ export const FormControlAutoComplete: <
           dense
           button
           style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
             minHeight: 48,
           }}
         >
           <Typography
             variant="body2"
             style={{
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
               flex: 1,
             }}
           >
@@ -254,9 +244,9 @@ export const FormControlAutoComplete: <
               opacity: 0.6,
               width: 18,
               height: 18,
-              visibility: selected ? "visible" : "hidden",
+              visibility: selected ? 'visible' : 'hidden',
               color: BLUE,
-              justifySelf: "flex-end",
+              justifySelf: 'flex-end',
             }}
           />
         </ListItem>
