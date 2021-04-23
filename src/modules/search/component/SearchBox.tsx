@@ -78,7 +78,6 @@ const SearchBox = (props: Props) => {
       <Autocomplete
         fullWidth
         freeSolo
-        autoHighlight
         value={searchString}
         options={options}
         onChange={async (e, str: string | null) => {
@@ -107,7 +106,6 @@ const SearchBox = (props: Props) => {
         filterOptions={(options) => options}
         noOptionsText={<FormattedMessage id="noOption" />}
         getOptionLabel={(value: string) => value}
-        filterSelectedOptions={true}
         getOptionSelected={() => false}
         renderInput={({ InputProps, InputLabelProps, ...params }) => (
           <SearchInput

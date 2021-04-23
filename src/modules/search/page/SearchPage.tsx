@@ -82,7 +82,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
       const res = await dispatch(
         fetchThunk(url, 'post', {
           sortBy: sortBy,
-          string: string,
+          string: string.trim(),
           en: en,
           lat: lat,
           lng: lng,
