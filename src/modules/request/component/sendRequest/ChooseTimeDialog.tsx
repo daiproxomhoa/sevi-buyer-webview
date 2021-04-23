@@ -47,7 +47,7 @@ const ChooseTimeDialog = (props: Props) => {
             />
           }
           label={
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2">
               <FormattedMessage id="request.anyTime" />
             </Typography>
           }

@@ -87,6 +87,7 @@ const SearchBox = (props: Props) => {
             onSellerSearch(str);
           }
         }}
+        autoComplete={false}
         onInputChange={(event: object, value: string, reason: string) => loadOptions(value)}
         loading={loading}
         onMouseDownCapture={(e) => !searchString && e.stopPropagation()}
@@ -103,9 +104,11 @@ const SearchBox = (props: Props) => {
             <CircularProgress color="inherit" size={16} />
           </div>
         }
+        filterOptions={(options) => options}
         noOptionsText={<FormattedMessage id="noOption" />}
         getOptionLabel={(value: string) => value}
-        getOptionSelected={(option: string, value: string) => false}
+        filterSelectedOptions={true}
+        getOptionSelected={() => false}
         renderInput={({ InputProps, InputLabelProps, ...params }) => (
           <SearchInput
             {...params}

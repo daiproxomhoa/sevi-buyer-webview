@@ -50,7 +50,7 @@ const ChooseDateDialog = (props: Props) => {
             <Typography
               variant="body2"
               style={{
-                background: '#A503CB',
+                background: PRIMARY,
                 width: '100%',
                 textAlign: 'center',
                 padding: '8px 0',
@@ -78,7 +78,7 @@ const ChooseDateDialog = (props: Props) => {
             />
           }
           label={
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2">
               <FormattedMessage id="request.anyDay" />
             </Typography>
           }
