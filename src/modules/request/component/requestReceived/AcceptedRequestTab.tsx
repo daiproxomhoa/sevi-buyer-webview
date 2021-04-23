@@ -17,8 +17,8 @@ const AcceptedRequestPage = (props: Props) => {
   const [showLoadMore, setShowLoadMore] = React.useState(true);
   const { data, size, setSize, isValidating } = useSWRInfinite(
     (index, prevData) => [API_PATHS.getUnconfirmed, JSON.stringify({ accept: true, offset: prevData?.offset || 0 })],
-    async (...args) => {
-      const res = await dispatch(fetchThunk(args[0], 'post', args[1]));
+    async (url, body) => {
+      const res = await dispatch(fetchThunk(url, 'post', body));
       if (res.status !== SUCCESS_CODE) {
         throw new Error(res.status);
       }
@@ -29,13 +29,18 @@ const AcceptedRequestPage = (props: Props) => {
 
       return {
         requests: res.body.requests,
-        offset: JSON.parse(args[1]).offset + res.body.requests.length,
+        offset: JSON.parse(body).offset + res.body.requests.length,
       };
     },
   );
 
   return (
-    <ReceivedBox loading={isValidating} data={data} showLoadMore={showLoadMore} onLoadMore={() => setSize(size + 1)} />
+    <ReceivedBox
+      loading={isValidating && !data}
+      data={data}
+      showLoadMore={showLoadMore}
+      onLoadMore={() => setSize(size + 1)}
+    />
   );
 };
 

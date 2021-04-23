@@ -39,7 +39,7 @@ const RequestingPage = (props: Props) => {
 
   return (
     <RequestingBox
-      loading={isValidating}
+      loading={isValidating && !data}
       data={data}
       showLoadMore={showLoadMore}
       onLoadMore={() => setSize(size + 1)}
