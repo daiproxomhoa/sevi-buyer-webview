@@ -57,7 +57,7 @@ export interface ISellerRating {
   buyer: ISeller;
 }
 
-export interface ISellerSearchFilter {
+export interface ISellerSearchRequestBody {
   en: boolean;
   string: string;
   sortBy: string;
@@ -65,6 +65,9 @@ export interface ISellerSearchFilter {
   radius: number;
   lat: number;
   lng: number;
+}
+
+export interface ISellerSearchFilter extends ISellerSearchRequestBody {
   searched: boolean;
   address: IAddresses;
 }

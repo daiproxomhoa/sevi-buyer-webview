@@ -19,7 +19,7 @@ import HomeSearchBox from '../component/HomeSearchBox';
 import SearchBox from '../component/SearchBox';
 import SearchResultBox from '../component/SearchResultBox';
 import { SEARCH_PAGE_SIZE } from '../constants';
-import { defaultSearchFilter, ISeller, ISellerSearchFilter } from '../model';
+import { defaultSearchFilter, ISeller, ISellerSearchRequestBody, ISellerSearchFilter } from '../model';
 import { parseSearchParams, stringifySearchParams } from '../utils';
 
 interface ISearchPageProps {}
@@ -53,15 +53,13 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     [dispatch],
   );
 
-  const memoedFilter = React.useMemo((): ISellerSearchFilter => {
+  const memoedFilter = React.useMemo((): ISellerSearchRequestBody => {
     return {
-      address: { name: 'not needed', address: { formattedAddress: 'not needed', lat: 0, lng: 0 } },
       en: filter.en,
       lat: filter.address.address.lat,
       lng: filter.address.address.lng,
       offset: filter.offset,
       radius: filter.radius,
-      searched: true,
       sortBy: filter.sortBy,
       string: filter.string,
     };
@@ -82,7 +80,7 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
       }
       return [API_PATHS.sellerSearch, pageIndex, memoedFilter];
     },
-    async (url: string, pageIndex: number, filterParams: ISellerSearchFilter) => {
+    async (url: string, pageIndex: number, filterParams: ISellerSearchRequestBody) => {
       const res = await dispatch(
         fetchThunk(url, 'post', {
           sortBy: filterParams.sortBy,
@@ -166,7 +164,6 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile]);
 
-  console.log(data);
   return (
     <>
       <PageWrapper>
