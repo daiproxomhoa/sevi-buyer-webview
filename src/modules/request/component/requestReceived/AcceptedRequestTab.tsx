@@ -15,7 +15,7 @@ const PAGE_SIZE = 20;
 const AcceptedRequestPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
-  const [showLoadMore, setShowLoadMore] = React.useState(true);
+  const [showLoadMore, setShowLoadMore] = React.useState(false);
   const { data, size, setSize, isValidating } = useSWRInfinite(
     (pageIndex) => [API_PATHS.getUnconfirmed, pageIndex, true],
     async (url, pageIndex, accept) => {
@@ -26,6 +26,8 @@ const AcceptedRequestPage = (props: Props) => {
 
       if (res.body.requests.length < PAGE_SIZE) {
         setShowLoadMore(false);
+      } else {
+        setShowLoadMore(true);
       }
 
       return {
