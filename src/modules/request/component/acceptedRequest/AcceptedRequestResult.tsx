@@ -9,7 +9,7 @@ interface Props {
   info: IAccept;
 }
 
-const ReceivedResult = (props: Props) => {
+const AcceptedRequestResult = (props: Props) => {
   const { info } = props;
 
   return (
@@ -34,4 +34,4 @@ const ReceivedResult = (props: Props) => {
   );
 };
 
-export default ReceivedResult;
+export default AcceptedRequestResult;

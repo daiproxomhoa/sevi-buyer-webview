@@ -4,7 +4,7 @@ import { some } from '../../../common/constants';
 import { IAccept } from '../../model';
 import LoadMoreRequest from '../LoadMoreRequest';
 import ResultItemSkeleton from '../ResultItemSkeleton';
-import ReceivedResult from './ReceivedResult';
+import AcceptedRequestResult from './AcceptedRequestResult';
 
 interface Props {
   loading: boolean;
@@ -13,12 +13,14 @@ interface Props {
   onLoadMore(): void;
 }
 
-const ReceivedBox = (props: Props) => {
+const AcceptedRequestBox = (props: Props) => {
   const { loading, data, showLoadMore, onLoadMore } = props;
 
   return (
     <Box padding="0 24px 24px" flex={1}>
-      {data?.map((page) => page.requests?.map((info: IAccept) => <ReceivedResult key={info.createDate} info={info} />))}
+      {data?.map((page) =>
+        page.requests?.map((info: IAccept) => <AcceptedRequestResult key={info.createDate} info={info} />),
+      )}
 
       {loading ? (
         <>
@@ -36,4 +38,4 @@ const ReceivedBox = (props: Props) => {
   );
 };
 
-export default ReceivedBox;
+export default AcceptedRequestBox;

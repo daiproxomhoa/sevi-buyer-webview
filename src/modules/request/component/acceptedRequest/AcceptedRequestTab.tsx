@@ -7,7 +7,7 @@ import { API_PATHS } from '../../../../configs/api';
 import { SUCCESS_CODE } from '../../../../constants';
 import { AppState } from '../../../../redux/reducer';
 import { fetchThunk } from '../../../common/redux/thunk';
-import ReceivedBox from './ReceivedBox';
+import AcceptedRequestBox from './AcceptedRequestBox';
 
 interface Props {}
 const PAGE_SIZE = 20;
@@ -38,7 +38,7 @@ const AcceptedRequestPage = (props: Props) => {
   );
 
   return (
-    <ReceivedBox
+    <AcceptedRequestBox
       loading={isValidating && size !== data?.length}
       data={data}
       showLoadMore={showLoadMore}
