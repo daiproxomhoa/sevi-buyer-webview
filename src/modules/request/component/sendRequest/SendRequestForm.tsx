@@ -48,21 +48,21 @@ const SendRequestForm = (props: Props) => {
   const onChooseDate = (date: Moment | null, isAnyDate: boolean) => {
     setOpenDatePicker(false);
     if (isAnyDate) {
-      setValue('date', intl.formatMessage({ id: 'request.anyDay' }));
+      setValue('date', intl.formatMessage({ id: 'request.anyDay' }), { shouldValidate: true });
       return;
     }
 
-    setValue('date', date ? date.format(DATE_FORMAT) : '');
+    setValue('date', date ? date.format(DATE_FORMAT) : '', { shouldValidate: true });
   };
 
   const onChooseTime = (date: Moment | null, isAnyTime: boolean) => {
     setOpenTimePicker(false);
     if (isAnyTime) {
-      setValue('time', intl.formatMessage({ id: 'request.anyTime' }));
+      setValue('time', intl.formatMessage({ id: 'request.anyTime' }), { shouldValidate: true });
       return;
     }
 
-    setValue('time', date ? date.format(TIME_FORMAT) : '');
+    setValue('time', date ? date.format(TIME_FORMAT) : '', { shouldValidate: true });
   };
 
   return (
@@ -78,7 +78,7 @@ const SendRequestForm = (props: Props) => {
           name="desc"
           control={control}
           rules={{ required: intl.formatMessage({ id: 'required' }) }}
-          render={({ field, formState: { errors } }) => (
+          render={({ field, fieldState: { error } }) => (
             <>
               <TextField
                 {...field}
@@ -93,7 +93,7 @@ const SendRequestForm = (props: Props) => {
                 }}
                 onBlur={() => onUpdateDescription(field.value)}
               />
-              <FormHelperText error>{errors?.desc?.message || ' '}</FormHelperText>
+              <FormHelperText error>{error?.message || ' '}</FormHelperText>
             </>
           )}
         />
@@ -102,7 +102,7 @@ const SendRequestForm = (props: Props) => {
           name="date"
           control={control}
           rules={{ required: intl.formatMessage({ id: 'chooseRequired' }) }}
-          render={({ field, formState: { errors } }) => (
+          render={({ field, fieldState: { error } }) => (
             <>
               <TextField
                 {...field}
@@ -126,7 +126,7 @@ const SendRequestForm = (props: Props) => {
                 }}
                 onClick={() => setOpenDatePicker(true)}
               />
-              <FormHelperText error>{errors?.date?.message || ' '}</FormHelperText>
+              <FormHelperText error>{error?.message || ' '}</FormHelperText>
             </>
           )}
         />
@@ -135,7 +135,7 @@ const SendRequestForm = (props: Props) => {
           name="time"
           control={control}
           rules={{ required: intl.formatMessage({ id: 'chooseRequired' }) }}
-          render={({ field, formState: { errors } }) => (
+          render={({ field, fieldState: { error } }) => (
             <>
               <TextField
                 {...field}
@@ -159,7 +159,7 @@ const SendRequestForm = (props: Props) => {
                 }}
                 onClick={() => setOpenTimePicker(true)}
               />
-              <FormHelperText error>{errors?.time?.message || ' '}</FormHelperText>
+              <FormHelperText error>{error?.message || ' '}</FormHelperText>
             </>
           )}
         />

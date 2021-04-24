@@ -72,7 +72,6 @@ const ReviewBox = (props: Props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const {
-    register,
     handleSubmit,
     formState: { errors },
     control,
@@ -84,8 +83,6 @@ const ReviewBox = (props: Props) => {
   useEffect(() => {
     reset();
   }, [reset]);
-
-  console.log('errors', errors);
 
   return (
     <PageWrapper>
