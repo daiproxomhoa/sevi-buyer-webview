@@ -28,7 +28,6 @@ const ChooseTimeDialog = (props: Props) => {
   return (
     <Dialog open={open} onClose={onClose} onExited={onExited}>
       <KeyboardTimePicker
-        disableToolbar
         variant="static"
         openTo="hours"
         minutesStep={5}
