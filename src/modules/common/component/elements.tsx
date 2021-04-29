@@ -3,8 +3,8 @@ import {
   BackdropProps,
   Chip,
   createStyles,
-  Input,
   InputAdornment,
+  InputBase,
   InputProps,
   makeStyles,
   Slide,
@@ -150,7 +150,7 @@ export const CustomInput = withStyles((theme: Theme) => ({
   input: {
     padding: '18px 8px',
   },
-}))(Input);
+}))(InputBase);
 
 export interface WVInputProps extends InputProps {
   regex?: RegExp;
@@ -168,7 +168,6 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
         margin: '4px 0 0 0',
       }}
       fullWidth
-      disableUnderline
       startAdornment={
         !!startAdornmentIcon && (
           <InputAdornment position="start" style={{ marginLeft: '16px', opacity: 0.6 }}>

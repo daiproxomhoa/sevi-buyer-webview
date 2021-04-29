@@ -14,7 +14,7 @@ export function parseSearchParams(search: string, profile?: some): ISellerSearch
   const offset = params.get(SEARCH_PARAM_NAMES.offset);
   const radius = params.get(SEARCH_PARAM_NAMES.radius);
   const searched = params.get(SEARCH_PARAM_NAMES.searched);
-  const page = params.get(SEARCH_PARAM_NAMES.page);
+  // const page = params.get(SEARCH_PARAM_NAMES.page);
   const address = params.get(SEARCH_PARAM_NAMES.address);
 
   return {

@@ -1,11 +1,11 @@
 import { Box, Button, Chip, Grow, List, Typography } from '@material-ui/core';
 import React from 'react';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import { ReactComponent as NoDataIcon } from '../../../svg/ic_nodata.svg';
+import { some } from '../../common/constants';
 import { ISeller, ISellerSearchFilter } from '../model';
 import SearchResultItem from './SearchResultItem';
-import { ReactComponent as NoDataIcon } from '../../../svg/ic_nodata.svg';
 import SearchResultSkeleton from './SearchResultSkeleton';
-import { some } from '../../common/constants';
 
 interface Props {
   loading: boolean;

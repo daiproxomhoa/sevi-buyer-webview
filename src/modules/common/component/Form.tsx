@@ -1,14 +1,8 @@
-import {
-  FormControl,
-  FormHelperText,
-  Input,
-  InputAdornment,
-  InputLabel,
-} from "@material-ui/core";
-import React, { ReactNode } from "react";
-import { CustomInput, WVInputProps } from "./elements";
-import { ReactComponent as RectangleIcon } from "../../../svg/ic_rectangle.svg";
-import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
+import { FormControl, FormHelperText, Input, InputAdornment, InputLabel } from '@material-ui/core';
+import React, { ReactNode } from 'react';
+import { CustomInput, WVInputProps } from './elements';
+import { ReactComponent as RectangleIcon } from '../../../svg/ic_rectangle.svg';
+import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 
 interface FormControlTextFieldProps extends WVInputProps {
   formControlStyle?: React.CSSProperties;
@@ -19,62 +13,34 @@ interface FormControlTextFieldProps extends WVInputProps {
 }
 
 export const FormControlTextField = (props: FormControlTextFieldProps) => {
-  const {
-    formControlStyle,
-    errorMessage,
-    className,
-    label,
-    disabledHelper,
-    fullWidth,
-    ...rest
-  } = props;
+  const { formControlStyle, errorMessage, className, label, disabledHelper, fullWidth, ...rest } = props;
 
   return (
-    <FormControl
-      style={formControlStyle}
-      error={!!errorMessage}
-      className={className}
-      fullWidth={fullWidth}
-    >
+    <FormControl style={formControlStyle} error={!!errorMessage} className={className} fullWidth={fullWidth}>
       {label && (
         <InputLabel shrink htmlFor="component-disabled">
           {label}
         </InputLabel>
       )}
       <Input {...rest} />
-      {!disabledHelper && (
-        <FormHelperText style={{ minHeight: 20 }}>
-          {errorMessage}
-        </FormHelperText>
-      )}
+      {!disabledHelper && <FormHelperText style={{ minHeight: 20 }}>{errorMessage}</FormHelperText>}
     </FormControl>
   );
 };
 
 export const FormControlFreeTextField = (props: FormControlTextFieldProps) => {
-  const {
-    errorMessage,
-    className,
-    disabledHelper,
-    fullWidth,
-    startAdornmentIcon,
-    ...rest
-  } = props;
+  const { errorMessage, className, disabledHelper, fullWidth, startAdornmentIcon, ...rest } = props;
 
   return (
     <FormControl error={!!errorMessage} fullWidth={fullWidth}>
       <CustomInput
         {...rest}
         fullWidth
-        disableUnderline
         startAdornment={
           !!startAdornmentIcon && (
-            <InputAdornment
-              position="start"
-              style={{ marginLeft: "16px", opacity: 0.6 }}
-            >
+            <InputAdornment position="start" style={{ marginLeft: '16px', opacity: 0.6 }}>
               {startAdornmentIcon}
-              <RectangleIcon style={{ marginLeft: "8px" }} />
+              <RectangleIcon style={{ marginLeft: '8px' }} />
             </InputAdornment>
           )
         }
@@ -83,17 +49,12 @@ export const FormControlFreeTextField = (props: FormControlTextFieldProps) => {
         <FormHelperText
           style={{
             minHeight: 20,
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
             paddingLeft: 8,
           }}
         >
-          {!!errorMessage && (
-            <ReportProblemOutlinedIcon
-              color="inherit"
-              style={{ fontSize: 14 }}
-            />
-          )}
+          {!!errorMessage && <ReportProblemOutlinedIcon color="inherit" style={{ fontSize: 14 }} />}
           &nbsp;{errorMessage}
         </FormHelperText>
       )}

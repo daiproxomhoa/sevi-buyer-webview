@@ -1,39 +1,39 @@
-import { Theme, Slider, Tooltip } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
-import React from "react";
-import { PRIMARY } from "../../../../configs/colors";
-import { slideMarks } from "../../constants";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import { ISellerSearchFilter } from "../../model";
+import { Theme, Slider, Tooltip } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import React from 'react';
+import { PRIMARY } from '../../../../configs/colors';
+import { slideMarks } from '../../constants';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { ISellerSearchFilter } from '../../model';
 
 const CustomSlider = withStyles((theme: Theme) => ({
   root: {
     color: PRIMARY,
     height: 8,
     '& .MuiSlider-markLabel[data-index="0"]': {
-      transform: "translateX(0%)",
+      transform: 'translateX(0%)',
     },
     '& .MuiSlider-markLabel[data-index="1"]': {
-      transform: "translateX(-100%)",
+      transform: 'translateX(-100%)',
     },
   },
   thumb: {
     height: 32,
     width: 32,
-    backgroundColor: "#fff",
-    border: "2px solid currentColor",
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
     marginTop: -12,
     marginLeft: -12,
-    "&:focus, &:hover, &$active": {
-      boxShadow: "inherit",
+    '&:focus, &:hover, &$active': {
+      boxShadow: 'inherit',
     },
   },
   active: {},
   valueLabel: {
-    left: "calc(-50% + 12px)",
+    left: 'calc(-50% + 12px)',
     top: 20,
-    "& *": {
-      background: "transparent",
+    '& *': {
+      background: 'transparent',
     },
   },
   markLabel: {
@@ -66,7 +66,7 @@ interface ValueLabelProps {
   value: number;
 }
 
-const ValueLabelComponent: React.FC<ValueLabelProps> = (props) => {
+export const ValueLabelComponent: React.FC<ValueLabelProps> = (props) => {
   const { children, open, value } = props;
 
   return (
@@ -106,9 +106,7 @@ const SlideRadius = (props: Props) => {
       value={filter.radius}
       max={20}
       ThumbComponent={CustomThumbComponent}
-      onChange={(event, newValue) =>
-        setFilter({ ...filter, radius: newValue as number })
-      }
+      onChange={(event, newValue) => setFilter({ ...filter, radius: newValue as number })}
     />
   );
 };

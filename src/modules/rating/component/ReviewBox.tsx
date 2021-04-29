@@ -170,7 +170,7 @@ const ReviewBox = (props: Props) => {
                 value={value}
                 onChange={onChange}
                 multiline
-                rowsMax={5}
+                rows={5}
                 errorMessage={errors?.[name]?.message}
               />
             )}
