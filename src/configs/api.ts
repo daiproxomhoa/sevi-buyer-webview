@@ -58,4 +58,8 @@ export const API_PATHS = {
     `${getBaseUrl(APIService.protected)}/google/place/autocomplete?q=${encodeURIComponent(term)}`,
   getDetailLocation: (id: string) =>
     `${getBaseUrl(APIService.protected)}/google/place/detail?id=${encodeURIComponent(id)}`,
+  pubNubAuthKey: (sellerId: string, requestDate: string) =>
+    `${getBaseUrl(APIService.protected)}/pubNub/authKey?otherId=${sellerId}&requestDate=${encodeURIComponent(
+      requestDate,
+    )}`,
 };
