@@ -207,7 +207,7 @@ export const LoadingBackDrop: React.FC<BackdropProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Backdrop className={classes.backdrop} {...props}>
+    <Backdrop unmountOnExit className={classes.backdrop} {...props}>
       <CircularProgress color="inherit" />
     </Backdrop>
   );
