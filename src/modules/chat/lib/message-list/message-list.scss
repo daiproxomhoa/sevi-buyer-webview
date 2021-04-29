@@ -335,6 +335,10 @@
   .pn-msg--own {
     --msg__flexDirection: row-reverse;
     --msg__avatar__display: none;
+    .pn-msg__bubble {
+      background-color: rgba(226, 116, 190, 0.2);
+      border-radius: 10px;
+    }
   }
 }
 
