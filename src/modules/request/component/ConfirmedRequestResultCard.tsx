@@ -13,10 +13,11 @@ import { getFullName } from '../../rating/utils';
 interface Props {
   request: some;
   mode: 'rated' | 'unrated';
+  onRequestAgain(): void;
 }
 
-const PendingRateResultCard = (props: Props) => {
-  const { request = {}, mode } = props;
+const ConfirmedRequestResultCard = (props: Props) => {
+  const { request = {}, mode, onRequestAgain } = props;
   const { seller, desc, createDate } = request;
 
   return (
@@ -48,7 +49,7 @@ const PendingRateResultCard = (props: Props) => {
         )}
       </Box>
       {mode === 'rated' && (
-        <Button fullWidth variant="contained" color="primary" size="small" className={'m-t-8'}>
+        <Button fullWidth variant="contained" color="primary" size="small" className={'m-t-8'} onClick={onRequestAgain}>
           <FormattedMessage id="rating.REQUEST_AGAIN" />
         </Button>
       )}
@@ -56,4 +57,4 @@ const PendingRateResultCard = (props: Props) => {
   );
 };
 
-export default PendingRateResultCard;
+export default ConfirmedRequestResultCard;

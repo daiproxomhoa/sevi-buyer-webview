@@ -1,16 +1,18 @@
 import { Box } from '@material-ui/core';
+import { push } from 'connected-react-router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { useSWRInfinite } from 'swr';
 import { API_PATHS } from '../../../configs/api';
+import { ROUTES } from '../../../configs/routes';
 import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
 import RatingCardSkeleton from '../../rating/component/RatingCardSkeleton';
-import PendingRateResultCard from './ConfirmedRequestResultCard';
+import ConfirmedRequestResultCard from './ConfirmedRequestResultCard';
 import LoadMoreRequest from './LoadMoreRequest';
 
 interface Props {
@@ -49,7 +51,21 @@ const ConfirmedRequestListBox = (props: Props) => {
   return (
     <Box className="p-24 p-t-8 overflow-auto flex-1">
       {data?.map((page) =>
-        page.requests?.map((one: some) => <PendingRateResultCard key={one.createDate} request={one} mode={mode} />),
+        page.requests?.map((one: some) => (
+          <ConfirmedRequestResultCard
+            key={one.createDate}
+            request={one}
+            mode={mode}
+            onRequestAgain={() =>
+              dispatch(
+                push({
+                  pathname: ROUTES.sendRequest,
+                  search: `?id=${one?.sellerId}`,
+                }),
+              )
+            }
+          />
+        )),
       )}
       {isValidating && size !== data?.length ? (
         <>
