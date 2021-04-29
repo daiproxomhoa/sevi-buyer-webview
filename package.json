@@ -55,6 +55,7 @@
     "@types/js-cookie": "^2.2.6",
     "@types/lodash": "^4.14.167",
     "@types/node": "^12.20.4",
+    "@types/pubnub": "^4.29.2",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
     "@types/react-helmet": "^6.1.0",
