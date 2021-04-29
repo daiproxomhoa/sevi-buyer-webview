@@ -34,6 +34,7 @@ import SearchDetailPage from './modules/search/page/SearchDetailPage';
 import SearchPage from './modules/search/page/SearchPage';
 import { AppState } from './redux/reducer';
 import styles from './scss/webviewRouteTransition.module.scss';
+import ChatPage from './modules/chat/page/ChatPage';
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -133,6 +134,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
                   <ProtectedRoute auth={authen} exact path={ROUTES.profile} component={ProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.editProfile} component={EditProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.changePass} component={ChangePassWordPage} />
+                  <ProtectedRoute auth={authen} exact path={ROUTES.chat.path} component={ChatPage} />
                   <Redirect to={ROUTES.login} />
                 </Switch>
               </div>

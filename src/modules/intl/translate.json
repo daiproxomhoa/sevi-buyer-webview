@@ -166,5 +166,10 @@
   "profile.rePassword": ["Nhập lại mật khẩu", ""],
   "profile.rePasswordInvalid": ["Mật khẩu không trùng khớp", ""],
   "profile.newPasswordInvalid": ["Mật khẩu mới không trùng mật khẩu cũ", ""],
-  "profile.logout": ["Đăng xuất", ""]
+  "profile.logout": ["Đăng xuất", ""],
+
+  "chat.send": ["Gửi", ""],
+  "chat.sendPlaceholder": ["Nhập tin nhắn", ""],
+  "chat.me": ["Tôi", ""],
+  "chat.isTyping": ["đang nhập", ""]
 }
