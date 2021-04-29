@@ -2,6 +2,8 @@ import { Box, Button, Divider, Typography } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { API_PATHS } from '../../../configs/api';
+import { ROUTES } from '../../../configs/routes';
+import { RawLink } from '../../common/component/Link';
 import ProgressiveImage from '../../common/component/ProgressiveImage';
 import { IRequest } from '../model';
 
@@ -47,16 +49,16 @@ const ResultItemInfo = (props: Props) => {
             {info.createDate}
           </Typography>
         ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
+          <RawLink
+            to={ROUTES.chat.gen(info.buyerId, info.sellerId, info.createDate)}
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
-            <FormattedMessage id="conversation" />
-          </Button>
+            <Button variant="contained" color="primary" size="small">
+              <FormattedMessage id="conversation" />
+            </Button>
+          </RawLink>
         )}
       </Box>
     </>

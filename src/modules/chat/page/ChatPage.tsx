@@ -79,7 +79,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
 
   const intl = useIntl();
 
-  if (pubNubClient === null || channelName === null || sellerData === null) {
+  if (!pubNubClient || !channelName || !sellerData) {
     // render loading spinner
     return <></>;
   }
