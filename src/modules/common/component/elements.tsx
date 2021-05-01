@@ -15,7 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { OptionsObject } from 'notistack';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { BACKGROUND, LIGHT_GREY } from '../../../configs/colors';
 import { ReactComponent as HeaderSVG } from '../../../svg/header.svg';
 import { ReactComponent as Header2SVG } from '../../../svg/header2.svg';
