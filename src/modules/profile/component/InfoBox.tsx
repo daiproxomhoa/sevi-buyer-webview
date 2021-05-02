@@ -16,14 +16,22 @@ const InfoBox = (props: Props) => {
       <>
         <CardDiv>
           <Box className="border-bottom p-b-8">
-            <Skeleton variant="text" width="30%" />
-            <Skeleton variant="text" />
+            <Typography variant="caption">
+              <Skeleton variant="text" width="30%" />
+            </Typography>
+            <Typography variant="body2">
+              <Skeleton variant="text" />
+            </Typography>
           </Box>
           {[1, 2].map((value, index) => {
             return (
               <Box key={value} className={`${index && 'border-top p-b-8'} p-t-8`}>
-                <Skeleton variant="text" width="40%" />
-                <Skeleton variant="text" />
+                <Typography variant="caption">
+                  <Skeleton variant="text" width="40%" />
+                </Typography>
+                <Typography variant="body2">
+                  <Skeleton variant="text" />
+                </Typography>
               </Box>
             );
           })}

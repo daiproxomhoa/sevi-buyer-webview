@@ -74,15 +74,15 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
   }, [authen, dispatch]);
 
   if (actionRef.current === 'PUSH') {
-    transitionClassNamesRef.current.enter = styles.enter;
-    transitionClassNamesRef.current.enterActive = styles.enterActive;
-    transitionClassNamesRef.current.exit = undefined;
-    transitionClassNamesRef.current.exitActive = undefined;
+    transitionClassNamesRef.current.enter = styles.enter1;
+    transitionClassNamesRef.current.enterActive = styles.enterActive1;
+    transitionClassNamesRef.current.exit = styles.exit1;
+    transitionClassNamesRef.current.exitActive = styles.exitActive1;
   } else {
-    transitionClassNamesRef.current.enter = undefined;
-    transitionClassNamesRef.current.enterActive = undefined;
-    transitionClassNamesRef.current.exit = styles.exit;
-    transitionClassNamesRef.current.exitActive = styles.exitActive;
+    transitionClassNamesRef.current.enter = styles.enter2;
+    transitionClassNamesRef.current.enterActive = styles.enterActive2;
+    transitionClassNamesRef.current.exit = styles.exit2;
+    transitionClassNamesRef.current.exitActive = styles.exitActive2;
   }
 
   return (
@@ -97,7 +97,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
       <TransitionGroup style={{ background: BACKGROUND, position: 'relative' }}>
         <CSSTransition
           key={router.location.pathname}
-          timeout={300}
+          timeout={350}
           classNames={transitionClassNamesRef.current}
           onExited={() => {
             if (actionRef.current === 'PUSH') {
