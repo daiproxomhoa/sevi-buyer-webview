@@ -89,7 +89,6 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
     <SWRConfig
       value={{
         fetcher: async (url: string, method: 'get' | 'post', body: string) => {
-          console.log('a');
           return dispatch(fetchThunk(url, method, body));
         },
       }}

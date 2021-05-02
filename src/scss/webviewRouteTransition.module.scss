@@ -27,7 +27,6 @@
 .exitActive1 {
   transform: translateX(-100%);
   transition: all 0.35s;
-  opacity: 0;
 }
 
 .enter2 {
@@ -59,5 +58,4 @@
 .exitActive2 {
   transform: translateX(100%);
   transition: all 0.35s;
-  opacity: 0;
 }
