@@ -1,4 +1,4 @@
-.enter {
+.enter1 {
   transform: translateX(100%);
   z-index: 5000;
   position: fixed;
@@ -9,12 +9,12 @@
   background: inherit;
 }
 
-.enterActive {
+.enterActive1 {
   transform: translateX(0);
-  transition: all 0.3s;
+  transition: all 0.35s;
 }
 
-.exit {
+.exit1 {
   transform: translateX(0);
   z-index: 5000;
   position: fixed;
@@ -24,7 +24,38 @@
   background: inherit;
 }
 
-.exitActive {
+.exitActive1 {
+  transform: translateX(-100%);
+  transition: all 0.35s;
+}
+
+.enter2 {
+  transform: translateX(-100%);
+  z-index: 5000;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: inherit;
+}
+
+.enterActive2 {
+  transform: translateX(0);
+  transition: all 0.35s;
+}
+
+.exit2 {
+  transform: translateX(0);
+  z-index: 5000;
+  position: fixed;
+  overflow: hidden;
+  left: 0;
+  width: 100%;
+  background: inherit;
+}
+
+.exitActive2 {
   transform: translateX(100%);
-  transition: all 0.25s;
+  transition: all 0.35s;
 }

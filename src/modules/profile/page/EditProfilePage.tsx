@@ -34,7 +34,7 @@ const EditProfilePage = (props: Props) => {
         intl.formatMessage({ id: 'update_success' }),
         snackbarSetting((key) => closeSnackbar(key), {}),
       );
-
+      dispatch(fetchProfile());
       dispatch(goBack());
       return;
     }
@@ -52,7 +52,7 @@ const EditProfilePage = (props: Props) => {
   }, [data, dispatch]);
 
   if (!data) {
-    return null;
+    return <></>;
   }
 
   return (

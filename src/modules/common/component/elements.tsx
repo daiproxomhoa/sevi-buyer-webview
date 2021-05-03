@@ -3,8 +3,8 @@ import {
   BackdropProps,
   Chip,
   createStyles,
-  Input,
   InputAdornment,
+  InputBase,
   InputProps,
   makeStyles,
   Slide,
@@ -15,7 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { OptionsObject } from 'notistack';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { BACKGROUND, LIGHT_GREY } from '../../../configs/colors';
 import { ReactComponent as HeaderSVG } from '../../../svg/header.svg';
 import { ReactComponent as Header2SVG } from '../../../svg/header2.svg';
@@ -150,7 +150,7 @@ export const CustomInput = withStyles((theme: Theme) => ({
   input: {
     padding: '18px 8px',
   },
-}))(Input);
+}))(InputBase);
 
 export interface WVInputProps extends InputProps {
   regex?: RegExp;
@@ -168,7 +168,6 @@ export const FreeTextField: React.FC<WVInputProps> = (props) => {
         margin: '4px 0 0 0',
       }}
       fullWidth
-      disableUnderline
       startAdornment={
         !!startAdornmentIcon && (
           <InputAdornment position="start" style={{ marginLeft: '16px', opacity: 0.6 }}>

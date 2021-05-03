@@ -1,7 +1,8 @@
-import * as React from "react";
-import RPI from "../lib/ReactProgressiveImage";
-import styled, { keyframes } from "styled-components";
-import { LIGHT_GREY } from "../../../configs/colors";
+import * as React from 'react';
+import RPI from '../lib/ReactProgressiveImage';
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+import { LIGHT_GREY } from '../../../configs/colors';
 
 const fadeIn = keyframes`
   from {
@@ -18,27 +19,24 @@ const FadeInImg = styled.img`
   animation-timing-function: linear;
 `;
 
-interface IProgressiveImageProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {}
+interface IProgressiveImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {}
 
-const ProgressiveImage: React.FunctionComponent<IProgressiveImageProps> = (
-  props
-) => {
+const ProgressiveImage: React.FunctionComponent<IProgressiveImageProps> = (props) => {
   return (
-    <RPI src={props.src || ""} placeholder={props.src || ""}>
+    <RPI src={props.src || ''} placeholder={props.src || ''}>
       {(src: string, loading: boolean) =>
         loading ? (
           <span
             style={{
               ...props.style,
-              display: "inline-block",
+              display: 'inline-block',
               backgroundColor: LIGHT_GREY,
             }}
           />
         ) : (
           <FadeInImg
             {...props}
-            alt={props.alt || ""}
+            alt={props.alt || ''}
             style={{
               ...props.style,
             }}

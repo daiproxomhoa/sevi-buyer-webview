@@ -16,19 +16,25 @@ const InfoBox = (props: Props) => {
       <>
         <CardDiv>
           <Box className="border-bottom p-b-8">
-            <Skeleton variant="text" width="30%" />
-            <Skeleton variant="text" />
+            <Typography variant="caption">
+              <Skeleton variant="text" width="30%" />
+            </Typography>
+            <Typography variant="body2">
+              <Skeleton variant="text" />
+            </Typography>
           </Box>
-          {Array(2)
-            .fill(0)
-            .map((value: some, index: number) => {
-              return (
-                <Box className={`${index && 'border-top p-b-8'} p-t-8`}>
+          {[1, 2].map((value, index) => {
+            return (
+              <Box key={value} className={`${index && 'border-top p-b-8'} p-t-8`}>
+                <Typography variant="caption">
                   <Skeleton variant="text" width="40%" />
+                </Typography>
+                <Typography variant="body2">
                   <Skeleton variant="text" />
-                </Box>
-              );
-            })}
+                </Typography>
+              </Box>
+            );
+          })}
         </CardDiv>
         <Typography variant="subtitle2" className="m-t-24 m-b-16">
           <FormattedMessage id="profile.review" />
