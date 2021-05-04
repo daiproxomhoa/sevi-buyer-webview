@@ -11511,7 +11511,7 @@
   dependencies:
     "ts-invariant" "^0.4.4"
 
-"pubnub@^4.27.3", "pubnub@^4.31.0":
+"pubnub@^4.27.3", "pubnub@^4.32.0":
   "integrity" "sha512-v6Yhf0nziX1088+lWrP7ghMupESqyQuWixVwpmrsH/A4+D4HqsFLjmIJcGuiqYdSZNc2KmZ9ujny67dqQ/2Cuw=="
   "resolved" "https://registry.npmjs.org/pubnub/-/pubnub-4.32.0.tgz"
   "version" "4.32.0"

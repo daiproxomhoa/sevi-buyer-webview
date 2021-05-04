@@ -88,6 +88,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
     <PubNubProvider client={pubNubClient}>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Chat
+          retryOptions={{ maxRetries: 10, exponentialFactor: 1.2, timeout: 10000 }}
           theme="support"
           channels={[channelName]}
           currentChannel={channelName}
@@ -105,11 +106,11 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           <AnchorDiv>
             <Box padding={2}>Sticky</Box>
           </AnchorDiv>
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column-reverse' }}>
-            <TypingIndicator />
+          <div style={{ flex: 1 }}>
             <MessageList welcomeMessages={false} fetchMessages={25} />
           </div>
-          <AnchorDiv style={{ bottom: 0, paddingBottom: 10 }}>
+          <TypingIndicator />
+          <AnchorDiv style={{ bottom: 0, paddingBottom: 10, justifyContent: 'flex-end' }}>
             <MessageInput
               placeholder={intl.formatMessage({ id: 'chat.sendPlaceholder' })}
               sendButton={<FormattedMessage id="chat.send" />}
