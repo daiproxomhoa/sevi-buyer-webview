@@ -16,6 +16,8 @@ import { Chat } from '../lib/chat';
 import { TypingIndicator } from '../lib/typing-indicator/typing-indicator';
 import { MessageInput } from '../lib/message-input/message-input';
 import { MessageList } from '../lib/message-list/message-list';
+import ChatHeader from '../components/ChatHeader';
+import { goBack } from 'connected-react-router';
 
 const AnchorDiv = styled.div`
   top: 0;
@@ -104,7 +106,12 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           ]}
         >
           <AnchorDiv>
-            <Box padding={2}>Sticky</Box>
+            <ChatHeader
+              sellerData={sellerData}
+              action={() => {
+                dispatch(goBack());
+              }}
+            />
           </AnchorDiv>
           <div style={{ flex: 1 }}>
             <MessageList welcomeMessages={false} fetchMessages={25} />

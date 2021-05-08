@@ -171,5 +171,9 @@
   "chat.send": ["Gửi", ""],
   "chat.sendPlaceholder": ["Nhập tin nhắn", ""],
   "chat.me": ["Tôi", ""],
+  "chat.complain": ["Khiếu lại", ""],
+  "chat.cancelRequest": ["Hủy yêu cầu", ""],
+  "chat.deleteConversation": ["Xóa hội thoại", ""],
+  "chat.block": ["Chặn người này", ""],
   "chat.isTyping": ["đang nhập", ""]
 }
