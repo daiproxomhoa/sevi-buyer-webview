@@ -26,10 +26,7 @@ const AcceptedRequestResult = (props: Props) => {
           marginTop: '8px',
         }}
       >
-        <RawLink
-          to={ROUTES.chat.gen(info.buyerId, info.sellerId, info.createDate)}
-          style={{ marginRight: '4px', flex: 1 }}
-        >
+        <RawLink to={{ pathname: ROUTES.chat, state: info }} style={{ marginRight: '4px', flex: 1 }}>
           <Button fullWidth variant="outlined" color="primary" size="small">
             <FormattedMessage id="conversation" />
           </Button>

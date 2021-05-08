@@ -1,21 +1,22 @@
+import styled from '@emotion/styled';
+import { Box } from '@material-ui/core';
 import PubNub from 'pubnub';
 import { PubNubProvider } from 'pubnub-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useLocation } from 'react-router';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import useSWR from 'swr';
 import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
+import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
-import styled from '@emotion/styled';
-import { Box } from '@material-ui/core';
 import { Chat } from '../lib/chat';
-import { TypingIndicator } from '../lib/typing-indicator/typing-indicator';
 import { MessageInput } from '../lib/message-input/message-input';
 import { MessageList } from '../lib/message-list/message-list';
+import { TypingIndicator } from '../lib/typing-indicator/typing-indicator';
 
 const AnchorDiv = styled.div`
   top: 0;
@@ -64,22 +65,15 @@ function usePubNubClient(buyerId: string, sellerId: string, requestDate: string)
 interface IChatPageProps {}
 
 const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
-  const params = useParams<{ buyerId: string; sellerId: string; requestDate: string }>();
+  const location = useLocation();
+  const request = location.state as some;
 
-  const { pubNubClient, channelName } = usePubNubClient(params.buyerId, params.sellerId, params.requestDate);
-
-  const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
-  const { data: sellerData } = useSWR(API_PATHS.sellerDetail(params.sellerId), async (url) => {
-    const res = await dispatch(fetchThunk(url, 'get'));
-    if (res.status === 200) {
-      return res.body;
-    }
-    throw new Error(res.status);
-  });
+  const { pubNubClient, channelName } = usePubNubClient(request.buyerId, request.sellerId, request.createDate);
+  const seller = request.seller;
 
   const intl = useIntl();
 
-  if (!pubNubClient || !channelName || !sellerData) {
+  if (!pubNubClient || !channelName || !seller) {
     // render loading spinner
     return <></>;
   }
@@ -93,13 +87,13 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           channels={[channelName]}
           currentChannel={channelName}
           users={[
-            { name: intl.formatMessage({ id: 'chat.me' }), id: params.buyerId, eTag: '', updated: '' },
+            { name: intl.formatMessage({ id: 'chat.me' }), id: request.buyerId, eTag: '', updated: '' },
             {
-              name: sellerData.seller.givenName,
-              id: sellerData.seller.id,
+              name: seller.givenName,
+              id: seller.id,
               eTag: '',
               updated: '',
-              profileUrl: API_PATHS.renderSellerAvatar(sellerData.seller.id, sellerData.seller.avatar),
+              profileUrl: API_PATHS.renderSellerAvatar(seller.id, seller.avatar),
             },
           ]}
         >
