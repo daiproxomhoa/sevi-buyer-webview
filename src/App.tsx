@@ -133,7 +133,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
                   <ProtectedRoute auth={authen} exact path={ROUTES.profile} component={ProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.editProfile} component={EditProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.changePass} component={ChangePassWordPage} />
-                  <ProtectedRoute auth={authen} exact path={ROUTES.chat.path} component={ChatPage} />
+                  <ProtectedRoute auth={authen} exact path={ROUTES.chat} component={ChatPage} />
                   <Redirect to={ROUTES.login} />
                 </Switch>
               </div>

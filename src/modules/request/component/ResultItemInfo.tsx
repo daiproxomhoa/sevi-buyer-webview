@@ -50,7 +50,7 @@ const ResultItemInfo = (props: Props) => {
           </Typography>
         ) : (
           <RawLink
-            to={ROUTES.chat.gen(info.buyerId, info.sellerId, info.createDate)}
+            to={{ pathname: ROUTES.chat, state: info }}
             onClick={(e) => {
               e.stopPropagation();
             }}

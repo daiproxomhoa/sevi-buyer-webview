@@ -50,6 +50,9 @@ export const API_PATHS = {
   getConfirmed: `${getBaseUrl(APIService.protected)}/request/getConfirmed`,
   deferRating: `${getBaseUrl(APIService.protected)}/buyer/deferRating`,
   getRating: `${getBaseUrl(APIService.protected)}/rating/rate`,
+  tempUpload: `${getBaseUrl(APIService.protected)}/tempUpload`,
+  renderAvatarChat: (id?: number | string, num?: number, stamp?: number) =>
+    id ? `${getBaseUrl(APIService.public)}​/getTempUploadImg/${id}/${num}/${stamp}` : undefined,
 
   changePassword: `${getBaseUrl(APIService.protected)}/buyer/changePassword`,
   renderAvatar: (id?: number | string, stamp?: number) =>

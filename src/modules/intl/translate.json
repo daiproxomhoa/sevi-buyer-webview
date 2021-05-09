@@ -168,6 +168,11 @@
   "profile.newPasswordInvalid": ["Mật khẩu mới không trùng mật khẩu cũ", ""],
   "profile.logout": ["Đăng xuất", ""],
 
+  "requestStatus.accept": ["Đã được nhận"],
+  "requestStatus.cancel": ["Đã hủy"],
+  "requestStatus.confirm": ["Đã xác nhận"],
+  "requestStatus.waiting": ["Đang yêu cầu"],
+
   "chat.send": ["Gửi", ""],
   "chat.sendPlaceholder": ["Nhập tin nhắn", ""],
   "chat.me": ["Tôi", ""],

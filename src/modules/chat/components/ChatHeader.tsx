@@ -1,15 +1,31 @@
-import { Avatar, Box, ButtonBase, IconButton, makeStyles, Popover, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Avatar,
+  Box,
+  ButtonBase,
+  Divider,
+  IconButton,
+  makeStyles,
+  Popover,
+  Typography,
+} from '@material-ui/core';
+import { green, yellow } from '@material-ui/core/colors';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { API_PATHS } from '../../../configs/api';
-import { GREY_300 } from '../../../configs/colors';
+import { GREEN, GREY_300 } from '../../../configs/colors';
 import { ReactComponent as IconDotList } from '../../../svg/ic_dot_list.svg';
 import Header from '../../common/component/Header';
 import { some } from '../../common/constants';
 import { getFullName } from '../../rating/utils';
+import { getStatus } from '../utils';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import moment from 'moment';
+import { DATE_FORMAT, FE_DATE_TIME_FORMAT } from '../../../models/moment';
+import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   item: {
     minWidth: 190,
     justifyContent: 'flex-start',
@@ -22,15 +38,39 @@ const useStyles = makeStyles(() => ({
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
   },
+  dot: {
+    borderRadius: 6,
+    height: 12,
+    width: 12,
+    marginRight: 8,
+  },
+  panel: {
+    background: GREEN,
+    borderRadius: 12,
+    padding: 12,
+    position: 'relative',
+  },
+  appBar: {
+    top: 100,
+    padding: '8px 12px',
+    background: 'unset',
+    boxShadow: 'unset',
+  },
+  iconTurned: {
+    position: 'absolute',
+    top: 2,
+    right: 12,
+  },
 }));
 interface Props {
   action?: () => void;
-  sellerData: some;
+  request: some;
 }
 
 const ChatHeader = (props: Props) => {
-  const { action, sellerData } = props;
-  console.log('sellerData', sellerData);
+  const { action, request } = props;
+  const { seller } = request;
+  console.log('seller', seller);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -42,17 +82,23 @@ const ChatHeader = (props: Props) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
+  console.log('seller', request);
+  const status = getStatus(request);
   return (
     <>
       <Header
         title={
           <Box display="flex">
-            <Avatar
-              src={API_PATHS.renderSellerAvatar(sellerData.seller.id, sellerData.seller.avatar)}
-              style={{ marginRight: 12 }}
-            />
-            {getFullName(sellerData.seller)}
+            <Avatar src={API_PATHS.renderSellerAvatar(seller?.id, seller?.avatar)} style={{ marginRight: 12 }} />
+            <Box display="flex" flexDirection="column">
+              {getFullName(seller)}
+              <Box display="flex" alignItems="center">
+                <Box className={classes.dot} style={{ background: status.color }} />
+                <Typography variant="caption">
+                  <FormattedMessage id={status.id} />
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         }
         endAdornment={
@@ -67,6 +113,24 @@ const ChatHeader = (props: Props) => {
         action={action}
         appBarProps={{ className: classes.header, elevation: 1 }}
       />
+      {request.accept && (
+        <AppBar position="sticky" className={classes.appBar}>
+          <Box className={classes.panel}>
+            <TurnedInRoundedIcon className={classes.iconTurned} />
+            <Typography variant="body1" style={{ marginRight: 24 }}>
+              {request?.desc}
+            </Typography>
+            <Typography variant="body2">{request?.location}</Typography>
+            <Divider className="m-t-8 m-b-8" />
+            <Box display="flex" alignItems="center">
+              <ScheduleIcon className="m-r-8" />
+              <Typography variant="body1">
+                {moment(`${request?.date} ${request?.time}`).format(FE_DATE_TIME_FORMAT)}
+              </Typography>
+            </Box>
+          </Box>
+        </AppBar>
+      )}
       <Popover
         id={id}
         open={open}

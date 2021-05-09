@@ -1,4 +1,4 @@
-import colors from "../scss/colors.module.scss";
+import colors from '../scss/colors.module.scss';
 
 export const {
   BACKGROUND,
@@ -24,4 +24,6 @@ export const {
   GREY_300,
   GREY_100,
   GREY_50,
+
+  GREEN,
 } = colors;

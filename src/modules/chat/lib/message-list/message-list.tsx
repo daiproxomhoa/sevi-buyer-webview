@@ -61,6 +61,7 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
   const [paginationEnd] = useAtom(CurrentChannelPaginationAtom);
   const retry = retryObj.function;
   const onError = onErrorObj.function;
+  console.log('messages', messages);
 
   const [scrolledBottom, setScrolledBottom] = useState(true);
   const [prevMessages, setPrevMessages] = useState([]);

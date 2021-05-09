@@ -1,264 +1,152 @@
-import React, { FC, KeyboardEvent, ChangeEvent, useState, useRef, useEffect, ReactElement } from 'react';
+import { Box, IconButton, TextField, Theme } from '@material-ui/core';
+import ImageIcon from '@material-ui/icons/Image';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import { withStyles } from '@material-ui/styles';
 import { useAtom } from 'jotai';
+import { useSnackbar } from 'notistack';
 import { usePubNub } from 'pubnub-react';
-import { EmojiPickerElementProps } from '../types';
-import {
-  CurrentChannelAtom,
-  ThemeAtom,
-  TypingIndicatorTimeoutAtom,
-  UsersMetaAtom,
-  ErrorFunctionAtom,
-} from '../state-atoms';
-import './message-input.scss';
-import { Button } from '@material-ui/core';
-import { FormattedMessage } from 'react-intl';
+import React, { FC, useRef } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { API_PATHS } from '../../../../configs/api';
+import { BACKGROUND } from '../../../../configs/colors';
+import { SUCCESS_CODE } from '../../../../constants';
+import { AppState } from '../../../../redux/reducer';
+import { snackbarSetting } from '../../../common/component/elements';
+import { fetchThunk } from '../../../common/redux/thunk';
+import { CurrentChannelAtom, ErrorFunctionAtom, UsersMetaAtom } from '../state-atoms';
+
+const TextInput = withStyles((theme: Theme) => ({
+  root: {
+    position: 'relative',
+    '& .MuiOutlinedInput-root': {
+      padding: '12px 16px',
+      backgroundColor: BACKGROUND,
+      fontSize: theme.typography.body2.fontSize,
+      borderRadius: 18,
+    },
+  },
+}))(TextField);
 
 export interface MessageInputProps {
-  /** Set a placeholder message display in the text window. */
-  placeholder?: string;
   /** Set a draft message to display in the text window. */
-  draftMessage?: string;
-  /** Enable this for high-throughput environemnts to attach sender data directly to each message.
-   * This is an alternative to providing a full list of users directly into Chat provider. */
   senderInfo?: boolean;
-  /** Enable/disable firing the typing events when user is typing a message. */
-  typingIndicator?: boolean;
-  /** Hides the Send button */
-  hideSendButton?: boolean;
-  /** Custom UI component to override default display for the send button. */
-  sendButton?: JSX.Element | string;
-  /** Pass in an emoji picker if you want it to be rendered in the input. See Emoji Pickers section of the docs to get more details */
-  emojiPicker?: ReactElement<EmojiPickerElementProps>;
-  /** Callback to handle event when the text value changes. */
-  onChange?: (value: string) => unknown;
-  /** Callback for extra actions while sending a message */
-  onSend?: (value: unknown) => unknown;
 }
 
-/**
- * Allows users to compose messages using text and emojis
- * and automatically publish them on PubNub channels upon sending.
- */
 export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) => {
   const pubnub = usePubNub();
-
-  const [text, setText] = useState(props.draftMessage || '');
-  const [emojiPickerShown, setEmojiPickerShown] = useState(false);
-  const [typingIndicatorSent, setTypingIndicatorSent] = useState(false);
-  const [picker, setPicker] = useState<ReactElement>();
-
+  const intl = useIntl();
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [users] = useAtom(UsersMetaAtom);
-  const [theme] = useAtom(ThemeAtom);
   const [channel] = useAtom(CurrentChannelAtom);
   const [onErrorObj] = useAtom(ErrorFunctionAtom);
   const onError = onErrorObj.function;
-  const [typingIndicatorTimeout] = useAtom(TypingIndicatorTimeoutAtom);
+  const inputRef = useRef<any>();
 
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const pickerRef = useRef<HTMLDivElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    reset,
+    watch,
+    setValue,
+  } = useForm({
+    mode: 'onSubmit',
+  });
 
   /*
   /* Helper functions
   */
 
-  const autoSize = (reset: boolean = false) => {
-    const input = inputRef.current;
-    if (!input) {
-      return;
-    }
-
-    setTimeout(() => {
-      input.style.cssText = reset ? `height: auto;` : `height: ${input.scrollHeight}px;`;
-    }, 0);
-  };
-
   /*
   /* Commands
   */
 
-  const sendMessage = async () => {
+  const sendMessage = async (text: any) => {
     try {
       if (!text) return;
-      const message = {
-        type: 'text',
-        text,
-        ...(props.senderInfo && { sender: users.find((u) => u.id === pubnub.getUUID()) }),
-      };
-
-      await pubnub.publish({ channel, message });
-      props.onSend && props.onSend(message);
-      if (props.typingIndicator) stopTypingIndicator();
-      setText('');
-      autoSize(true);
-    } catch (e) {
-      onError(e);
-    }
-  };
-
-  const startTypingIndicator = async () => {
-    if (typingIndicatorSent) return;
-    try {
-      setTypingIndicatorSent(true);
-      const message = { message: { type: 'typing_on' }, channel };
-      pubnub.signal(message);
-    } catch (e) {
-      onError(e);
-    }
-  };
-
-  const stopTypingIndicator = async () => {
-    if (!typingIndicatorSent) return;
-    try {
-      setTypingIndicatorSent(false);
-      const message = { message: { type: 'typing_off' }, channel };
-      pubnub.signal(message);
-    } catch (e) {
-      onError(e);
-    }
-  };
-
-  /*
-  /* Event handlers
-  */
-
-  const handleEmojiInsertion = (emoji: { native: string }) => {
-    try {
-      if (!('native' in emoji)) return;
-      setText(text + emoji.native);
-      setEmojiPickerShown(false);
-    } catch (e) {
-      onError(e);
-    }
-  };
-
-  const handleClosePicker = (event: MouseEvent) => {
-    try {
-      setEmojiPickerShown((pickerShown) => {
-        if (!pickerShown || pickerRef.current?.contains(event.target as Node)) return pickerShown;
-        return false;
-      });
-    } catch (e) {
-      onError(e);
-    }
-  };
-
-  const handleKeyPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    try {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
+      if (typeof text === 'string') {
+        const message = {
+          type: 'text',
+          text,
+          ...(props.senderInfo && { sender: users.find((u) => u.id === pubnub.getUUID()) }),
+        };
+        await pubnub.publish({ channel, message });
       }
     } catch (e) {
       onError(e);
     }
   };
 
-  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    try {
-      const textArea = event.target as HTMLTextAreaElement;
-      const newText = textArea.value;
+  const sendImage = async (files: FileList | null) => {
+    const file = files?.[0];
+    if (file) {
+      console.log('FFF', file);
 
-      if (props.typingIndicator && newText.length) startTypingIndicator();
-      if (props.typingIndicator && !newText.length) stopTypingIndicator();
-
-      props.onChange && props.onChange(newText);
-      autoSize();
-      setText(newText);
-    } catch (e) {
-      onError(e);
+      await pubnub.sendFile({
+        channel,
+        file,
+        message: {
+          test: 'message',
+          value: 42,
+        },
+      });
     }
-  };
-
-  /*
-  /* Lifecycle
-  */
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClosePicker);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClosePicker);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (React.isValidElement(props.emojiPicker)) {
-      setPicker(React.cloneElement(props.emojiPicker, { onSelect: handleEmojiInsertion }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.emojiPicker]);
-
-  useEffect(() => {
-    let timer: any = null;
-
-    if (typingIndicatorSent) {
-      timer = setTimeout(() => {
-        setTypingIndicatorSent(false);
-      }, (typingIndicatorTimeout - 1) * 1000);
-    }
-
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typingIndicatorSent]);
-
-  /*
-  /* Renderers
-  */
-
-  const renderEmojiPicker = () => {
-    return (
-      <>
-        <div className="pn-msg-input__icon" onClick={() => setEmojiPickerShown(true)}>
-          ☺
-        </div>
-
-        {emojiPickerShown && (
-          <div className="pn-msg-input__emoji-picker" ref={pickerRef}>
-            {picker}
-          </div>
-        )}
-      </>
-    );
   };
 
   return (
-    <div className={`pn-msg-input pn-msg-input--${theme}`}>
-      <div className="pn-msg-input__wrapper" style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="pn-msg-input__spacer" style={{ flex: 1 }}>
-          <textarea
-            className="pn-msg-input__textarea"
-            placeholder={props.placeholder}
-            rows={1}
-            value={text}
-            onChange={(e) => handleInputChange(e)}
-            onKeyPress={(e) => handleKeyPress(e)}
-            ref={inputRef}
-          />
-        </div>
-
-        {props.emojiPicker && renderEmojiPicker()}
-
-        {!props.hideSendButton && (
-          <Button
-            size="small"
-            style={{ marginRight: 4 }}
-            variant="contained"
-            color="primary"
-            onClick={() => sendMessage()}
-          >
-            <FormattedMessage id="chat.send" />
-          </Button>
-        )}
-      </div>
-    </div>
+    <Box
+      display="flex"
+      alignItems="center"
+      component="form"
+      onSubmit={handleSubmit((value) => {
+        sendMessage(value.text);
+        reset({ text: '' });
+        inputRef.current?.focus();
+      })}
+    >
+      <IconButton component="label">
+        <ImageIcon color="primary" />
+        <input
+          accept="image/*"
+          hidden
+          type="file"
+          onChange={(e) => {
+            sendImage(e.target.files);
+          }}
+        />
+      </IconButton>
+      <Controller
+        name={'text'}
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange, value, ref } }) => {
+          return (
+            <TextInput
+              placeholder={intl.formatMessage({ id: 'chat.sendPlaceholder' })}
+              fullWidth
+              value={value}
+              onChange={onChange}
+              multiline={true}
+              rowsMax={5}
+              variant="outlined"
+              inputRef={inputRef}
+            />
+          );
+        }}
+      />
+      <IconButton type="submit">
+        <SendRoundedIcon color="primary" />
+      </IconButton>
+    </Box>
   );
 };
 
 MessageInput.defaultProps = {
-  hideSendButton: false,
-  placeholder: 'Type Message',
-  sendButton: 'Send',
   senderInfo: false,
-  typingIndicator: false,
 };
