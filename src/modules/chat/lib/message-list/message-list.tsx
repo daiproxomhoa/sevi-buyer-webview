@@ -15,6 +15,8 @@ import {
 } from '../state-atoms';
 import './message-list.scss';
 import { CircularProgress } from '@material-ui/core';
+import ImageMsg from '../../components/ImageMsg';
+import TextMsg from '../../components/TextMsg';
 
 export interface MessageRendererProps {
   isOwn: boolean;
@@ -61,8 +63,6 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
   const [paginationEnd] = useAtom(CurrentChannelPaginationAtom);
   const retry = retryObj.function;
   const onError = onErrorObj.function;
-  console.log('messages', messages);
-
   const [scrolledBottom, setScrolledBottom] = useState(true);
   const [prevMessages, setPrevMessages] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState(0);
@@ -348,8 +348,9 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
 
   const renderMessage = (message: Message) => {
     const uuid = message.uuid || message.publisher || '';
-    const user = message.message.sender || getUser(uuid);
+    const user = message.message?.sender || getUser(uuid);
     const time = getTime(message.timetoken as number);
+    const messageType = message.messageType;
     const isOwn = isOwnMessage(uuid);
     const attachments = message.message?.attachments || [];
 
@@ -365,13 +366,13 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
         <div className="pn-msg__main">
           <div className="pn-msg__content">
             <div className="pn-msg__title">
-              <span className="pn-msg__author">{user?.name || uuid}</span>
+              {!isOwn && <span className="pn-msg__author">{user?.name || uuid}</span>}
               <span className="pn-msg__time">{time}</span>
             </div>
             {props.bubbleRenderer && (props.filter ? props.filter(message) : true) ? (
               props.bubbleRenderer({ message, user, time, isOwn })
             ) : (
-              <div className="pn-msg__bubble">{message.message.text}</div>
+              <>{messageType === 4 ? <ImageMsg data={message} /> : <TextMsg data={message} isOwn={isOwn} />}</>
             )}
           </div>
           <div className="pn-msg__extras">

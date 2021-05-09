@@ -24,6 +24,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import moment from 'moment';
 import { DATE_FORMAT, FE_DATE_TIME_FORMAT } from '../../../models/moment';
 import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
+import { goBack } from 'connected-react-router';
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -63,15 +64,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 interface Props {
-  action?: () => void;
   request: some;
 }
 
 const ChatHeader = (props: Props) => {
-  const { action, request } = props;
+  const { request } = props;
   const { seller } = request;
-  console.log('seller', seller);
-
   const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<any>(null);
@@ -82,7 +80,6 @@ const ChatHeader = (props: Props) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  console.log('seller', request);
   const status = getStatus(request);
   return (
     <>
@@ -110,7 +107,7 @@ const ChatHeader = (props: Props) => {
             <IconDotList style={{ height: 14 }} />
           </IconButton>
         }
-        action={action}
+        action={() => dispatch(goBack())}
         appBarProps={{ className: classes.header, elevation: 1 }}
       />
       {request.accept && (

@@ -13,7 +13,7 @@ export interface Message {
     text: string;
     sender?: UUIDMetadataObject<ObjectCustom>;
     attachments?: Array<ImageAttachment | LinkAttachment>;
-    [key: string]: unknown;
+    [key: string]: any;
   };
   timetoken: string | number;
   publisher?: string;
@@ -21,6 +21,7 @@ export interface Message {
   meta?: {
     [key: string]: unknown;
   };
+  messageType?: number;
   actions?: {
     [type: string]: {
       [value: string]: Array<{

@@ -1,35 +1,13 @@
-import { Box, IconButton, TextField, Theme } from '@material-ui/core';
+import { Box, IconButton } from '@material-ui/core';
 import ImageIcon from '@material-ui/icons/Image';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
-import { withStyles } from '@material-ui/styles';
 import { useAtom } from 'jotai';
-import { useSnackbar } from 'notistack';
 import { usePubNub } from 'pubnub-react';
 import React, { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { API_PATHS } from '../../../../configs/api';
-import { BACKGROUND } from '../../../../configs/colors';
-import { SUCCESS_CODE } from '../../../../constants';
-import { AppState } from '../../../../redux/reducer';
-import { snackbarSetting } from '../../../common/component/elements';
-import { fetchThunk } from '../../../common/redux/thunk';
+import { TextInput } from '../../components/element';
 import { CurrentChannelAtom, ErrorFunctionAtom, UsersMetaAtom } from '../state-atoms';
-
-const TextInput = withStyles((theme: Theme) => ({
-  root: {
-    position: 'relative',
-    '& .MuiOutlinedInput-root': {
-      padding: '12px 16px',
-      backgroundColor: BACKGROUND,
-      fontSize: theme.typography.body2.fontSize,
-      borderRadius: 18,
-    },
-  },
-}))(TextField);
 
 export interface MessageInputProps {
   /** Set a draft message to display in the text window. */
@@ -39,23 +17,13 @@ export interface MessageInputProps {
 export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) => {
   const pubnub = usePubNub();
   const intl = useIntl();
-  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [users] = useAtom(UsersMetaAtom);
   const [channel] = useAtom(CurrentChannelAtom);
   const [onErrorObj] = useAtom(ErrorFunctionAtom);
   const onError = onErrorObj.function;
   const inputRef = useRef<any>();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-    watch,
-    setValue,
-  } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     mode: 'onSubmit',
   });
 
@@ -85,17 +53,14 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
 
   const sendImage = async (files: FileList | null) => {
     const file = files?.[0];
-    if (file) {
-      console.log('FFF', file);
 
+    if (file) {
       await pubnub.sendFile({
         channel,
         file,
-        message: {
-          test: 'message',
-          value: 42,
-        },
       });
+    } else {
+      window.alert('dmdmdm');
     }
   };
 

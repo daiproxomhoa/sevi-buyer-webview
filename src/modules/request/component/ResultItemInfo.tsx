@@ -50,7 +50,7 @@ const ResultItemInfo = (props: Props) => {
           </Typography>
         ) : (
           <RawLink
-            to={{ pathname: ROUTES.chat, state: info }}
+            to={{ pathname: ROUTES.chat, state: { requestData: info } }}
             onClick={(e) => {
               e.stopPropagation();
             }}

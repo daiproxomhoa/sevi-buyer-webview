@@ -1,31 +1,24 @@
-import styled from '@emotion/styled';
-import { Box } from '@material-ui/core';
 import PubNub from 'pubnub';
 import { PubNubProvider } from 'pubnub-react';
 import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router';
+import { Redirect, useLocation } from 'react-router';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import useSWR from 'swr';
 import { API_PATHS } from '../../../configs/api';
+import { ROUTES } from '../../../configs/routes';
 import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
+import ChatHeader from '../components/ChatHeader';
+import { AnchorDiv } from '../components/element';
+import SkeletonPage from '../components/SkeletonPage';
 import { Chat } from '../lib/chat';
 import { MessageInput } from '../lib/message-input/message-input';
 import { MessageList } from '../lib/message-list/message-list';
-import ChatHeader from '../components/ChatHeader';
-import { goBack } from 'connected-react-router';
 import { TypingIndicator } from '../lib/typing-indicator/typing-indicator';
-
-const AnchorDiv = styled.div`
-  top: 0;
-  position: sticky;
-  position: -webkit-sticky;
-  z-index: 100;
-`;
 
 function usePubNubClient(
   dispatch: ThunkDispatch<AppState, null, AnyAction>,
@@ -71,63 +64,70 @@ interface IChatPageProps {}
 
 const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
   const location = useLocation();
-  const request = location.state as some;
+  const state = location.state as some;
+  const { requestData } = state;
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
 
   const { pubNubClient, channelName } = usePubNubClient(
     dispatch,
-    request?.buyerId,
-    request?.sellerId,
-    request?.createDate,
+    requestData?.buyerId,
+    requestData?.sellerId,
+    requestData?.createDate,
   );
-  const seller = request?.seller;
+  const seller = requestData?.seller;
 
   const intl = useIntl();
 
-  if (!pubNubClient || !channelName || !seller) {
+  React.useEffect(() => {
+    if (!requestData) {
+      // dispatch(push(ROUTES.request));
+    }
+  }, [dispatch, requestData]);
+
+  if (!requestData) {
+    return <Redirect to={ROUTES.request} />;
+  }
+  if (!pubNubClient || !channelName) {
     // render loading spinner
-    return <></>;
+    return <SkeletonPage request={requestData} />;
   }
 
   return (
-    <PubNubProvider client={pubNubClient}>
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <Chat
-          retryOptions={{ maxRetries: 10, exponentialFactor: 1.2, timeout: 10000 }}
-          theme="support"
-          channels={[channelName]}
-          currentChannel={channelName}
-          users={[
-            { name: intl.formatMessage({ id: 'chat.me' }), id: request.buyerId, eTag: '', updated: '' },
-            {
-              name: seller.givenName,
-              id: seller.id,
-              eTag: '',
-              updated: '',
-              profileUrl: API_PATHS.renderSellerAvatar(seller.id, seller.avatar),
-            },
-          ]}
-        >
-          <AnchorDiv>
-            <ChatHeader
-              request={request}
-              action={() => {
-                dispatch(goBack());
-              }}
-            />
-          </AnchorDiv>
-          <div style={{ flex: 1 }}>
-            <MessageList welcomeMessages={false} fetchMessages={25} />
-          </div>
-          <TypingIndicator />
-          <AnchorDiv
-            style={{ bottom: 0, paddingBottom: 4, paddingTop: 4, justifyContent: 'flex-end', background: 'white' }}
+    <>
+      <PubNubProvider client={pubNubClient}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Chat
+            retryOptions={{ maxRetries: 10, exponentialFactor: 1.2, timeout: 10000 }}
+            theme="support"
+            channels={[channelName]}
+            currentChannel={channelName}
+            users={[
+              { name: intl.formatMessage({ id: 'chat.me' }), id: requestData.buyerId, eTag: '', updated: '' },
+              {
+                name: seller.givenName,
+                id: seller.id,
+                eTag: '',
+                updated: '',
+                profileUrl: API_PATHS.renderSellerAvatar(seller.id, seller.avatar),
+              },
+            ]}
           >
-            <MessageInput />
-          </AnchorDiv>
-        </Chat>
-      </div>
-    </PubNubProvider>
+            <AnchorDiv>
+              <ChatHeader request={requestData} />
+            </AnchorDiv>
+            <div style={{ flex: 1 }}>
+              <MessageList welcomeMessages={false} fetchMessages={25} />
+            </div>
+            <TypingIndicator />
+            <AnchorDiv
+              style={{ bottom: 0, paddingBottom: 4, paddingTop: 4, justifyContent: 'flex-end', background: 'white' }}
+            >
+              <MessageInput />
+            </AnchorDiv>
+          </Chat>
+        </div>
+      </PubNubProvider>
+    </>
   );
 };
 
