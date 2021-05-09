@@ -70,7 +70,6 @@ interface Props {
 const ChatHeader = (props: Props) => {
   const { action, request } = props;
   const { seller } = request;
-  console.log('seller', seller);
 
   const classes = useStyles();
   const dispatch = useDispatch();
