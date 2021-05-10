@@ -9,22 +9,20 @@ import {
   Popover,
   Typography,
 } from '@material-ui/core';
-import { green, yellow } from '@material-ui/core/colors';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
+import { goBack } from 'connected-react-router';
+import moment from 'moment';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { API_PATHS } from '../../../configs/api';
 import { GREEN, GREY_300 } from '../../../configs/colors';
+import { FE_DATE_TIME_FORMAT } from '../../../models/moment';
 import { ReactComponent as IconDotList } from '../../../svg/ic_dot_list.svg';
 import Header from '../../common/component/Header';
 import { some } from '../../common/constants';
-import { getFullName } from '../../rating/utils';
 import { getStatus } from '../utils';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import moment from 'moment';
-import { DATE_FORMAT, FE_DATE_TIME_FORMAT } from '../../../models/moment';
-import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
-import { goBack } from 'connected-react-router';
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -69,7 +67,6 @@ interface Props {
 
 const ChatHeader = (props: Props) => {
   const { request } = props;
-  const { seller } = request;
   const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<any>(null);
@@ -86,9 +83,12 @@ const ChatHeader = (props: Props) => {
       <Header
         title={
           <Box display="flex">
-            <Avatar src={API_PATHS.renderSellerAvatar(seller?.id, seller?.avatar)} style={{ marginRight: 12 }} />
+            <Avatar
+              src={API_PATHS.renderSellerAvatar(request.sellerId, request.sellerAvatar)}
+              style={{ marginRight: 12 }}
+            />
             <Box display="flex" flexDirection="column">
-              {getFullName(seller)}
+              {decodeURIComponent(request.sellerName)}
               <Box display="flex" alignItems="center">
                 <Box className={classes.dot} style={{ background: status.color }} />
                 <Typography variant="caption">

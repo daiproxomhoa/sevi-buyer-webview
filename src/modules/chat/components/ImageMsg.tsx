@@ -1,5 +1,4 @@
-import { Backdrop, Box, Dialog, IconButton, makeStyles } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+import { Box, Dialog, IconButton, makeStyles } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 import { usePubNub } from 'pubnub-react';
 import React, { useState } from 'react';

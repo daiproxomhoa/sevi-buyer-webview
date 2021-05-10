@@ -19,7 +19,6 @@ interface Props {
 const SearchResultBox = (props: Props) => {
   const { loading, disableLoadMore, filter, data, onSelectSeller, loadMore } = props;
 
-  console.log(data);
   return (
     <>
       <Box display="flex" margin="12px 24px 10px" alignItems="center">

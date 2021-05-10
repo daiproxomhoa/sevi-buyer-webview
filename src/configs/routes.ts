@@ -17,7 +17,13 @@ export const ROUTES = {
   searchDetail: '/searchDetail',
   sendRequest: '/sendRequest',
   requestDetail: '/requestDetail',
-  chat: '/chat',
+  chat: {
+    gen: (buyerId: string, sellerId: string, createDate: string, sellerAvatar: number | string, sellerName: string) =>
+      `/chat/${buyerId}/${sellerId}/${encodeURIComponent(createDate)}/${sellerAvatar}/${encodeURIComponent(
+        sellerName,
+      )}`,
+    value: '/chat/:buyerId/:sellerId/:createDate/:sellerAvatar/:sellerName',
+  },
   test: {
     value: '/test/:id/:slug',
     gen: (id: string, slug: string) => `/test/${id}/${slug}`,
