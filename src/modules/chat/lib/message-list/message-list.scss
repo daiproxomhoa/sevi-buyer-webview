@@ -188,7 +188,7 @@
   &__title {
     align-items: var(--msg__title__alignItems);
     display: var(--msg__title__display);
-    margin: var(--msg__title__margin);
+    // margin: var(--msg__title__margin);
   }
 
   &__bubble {
@@ -202,6 +202,7 @@
     margin: var(--msg__bubble__margin);
     padding: var(--msg__bubble__padding);
     word-break: break-all;
+    white-space: break-spaces;  
   }
 
   &__author {

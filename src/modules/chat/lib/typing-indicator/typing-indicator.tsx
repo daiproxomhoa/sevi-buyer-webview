@@ -1,14 +1,15 @@
-import React, { FC, useState, useEffect, useCallback, useRef } from 'react';
 import { useAtom } from 'jotai';
+import isEqual from 'lodash.isequal';
+import { usePubNub } from 'pubnub-react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import {
   CurrentChannelTypingIndicatorAtom,
   ThemeAtom,
   TypingIndicatorTimeoutAtom,
   UsersMetaAtom,
 } from '../state-atoms';
-import isEqual from 'lodash.isequal';
 import './typing-indicator.scss';
-import { useIntl } from 'react-intl';
 
 export interface TypingIndicatorProps {
   /** Put a TypingIndicator with this option enabled inside of a MessageList component to render indicators as Messages. */
@@ -20,6 +21,7 @@ export interface TypingIndicatorProps {
  * a Message that can be renderer inside of the MessageList.
  */
 export const TypingIndicator: FC<TypingIndicatorProps> = (props: TypingIndicatorProps) => {
+  const pubnub = usePubNub();
   const [theme] = useAtom(ThemeAtom);
   const [users] = useAtom(UsersMetaAtom);
   const [typingIndicators] = useAtom(CurrentChannelTypingIndicatorAtom);
@@ -28,6 +30,10 @@ export const TypingIndicator: FC<TypingIndicatorProps> = (props: TypingIndicator
   const typingIndicatorsRef = useRef(typingIndicators);
 
   const intl = useIntl();
+
+  const isOwnMessage = (uuid: string) => {
+    return pubnub.getUUID() === uuid;
+  };
 
   if (!isEqual(typingIndicatorsRef.current, typingIndicators)) {
     typingIndicatorsRef.current = typingIndicators;
@@ -46,7 +52,8 @@ export const TypingIndicator: FC<TypingIndicatorProps> = (props: TypingIndicator
     if (activeUUIDs.length > 1) indicateStr = 'Multiple users are typing...';
     if (activeUUIDs.length === 1) {
       const user = users.find((u) => u.id === activeUUIDs[0]);
-      indicateStr = `${user?.name || 'Unknown User'} ${intl.formatMessage({ id: 'chat.isTyping' })}...`;
+      const isOwn = isOwnMessage(activeUUIDs[0]);
+      indicateStr = isOwn ? '' : `${user?.name || 'Unknown User'} ${intl.formatMessage({ id: 'chat.isTyping' })}...`;
     }
     return indicateStr;
   };

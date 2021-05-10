@@ -11,7 +11,31 @@ import { AnchorDiv, TextInput } from './element';
 interface Props {
   request: some;
 }
-
+export const ListSkeleton = () => {
+  return (
+    <div style={{ flex: 1, padding: 12 }} key={'listSkeleton'}>
+      {Array(10)
+        .fill(0)
+        .map((val: number, index) => {
+          return (
+            <Box
+              key={index}
+              style={{
+                padding: '6px 16px',
+                display: 'flex',
+                flexDirection: index % 2 === 0 || index % 3 === 0 ? 'row' : 'row-reverse',
+              }}
+            >
+              <Skeleton
+                style={{ height: 36, borderRadius: 18, transform: 'unset' }}
+                width={`${index % 3 === 1 ? 60 : index % 3 === 0 ? 50 : index % 2 === 0 ? 30 : 40}%`}
+              />
+            </Box>
+          );
+        })}
+    </div>
+  );
+};
 const SkeletonPage = (props: Props) => {
   const { request } = props;
   const intl = useIntl();
@@ -20,26 +44,7 @@ const SkeletonPage = (props: Props) => {
       <AnchorDiv>
         <ChatHeader request={request} />
       </AnchorDiv>
-      <div style={{ flex: 1, padding: 12 }}>
-        {Array(10)
-          .fill(0)
-          .map((val: number, index) => {
-            return (
-              <Box
-                style={{
-                  padding: '6px 16px',
-                  display: 'flex',
-                  flexDirection: index % 2 === 0 || index % 3 === 0 ? 'row' : 'row-reverse',
-                }}
-              >
-                <Skeleton
-                  style={{ height: 36, borderRadius: 10, transform: 'unset' }}
-                  width={`${30 + Math.random() * 50}%`}
-                />
-              </Box>
-            );
-          })}
-      </div>
+      <ListSkeleton />
       <AnchorDiv
         style={{ bottom: 0, paddingBottom: 4, paddingTop: 4, justifyContent: 'flex-end', background: 'white' }}
       >

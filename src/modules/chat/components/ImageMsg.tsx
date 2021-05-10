@@ -4,6 +4,7 @@ import Close from '@material-ui/icons/Close';
 import { usePubNub } from 'pubnub-react';
 import React, { useState } from 'react';
 import { BLACK } from '../../../configs/colors';
+import ProgressiveImage from '../../common/component/ProgressiveImage';
 import { Message } from '../lib/types';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +51,7 @@ const ImageMsg = (props: Props) => {
   return (
     <>
       <Box className={classes.frame} onClick={() => setOpen(true)}>
-        <img alt="image_chat" src={url} className={classes.image} />
+        <ProgressiveImage alt="image_chat" src={url} className={classes.image} />
       </Box>
       <Dialog
         open={open}
@@ -62,7 +63,7 @@ const ImageMsg = (props: Props) => {
         <IconButton onClick={() => setOpen(false)} className={classes.closeBtn}>
           <Close style={{ color: 'white' }} />
         </IconButton>
-        <img alt="image_chat" src={url} className={classes.imageDialog} />
+        <ProgressiveImage alt="image_chat" src={url} className={classes.imageDialog} />
       </Dialog>
     </>
   );

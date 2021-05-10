@@ -122,7 +122,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
             <AnchorDiv
               style={{ bottom: 0, paddingBottom: 4, paddingTop: 4, justifyContent: 'flex-end', background: 'white' }}
             >
-              <MessageInput />
+              <MessageInput typingIndicator />
             </AnchorDiv>
           </Chat>
         </div>

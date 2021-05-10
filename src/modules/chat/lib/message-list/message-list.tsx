@@ -1,22 +1,22 @@
-import React, { FC, UIEvent, useRef, useState, useEffect, useCallback, ReactNode, ReactElement } from 'react';
-import { FetchMessagesResponse, UUIDMetadataObject, ObjectCustom } from 'pubnub';
-import { usePubNub } from 'pubnub-react';
+import { CircularProgress } from '@material-ui/core';
 import { useAtom } from 'jotai';
 import { useAtomCallback } from 'jotai/utils';
-import { Message, ImageAttachment, LinkAttachment, EmojiPickerElementProps } from '../types';
+import { FetchMessagesResponse, ObjectCustom, UUIDMetadataObject } from 'pubnub';
+import { usePubNub } from 'pubnub-react';
+import React, { FC, ReactElement, ReactNode, UIEvent, useCallback, useEffect, useRef, useState } from 'react';
+import ImageMsg from '../../components/ImageMsg';
+import TextMsg from '../../components/TextMsg';
 import {
   CurrentChannelAtom,
   CurrentChannelMessagesAtom,
   CurrentChannelPaginationAtom,
-  UsersMetaAtom,
-  ThemeAtom,
-  RetryFunctionAtom,
   ErrorFunctionAtom,
+  RetryFunctionAtom,
+  ThemeAtom,
+  UsersMetaAtom,
 } from '../state-atoms';
+import { EmojiPickerElementProps, ImageAttachment, LinkAttachment, Message } from '../types';
 import './message-list.scss';
-import { CircularProgress } from '@material-ui/core';
-import ImageMsg from '../../components/ImageMsg';
-import TextMsg from '../../components/TextMsg';
 
 export interface MessageRendererProps {
   isOwn: boolean;
