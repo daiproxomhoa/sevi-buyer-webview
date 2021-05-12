@@ -90,7 +90,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           users={[
             { name: intl.formatMessage({ id: 'chat.me' }), id: requestData.buyerId, eTag: '', updated: '' },
             {
-              name: decodeURIComponent(requestData.givenName),
+              name: decodeURIComponent(requestData.sellerName),
               id: requestData.sellerId,
               eTag: '',
               updated: '',
