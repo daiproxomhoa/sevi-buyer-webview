@@ -19,7 +19,12 @@ export function fetchThunk(
         res = await fetch(url, {
           credentials: 'include',
           method,
-          body: typeof body === 'object' ? JSON.stringify(body) : body,
+          body:
+            typeof body === 'object'
+              ? contentType === 'multipart/form-data'
+                ? (body as FormData)
+                : JSON.stringify(body)
+              : body,
           headers:
             contentType !== 'multipart/form-data'
               ? {
