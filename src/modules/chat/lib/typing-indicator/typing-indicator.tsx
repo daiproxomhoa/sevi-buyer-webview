@@ -3,6 +3,7 @@ import isEqual from 'lodash.isequal';
 import { usePubNub } from 'pubnub-react';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import ProgressiveImage from '../../../common/component/ProgressiveImage';
 import {
   CurrentChannelTypingIndicatorAtom,
   ThemeAtom,
@@ -70,7 +71,7 @@ export const TypingIndicator: FC<TypingIndicatorProps> = (props: TypingIndicator
     return (
       <div className="pn-msg" key={uuid}>
         <div className="pn-msg__avatar">
-          {user?.profileUrl && <img src={user.profileUrl} alt="User avatar" />}
+          {user?.profileUrl && <ProgressiveImage src={user.profileUrl} alt="User avatar" />}
           {!user?.profileUrl && <div className="pn-msg__avatar-placeholder" />}
         </div>
 

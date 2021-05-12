@@ -94,7 +94,9 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
               id: requestData.sellerId,
               eTag: '',
               updated: '',
-              profileUrl: API_PATHS.renderSellerAvatar(requestData.sellerId, requestData.sellerAvatar),
+              profileUrl: requestData.sellerAvatar
+                ? API_PATHS.renderSellerAvatar(requestData.sellerId, requestData.sellerAvatar)
+                : undefined,
             },
           ]}
         >

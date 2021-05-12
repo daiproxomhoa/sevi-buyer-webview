@@ -4,6 +4,7 @@ import { useAtomCallback } from 'jotai/utils';
 import { FetchMessagesResponse, ObjectCustom, UUIDMetadataObject } from 'pubnub';
 import { usePubNub } from 'pubnub-react';
 import React, { FC, ReactElement, ReactNode, UIEvent, useCallback, useEffect, useRef, useState } from 'react';
+import ProgressiveImage from '../../../common/component/ProgressiveImage';
 import ImageMsg from '../../components/ImageMsg';
 import TextMsg from '../../components/TextMsg';
 import {
@@ -360,7 +361,7 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
     return (
       <>
         <div className="pn-msg__avatar">
-          {user?.profileUrl && <img src={user.profileUrl} alt="User avatar " />}
+          {user?.profileUrl && <ProgressiveImage src={user.profileUrl} alt="User avatar " />}
           {!user?.profileUrl && <div className="pn-msg__avatar-placeholder" />}
         </div>
         <div className="pn-msg__main">
