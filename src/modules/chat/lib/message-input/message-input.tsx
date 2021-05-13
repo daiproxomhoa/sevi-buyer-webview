@@ -114,6 +114,9 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typingIndicatorSent]);
 
+  const [tickTock, setTickTock] = useState(false);
+  const [autoFocus, setAutoFocus] = useState(false);
+
   return (
     <Box
       display="flex"
@@ -122,7 +125,8 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
       onSubmit={handleSubmit((value) => {
         sendMessage(value.text);
         reset({ text: '' });
-        inputRef.current?.focus();
+        setAutoFocus(true);
+        setTickTock((old) => !old);
       })}
     >
       <IconButton component="label">
@@ -143,6 +147,8 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
         render={({ field: { onChange, value, ref } }) => {
           return (
             <TextInput
+              autoFocus={autoFocus}
+              key={`${tickTock}`}
               placeholder={intl.formatMessage({ id: 'chat.sendPlaceholder' })}
               fullWidth
               value={value}
