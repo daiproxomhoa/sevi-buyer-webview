@@ -44,6 +44,7 @@ export interface MessageListProps {
   filter?: (message: Message) => boolean;
   /** A callback run on list scroll */
   onScroll?: (event: UIEvent<HTMLElement>) => unknown;
+  endScreenRef?: React.RefObject<HTMLDivElement>;
 }
 
 /**
@@ -53,6 +54,7 @@ export interface MessageListProps {
  * messages with emojis and show those reactions immediately.
  */
 export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
+  const { endScreenRef } = props;
   const pubnub = usePubNub();
 
   const [channel] = useAtom(CurrentChannelAtom);
@@ -72,7 +74,8 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
   const [emojiPickerShown, setEmojiPickerShown] = useState(false);
   const [reactingToMessage, setReactingToMessage] = useState(null);
 
-  const endRef = useRef<HTMLDivElement>(null);
+  const endRefTemp = useRef<HTMLDivElement>(null);
+  const endRef = endScreenRef || endRefTemp;
   const listRef = useRef<HTMLDivElement>(null);
   const spinnerRef = useRef<HTMLDivElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
