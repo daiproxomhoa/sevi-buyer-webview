@@ -1,6 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -9,16 +10,14 @@ import { API_PATHS } from '../../../configs/api';
 import { ROUTES } from '../../../configs/routes';
 import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
-import { some } from '../../common/constants';
+import { ReactComponent as IconNodataRated } from '../../../svg/ic_nodata_rated.svg';
+import { ReactComponent as IconNodataUnrated } from '../../../svg/ic_nodata_unrated.svg';
 import { fetchThunk } from '../../common/redux/thunk';
 import RatingCardSkeleton from '../../rating/component/RatingCardSkeleton';
 import { setSessionStamp } from '../../search/redux/searchReducer';
+import { IRequest } from '../model';
 import ConfirmedRequestResultCard from './ConfirmedRequestResultCard';
 import LoadMoreRequest from './LoadMoreRequest';
-import { ReactComponent as IconNodataUnrated } from '../../../svg/ic_nodata_unrated.svg';
-import { ReactComponent as IconNodataRated } from '../../../svg/ic_nodata_rated.svg';
-import { FormattedMessage } from 'react-intl';
-import { IRequest } from '../model';
 
 interface Props {
   mode: 'rated' | 'unrated';
@@ -66,7 +65,7 @@ const ConfirmedRequestListBox = (props: Props) => {
               dispatch(
                 push({
                   pathname: ROUTES.sendRequest,
-                  search: `?id=${one?.sellerId}`,
+                  search: `?sellerId=${one?.sellerId}&avatar=${one.seller.avatar}&name=${one.seller.givenName}&requestAgain=true`,
                 }),
               );
             }}

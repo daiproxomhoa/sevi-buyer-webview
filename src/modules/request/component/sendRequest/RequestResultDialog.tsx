@@ -1,51 +1,36 @@
-import { Button, ButtonBase, Dialog, Typography } from "@material-ui/core";
-import React from "react";
-import { FormattedMessage, FormattedNumber } from "react-intl";
-import { ICreateRequestResult } from "../../model";
-import { ReactComponent as IconSuccess } from "../../../../svg/icon-request-success.svg";
-import { ReactComponent as IconError } from "../../../../svg/icon-request-error.svg";
+import { Button, ButtonBase, Dialog, Typography } from '@material-ui/core';
+import React from 'react';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { ICreateRequestResult } from '../../model';
+import { ReactComponent as IconSuccess } from '../../../../svg/icon-request-success.svg';
+import { ReactComponent as IconError } from '../../../../svg/icon-request-error.svg';
 
 interface Props {
   open: boolean;
   onClose(): void;
   result?: ICreateRequestResult;
+  onSendMessage(): void;
   backToSearch(): void;
 }
 
 const RequestResultDialog = (props: Props) => {
-  const { result, open, onClose, backToSearch } = props;
+  const { result, open, onClose, onSendMessage, backToSearch } = props;
 
   if (!result) {
     return <></>;
   }
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      PaperProps={{ style: { padding: "24px", alignItems: "center" } }}
-    >
-      <Typography
-        variant="subtitle1"
-        color={result.result === "success" ? "textPrimary" : "error"}
-      >
-        <FormattedMessage
-          id={result.result === "success" ? "request.success" : "request.error"}
-        />
+    <Dialog open={open} onClose={onClose} PaperProps={{ style: { padding: '24px', alignItems: 'center' } }}>
+      <Typography variant="subtitle1" color={result.result === 'success' ? 'textPrimary' : 'error'}>
+        <FormattedMessage id={result.result === 'success' ? 'request.success' : 'request.error'} />
       </Typography>
 
-      <Typography
-        variant="body2"
-        style={{ paddingTop: "36px", textAlign: "center" }}
-      >
+      <Typography variant="body2" style={{ paddingTop: '36px', textAlign: 'center' }}>
         <FormattedMessage id={`request.response.${result.result}`} />
       </Typography>
 
-      <Typography
-        variant="body2"
-        style={{ padding: "12px 0" }}
-        color="textSecondary"
-      >
+      <Typography variant="body2" style={{ padding: '12px 0' }} color="textSecondary">
         <FormattedMessage
           id="request.remaining"
           values={{
@@ -58,11 +43,12 @@ const RequestResultDialog = (props: Props) => {
         />
       </Typography>
 
-      {result.result === "success" ? (
+      {result.result === 'success' ? (
         <>
           <IconSuccess />
           <Button
-            style={{ margin: "24px 0px 16px", minWidth: "200px" }}
+            onClick={onSendMessage}
+            style={{ margin: '24px 0px 16px', minWidth: '200px' }}
             variant="contained"
             color="primary"
             size="large"
@@ -80,7 +66,7 @@ const RequestResultDialog = (props: Props) => {
         <>
           <IconError />
           <Button
-            style={{ margin: "24px 0px 16px", minWidth: "200px" }}
+            style={{ margin: '24px 0px 16px', minWidth: '200px' }}
             variant="contained"
             color="primary"
             size="large"

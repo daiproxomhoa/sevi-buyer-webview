@@ -1,16 +1,16 @@
-import { goBack, push } from "connected-react-router";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { ROUTES } from "../../../configs/routes";
-import { SUCCESS_CODE } from "../../../constants";
-import { AppState } from "../../../redux/reducer";
-import { PageWrapper } from "../../common/component/elements";
-import SellerDetailBox from "../component/detail/SellerDetailBox";
-import { ISeller, ISellerRating } from "../model";
-import { fetchSellerDetail, fetchSellerRating } from "../redux/searchReducer";
+import { goBack, push } from 'connected-react-router';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ROUTES } from '../../../configs/routes';
+import { SUCCESS_CODE } from '../../../constants';
+import { AppState } from '../../../redux/reducer';
+import { PageWrapper } from '../../common/component/elements';
+import SellerDetailBox from '../component/detail/SellerDetailBox';
+import { ISeller, ISellerRating } from '../model';
+import { fetchSellerDetail, fetchSellerRating } from '../redux/searchReducer';
 
 interface Props {}
 
@@ -25,7 +25,7 @@ const SearchDetailPage = (props: Props) => {
   const fetchData = React.useCallback(async () => {
     const params = new URLSearchParams(location.search);
 
-    const sellerId = params.get("id");
+    const sellerId = params.get('id');
 
     if (!sellerId) {
       return;
@@ -66,8 +66,8 @@ const SearchDetailPage = (props: Props) => {
           dispatch(
             push({
               pathname: ROUTES.sendRequest,
-              search: `?id=${sellerDetail?.id}`,
-            })
+              search: `?sellerId=${sellerDetail?.id}&avatar=${sellerDetail?.avatar}&name=${sellerDetail?.givenName}`,
+            }),
           )
         }
       />

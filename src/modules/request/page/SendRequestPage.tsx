@@ -1,4 +1,4 @@
-import { go, goBack } from 'connected-react-router';
+import { go, goBack, push } from 'connected-react-router';
 import moment from 'moment';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -6,6 +6,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { ROUTES } from '../../../configs/routes';
 import { SUCCESS_CODE } from '../../../constants';
 import { DATE_FORMAT, TIME_FORMAT } from '../../../models/moment';
 import { AppState } from '../../../redux/reducer';
@@ -40,7 +41,7 @@ const SendRequestPage = (props: Props) => {
     async (values: ICreateRequestForm) => {
       const searchParams = new URLSearchParams(location.search);
 
-      const sellerId = searchParams.get('id');
+      const sellerId = searchParams.get('sellerId');
 
       if (!sellerId) {
         return;
@@ -69,6 +70,22 @@ const SendRequestPage = (props: Props) => {
     [dispatch, location.search, sessionStamp],
   );
 
+  const onSendMessage = React.useCallback(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    const sellerId = searchParams.get('sellerId');
+    const avatar = searchParams.get('avatar');
+    const name = searchParams.get('name');
+
+    if (!sellerId || !avatar || !name || !result?.reqDate || !profile) {
+      return;
+    }
+
+    setOpenDialog(false);
+
+    dispatch(push(ROUTES.chat.gen(profile.id, sellerId, result.reqDate, avatar, name)));
+  }, [dispatch, location.search, profile, result?.reqDate]);
+
   return (
     <PageWrapper>
       <Header title={<FormattedMessage id="request.sendRequest" />} action={() => dispatch(goBack())} />
@@ -85,9 +102,15 @@ const SendRequestPage = (props: Props) => {
         open={openDialog}
         result={result}
         onClose={() => setOpenDialog(false)}
+        onSendMessage={onSendMessage}
         backToSearch={() => {
+          const searchParams = new URLSearchParams(location.search);
+
+          const requestAgain = searchParams.get('requestAgain');
+
           setOpenDialog(false);
-          dispatch(go(-2));
+
+          dispatch(go(requestAgain ? -1 : -2));
         }}
       />
     </PageWrapper>
