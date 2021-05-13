@@ -1,14 +1,16 @@
+import { push } from 'connected-react-router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { useSWRInfinite } from 'swr';
 import { API_PATHS } from '../../../../configs/api';
+import { ROUTES } from '../../../../configs/routes';
 import { SUCCESS_CODE } from '../../../../constants';
 import { AppState } from '../../../../redux/reducer';
 import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { fetchThunk } from '../../../common/redux/thunk';
-import { IAcceptRequest } from '../../model';
+import { IRequest } from '../../model';
 import { confirmRequest } from '../../redux/requestReducer';
 import AcceptedRequestBox from './AcceptedRequestBox';
 import ConfirmAcceptedRequestDialog from './ConfirmAcceptedRequestDialog';
@@ -21,7 +23,7 @@ const AcceptedRequestPage = (props: Props) => {
 
   const [showLoadMore, setShowLoadMore] = React.useState(false);
   const [showDialog, setShowDialog] = React.useState<boolean>(false);
-  const [requestDetail, setRequestDetail] = React.useState<IAcceptRequest>();
+  const [requestDetail, setRequestDetail] = React.useState<IRequest>();
 
   const { data, size, setSize, mutate, isValidating } = useSWRInfinite(
     (pageIndex) => [API_PATHS.getUnconfirmed, pageIndex, true],
@@ -71,6 +73,7 @@ const AcceptedRequestPage = (props: Props) => {
           setRequestDetail(value);
           setShowDialog(true);
         }}
+        onViewRequestDetail={(data) => dispatch(push(ROUTES.requestDetail, { detail: data }))}
       />
 
       <ConfirmAcceptedRequestDialog open={showDialog} onClose={() => setShowDialog(false)} onSubmit={onSubmit} />

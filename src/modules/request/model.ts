@@ -16,8 +16,6 @@ export interface IRequest {
   time: string;
 }
 
-export interface IAcceptRequest extends IRequest {}
-
 export interface ICreateRequestBody {
   sellerId: string;
   sessionStamp: number;

@@ -1,6 +1,11 @@
-export enum REQUEST_TAB_INDEX {
+export enum UNCONFIRMED_REQUEST_TAB_INDEX {
   REQUESTING = 0,
-  RECEIVED = 1,
+  ACCEPTED,
 }
 
 export const REQUEST_PAGE_SIZE = 10;
+
+export enum CONFIRMED_REQUEST_TAB_INDEX {
+  UN_RATED = 0,
+  RATED,
+}

@@ -4,13 +4,24 @@ import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
-import { IAcceptRequest, ICreateRequestBody, IRequest } from '../model';
+import { ICreateRequestBody, IRequest } from '../model';
+import { CONFIRMED_REQUEST_TAB_INDEX, UNCONFIRMED_REQUEST_TAB_INDEX } from './../constants';
 
 export interface RequestState {
   description: string;
+  confirmedRequestTabIndex: number;
+  unconfirmedRequestTabIndex: number;
 }
 
 export const setDescription = createAction('request/setDescription', (val: string) => ({
+  val,
+}))();
+
+export const setConfirmedRequestTabIndex = createAction('request/setConfirmedRequestTabIndex', (val: number) => ({
+  val,
+}))();
+
+export const setUnconfirmedRequestTabIndex = createAction('request/setUnconfirmedRequestTabIndex', (val: number) => ({
   val,
 }))();
 
@@ -41,7 +52,7 @@ export const fetchUnconfirmed = (
   };
 };
 
-export const confirmRequest = (info: IAcceptRequest): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
+export const confirmRequest = (info: IRequest): ThunkAction<Promise<some>, AppState, null, Action<string>> => {
   return async (dispatch, getState) => {
     return await dispatch(
       fetchThunk(API_PATHS.confirmRequest, 'post', {
@@ -65,12 +76,18 @@ export const cancelRequest = (info: IRequest): ThunkAction<Promise<some>, AppSta
 
 const actions = {
   setDescription,
+  setConfirmedRequestTabIndex,
+  setUnconfirmedRequestTabIndex,
 };
 
 type ActionT = ActionType<typeof actions>;
 
 export default function requestReducer(
-  state = { requestingData: [], acceptedData: [], description: '' },
+  state = {
+    confirmedRequestTabIndex: CONFIRMED_REQUEST_TAB_INDEX.UN_RATED,
+    unconfirmedRequestTabIndex: UNCONFIRMED_REQUEST_TAB_INDEX.REQUESTING,
+    description: '',
+  },
   action: ActionT,
 ): RequestState {
   switch (action.type) {
@@ -78,6 +95,16 @@ export default function requestReducer(
       return {
         ...state,
         description: action.payload.val,
+      };
+    case getType(setConfirmedRequestTabIndex):
+      return {
+        ...state,
+        confirmedRequestTabIndex: action.payload.val,
+      };
+    case getType(setUnconfirmedRequestTabIndex):
+      return {
+        ...state,
+        unconfirmedRequestTabIndex: action.payload.val,
       };
     default:
       return state;

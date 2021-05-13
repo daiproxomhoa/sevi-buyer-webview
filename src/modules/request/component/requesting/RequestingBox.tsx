@@ -1,10 +1,10 @@
-import { Box, Grow } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import React from 'react';
 import { some } from '../../../common/constants';
 import { IRequest } from '../../model';
 import LoadMoreRequest from '../LoadMoreRequest';
+import ResultItemInfo from '../ResultItemInfo';
 import ResultItemSkeleton from '../ResultItemSkeleton';
-import RequestResult from './RequestResult';
 
 interface Props {
   loading: boolean;
@@ -20,9 +20,12 @@ const RequestingBox = (props: Props) => {
     <Box flex={1} padding="0 24px 24px">
       {data?.map((page) =>
         page.requests?.map((one: IRequest) => (
-          <Grow in key={one.createDate}>
-            <RequestResult info={one} onViewRequestDetail={() => onViewRequestDetail(one)} />
-          </Grow>
+          <ResultItemInfo
+            key={one.createDate}
+            info={one}
+            onViewRequestDetail={() => onViewRequestDetail(one)}
+            onConfirm={() => {}}
+          />
         )),
       )}
 
