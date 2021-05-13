@@ -134,6 +134,7 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
   const scrollToBottom = () => {
     if (!endScreenRef?.current) return;
     endScreenRef?.current.scrollIntoView();
+    inputRef?.current.focus();
   };
 
   const showScrollBottomBtn = useCallback(() => {
@@ -172,8 +173,8 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
           sendMessage(value.text);
           reset({ text: '' });
           setAutoFocus(true);
-          setTickTock((old) => !old);
           scrollToBottom();
+          setTickTock((old) => !old);
         })}
       >
         <IconButton component="label">
