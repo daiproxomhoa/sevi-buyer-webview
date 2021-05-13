@@ -94,6 +94,8 @@
   "request.cancelRequestDes": ["Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?", ""],
   "request.confirmRequest": ["Xác nhận yêu cầu", ""],
   "request.confirmRequestDes": ["Bạn có chắc chắn xác nhận yêu cầu này không?", ""],
+  "request.unconfirmedNoDataRequesting": ["Chưa có công việc đang yêu cầu", ""],
+  "request.unconfirmedNoDataAccepted": ["Chưa có công việc được nhận", ""],
 
   "request.detail.time": ["Thời gian", ""],
   "request.detail.note": ["Ghi chú", ""],

@@ -12,13 +12,18 @@ import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { fetchThunk } from '../../../common/redux/thunk';
 import { IRequest } from '../../model';
 import { confirmRequest } from '../../redux/requestReducer';
-import AcceptedRequestBox from './AcceptedRequestBox';
+import UnconfirmedRequestBox from './UnconfirmedRequestBox';
 import ConfirmAcceptedRequestDialog from './ConfirmAcceptedRequestDialog';
 
-interface Props {}
+interface Props {
+  accept: boolean;
+}
+
 const PAGE_SIZE = 20;
 
-const AcceptedRequestPage = (props: Props) => {
+const UnconfirmedRequestTab = (props: Props) => {
+  const { accept } = props;
+
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   const [showLoadMore, setShowLoadMore] = React.useState(false);
@@ -26,7 +31,7 @@ const AcceptedRequestPage = (props: Props) => {
   const [requestDetail, setRequestDetail] = React.useState<IRequest>();
 
   const { data, size, setSize, mutate, isValidating } = useSWRInfinite(
-    (pageIndex) => [API_PATHS.getUnconfirmed, pageIndex, true],
+    (pageIndex) => [API_PATHS.getUnconfirmed, pageIndex, accept],
     async (url, pageIndex, accept) => {
       const res = await dispatch(fetchThunk(url, 'post', { offset: pageIndex * PAGE_SIZE, accept }));
       if (res.status !== SUCCESS_CODE) {
@@ -64,9 +69,11 @@ const AcceptedRequestPage = (props: Props) => {
 
   return (
     <React.Fragment>
-      <AcceptedRequestBox
-        loading={isValidating && size !== data?.length}
+      <UnconfirmedRequestBox
+        isValidating={isValidating}
+        size={size}
         data={data}
+        accept={accept}
         showLoadMore={showLoadMore}
         onLoadMore={() => setSize(size + 1)}
         onConfirm={(value) => {
@@ -81,4 +88,4 @@ const AcceptedRequestPage = (props: Props) => {
   );
 };
 
-export default AcceptedRequestPage;
+export default UnconfirmedRequestTab;

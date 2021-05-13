@@ -1,13 +1,18 @@
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { some } from '../../../common/constants';
 import { IRequest } from '../../model';
 import LoadMoreRequest from '../LoadMoreRequest';
 import ResultItemInfo from '../ResultItemInfo';
 import ResultItemSkeleton from '../ResultItemSkeleton';
+import { ReactComponent as IconNodataRequesting } from '../../../../svg/ic_nodata_requesting.svg';
+import { ReactComponent as IconNodataAccepted } from '../../../../svg/ic_nodata_accepted.svg';
 
 interface Props {
-  loading: boolean;
+  isValidating: boolean;
+  size: number;
+  accept: boolean;
   data?: some[];
   showLoadMore: boolean;
   onLoadMore(): void;
@@ -15,8 +20,8 @@ interface Props {
   onViewRequestDetail(data: IRequest): void;
 }
 
-const AcceptedRequestBox = (props: Props) => {
-  const { loading, data, showLoadMore, onConfirm, onLoadMore, onViewRequestDetail } = props;
+const UnconfirmedRequestBox = (props: Props) => {
+  const { isValidating, size, accept, data, showLoadMore, onConfirm, onLoadMore, onViewRequestDetail } = props;
 
   return (
     <Box padding="0 24px 24px" flex={1}>
@@ -31,7 +36,7 @@ const AcceptedRequestBox = (props: Props) => {
         )),
       )}
 
-      {loading ? (
+      {isValidating && (size !== data?.length || !data[0]?.requests?.length) ? (
         <>
           <ResultItemSkeleton showButton />
           <ResultItemSkeleton showButton />
@@ -40,11 +45,20 @@ const AcceptedRequestBox = (props: Props) => {
           <ResultItemSkeleton showButton />
           <ResultItemSkeleton showButton />
         </>
-      ) : (
+      ) : data && data[0]?.requests?.length ? (
         <LoadMoreRequest onLoadMore={onLoadMore} showLoadMore={showLoadMore} />
+      ) : (
+        <Box padding="48px 24px" display="flex" flexDirection="column" alignItems="center">
+          {accept ? <IconNodataAccepted /> : <IconNodataRequesting />}
+          <Typography variant="body2" color="textSecondary" style={{ paddingTop: '8px' }}>
+            <FormattedMessage
+              id={accept ? 'request.unconfirmedNoDataAccepted' : 'request.unconfirmedNoDataRequesting'}
+            />
+          </Typography>
+        </Box>
       )}
     </Box>
   );
 };
 
-export default AcceptedRequestBox;
+export default UnconfirmedRequestBox;
