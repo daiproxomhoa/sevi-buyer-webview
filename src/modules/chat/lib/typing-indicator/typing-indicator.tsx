@@ -50,8 +50,8 @@ export const TypingIndicator: FC<TypingIndicatorProps> = (props: TypingIndicator
 
   const getIndicationString = () => {
     let indicateStr = '';
-    if (activeUUIDs.length > 1) indicateStr = 'Multiple users are typing...';
-    if (activeUUIDs.length === 1) {
+    // if (activeUUIDs.length > 1) indicateStr = 'Multiple users are typing...';
+    if (activeUUIDs.length > 0) {
       const user = users.find((u) => u.id === activeUUIDs[0]);
       const isOwn = isOwnMessage(activeUUIDs[0]);
       indicateStr = isOwn ? '' : `${user?.name || 'Unknown User'} ${intl.formatMessage({ id: 'chat.isTyping' })}...`;
