@@ -1,4 +1,4 @@
-import { fade, Typography } from '@material-ui/core';
+import { Box, fade, Typography } from '@material-ui/core';
 import GradeRoundedIcon from '@material-ui/icons/GradeRounded';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
@@ -55,30 +55,84 @@ const SellerRating = (props: Props) => {
               {info?.rating}
             </Typography>
 
-            <Typography
-              variant="caption"
-              color="primary"
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Typography variant="caption" component="span" color="textSecondary">
-                <FormattedMessage id="search.attitude" />
+            <Box display="flex">
+              <Typography
+                variant="caption"
+                color="primary"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  flex: 1,
+                  alignItems: 'center',
+                }}
+              >
+                <Typography variant="caption" component="span" color="textSecondary">
+                  <FormattedMessage id="search.attitude" />
+                </Typography>
+
+                <GradeRoundedIcon
+                  color="inherit"
+                  style={{
+                    fontSize: 12,
+                    marginRight: '3px',
+                    marginLeft: '8px',
+                  }}
+                />
+                {info?.attitudeRating}
               </Typography>
 
-              <GradeRoundedIcon
-                color="inherit"
+              <Typography
+                variant="caption"
+                color="primary"
                 style={{
-                  fontSize: 12,
-                  marginRight: '3px',
-                  marginLeft: '8px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flex: 1,
+                  alignItems: 'center',
                 }}
-              />
-              {info?.attitudeRating}
-            </Typography>
+              >
+                <Typography variant="caption" component="span" color="textSecondary">
+                  <FormattedMessage id="search.priceRating" />
+                </Typography>
+
+                <GradeRoundedIcon
+                  color="inherit"
+                  style={{
+                    fontSize: 12,
+                    marginRight: '3px',
+                    marginLeft: '8px',
+                  }}
+                />
+                {info?.priceRating}
+              </Typography>
+
+              <Typography
+                variant="caption"
+                color="primary"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  flex: 1,
+                  alignItems: 'center',
+                }}
+              >
+                <Typography variant="caption" component="span" color="textSecondary">
+                  <FormattedMessage id="search.qualityRating" />
+                </Typography>
+
+                <GradeRoundedIcon
+                  color="inherit"
+                  style={{
+                    fontSize: 12,
+                    marginRight: '3px',
+                    marginLeft: '8px',
+                  }}
+                />
+                {info?.qualityRating}
+              </Typography>
+            </Box>
           </CardDiv>
+
           <Typography
             variant="caption"
             color="textPrimary"

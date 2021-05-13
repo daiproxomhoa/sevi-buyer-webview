@@ -1,8 +1,8 @@
-import { Typography } from "@material-ui/core";
-import React from "react";
-import { FormattedMessage, FormattedNumber } from "react-intl";
-import { CardDiv } from "../../../common/component/elements";
-import { ISeller } from "../../model";
+import { Typography } from '@material-ui/core';
+import React from 'react';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { CardDiv } from '../../../common/component/elements';
+import { ISeller } from '../../model';
 
 interface Props {
   info?: ISeller;
@@ -14,16 +14,16 @@ const SellerInfo = (props: Props) => {
   return (
     <div
       style={{
-        overflow: "auto",
-        WebkitOverflowScrolling: "touch",
-        padding: "12px 0",
+        overflow: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        padding: '12px 0',
       }}
     >
       <Typography variant="subtitle2">
         <FormattedMessage id="search.job" />
       </Typography>
       <CardDiv>
-        <Typography variant="body2">{info?.product}</Typography>
+        <Typography variant="body2">{info?.desc}</Typography>
       </CardDiv>
 
       {/* {!!info?.certificates.length && (
@@ -41,7 +41,7 @@ const SellerInfo = (props: Props) => {
       )} */}
 
       {!!info?.items.length && (
-        <div style={{ paddingTop: "24px" }}>
+        <div style={{ paddingTop: '24px' }}>
           <Typography variant="subtitle2">
             <FormattedMessage id="search.price" />
           </Typography>
@@ -56,11 +56,7 @@ const SellerInfo = (props: Props) => {
                   id="search.unitPrice"
                   values={{
                     priceRange: (
-                      <Typography
-                        component="span"
-                        variant="caption"
-                        color="textPrimary"
-                      >
+                      <Typography component="span" variant="caption" color="textPrimary">
                         <FormattedNumber value={one.minPrice} />
                         &nbsp;-&nbsp;
                         <FormattedNumber value={one.maxPrice} />
