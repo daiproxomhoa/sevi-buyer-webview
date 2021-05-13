@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -12,8 +12,13 @@ import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
 import RatingCardSkeleton from '../../rating/component/RatingCardSkeleton';
+import { setSessionStamp } from '../../search/redux/searchReducer';
 import ConfirmedRequestResultCard from './ConfirmedRequestResultCard';
 import LoadMoreRequest from './LoadMoreRequest';
+import { ReactComponent as IconNodataUnrated } from '../../../svg/ic_nodata_unrated.svg';
+import { ReactComponent as IconNodataRated } from '../../../svg/ic_nodata_rated.svg';
+import { FormattedMessage } from 'react-intl';
+import { IRequest } from '../model';
 
 interface Props {
   mode: 'rated' | 'unrated';
@@ -30,7 +35,7 @@ const ConfirmedRequestListBox = (props: Props) => {
   const { data, size, setSize, isValidating } = useSWRInfinite(
     (pageIndex) => [API_PATHS.getConfirmed, pageIndex, mode],
     async (url, pageIndex, mode) => {
-      const res = await dispatch(fetchThunk(url, 'post', { offset: pageIndex * PAGE_SIZE, ratingFilter: mode }));
+      const res = await dispatch(fetchThunk(url, 'post', { offset: pageIndex * PAGE_SIZE, ratedFilter: mode }));
       if (res.status !== SUCCESS_CODE) {
         throw new Error(res.status);
       }
@@ -51,23 +56,25 @@ const ConfirmedRequestListBox = (props: Props) => {
   return (
     <Box className="p-24 p-t-8 overflow-auto flex-1">
       {data?.map((page) =>
-        page.requests?.map((one: some) => (
+        page.requests?.map((one: IRequest) => (
           <ConfirmedRequestResultCard
             key={one.createDate}
             request={one}
             mode={mode}
-            onRequestAgain={() =>
+            onRequestAgain={() => {
+              dispatch(setSessionStamp());
               dispatch(
                 push({
                   pathname: ROUTES.sendRequest,
                   search: `?id=${one?.sellerId}`,
                 }),
-              )
-            }
+              );
+            }}
           />
         )),
       )}
-      {isValidating && size !== data?.length ? (
+
+      {isValidating && (size !== data?.length || !data[0]?.requests?.length) ? (
         <>
           <RatingCardSkeleton mode={mode} />
           <RatingCardSkeleton mode={mode} />
@@ -75,8 +82,17 @@ const ConfirmedRequestListBox = (props: Props) => {
           <RatingCardSkeleton mode={mode} />
           <RatingCardSkeleton mode={mode} />
         </>
-      ) : (
+      ) : data && data[0]?.requests?.length ? (
         <LoadMoreRequest onLoadMore={() => setSize(size + 1)} showLoadMore={showLoadMore} />
+      ) : (
+        <Box padding="48px 24px" display="flex" flexDirection="column" alignItems="center">
+          {mode === 'unrated' ? <IconNodataUnrated /> : <IconNodataRated />}
+          <Typography variant="body2" color="textSecondary" style={{ paddingTop: '8px' }}>
+            <FormattedMessage
+              id={mode === 'unrated' ? 'request.confirmedNoDataUnrated' : 'request.confirmedNoDataRated'}
+            />
+          </Typography>
+        </Box>
       )}
     </Box>
   );

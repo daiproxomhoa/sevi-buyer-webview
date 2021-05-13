@@ -7,17 +7,17 @@ import { API_PATHS } from '../../../configs/api';
 import { ROUTES } from '../../../configs/routes';
 import { CardDiv } from '../../common/component/elements';
 import { RawLink } from '../../common/component/Link';
-import { some } from '../../common/constants';
 import { getFullName } from '../../rating/utils';
+import { IRequest } from '../model';
 
 interface Props {
-  request: some;
+  request: IRequest;
   mode: 'rated' | 'unrated';
   onRequestAgain(): void;
 }
 
 const ConfirmedRequestResultCard = (props: Props) => {
-  const { request = {}, mode, onRequestAgain } = props;
+  const { request, mode, onRequestAgain } = props;
   const { seller, desc, createDate } = request;
 
   return (
@@ -28,7 +28,8 @@ const ConfirmedRequestResultCard = (props: Props) => {
           <Divider style={{ margin: '8px 0' }} />
         </>
       )}
-      <Box className="d-flex justify-content-between align-items-center m-t-4 m-b-4">
+
+      <Box className="d-flex justify-content-between align-items-center m-t-4">
         <Avatar
           alt={seller.givenName}
           src={API_PATHS.renderSellerAvatar(seller.id, seller.avatar)}
@@ -38,21 +39,66 @@ const ConfirmedRequestResultCard = (props: Props) => {
           <Typography variant="caption">{getFullName(seller)}</Typography>
         </Box>
         {mode === 'unrated' ? (
-          <RawLink to={ROUTES.review.gen(seller?.id, createDate)}>
-            <Button variant="contained" color="primary" size="small" style={{ minWidth: 136 }}>
-              <GradeRoundedIcon style={{ width: '16px', height: '16px', marginRight: '6px' }} />
-              <FormattedMessage id="rating.RATENOW" />
-            </Button>
-          </RawLink>
+          <Typography variant="caption" color="textSecondary">
+            {createDate}
+          </Typography>
         ) : (
           <Rating readOnly value={0} size="small" />
         )}
       </Box>
-      {mode === 'rated' && (
-        <Button fullWidth variant="contained" color="primary" size="small" className={'m-t-8'} onClick={onRequestAgain}>
-          <FormattedMessage id="rating.REQUEST_AGAIN" />
-        </Button>
-      )}
+
+      <Box display="flex" alignItems="center" width="100%" paddingTop="8px">
+        {mode === 'rated' ? (
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            size="small"
+            className={'m-t-8'}
+            onClick={onRequestAgain}
+          >
+            <FormattedMessage id="rating.REQUEST_AGAIN" />
+          </Button>
+        ) : (
+          <Box display="flex" width="100%">
+            <RawLink
+              to={{
+                pathname: ROUTES.chat.gen(
+                  request.buyerId,
+                  request.sellerId,
+                  request.createDate,
+                  request.seller.avatar,
+                  request.seller.givenName,
+                ),
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              style={{
+                flex: 1,
+                marginRight: '4px',
+              }}
+            >
+              <Button variant="outlined" color="primary" size="small" fullWidth>
+                <FormattedMessage id="conversation" />
+              </Button>
+            </RawLink>
+
+            <RawLink
+              to={ROUTES.review.gen(seller?.id, createDate)}
+              style={{
+                flex: 1,
+                marginLeft: '4px',
+              }}
+            >
+              <Button variant="contained" color="primary" size="small" fullWidth>
+                <GradeRoundedIcon style={{ width: '16px', height: '16px', marginRight: '6px' }} />
+                <FormattedMessage id="rating.RATENOW" />
+              </Button>
+            </RawLink>
+          </Box>
+        )}
+      </Box>
     </CardDiv>
   );
 };
