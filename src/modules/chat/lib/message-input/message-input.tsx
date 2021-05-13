@@ -6,6 +6,8 @@ import { usePubNub } from 'pubnub-react';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { TextInput } from '../../components/element';
 import { CurrentChannelAtom, ErrorFunctionAtom, TypingIndicatorTimeoutAtom, UsersMetaAtom } from '../state-atoms';
 
@@ -26,6 +28,8 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
   const [typingIndicatorTimeout] = useAtom(TypingIndicatorTimeoutAtom);
   const onError = onErrorObj.function;
   const inputRef = useRef<any>();
+
+  const dispatch = useDispatch();
 
   const { handleSubmit, control, reset } = useForm({
     mode: 'onSubmit',
@@ -59,10 +63,15 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
     const file = files?.[0];
 
     if (file) {
-      await pubnub.sendFile({
-        channel,
-        file,
-      });
+      dispatch(setLoadingBackDrop(true));
+      try {
+        await pubnub.sendFile({
+          channel,
+          file,
+        });
+      } finally {
+        dispatch(setLoadingBackDrop(false));
+      }
     } else {
       window.alert('dmdmdm');
     }
