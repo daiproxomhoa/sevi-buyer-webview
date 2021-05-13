@@ -27,7 +27,7 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
   const onError = onErrorObj.function;
   const inputRef = useRef<any>();
 
-  const { handleSubmit, control, reset, setValue } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     mode: 'onSubmit',
   });
 
@@ -96,7 +96,6 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
       const newText = textArea.value;
       if (props.typingIndicator && newText.length) startTypingIndicator();
       if (props.typingIndicator && !newText.length) stopTypingIndicator();
-      setValue('text', newText);
     } catch (e) {
       onError(e);
     }
@@ -147,7 +146,10 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
               placeholder={intl.formatMessage({ id: 'chat.sendPlaceholder' })}
               fullWidth
               value={value}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                handleInputChange(e);
+                onChange(e);
+              }}
               multiline={true}
               rowsMax={5}
               variant="outlined"
