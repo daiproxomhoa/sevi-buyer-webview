@@ -1,9 +1,8 @@
-import { Theme, Slider, Tooltip } from '@material-ui/core';
+import { Slider, Theme, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import React from 'react';
 import { PRIMARY } from '../../../../configs/colors';
 import { slideMarks } from '../../constants';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { ISellerSearchFilter } from '../../model';
 
 const CustomSlider = withStyles((theme: Theme) => ({
@@ -18,15 +17,11 @@ const CustomSlider = withStyles((theme: Theme) => ({
     },
   },
   thumb: {
-    height: 32,
-    width: 32,
-    backgroundColor: '#fff',
+    height: 12,
+    width: 12,
     border: '2px solid currentColor',
-    marginTop: -12,
-    marginLeft: -12,
-    '&:focus, &:hover, &$active': {
-      boxShadow: 'inherit',
-    },
+    marginTop: -5,
+    marginLeft: -5,
   },
   active: {},
   valueLabel: {
@@ -51,12 +46,12 @@ const CustomSlider = withStyles((theme: Theme) => ({
     marginBottom: 0,
   },
   track: {
-    height: 8,
-    borderRadius: 4,
+    height: 4,
+    borderRadius: 2,
   },
   rail: {
-    height: 8,
-    borderRadius: 4,
+    height: 4,
+    borderRadius: 2,
   },
 }))(Slider);
 
@@ -88,10 +83,6 @@ export const ValueLabelComponent: React.FC<ValueLabelProps> = (props) => {
   );
 };
 
-const CustomThumbComponent: React.FC = (props: any) => {
-  return <FiberManualRecordIcon {...props} />;
-};
-
 interface Props {
   filter: ISellerSearchFilter;
   setFilter(filter: ISellerSearchFilter): void;
@@ -105,7 +96,7 @@ const SlideRadius = (props: Props) => {
       marks={slideMarks}
       value={filter.radius}
       max={20}
-      ThumbComponent={CustomThumbComponent}
+      ValueLabelComponent={ValueLabelComponent}
       onChange={(event, newValue) => setFilter({ ...filter, radius: newValue as number })}
     />
   );
