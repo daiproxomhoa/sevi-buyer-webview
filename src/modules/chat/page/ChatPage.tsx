@@ -63,7 +63,9 @@ interface IChatPageProps {}
 
 const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
   const requestData = useParams<some>();
+  const intl = useIntl();
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
+  const endRef = React.useRef<HTMLDivElement>(null);
 
   const { pubNubClient, channelName } = usePubNubClient(
     dispatch,
@@ -71,8 +73,6 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
     requestData.sellerId,
     decodeURIComponent(requestData.createDate),
   );
-
-  const intl = useIntl();
 
   if (!pubNubClient || !channelName) {
     // render loading spinner
@@ -104,13 +104,13 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
             <ChatHeader request={requestData} />
           </AnchorDiv>
           <div style={{ flex: 1 }}>
-            <MessageList welcomeMessages={false} fetchMessages={25} />
+            <MessageList welcomeMessages={false} fetchMessages={25} endScreenRef={endRef} />
           </div>
           <TypingIndicator />
           <AnchorDiv
             style={{ bottom: 0, paddingBottom: 4, paddingTop: 4, justifyContent: 'flex-end', background: 'white' }}
           >
-            <MessageInput typingIndicator />
+            <MessageInput typingIndicator endScreenRef={endRef} />
           </AnchorDiv>
         </Chat>
       </div>

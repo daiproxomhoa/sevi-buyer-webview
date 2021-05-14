@@ -1,24 +1,27 @@
-import { Box, IconButton } from '@material-ui/core';
+import { Box, Fade, IconButton } from '@material-ui/core';
 import ImageIcon from '@material-ui/icons/Image';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import { useAtom } from 'jotai';
 import { usePubNub } from 'pubnub-react';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { TextInput } from '../../components/element';
 import { CurrentChannelAtom, ErrorFunctionAtom, TypingIndicatorTimeoutAtom, UsersMetaAtom } from '../state-atoms';
+import ArrowDropDownCircleRoundedIcon from '@material-ui/icons/ArrowDropDownCircleRounded';
 
 export interface MessageInputProps {
   /** Set a draft message to display in the text window. */
   senderInfo?: boolean;
   /** Enable/disable firing the typing events when user is typing a message. */
   typingIndicator?: boolean;
+  endScreenRef?: React.RefObject<HTMLDivElement>;
 }
 
 export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) => {
+  const { typingIndicator, senderInfo, endScreenRef } = props;
   const pubnub = usePubNub();
   const intl = useIntl();
   const [users] = useAtom(UsersMetaAtom);
@@ -50,7 +53,7 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
         const message = {
           type: 'text',
           text,
-          ...(props.senderInfo && { sender: users.find((u) => u.id === pubnub.getUUID()) }),
+          ...(senderInfo && { sender: users.find((u) => u.id === pubnub.getUUID()) }),
         };
         await pubnub.publish({ channel, message });
       }
@@ -71,6 +74,7 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
         });
       } finally {
         dispatch(setLoadingBackDrop(false));
+        scrollToBottom();
       }
     } else {
       window.alert('dmdmdm');
@@ -103,8 +107,8 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
     try {
       const textArea = event.target;
       const newText = textArea.value;
-      if (props.typingIndicator && newText.length) startTypingIndicator();
-      if (props.typingIndicator && !newText.length) stopTypingIndicator();
+      if (typingIndicator && newText.length) startTypingIndicator();
+      if (typingIndicator && !newText.length) stopTypingIndicator();
     } catch (e) {
       onError(e);
     }
@@ -125,58 +129,94 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
 
   const [tickTock, setTickTock] = useState(false);
   const [autoFocus, setAutoFocus] = useState(false);
+  const [showBtnScollBottom, setShowBtnScollBottom] = useState(false);
+
+  const scrollToBottom = () => {
+    if (!endScreenRef?.current) return;
+    endScreenRef?.current.scrollIntoView();
+    inputRef?.current.focus();
+  };
+
+  const showScrollBottomBtn = useCallback(() => {
+    const elemRect = endScreenRef?.current?.getBoundingClientRect();
+    if (!elemRect) {
+      return;
+    }
+
+    if (elemRect?.top > 3000) {
+      !showBtnScollBottom && setShowBtnScollBottom(true);
+    } else {
+      showBtnScollBottom && setShowBtnScollBottom(false);
+    }
+  }, [endScreenRef, showBtnScollBottom]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', showScrollBottomBtn);
+    return () => window.removeEventListener('scroll', showScrollBottomBtn);
+  }, [showScrollBottomBtn]);
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      component="form"
-      onSubmit={handleSubmit((value) => {
-        sendMessage(value.text);
-        reset({ text: '' });
-        setAutoFocus(true);
-        setTickTock((old) => !old);
-      })}
-    >
-      <IconButton component="label">
-        <ImageIcon color="primary" />
-        <input
-          accept="image/*"
-          hidden
-          type="file"
-          onChange={(e) => {
-            sendImage(e.target.files);
+    <>
+      <Fade in={showBtnScollBottom}>
+        <IconButton
+          style={{ position: 'absolute', bottom: 60, left: '50%', transform: 'translate(-50%, 0)' }}
+          onClick={scrollToBottom}
+        >
+          <ArrowDropDownCircleRoundedIcon />
+        </IconButton>
+      </Fade>
+      <Box
+        display="flex"
+        alignItems="center"
+        component="form"
+        onSubmit={handleSubmit((value) => {
+          sendMessage(value.text);
+          reset({ text: '' });
+          setAutoFocus(true);
+          scrollToBottom();
+          setTickTock((old) => !old);
+        })}
+      >
+        <IconButton component="label">
+          <ImageIcon color="primary" />
+          <input
+            accept="image/*"
+            hidden
+            type="file"
+            onChange={(e) => {
+              sendImage(e.target.files);
+            }}
+          />
+        </IconButton>
+        <Controller
+          name={'text'}
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { onChange, value, ref } }) => {
+            return (
+              <TextInput
+                autoFocus={autoFocus}
+                key={`${tickTock}`}
+                placeholder={intl.formatMessage({ id: 'chat.sendPlaceholder' })}
+                fullWidth
+                value={value}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  onChange(e);
+                }}
+                multiline={true}
+                rowsMax={5}
+                variant="outlined"
+                inputRef={inputRef}
+              />
+            );
           }}
         />
-      </IconButton>
-      <Controller
-        name={'text'}
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange, value, ref } }) => {
-          return (
-            <TextInput
-              autoFocus={autoFocus}
-              key={`${tickTock}`}
-              placeholder={intl.formatMessage({ id: 'chat.sendPlaceholder' })}
-              fullWidth
-              value={value}
-              onChange={(e) => {
-                handleInputChange(e);
-                onChange(e);
-              }}
-              multiline={true}
-              rowsMax={5}
-              variant="outlined"
-              inputRef={inputRef}
-            />
-          );
-        }}
-      />
-      <IconButton type="submit">
-        <SendRoundedIcon color="primary" />
-      </IconButton>
-    </Box>
+        <IconButton type="submit">
+          <SendRoundedIcon color="primary" />
+        </IconButton>
+      </Box>
+    </>
   );
 };
 
