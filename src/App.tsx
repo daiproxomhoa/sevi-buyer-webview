@@ -35,6 +35,7 @@ import SearchPage from './modules/search/page/SearchPage';
 import { AppState } from './redux/reducer';
 import styles from './scss/webviewRouteTransition.module.scss';
 import ChatPage from './modules/chat/page/ChatPage';
+import GuideDialog from './modules/common/component/GuideDialog';
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -155,6 +156,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
       </div>
       <LoadingBackDrop open={setLoadingBackDrop} />
       <FetchErrorDialog msgId={networkErrorMsg} onClose={() => dispatch(setNetworkError(undefined))} />
+      <GuideDialog />
     </SWRConfig>
   );
 };
