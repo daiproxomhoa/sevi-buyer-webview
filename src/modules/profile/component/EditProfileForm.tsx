@@ -1,25 +1,19 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  InputBase,
-  Typography,
-} from "@material-ui/core";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import React, { useEffect } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch } from "react-redux";
-import { Action } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { API_PATHS } from "../../../configs/api";
-import { AppState } from "../../../redux/reducer";
-import { FormControlTextField } from "../../common/component/Form";
-import FormControlAutoComplete from "../../common/component/FormControlAutoComplete";
-import { some } from "../../common/constants";
-import { fetchThunk } from "../../common/redux/thunk";
-import AvatarUpload from "./AvatarUpload";
+import { Box, Button, IconButton, InputAdornment, InputBase, Typography } from '@material-ui/core';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import React, { useEffect } from 'react';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { API_PATHS } from '../../../configs/api';
+import { DARK_RED } from '../../../configs/colors';
+import { AppState } from '../../../redux/reducer';
+import { FormControlTextField } from '../../common/component/Form';
+import FormControlAutoComplete from '../../common/component/FormControlAutoComplete';
+import { some } from '../../common/constants';
+import { fetchThunk } from '../../common/redux/thunk';
+import AvatarUpload from './AvatarUpload';
 
 interface Props {
   profile: some;
@@ -38,14 +32,14 @@ const EditProfileForm = (props: Props) => {
     reset,
     watch,
   } = useForm({
-    reValidateMode: "onChange",
-    mode: "onChange",
+    reValidateMode: 'onChange',
+    mode: 'onChange',
     defaultValues: profile,
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "addresses",
+    name: 'addresses',
   });
 
   useEffect(() => {
@@ -53,30 +47,25 @@ const EditProfileForm = (props: Props) => {
   }, [profile, reset]);
 
   return (
-    <form
-      onSubmit={onSubmit && handleSubmit(onSubmit)}
-      className="overflow-auto"
-    >
-      <input type="hidden" {...register("id")} />
-      <Box className={"d-flex d-flex-column align-items-center p-24 p-b-0"}>
+    <form onSubmit={onSubmit && handleSubmit(onSubmit)} className="overflow-auto">
+      <input type="hidden" {...register('id')} />
+      <Box className={'d-flex d-flex-column align-items-center p-24 p-b-0'}>
         <Controller
-          name={"avatar"}
+          name={'avatar'}
           control={control}
-          rules={{ required: intl.formatMessage({ id: "required" }) }}
-          render={({ field: { onChange, value } }) => (
-            <AvatarUpload id={watch("id")} src={value} onChange={onChange} />
-          )}
+          rules={{ required: intl.formatMessage({ id: 'required' }) }}
+          render={({ field: { onChange, value } }) => <AvatarUpload id={watch('id')} src={value} onChange={onChange} />}
         />
         <Box width="100%">
           <Controller
-            name={"givenName"}
+            name={'givenName'}
             control={control}
-            rules={{ required: intl.formatMessage({ id: "required" }) }}
+            rules={{ required: intl.formatMessage({ id: 'required' }) }}
             render={({ field: { onChange, value, ref, name } }) => (
               <FormControlTextField
-                className={"m-b-4 m-t-24"}
+                className={'m-b-4 m-t-24'}
                 inputRef={ref}
-                label={<FormattedMessage id={"givenName"} />}
+                label={<FormattedMessage id={'givenName'} />}
                 fullWidth={true}
                 name={name}
                 value={value}
@@ -86,14 +75,14 @@ const EditProfileForm = (props: Props) => {
             )}
           />
           <Controller
-            name={"familyName"}
+            name={'familyName'}
             control={control}
-            rules={{ required: intl.formatMessage({ id: "required" }) }}
+            rules={{ required: intl.formatMessage({ id: 'required' }) }}
             render={({ field: { onChange, value, ref } }) => (
               <FormControlTextField
-                className={"m-b-4"}
+                className={'m-b-4'}
                 inputRef={ref}
-                label={<FormattedMessage id={"familyName"} />}
+                label={<FormattedMessage id={'familyName'} />}
                 fullWidth={true}
                 value={value}
                 onChange={onChange}
@@ -106,24 +95,20 @@ const EditProfileForm = (props: Props) => {
           const helperTextLocation = errors.addresses?.[index]?.name?.message;
           const helperTextAddress = errors.addresses?.[index]?.address?.message;
           return (
-            <Box
-              key={item.id}
-              width="100%"
-              className="d-flex align-items-center"
-            >
+            <Box key={item.id} width="100%" className="d-flex align-items-center">
               <Box className="flex-1">
                 <Controller
                   name={`addresses[${index}].name`}
                   control={control}
-                  rules={{ required: intl.formatMessage({ id: "required" }) }}
+                  rules={{ required: intl.formatMessage({ id: 'required' }) }}
                   render={({ field: { onChange, value, ref } }) => {
                     return (
                       <InputBase
-                        className={"m-b-4"}
+                        className={'m-b-4'}
                         inputRef={ref}
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
-                        placeholder={intl.formatMessage({ id: "locationName" })}
+                        placeholder={intl.formatMessage({ id: 'locationName' })}
                         fullWidth={true}
                         error={!!helperTextLocation}
                         endAdornment={
@@ -134,7 +119,7 @@ const EditProfileForm = (props: Props) => {
                               }}
                               style={{ padding: 4 }}
                             >
-                              <DeleteOutlineIcon fontSize="small" />
+                              <DeleteForeverIcon style={{ color: DARK_RED }} />
                             </IconButton>
                           </InputAdornment>
                         }
@@ -146,23 +131,19 @@ const EditProfileForm = (props: Props) => {
                   name={`addresses[${index}].address`}
                   control={control}
                   rules={{
-                    required: intl.formatMessage({ id: "required" }),
+                    required: intl.formatMessage({ id: 'required' }),
                   }}
                   render={({ field: { onChange, value, ref } }) => {
                     return (
                       <FormControlAutoComplete
-                        className={"m-b-4"}
+                        className={'m-b-4'}
                         fullWidth
                         innerRef={ref}
-                        placeholder={intl.formatMessage({ id: "address" })}
+                        placeholder={intl.formatMessage({ id: 'address' })}
                         value={value}
                         onChange={async (_, data) => {
                           if (data) {
-                            const json = await dispatch(
-                              fetchThunk(
-                                API_PATHS.getDetailLocation(data.placeId)
-                              )
-                            );
+                            const json = await dispatch(fetchThunk(API_PATHS.getDetailLocation(data.placeId)));
                             onChange({
                               ...json?.body?.geometry?.location,
                               formattedAddress: data.formattedAddress,
@@ -172,9 +153,7 @@ const EditProfileForm = (props: Props) => {
                           }
                         }}
                         loadOptions={async (str: string) => {
-                          const json = await dispatch(
-                            fetchThunk(API_PATHS.suggestLocation(str))
-                          );
+                          const json = await dispatch(fetchThunk(API_PATHS.suggestLocation(str)));
                           return json.body?.map((address: some) => ({
                             formattedAddress: address.description,
                             placeId: address.placeId,
@@ -184,9 +163,7 @@ const EditProfileForm = (props: Props) => {
                           return address?.formattedAddress;
                         }}
                         getOptionSelected={(option: some, value: some) => {
-                          return (
-                            option?.formattedAddress === value?.formattedAddress
-                          );
+                          return option?.formattedAddress === value?.formattedAddress;
                         }}
                         errorMessage={helperTextAddress}
                         InputProps={{ rowsMax: 2, multiline: true }}
@@ -199,14 +176,14 @@ const EditProfileForm = (props: Props) => {
           );
         })}
       </Box>
-      <Box className={"p-24 p-t-0"}>
+      <Box className={'p-24 p-t-0'}>
         <Button
           variant="text"
           onClick={() => {
             append({});
           }}
           className="m-t-4 m-b-24 p-4"
-          style={{ height: "unset" }}
+          style={{ height: 'unset' }}
         >
           <Typography color="primary">
             +&nbsp;
@@ -215,14 +192,8 @@ const EditProfileForm = (props: Props) => {
         </Button>
         {errors.exampleRequired && <span>This field is required</span>}
 
-        <Button
-          type="submit"
-          variant={"contained"}
-          color={"primary"}
-          fullWidth
-          size={"large"}
-        >
-          <FormattedMessage id={"save"} />
+        <Button type="submit" variant={'contained'} color={'primary'} fullWidth size={'large'}>
+          <FormattedMessage id={'save'} />
         </Button>
       </Box>
     </form>

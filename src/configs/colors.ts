@@ -6,6 +6,7 @@ export const {
   PRIMARY,
   BLACK_TEXT,
   RED,
+  DARK_RED,
   BLACK,
   LIGHT_GREY,
 
