@@ -1,7 +1,6 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
-import { authenOut } from '../../authen/redux/authenReducer';
 import { some } from '../constants';
 import { setCommonError, setNetworkError } from './commonReducer';
 
@@ -49,7 +48,7 @@ export function fetchThunk(
         }
 
         if (res.status === 401) {
-          dispatch(authenOut());
+          // dispatch(authenOut());
           return { status: 401, body: fallback.data };
         }
         if (res.status === 403) {

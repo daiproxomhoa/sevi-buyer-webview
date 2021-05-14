@@ -1,4 +1,4 @@
-import { UUIDMetadataObject, ObjectCustom } from 'pubnub';
+import { ObjectCustom, UUIDMetadataObject } from 'pubnub';
 
 export type Themes = 'light' | 'dark' | 'support' | 'support-dark' | 'event' | 'event-dark';
 
