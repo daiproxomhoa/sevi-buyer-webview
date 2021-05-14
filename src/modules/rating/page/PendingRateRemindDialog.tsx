@@ -1,6 +1,7 @@
 import { Badge, Box, Button, Dialog, Typography } from '@material-ui/core';
 import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 import StarOutlineIcon from '@material-ui/icons/StarOutline';
+import { push } from 'connected-react-router';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 import React, { useCallback, useMemo } from 'react';
@@ -14,7 +15,7 @@ import { ROUTES } from '../../../configs/routes';
 import { DATE_TIME_FORMAT } from '../../../models/moment';
 import { AppState } from '../../../redux/reducer';
 import { ReactComponent as IconSchedule } from '../../../svg/schedule.svg';
-import { CustomChip, snackbarSetting } from '../../common/component/elements';
+import { snackbarSetting } from '../../common/component/elements';
 import { RawLink } from '../../common/component/Link';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
@@ -34,7 +35,9 @@ const OPTIONS_DEFER = [
     title: 'week',
   },
 ];
+
 interface Props {}
+
 const PendingRateRemindDialog = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { pendingRateData } = useSelector((state: AppState) => state.rating);
@@ -125,7 +128,14 @@ const PendingRateRemindDialog = (props: Props) => {
         <InsertInvitationIcon />
         &emsp;{data?.time}&nbsp;-&nbsp;{data?.date}
       </Box>
-      <CustomChip label={<FormattedMessage id="detail" />} clickable />
+      <Button
+        style={{ padding: '0 16px', margin: '4px 0' }}
+        size="small"
+        variant="contained"
+        onClick={() => dispatch(push(ROUTES.requestDetail, { detail: data }))}
+      >
+        <FormattedMessage id="detail" />
+      </Button>
       <IconSchedule />
       <RawLink to={ROUTES.review.gen(data?.sellerId, data?.createDate)}>
         <Button variant="contained" color="primary" className="m-t-24" style={{ minWidth: 200 }}>
