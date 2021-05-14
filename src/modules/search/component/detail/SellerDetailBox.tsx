@@ -9,6 +9,7 @@ import { BACKGROUND } from '../../../../configs/colors';
 import { Header2Div } from '../../../common/component/elements';
 import HeaderTab from '../../../common/component/HeaderTab';
 import { WhiteIconButton } from '../../../common/component/IconButton';
+import { getFullName } from '../../../rating/utils';
 import { ISeller, ISellerRating } from '../../model';
 import SellerInfo from './SellerInfo';
 import SellerRating from './SellerRating';
@@ -75,13 +76,7 @@ const SellerDetailBox = (props: Props) => {
             />
 
             <Typography variant="subtitle2">
-              {loading ? (
-                <Skeleton style={{ width: '150px' }} />
-              ) : (
-                <>
-                  {info?.familyName}&nbsp;{info?.givenName}
-                </>
-              )}
+              {loading ? <Skeleton style={{ width: '150px' }} /> : <>{getFullName(info)}</>}
             </Typography>
           </div>
         </Box>

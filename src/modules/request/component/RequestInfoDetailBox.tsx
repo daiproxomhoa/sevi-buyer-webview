@@ -2,6 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CardDiv } from '../../common/component/elements';
+import { getFullName } from '../../rating/utils';
 import { IRequest } from '../model';
 
 interface Props {
@@ -37,9 +38,7 @@ const RequestInfoDetailBox = (props: Props) => {
         <Typography variant="caption" color="textSecondary">
           <FormattedMessage id="request.detail.fullName" />
         </Typography>
-        <Typography variant="body2">
-          {info?.seller.givenName}&nbsp;{info?.seller.familyName}
-        </Typography>
+        <Typography variant="body2">{getFullName(info?.seller)}</Typography>
       </CardDiv>
 
       <CardDiv>

@@ -5,6 +5,7 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { API_PATHS } from '../../../configs/api';
 import { LIGHT_GREY, PRIMARY, SECONDARY } from '../../../configs/colors';
 import ProgressiveImage from '../../common/component/ProgressiveImage';
+import { getFullName } from '../../rating/utils';
 import { ISeller } from '../model';
 
 interface Props {
@@ -34,7 +35,7 @@ const SearchResultItem = (props: Props) => {
       />
       <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '8px' }}>
         <Typography variant="body2" style={{ fontWeight: 500 }}>
-          {info.givenName}&nbsp;{info.familyName}
+          {getFullName(info)}
         </Typography>
 
         <div style={{ display: 'flex', alignItems: 'center' }}>

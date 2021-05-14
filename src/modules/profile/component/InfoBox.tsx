@@ -55,7 +55,7 @@ const InfoBox = (props: Props) => {
         </Box>
         {profile?.addresses?.map((address: some, index: number) => {
           return (
-            <Box className={`${index && 'border-top p-b-8'} p-t-8`}>
+            <Box key={address.name} className={`${index && 'border-top p-b-8'} p-t-8`}>
               <Typography variant="caption" color="textSecondary">
                 {address.name}
               </Typography>

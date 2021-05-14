@@ -6,6 +6,7 @@ import { LIGHT_GREY } from '../../../configs/colors';
 import { ROUTES } from '../../../configs/routes';
 import { RawLink } from '../../common/component/Link';
 import ProgressiveImage from '../../common/component/ProgressiveImage';
+import { getFullName } from '../../rating/utils';
 import { IRequest } from '../model';
 
 interface Props {
@@ -50,9 +51,7 @@ const ResultItemInfo = (props: Props) => {
               style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', marginRight: '8px' }}
             />
 
-            <Typography variant="caption">
-              {info.seller.givenName}&nbsp;{info.seller.familyName}
-            </Typography>
+            <Typography variant="caption">{getFullName(info.seller)}</Typography>
           </Box>
 
           <Typography variant="caption" color="textSecondary">

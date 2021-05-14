@@ -21,7 +21,7 @@ const MyReviewsBox = (props: Props) => {
       {data?.ratings?.map((review: some, index: number) => {
         const { desc, seller = {}, rating } = review;
         return (
-          <CardDiv>
+          <CardDiv key={review.rateDate}>
             {desc && (
               <>
                 <Typography variant="subtitle2">{desc}</Typography>
