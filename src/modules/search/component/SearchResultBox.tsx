@@ -1,14 +1,15 @@
-import { Box, Button, Chip, Grow, List, Typography } from '@material-ui/core';
+import { Box, Button, Chip, List, Typography } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ReactComponent as NoDataIcon } from '../../../svg/ic_nodata.svg';
+import { ReactComponent as NoDataIcon } from '../../../svg/ic_search_nodata.svg';
 import { some } from '../../common/constants';
 import { ISeller, ISellerSearchFilter } from '../model';
 import SearchResultItem from './SearchResultItem';
 import SearchResultSkeleton from './SearchResultSkeleton';
 
 interface Props {
-  loading: boolean;
+  isValidating: boolean;
+  size: number;
   disableLoadMore: boolean;
   filter: ISellerSearchFilter;
   data?: some[];
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const SearchResultBox = (props: Props) => {
-  const { loading, disableLoadMore, filter, data, onSelectSeller, loadMore } = props;
+  const { isValidating, disableLoadMore, filter, data, size, onSelectSeller, loadMore } = props;
 
   return (
     <>
@@ -33,7 +34,39 @@ const SearchResultBox = (props: Props) => {
         />
       </Box>
 
-      {!data?.length && !loading && (
+      <List style={{ margin: '0 24px' }}>
+        {data?.map((page) =>
+          page.searchData?.map((one: ISeller) => (
+            <SearchResultItem key={one.id} info={one} onSelect={() => onSelectSeller(one)} />
+          )),
+        )}
+      </List>
+
+      {isValidating && (size !== data?.length || !data[0]?.searchData?.length) ? (
+        <Box flex={1} padding="0 24px">
+          <SearchResultSkeleton />
+          <SearchResultSkeleton />
+          <SearchResultSkeleton />
+          <SearchResultSkeleton />
+          <SearchResultSkeleton />
+          <SearchResultSkeleton />
+          <SearchResultSkeleton />
+        </Box>
+      ) : data && data[0]?.searchData?.length ? (
+        <Box padding="0 0 72px" display="flex" justifyContent="center">
+          <Button
+            disabled={disableLoadMore}
+            fullWidth
+            variant="outlined"
+            color="primary"
+            size="small"
+            style={{ width: '96px', height: '24px' }}
+            onClick={loadMore}
+          >
+            <FormattedMessage id="search.seeMore" />
+          </Button>
+        </Box>
+      ) : (
         <Box display="flex" flexDirection="column" alignItems="center" padding="48px">
           <NoDataIcon />
           <Typography variant="body2" color="textSecondary" style={{ textAlign: 'center', paddingTop: '16px' }}>
@@ -49,51 +82,6 @@ const SearchResultBox = (props: Props) => {
             />
           </Typography>
         </Box>
-      )}
-
-      <Box flex={1}>
-        <List style={{ margin: '0 24px' }}>
-          {data?.map((page) =>
-            page.searchData?.map((one: ISeller) => (
-              <Grow in key={one.id}>
-                <SearchResultItem key={one.id} info={one} onSelect={() => onSelectSeller(one)} />
-              </Grow>
-            )),
-          )}
-        </List>
-      </Box>
-
-      {loading ? (
-        <div
-          style={{
-            flex: 1,
-            padding: '0 24px',
-          }}
-        >
-          <SearchResultSkeleton />
-          <SearchResultSkeleton />
-          <SearchResultSkeleton />
-          <SearchResultSkeleton />
-          <SearchResultSkeleton />
-          <SearchResultSkeleton />
-          <SearchResultSkeleton />
-        </div>
-      ) : (
-        !!data?.length && (
-          <Box padding="0 0 72px" display="flex" justifyContent="center">
-            <Button
-              disabled={disableLoadMore}
-              fullWidth
-              variant="outlined"
-              color="primary"
-              size="small"
-              style={{ width: '96px', height: '24px' }}
-              onClick={loadMore}
-            >
-              <FormattedMessage id="search.seeMore" />
-            </Button>
-          </Box>
-        )
       )}
     </>
   );
