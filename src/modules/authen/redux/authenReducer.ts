@@ -15,8 +15,6 @@ export interface AuthenState {
 
 export const authenIn = createCustomAction('authen/in');
 
-export const authenOut = createCustomAction('authen/out');
-
 export const setAuthData = createAction('auth/setAuthData', (data: IAuth) => ({
   data,
 }))();
@@ -26,15 +24,23 @@ export function logout(): ThunkAction<Promise<void>, AppState, null, Action<stri
     dispatch(setLoadingBackDrop(true));
     const json = await dispatch(fetchThunk(API_PATHS.signOut, 'get'));
     if (json.status === SUCCESS_CODE) {
-      dispatch(authenOut());
+      // dispatch(authenOut());
+      authenOut();
     }
     dispatch(setLoadingBackDrop(false));
   };
 }
 
+export function authenOut() {
+  const windowAny = window as any;
+  if (windowAny.SEVI) {
+    windowAny.SEVI.postMessage(JSON.stringify({ type: 'logout', data: null }));
+  }
+}
+
 const actions = {
   authenIn,
-  authenOut,
+  //authenOut,
   setAuthData,
 };
 
@@ -44,8 +50,8 @@ export default function authenReducer(state = { authen: true }, action: ActionT)
   switch (action.type) {
     case getType(authenIn):
       return { ...state, authen: true };
-    case getType(authenOut):
-      return { ...state, authen: false };
+    // case getType(authenOut):
+    //   return { ...state, authen: false };
     case getType(setAuthData):
       return { ...state, data: action.payload.data };
     default:

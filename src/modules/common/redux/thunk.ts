@@ -49,7 +49,7 @@ export function fetchThunk(
         }
 
         if (res.status === 401) {
-          dispatch(authenOut());
+          authenOut();
           return { status: 401, body: fallback.data };
         }
         if (res.status === 403) {
