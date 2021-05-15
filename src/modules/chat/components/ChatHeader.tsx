@@ -144,7 +144,7 @@ const ChatHeader = (props: Props) => {
           <Zoom in={expand}>
             <Box>
               <Typography variant="body1" style={{ marginRight: 24, minHeight: 23 }}>
-                {request?.desc || 'a'}
+                {request?.desc || ''}
               </Typography>
               <Typography variant="body2" style={{ minHeight: 23 }}>
                 {request?.location || ''}
