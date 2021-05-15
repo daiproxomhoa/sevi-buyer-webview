@@ -2,24 +2,28 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   ButtonBase,
   Divider,
   IconButton,
   makeStyles,
   Popover,
   Typography,
+  Zoom,
 } from '@material-ui/core';
+import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
+import SettingsOverscanIcon from '@material-ui/icons/SettingsOverscan';
 import { goBack } from 'connected-react-router';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { API_PATHS } from '../../../configs/api';
-import { GREEN, GREY_300 } from '../../../configs/colors';
+import { GREEN, GREY_300, PRIMARY } from '../../../configs/colors';
 import { FE_DATE_TIME_FORMAT } from '../../../models/moment';
 import { ReactComponent as IconDotList } from '../../../svg/ic_dot_list.svg';
+import ConfirmDialog from '../../common/component/ConfirmDialog';
 import Header from '../../common/component/Header';
 import { some } from '../../common/constants';
 import { getStatus } from '../utils';
@@ -44,33 +48,52 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 8,
   },
   panel: {
-    background: GREEN,
     borderRadius: 12,
     padding: 12,
     position: 'relative',
+    boxSizing: 'border-box',
+    width: '100%',
+  },
+  panelClose: {
+    borderRadius: 12,
+    position: 'relative',
+    height: 35.5,
+    width: 35.5,
   },
   appBar: {
     top: 100,
     padding: '8px 12px',
     background: 'unset',
     boxShadow: 'unset',
+    alignItems: 'flex-end',
   },
-  iconTurned: {
+
+  iconBtn: {
     position: 'absolute',
-    top: 2,
-    right: 12,
+    top: 0,
+    right: 0,
+    padding: 4,
+    color: 'white',
+  },
+  iconBtnClose: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 4,
+    color: 'white',
   },
 }));
 interface Props {
   request: some;
+  isSkeleton?: boolean;
 }
 
 const ChatHeader = (props: Props) => {
-  const { request } = props;
+  const { request, isSkeleton } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<any>(null);
-
+  const [expand, setExpand] = useState(isSkeleton ? false : true);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -110,24 +133,55 @@ const ChatHeader = (props: Props) => {
         action={() => dispatch(goBack())}
         appBarProps={{ className: classes.header, elevation: 1 }}
       />
-      {request.accept && (
-        <AppBar position="sticky" className={classes.appBar}>
-          <Box className={classes.panel}>
-            <TurnedInRoundedIcon className={classes.iconTurned} />
-            <Typography variant="body1" style={{ marginRight: 24 }}>
-              {request?.desc}
-            </Typography>
-            <Typography variant="body2">{request?.location}</Typography>
-            <Divider className="m-t-8 m-b-8" />
-            <Box display="flex" alignItems="center">
-              <ScheduleIcon className="m-r-8" />
-              <Typography variant="body1">
-                {moment(`${request?.date} ${request?.time}`).format(FE_DATE_TIME_FORMAT)}
+      <AppBar position="sticky" className={classes.appBar}>
+        <Box
+          className={expand ? classes.panel : classes.panelClose}
+          style={{ transition: '0.5s all', background: request.accept ? GREEN : PRIMARY }}
+        >
+          <IconButton className={expand ? classes.iconBtn : classes.iconBtnClose} onClick={() => setExpand(!expand)}>
+            {expand ? <SettingsOverscanIcon /> : <AspectRatioIcon />}
+          </IconButton>
+          <Zoom in={expand}>
+            <Box>
+              <Typography variant="body1" style={{ marginRight: 24, minHeight: 23 }}>
+                {request?.desc || 'a'}
               </Typography>
+              <Typography variant="body2" style={{ minHeight: 23 }}>
+                {request?.location || ''}
+              </Typography>
+              <Divider className="m-t-8 m-b-8" />
+              <Box display="flex" alignItems="center">
+                <ScheduleIcon className="m-r-8" />
+                <Box flex={1}>
+                  <Typography variant="caption">
+                    {moment(`${request?.date} ${request?.time}`).format(FE_DATE_TIME_FORMAT)}
+                  </Typography>
+                </Box>
+                <ConfirmDialog
+                  children={(open: () => void, close: () => void) =>
+                    request.accept && (
+                      <Button variant="outlined" color="inherit" size="small" onClick={open}>
+                        <Typography variant="body2">
+                          <FormattedMessage id="confirm" />
+                        </Typography>
+                      </Button>
+                    )
+                  }
+                  title={'chat.confirmEcceptTitle'}
+                  content={'chat.confirmEcceptContent'}
+                  ok={(open: () => void, close: () => void) => {
+                    close();
+                  }}
+                  cancel={(open: () => void, close: () => void) => {
+                    close();
+                  }}
+                />
+              </Box>
             </Box>
-          </Box>
-        </AppBar>
-      )}
+          </Zoom>
+        </Box>
+      </AppBar>
+
       <Popover
         id={id}
         open={open}

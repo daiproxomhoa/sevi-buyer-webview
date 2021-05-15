@@ -42,7 +42,7 @@ const SkeletonPage = (props: Props) => {
   return (
     <Box style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <AnchorDiv>
-        <ChatHeader request={request} />
+        <ChatHeader request={request} isSkeleton />
       </AnchorDiv>
       <ListSkeleton />
       <AnchorDiv

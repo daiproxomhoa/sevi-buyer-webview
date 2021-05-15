@@ -26,7 +26,7 @@ const ChooseTimeDialog = (props: Props) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} onExited={onExited}>
+    <Dialog open={open} onClose={onClose} onExited={onExited} PaperProps={{ style: { margin: 'unset' } }}>
       <KeyboardTimePicker
         variant="static"
         openTo="hours"
