@@ -11,6 +11,7 @@ export const MessagesAtom = atom<{ [channel: string]: Message[] }>({});
 export const PaginationAtom = atom<{ [channel: string]: boolean }>({});
 export const TypingIndicatorAtom = atom({});
 export const TypingIndicatorTimeoutAtom = atom<number>(10);
+export const TickTokLoadData = atom(false);
 
 export const RetryFunctionAtom = atom<{ function: <T>(fn: () => Promise<T>) => Promise<T> }>({
   function: () => null as any,

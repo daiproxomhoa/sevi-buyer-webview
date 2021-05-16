@@ -1,4 +1,3 @@
-import classes from '*.module.sass';
 import {
   AppBar,
   Avatar,
@@ -10,24 +9,32 @@ import {
   makeStyles,
   Popover,
   Typography,
-  Zoom,
 } from '@material-ui/core';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import SettingsOverscanIcon from '@material-ui/icons/SettingsOverscan';
 import { goBack } from 'connected-react-router';
+import { useAtom } from 'jotai';
 import moment from 'moment';
-import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useSnackbar } from 'notistack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { API_PATHS } from '../../../configs/api';
-import { GREEN, GREY_300, PRIMARY } from '../../../configs/colors';
-import { FE_DATE_TIME_FORMAT } from '../../../models/moment';
-import { ReactComponent as IconDotList } from '../../../svg/ic_dot_list.svg';
-import ConfirmDialog from '../../common/component/ConfirmDialog';
-import Header from '../../common/component/Header';
-import { some } from '../../common/constants';
-import { getStatus, textOveflowEllipsis } from '../utils';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { API_PATHS } from '../../../../configs/api';
+import { GREEN, GREY_300, PRIMARY } from '../../../../configs/colors';
+import { SUCCESS_CODE } from '../../../../constants';
+import { DATE_FORMAT, FE_DATE_FORMAT, TIME_FORMAT, TIME_FULL_FORMAT } from '../../../../models/moment';
+import { AppState } from '../../../../redux/reducer';
+import { ReactComponent as IconDotList } from '../../../../svg/ic_dot_list.svg';
+import ConfirmDialog from '../../../common/component/ConfirmDialog';
+import { snackbarSetting } from '../../../common/component/elements';
+import Header from '../../../common/component/Header';
+import { some } from '../../../common/constants';
+import { fetchThunk } from '../../../common/redux/thunk';
+import { getStatus, textOveflowEllipsis } from '../../utils';
+import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../state-atoms';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -67,24 +74,70 @@ const useStyles = makeStyles(() => ({
     color: 'white',
   },
 }));
+
 interface Props {
   request: some;
   isSkeleton?: boolean;
+  pubNubClient?: any;
 }
 
-const ChatHeader = (props: Props) => {
-  const { request, isSkeleton } = props;
+const ChatHeader: React.FunctionComponent<Props> = (props) => {
+  const { request, isSkeleton, pubNubClient: pubnub } = props;
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
+  const intl = useIntl();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [expand, setExpand] = useState(isSkeleton ? false : true);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [loadData] = useAtom(TickTokLoadData);
+  const [channel] = useAtom(CurrentChannelAtom);
+  const [onErrorObj] = useAtom(ErrorFunctionAtom);
+  const onError = onErrorObj.function;
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const status = getStatus(request);
+
+  const [requestData, setRequestData] = useState<some>(request);
+
+  // const {} = useSWR;
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const fireTickTok = async (value: boolean) => {
+    try {
+      const message = { message: { type: 'ticktok_load_data', value }, channel };
+      pubnub.signal(message);
+    } catch (e) {
+      onError(e);
+    }
+  };
+
+  const fetchRequest = useCallback(async () => {
+    const json = await dispatch(
+      fetchThunk(
+        API_PATHS.getRequest,
+        'post',
+        JSON.stringify({
+          sellerId: request.sellerId,
+          requestDate: decodeURIComponent(request.createDate),
+        }),
+      ),
+    );
+    if (json.status === SUCCESS_CODE) {
+      setRequestData((one) => ({ one, ...json.body }));
+    } else {
+      enqueueSnackbar(
+        intl.formatMessage({ id: 'chat.loadFail' }),
+        snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
+      );
+    }
+  }, [closeSnackbar, dispatch, enqueueSnackbar, intl, request.createDate, request.sellerId]);
+
+  useEffect(() => {
+    fetchRequest();
+  }, [fetchRequest, loadData]);
 
   return (
     <>
@@ -92,11 +145,11 @@ const ChatHeader = (props: Props) => {
         title={
           <Box display="flex">
             <Avatar
-              src={API_PATHS.renderSellerAvatar(request.sellerId, request.sellerAvatar)}
+              src={API_PATHS.renderSellerAvatar(requestData.sellerId, requestData.sellerAvatar)}
               style={{ marginRight: 12 }}
             />
             <Box display="flex" flexDirection="column">
-              {decodeURIComponent(request.sellerName)}
+              {decodeURIComponent(requestData.sellerName)}
               <Box display="flex" alignItems="center">
                 <Box className={classes.dot} style={{ background: status.color }} />
                 <Typography variant="caption">
@@ -124,12 +177,12 @@ const ChatHeader = (props: Props) => {
           style={
             expand
               ? {
-                  background: request.accept ? GREEN : PRIMARY,
+                  background: requestData.accept ? GREEN : PRIMARY,
                   width: '100%',
                   height: 128,
                 }
               : {
-                  background: request.accept ? GREEN : PRIMARY,
+                  background: requestData.accept ? GREEN : PRIMARY,
                   height: 35.5,
                   width: 35.5,
                 }
@@ -146,10 +199,10 @@ const ChatHeader = (props: Props) => {
           >
             <Box marginRight={4.5} height={60}>
               <Typography variant="body1" noWrap>
-                {request?.desc}
+                {requestData?.desc}
               </Typography>
-              <Typography variant="body2" style={{ wordBreak: 'break-all' }} component={'div'}>
-                {textOveflowEllipsis(request?.location)}
+              <Typography variant="body2" style={{ wordBreak: 'break-word' }} component={'div'}>
+                {textOveflowEllipsis(requestData?.location)}
               </Typography>
             </Box>
             <Divider className="m-t-8 m-b-8" />
@@ -157,12 +210,22 @@ const ChatHeader = (props: Props) => {
               <ScheduleIcon className="m-r-8" />
               <Box flex={1}>
                 <Typography variant="caption">
-                  {moment(`${request?.date} ${request?.time}`).format(FE_DATE_TIME_FORMAT)}
+                  {requestData?.date ? (
+                    moment(requestData?.date, DATE_FORMAT).format(FE_DATE_FORMAT)
+                  ) : (
+                    <FormattedMessage id="request.anyDay" />
+                  )}
+                  &nbsp;
+                  {requestData?.time ? (
+                    moment(requestData?.date, TIME_FULL_FORMAT).format(TIME_FORMAT)
+                  ) : (
+                    <FormattedMessage id="request.anyTime" />
+                  )}
                 </Typography>
               </Box>
               <ConfirmDialog
                 children={(open: () => void, close: () => void) =>
-                  request.accept && (
+                  requestData?.accept && (
                     <Button variant="outlined" color="inherit" size="small" onClick={open}>
                       <Typography variant="body2">
                         <FormattedMessage id="confirm" />
@@ -173,6 +236,7 @@ const ChatHeader = (props: Props) => {
                 title={'chat.confirmAcceptTitle'}
                 content={'chat.confirmAcceptContent'}
                 ok={(open: () => void, close: () => void) => {
+                  fireTickTok(!loadData);
                   close();
                 }}
                 cancel={(open: () => void, close: () => void) => {
@@ -201,22 +265,7 @@ const ChatHeader = (props: Props) => {
         <Box className="d-flex d-flex-column">
           <ButtonBase className={classes.item}>
             <Typography variant="body1">
-              <FormattedMessage id="chat.complain" />
-            </Typography>
-          </ButtonBase>
-          <ButtonBase className={classes.item}>
-            <Typography variant="body1">
               <FormattedMessage id="chat.cancelRequest" />
-            </Typography>
-          </ButtonBase>
-          <ButtonBase className={classes.item}>
-            <Typography variant="body1">
-              <FormattedMessage id="chat.deleteConversation" />
-            </Typography>
-          </ButtonBase>
-          <ButtonBase className={classes.item}>
-            <Typography variant="body1">
-              <FormattedMessage id="chat.block" />
             </Typography>
           </ButtonBase>
         </Box>

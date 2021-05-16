@@ -5,7 +5,7 @@ import { Skeleton } from '@material-ui/lab';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { some } from '../../common/constants';
-import ChatHeader from './ChatHeader';
+import ChatHeader from '../lib/header/ChatHeader';
 import { AnchorDiv, TextInput } from './element';
 
 interface Props {

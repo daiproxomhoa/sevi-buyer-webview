@@ -11,7 +11,7 @@ import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
-import ChatHeader from '../components/ChatHeader';
+import ChatHeader from '../lib/header/ChatHeader';
 import { AnchorDiv } from '../components/element';
 import SkeletonPage from '../components/SkeletonPage';
 import { Chat } from '../lib/chat';
@@ -101,7 +101,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           ]}
         >
           <AnchorDiv>
-            <ChatHeader request={requestData} />
+            <ChatHeader request={requestData} pubNubClient={pubNubClient} />
           </AnchorDiv>
           <div style={{ flex: 1 }}>
             <MessageList welcomeMessages={false} fetchMessages={25} endScreenRef={endRef} />

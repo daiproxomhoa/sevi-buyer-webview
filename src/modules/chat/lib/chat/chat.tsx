@@ -26,6 +26,7 @@ import {
   UsersMetaAtom,
   RetryFunctionAtom,
   ErrorFunctionAtom,
+  TickTokLoadData,
 } from '../state-atoms';
 
 /**
@@ -128,6 +129,7 @@ export const ChatInternal: FC<ChatProps> = (props: ChatProps) => {
   const [currentChannel, setCurrentChannel] = useAtom(CurrentChannelAtom);
   const [channels, setChannels] = useAtom(SubscribeChannelsAtom);
   const [channelGroups, setChannelGroups] = useAtom(SubscribeChannelGroupsAtom);
+  const [, setTickTokData] = useAtom(TickTokLoadData);
 
   /**
    * Helpers
@@ -290,6 +292,10 @@ export const ChatInternal: FC<ChatProps> = (props: ChatProps) => {
           setDeep(indicatorsClone, [signal.channel, signal.publisher], value);
           return indicatorsClone;
         });
+      }
+
+      if (['ticktok_load_data'].includes(signal.message.type)) {
+        setTickTokData(signal.message.value);
       }
     } catch (e) {
       props.onError!(e);
