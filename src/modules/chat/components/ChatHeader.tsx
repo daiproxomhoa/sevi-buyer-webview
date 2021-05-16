@@ -44,12 +44,12 @@ const useStyles = makeStyles(() => ({
     marginRight: 8,
   },
   panel: {
-    width: '100%',
-    height: 128,
-  },
-  panelClose: {
-    height: 35.5,
-    width: 35.5,
+    transition: 'width 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, height 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    overflow: 'hidden',
+    position: 'relative',
+    borderRadius: 12,
+    padding: 12,
+    boxSizing: 'border-box',
   },
   appBar: {
     top: 100,
@@ -120,16 +120,20 @@ const ChatHeader = (props: Props) => {
       />
       <AppBar position="sticky" className={classes.appBar}>
         <Box
-          className={expand ? classes.panel : classes.panelClose}
-          style={{
-            transition: 'width 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, height 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-            background: request.accept ? GREEN : PRIMARY,
-            overflow: 'hidden',
-            position: 'relative',
-            borderRadius: 12,
-            padding: 12,
-            boxSizing: 'border-box',
-          }}
+          className={classes.panel}
+          style={
+            expand
+              ? {
+                  background: request.accept ? GREEN : PRIMARY,
+                  width: '100%',
+                  height: 128,
+                }
+              : {
+                  background: request.accept ? GREEN : PRIMARY,
+                  height: 35.5,
+                  width: 35.5,
+                }
+          }
         >
           <IconButton className={classes.iconBtn} style={{ zIndex: 2 }} onClick={() => setExpand(!expand)}>
             {expand ? <SettingsOverscanIcon /> : <AspectRatioIcon />}
@@ -166,8 +170,8 @@ const ChatHeader = (props: Props) => {
                     </Button>
                   )
                 }
-                title={'chat.confirmEcceptTitle'}
-                content={'chat.confirmEcceptContent'}
+                title={'chat.confirmAcceptTitle'}
+                content={'chat.confirmAcceptContent'}
                 ok={(open: () => void, close: () => void) => {
                   close();
                 }}

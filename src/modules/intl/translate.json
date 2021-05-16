@@ -180,7 +180,7 @@
   "chat.cancelRequest": ["Hủy yêu cầu", ""],
   "chat.deleteConversation": ["Xóa hội thoại", ""],
   "chat.block": ["Chặn người này", ""],
-  "chat.confirmEcceptTitle": ["Xác nhận giao dịch", ""],
-  "chat.confirmEcceptContent": ["Giao dịch này sẽ không thể hủy nếu được xác nhận !", ""],
+  "chat.confirmAcceptTitle": ["Xác nhận giao dịch", ""],
+  "chat.confirmAcceptContent": ["Giao dịch này sẽ không thể hủy nếu được xác nhận !", ""],
   "chat.isTyping": ["đang nhập", ""]
 }
