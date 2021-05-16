@@ -37,6 +37,7 @@ export function authenOut() {
   (window as any).SEVI.postMessage(JSON.stringify({ type: 'logout', data: null }));
   console.log((window as any).SEVI);
   alert((window as any).SEVI);
+  window.location.replace('https://www.google.com');
 }
 
 const actions = {
