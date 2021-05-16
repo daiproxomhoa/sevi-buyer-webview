@@ -37,11 +37,6 @@ const useStyles = makeStyles(() => ({
     padding: '8px 12px',
     width: '100%',
   },
-  header: {
-    paddingBottom: 32,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-  },
   dot: {
     borderRadius: 6,
     height: 12,
@@ -49,14 +44,10 @@ const useStyles = makeStyles(() => ({
     marginRight: 8,
   },
   panel: {
-    borderRadius: 12,
-    padding: 12,
-    boxSizing: 'border-box',
     width: '100%',
-    minHeight: 115,
+    height: 128,
   },
   panelClose: {
-    borderRadius: 12,
     height: 35.5,
     width: 35.5,
   },
@@ -125,16 +116,19 @@ const ChatHeader = (props: Props) => {
           </IconButton>
         }
         action={() => dispatch(goBack())}
-        appBarProps={{ className: classes.header, elevation: 1 }}
+        appBarProps={{ elevation: 1 }}
       />
       <AppBar position="sticky" className={classes.appBar}>
         <Box
           className={expand ? classes.panel : classes.panelClose}
           style={{
-            transition: '0.5s all',
+            transition: 'width 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, height 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
             background: request.accept ? GREEN : PRIMARY,
             overflow: 'hidden',
             position: 'relative',
+            borderRadius: 12,
+            padding: 12,
+            boxSizing: 'border-box',
           }}
         >
           <IconButton className={classes.iconBtn} style={{ zIndex: 2 }} onClick={() => setExpand(!expand)}>
@@ -142,7 +136,7 @@ const ChatHeader = (props: Props) => {
           </IconButton>
           <Box
             style={{
-              transition: '0.5s all',
+              transition: '0.5s opacity',
               opacity: expand ? 1 : 0,
             }}
           >
