@@ -2,7 +2,6 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType, createAction, createCustomAction, getType } from 'typesafe-actions';
 import { API_PATHS } from '../../../configs/api';
-import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import { fetchThunk } from '../../common/redux/thunk';
@@ -14,6 +13,7 @@ export interface AuthenState {
 }
 
 export const authenIn = createCustomAction('authen/in');
+export const authenOut = createCustomAction('authen/out');
 
 export const setAuthData = createAction('auth/setAuthData', (data: IAuth) => ({
   data,
@@ -23,25 +23,21 @@ export function logout(): ThunkAction<Promise<void>, AppState, null, Action<stri
   return async (dispatch) => {
     dispatch(setLoadingBackDrop(true));
     await dispatch(fetchThunk(API_PATHS.signOut, 'get'));
-    authenOut();
+    authenOutMessage();
+    dispatch(authenOut());
     dispatch(setLoadingBackDrop(false));
   };
 }
 
-export function authenOut() {
-  alert('test');
-  console.log('Try to log out');
-  alert((window as any).SEVI);
-  (window as any).SEVI.postMessage('Test');
-  (window as any).SEVI.postMessage(JSON.stringify({ type: 'logout', data: null }));
-  console.log((window as any).SEVI);
-  alert((window as any).SEVI);
-  window.location.replace('https://www.google.com');
+export function authenOutMessage() {
+  if ((window as any).SEVI) {
+    (window as any).SEVI.postMessage(JSON.stringify({ type: 'logout', data: null }));
+  }
 }
 
 const actions = {
   authenIn,
-  //authenOut,
+  authenOut,
   setAuthData,
 };
 
@@ -51,8 +47,8 @@ export default function authenReducer(state = { authen: true }, action: ActionT)
   switch (action.type) {
     case getType(authenIn):
       return { ...state, authen: true };
-    // case getType(authenOut):
-    //   return { ...state, authen: false };
+    case getType(authenOut):
+      return { ...state, authen: false };
     case getType(setAuthData):
       return { ...state, data: action.payload.data };
     default:
