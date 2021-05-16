@@ -32,8 +32,10 @@ export function logout(): ThunkAction<Promise<void>, AppState, null, Action<stri
 }
 
 export function authenOut() {
+  alert('test');
   console.log('Try to log out');
   alert((window as any).SEVI);
+  (window as any).SEVI.postMessage('Test');
   (window as any).SEVI.postMessage(JSON.stringify({ type: 'logout', data: null }));
   console.log((window as any).SEVI);
   alert((window as any).SEVI);
