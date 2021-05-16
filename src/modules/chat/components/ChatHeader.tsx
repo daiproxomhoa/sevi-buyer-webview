@@ -1,3 +1,4 @@
+import classes from '*.module.sass';
 import {
   AppBar,
   Avatar,
@@ -26,9 +27,9 @@ import { ReactComponent as IconDotList } from '../../../svg/ic_dot_list.svg';
 import ConfirmDialog from '../../common/component/ConfirmDialog';
 import Header from '../../common/component/Header';
 import { some } from '../../common/constants';
-import { getStatus } from '../utils';
+import { getStatus, textOveflowEllipsis } from '../utils';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   item: {
     minWidth: 190,
     justifyContent: 'flex-start',
@@ -50,13 +51,12 @@ const useStyles = makeStyles((theme) => ({
   panel: {
     borderRadius: 12,
     padding: 12,
-    position: 'relative',
     boxSizing: 'border-box',
     width: '100%',
+    minHeight: 115,
   },
   panelClose: {
     borderRadius: 12,
-    position: 'relative',
     height: 35.5,
     width: 35.5,
   },
@@ -69,13 +69,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   iconBtn: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 4,
-    color: 'white',
-  },
-  iconBtnClose: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -101,6 +94,7 @@ const ChatHeader = (props: Props) => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const status = getStatus(request);
+
   return (
     <>
       <Header
@@ -136,52 +130,61 @@ const ChatHeader = (props: Props) => {
       <AppBar position="sticky" className={classes.appBar}>
         <Box
           className={expand ? classes.panel : classes.panelClose}
-          style={{ transition: '0.5s all', background: request.accept ? GREEN : PRIMARY }}
+          style={{
+            transition: '0.5s all',
+            background: request.accept ? GREEN : PRIMARY,
+            overflow: 'hidden',
+            position: 'relative',
+          }}
         >
-          <IconButton className={expand ? classes.iconBtn : classes.iconBtnClose} onClick={() => setExpand(!expand)}>
+          <IconButton className={classes.iconBtn} style={{ zIndex: 2 }} onClick={() => setExpand(!expand)}>
             {expand ? <SettingsOverscanIcon /> : <AspectRatioIcon />}
           </IconButton>
-          <Zoom in={expand}>
-            <Box>
-              <Typography variant="body1" style={{ marginRight: 24, minHeight: 23 }}>
-                {request?.desc || ''}
+          <Box
+            style={{
+              transition: '0.5s all',
+              opacity: expand ? 1 : 0,
+            }}
+          >
+            <Box marginRight={4.5} height={60}>
+              <Typography variant="body1" noWrap>
+                {request?.desc}
               </Typography>
-              <Typography variant="body2" style={{ minHeight: 23 }}>
-                {request?.location || ''}
+              <Typography variant="body2" style={{ wordBreak: 'break-all' }} component={'div'}>
+                {textOveflowEllipsis(request?.location)}
               </Typography>
-              <Divider className="m-t-8 m-b-8" />
-              <Box display="flex" alignItems="center">
-                <ScheduleIcon className="m-r-8" />
-                <Box flex={1}>
-                  <Typography variant="caption">
-                    {moment(`${request?.date} ${request?.time}`).format(FE_DATE_TIME_FORMAT)}
-                  </Typography>
-                </Box>
-                <ConfirmDialog
-                  children={(open: () => void, close: () => void) =>
-                    request.accept && (
-                      <Button variant="outlined" color="inherit" size="small" onClick={open}>
-                        <Typography variant="body2">
-                          <FormattedMessage id="confirm" />
-                        </Typography>
-                      </Button>
-                    )
-                  }
-                  title={'chat.confirmEcceptTitle'}
-                  content={'chat.confirmEcceptContent'}
-                  ok={(open: () => void, close: () => void) => {
-                    close();
-                  }}
-                  cancel={(open: () => void, close: () => void) => {
-                    close();
-                  }}
-                />
-              </Box>
             </Box>
-          </Zoom>
+            <Divider className="m-t-8 m-b-8" />
+            <Box display="flex" alignItems="center">
+              <ScheduleIcon className="m-r-8" />
+              <Box flex={1}>
+                <Typography variant="caption">
+                  {moment(`${request?.date} ${request?.time}`).format(FE_DATE_TIME_FORMAT)}
+                </Typography>
+              </Box>
+              <ConfirmDialog
+                children={(open: () => void, close: () => void) =>
+                  request.accept && (
+                    <Button variant="outlined" color="inherit" size="small" onClick={open}>
+                      <Typography variant="body2">
+                        <FormattedMessage id="confirm" />
+                      </Typography>
+                    </Button>
+                  )
+                }
+                title={'chat.confirmEcceptTitle'}
+                content={'chat.confirmEcceptContent'}
+                ok={(open: () => void, close: () => void) => {
+                  close();
+                }}
+                cancel={(open: () => void, close: () => void) => {
+                  close();
+                }}
+              />
+            </Box>
+          </Box>
         </Box>
       </AppBar>
-
       <Popover
         id={id}
         open={open}

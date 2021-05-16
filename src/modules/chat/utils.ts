@@ -15,3 +15,10 @@ export const getStatus = (request: some) => {
   }
   return { id: 'requestStatus.waiting', color: yellow[500] };
 };
+
+export const textOveflowEllipsis = (text: string) => {
+  if (text?.length > 50) {
+    return `${text.slice(0, 50)}...`;
+  }
+  return text;
+};
