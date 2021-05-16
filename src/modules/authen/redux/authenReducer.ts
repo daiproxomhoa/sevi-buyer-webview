@@ -22,11 +22,8 @@ export const setAuthData = createAction('auth/setAuthData', (data: IAuth) => ({
 export function logout(): ThunkAction<Promise<void>, AppState, null, Action<string>> {
   return async (dispatch) => {
     dispatch(setLoadingBackDrop(true));
-    const json = await dispatch(fetchThunk(API_PATHS.signOut, 'get'));
-    if (json.status === SUCCESS_CODE) {
-      // dispatch(authenOut());
-      authenOut();
-    }
+    await dispatch(fetchThunk(API_PATHS.signOut, 'get'));
+    authenOut();
     dispatch(setLoadingBackDrop(false));
   };
 }
