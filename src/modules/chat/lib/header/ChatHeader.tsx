@@ -13,6 +13,7 @@ import {
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import SettingsOverscanIcon from '@material-ui/icons/SettingsOverscan';
+import { Skeleton } from '@material-ui/lab';
 import { goBack } from 'connected-react-router';
 import { useAtom } from 'jotai';
 import moment from 'moment';
@@ -96,23 +97,26 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const status = getStatus(request);
 
   const [requestData, setRequestData] = useState<some>(request);
+  const status = getStatus(requestData);
 
   // const {} = useSWR;
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const fireTickTok = async (value: boolean) => {
-    try {
-      const message = { message: { type: 'ticktok_load_data', value }, channel };
-      pubnub.signal(message);
-    } catch (e) {
-      onError(e);
-    }
-  };
+  const fireTickTok = useCallback(
+    async (value: boolean) => {
+      try {
+        const message = { message: { type: 'ticktok_load_data', value }, channel };
+        pubnub.signal(message);
+      } catch (e) {
+        onError(e);
+      }
+    },
+    [channel, onError, pubnub],
+  );
 
   const fetchRequest = useCallback(async () => {
     const json = await dispatch(
@@ -135,6 +139,32 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
     }
   }, [closeSnackbar, dispatch, enqueueSnackbar, intl, request.createDate, request.sellerId]);
 
+  const getConfirm = useCallback(
+    async (close: () => void) => {
+      const json = await dispatch(
+        fetchThunk(
+          API_PATHS.confirmRequest,
+          'post',
+          JSON.stringify({
+            sellerId: request.sellerId,
+            requestDate: decodeURIComponent(request.createDate),
+          }),
+        ),
+      );
+
+      if (json.status === SUCCESS_CODE && json.body?.result !== 'failure') {
+        fireTickTok(!loadData);
+        close();
+      } else {
+        enqueueSnackbar(
+          intl.formatMessage({ id: 'chat.loadFail' }),
+          snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
+        );
+      }
+    },
+    [closeSnackbar, dispatch, enqueueSnackbar, fireTickTok, intl, loadData, request.createDate, request.sellerId],
+  );
+
   useEffect(() => {
     fetchRequest();
   }, [fetchRequest, loadData]);
@@ -145,11 +175,11 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
         title={
           <Box display="flex">
             <Avatar
-              src={API_PATHS.renderSellerAvatar(requestData.sellerId, requestData.sellerAvatar)}
+              src={API_PATHS.renderSellerAvatar(request.sellerId, request.sellerAvatar)}
               style={{ marginRight: 12 }}
             />
             <Box display="flex" flexDirection="column">
-              {decodeURIComponent(requestData.sellerName)}
+              {decodeURIComponent(request.sellerName)}
               <Box display="flex" alignItems="center">
                 <Box className={classes.dot} style={{ background: status.color }} />
                 <Typography variant="caption">
@@ -199,10 +229,10 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
           >
             <Box marginRight={4.5} height={60}>
               <Typography variant="body1" noWrap>
-                {requestData?.desc}
+                {requestData?.desc || <Skeleton />}
               </Typography>
               <Typography variant="body2" style={{ wordBreak: 'break-word' }} component={'div'}>
-                {textOveflowEllipsis(requestData?.location)}
+                {textOveflowEllipsis(requestData?.location) || <Skeleton />}
               </Typography>
             </Box>
             <Divider className="m-t-8 m-b-8" />
@@ -236,8 +266,7 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
                 title={'chat.confirmAcceptTitle'}
                 content={'chat.confirmAcceptContent'}
                 ok={(open: () => void, close: () => void) => {
-                  fireTickTok(!loadData);
-                  close();
+                  getConfirm(close);
                 }}
                 cancel={(open: () => void, close: () => void) => {
                   close();
