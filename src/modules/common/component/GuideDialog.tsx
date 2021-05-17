@@ -1,4 +1,4 @@
-import { Button, Dialog, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Dialog, FormControlLabel, Typography } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router';
@@ -20,11 +20,10 @@ const GuideDialog = (props: Props) => {
   const location = useLocation();
 
   const [showDialog, setShowDialog] = React.useState(false);
+  const [disableShowAgain, setDisableShowAgain] = React.useState(false);
   const [guideInfo, setGuideInfo] = React.useState<IGuideInfo>();
 
-  const guideStorage = React.useMemo(() => {
-    return localStorage.getItem(GUIDE_LIST_KEY);
-  }, []);
+  const guideStorage = localStorage.getItem(GUIDE_LIST_KEY);
 
   const checkShowGuideInfo = React.useCallback(() => {
     const guide = guideList.find((one) => one.pathname === location.pathname);
@@ -50,20 +49,28 @@ const GuideDialog = (props: Props) => {
     setShowDialog(true);
   }, [guideStorage, location.pathname]);
 
-  const onCloseDialog = React.useCallback(() => {
-    if (!guideStorage) {
-      localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify([guideInfo]));
-      return;
-    }
+  const onCloseDialog = React.useCallback(
+    (disable: boolean) => {
+      const guideInfoSet = { ...guideInfo, disable };
 
-    const guideStorageJson = JSON.parse(guideStorage) as IGuideInfo[];
-    const guideStorageInfo = guideStorageJson.find((one) => one.pathname === location.pathname);
+      if (!guideStorage) {
+        localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify([guideInfoSet]));
+        return;
+      }
 
-    if (!guideStorageInfo) {
-      localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify([...guideStorageJson, guideInfo]));
-      return;
-    }
-  }, [guideInfo, guideStorage, location.pathname]);
+      const guideStorageJson = JSON.parse(guideStorage) as IGuideInfo[];
+      const gIndex = guideStorageJson.findIndex((one) => one.pathname === location.pathname);
+
+      if (gIndex === -1) {
+        localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify([...guideStorageJson, guideInfoSet]));
+        return;
+      }
+
+      guideStorageJson[gIndex].disable = disable;
+      localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify(guideStorageJson));
+    },
+    [guideInfo, guideStorage, location.pathname],
+  );
 
   React.useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -76,27 +83,42 @@ const GuideDialog = (props: Props) => {
   }, [checkShowGuideInfo]);
 
   return (
-    <Dialog
-      open={showDialog}
-      onClose={() => setShowDialog(false)}
-      PaperProps={{ style: { padding: '24px', alignItems: 'center' } }}
-    >
-      <Typography variant="subtitle1" color={'textPrimary'}>
-        <FormattedMessage id="guide" />
-      </Typography>
+    <Dialog open={showDialog} onClose={() => setShowDialog(false)} PaperProps={{ style: { padding: '24px' } }}>
+      <Box textAlign="center">
+        <Typography variant="subtitle1" color={'textPrimary'}>
+          <FormattedMessage id="guide" />
+        </Typography>
 
-      <Typography variant="body2" style={{ paddingTop: '36px', textAlign: 'center' }}>
-        <FormattedMessage id={guideInfo?.messageId} />
-      </Typography>
+        <Typography variant="body2" style={{ paddingTop: '36px', textAlign: 'center' }}>
+          <FormattedMessage id={guideInfo?.messageId} />
+        </Typography>
+      </Box>
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={disableShowAgain}
+            onChange={(e, checked) => setDisableShowAgain(checked)}
+            name="checkedB"
+            color="primary"
+          />
+        }
+        label={
+          <Typography variant="body2">
+            <FormattedMessage id="guide.disableShowAgain" />
+          </Typography>
+        }
+        style={{ paddingTop: '16px' }}
+      />
 
       <Button
-        style={{ margin: '24px 0px 16px', minWidth: '200px' }}
+        style={{ margin: '8px 0px 16px' }}
         variant="contained"
         color="primary"
         size="large"
         onClick={() => {
           setShowDialog(false);
-          onCloseDialog();
+          onCloseDialog(disableShowAgain);
         }}
       >
         <FormattedMessage id="guide.understand" />

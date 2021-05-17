@@ -180,7 +180,7 @@
 
   "guide": ["Hướng dẫn", ""],
   "guide.understand": ["Đã hiểu", ""],
-  "guide.dontShowAgain": ["Không hiện lại", ""],
+  "guide.disableShowAgain": ["Không hiện lại", ""],
   "guide.sellerRequestDetail": [
     "Bạn có thể yêu cầu nhiều thợ cùng lúc và chưa có ràng buộc gì cho đến lúc thợ đồng ý yêu cầu của bạn và bạn xác nhận tiến hành giao dịch với thợ",
     ""
