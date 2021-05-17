@@ -2,7 +2,6 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ActionType, createAction, createCustomAction, getType } from 'typesafe-actions';
 import { API_PATHS } from '../../../configs/api';
-import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import { fetchThunk } from '../../common/redux/thunk';
@@ -14,7 +13,6 @@ export interface AuthenState {
 }
 
 export const authenIn = createCustomAction('authen/in');
-
 export const authenOut = createCustomAction('authen/out');
 
 export const setAuthData = createAction('auth/setAuthData', (data: IAuth) => ({
@@ -24,12 +22,17 @@ export const setAuthData = createAction('auth/setAuthData', (data: IAuth) => ({
 export function logout(): ThunkAction<Promise<void>, AppState, null, Action<string>> {
   return async (dispatch) => {
     dispatch(setLoadingBackDrop(true));
-    const json = await dispatch(fetchThunk(API_PATHS.signOut, 'get'));
-    if (json.status === SUCCESS_CODE) {
-      dispatch(authenOut());
-    }
+    await dispatch(fetchThunk(API_PATHS.signOut, 'get'));
+    authenOutMessage();
+    dispatch(authenOut());
     dispatch(setLoadingBackDrop(false));
   };
+}
+
+export function authenOutMessage() {
+  if ((window as any).SEVI) {
+    (window as any).SEVI.postMessage(JSON.stringify({ type: 'logout', data: null }));
+  }
 }
 
 const actions = {
