@@ -344,15 +344,21 @@ export const ChatInternal: FC<ChatProps> = (props: ChatProps) => {
     }
   };
 
+  const isOwnMessage = (uuid: string) => {
+    return pubnub.getUUID() === uuid;
+  };
+
   const handleFileEvent = (event: FileEvent) => {
     if (props.onFile) props.onFile(event);
     try {
-      // setMessages((messages) => {
-      //   const messagesClone = cloneDeep(messages) || {};
-      //   messagesClone[event.channel!] = messagesClone[event.channel!] || [];
-      //   messagesClone[event.channel!].push({ ...event, messageType: 4, message: { file: event.file } });
-      //   return messagesClone;
-      // });
+      if (!isOwnMessage(event.publisher)) {
+        setMessages((messages) => {
+          const messagesClone = cloneDeep(messages) || {};
+          messagesClone[event.channel!] = messagesClone[event.channel!] || [];
+          messagesClone[event.channel!].push({ ...event, messageType: 4, message: { file: event.file } });
+          return messagesClone;
+        });
+      }
     } catch (e) {
       props.onError!(e);
     }
