@@ -42,7 +42,6 @@ const PendingRateRemindDialog = (props: Props) => {
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const isSmallScreen = useMediaQuery('(max-width:320px)');
-  console.log('matches', isSmallScreen);
 
   const arrayDeferRating = useMemo(() => {
     return (

@@ -9,8 +9,15 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { TextInput } from '../../components/element';
-import { CurrentChannelAtom, ErrorFunctionAtom, TypingIndicatorTimeoutAtom, UsersMetaAtom } from '../state-atoms';
+import {
+  CurrentChannelAtom,
+  ErrorFunctionAtom,
+  MessagesAtom,
+  TypingIndicatorTimeoutAtom,
+  UsersMetaAtom,
+} from '../state-atoms';
 import ArrowDropDownCircleRoundedIcon from '@material-ui/icons/ArrowDropDownCircleRounded';
+import { cloneDeep } from 'lodash';
 
 export interface MessageInputProps {
   /** Set a draft message to display in the text window. */
@@ -31,6 +38,7 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
   const [typingIndicatorTimeout] = useAtom(TypingIndicatorTimeoutAtom);
   const onError = onErrorObj.function;
   const inputRef = useRef<any>();
+  const [, setMessages] = useAtom(MessagesAtom);
 
   const dispatch = useDispatch();
 
@@ -64,20 +72,41 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
 
   const sendImage = async (files: FileList | null) => {
     const file = files?.[0];
-
     if (file) {
       dispatch(setLoadingBackDrop(true));
       try {
-        await pubnub.sendFile({
-          channel,
-          file,
-        });
+        await pubnub
+          .sendFile({
+            channel,
+            file,
+          })
+          .then((v) => {
+            console.log(v);
+            if (v) {
+              setMessages((messages) => {
+                const messagesClone = cloneDeep(messages) || {};
+                messagesClone[channel!] = messagesClone[channel!] || [];
+                messagesClone[channel!].push({
+                  channel,
+                  timetoken: v.timetoken,
+                  messageType: 4,
+                  uuid: pubnub.getUUID(),
+                  message: {
+                    type: '',
+                    text: '',
+                    file: { id: v.id, name: v.name },
+                  },
+                });
+                return messagesClone;
+              });
+            }
+          });
       } finally {
         dispatch(setLoadingBackDrop(false));
         scrollToBottom();
       }
     } else {
-      window.alert('dmdmdm');
+      window.alert('No file has selected');
     }
   };
 
@@ -132,7 +161,7 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
   const [showBtnScollBottom, setShowBtnScollBottom] = useState(false);
 
   const scrollToBottom = () => {
-    if (!endScreenRef?.current) return;
+    if (!endScreenRef?.current || !inputRef?.current) return;
     endScreenRef?.current.scrollIntoView();
     inputRef?.current.focus();
   };
