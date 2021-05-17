@@ -18,3 +18,12 @@ export interface IProfile {
   signDate: string;
   addresses: IAddresses[];
 }
+
+export const defaultAddress: IAddresses = {
+  name: '',
+  address: {
+    lat: 0,
+    lng: 0,
+    formattedAddress: '',
+  },
+};

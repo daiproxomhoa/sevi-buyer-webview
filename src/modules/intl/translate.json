@@ -80,6 +80,7 @@
   "search.filter.price": ["Giá tăng dần", ""],
   "search.filter.quality": ["Chất lượng", ""],
   "search.filter.attitude": ["Thái độ phục vụ", ""],
+  "search.filter.addNewAddress": ["+ Thêm địa chỉ mới", ""],
 
   "request.sendRequest": ["Gửi yêu cầu", ""],
   "request.requesting": ["Đang yêu cầu", ""],
@@ -174,6 +175,7 @@
   "profile.rePassword": ["Nhập lại mật khẩu", ""],
   "profile.rePasswordInvalid": ["Mật khẩu không trùng khớp", ""],
   "profile.newPasswordInvalid": ["Mật khẩu mới không trùng mật khẩu cũ", ""],
+  "profile.addAddress": ["Thêm dịa chỉ", ""],
   "profile.logout": ["Đăng xuất", ""],
 
   "guide": ["Hướng dẫn", ""],

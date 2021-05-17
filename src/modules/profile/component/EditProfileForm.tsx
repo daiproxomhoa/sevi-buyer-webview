@@ -1,18 +1,10 @@
-import { Box, Button, IconButton, InputAdornment, InputBase, Typography } from '@material-ui/core';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { Box, Button, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { API_PATHS } from '../../../configs/api';
-import { DARK_RED } from '../../../configs/colors';
-import { AppState } from '../../../redux/reducer';
 import { FormControlTextField } from '../../common/component/Form';
-import FormControlAutoComplete from '../../common/component/FormControlAutoComplete';
 import { some } from '../../common/constants';
-import { fetchThunk } from '../../common/redux/thunk';
+import AddressAutoCompleteFormControl from './AddressAutoCompleteFormControl';
 import AvatarUpload from './AvatarUpload';
 
 interface Props {
@@ -23,7 +15,6 @@ interface Props {
 const EditProfileForm = (props: Props) => {
   const { profile, onSubmit } = props;
   const intl = useIntl();
-  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const {
     register,
     handleSubmit,
@@ -31,7 +22,7 @@ const EditProfileForm = (props: Props) => {
     control,
     reset,
     watch,
-  } = useForm({
+  } = useForm<any>({
     reValidateMode: 'onChange',
     mode: 'onChange',
     defaultValues: profile,
@@ -91,88 +82,18 @@ const EditProfileForm = (props: Props) => {
             )}
           />
         </Box>
-        {fields.map((item: some, index: number) => {
+        {fields?.map((item: some, index: number) => {
           const helperTextLocation = errors.addresses?.[index]?.name?.message;
           const helperTextAddress = errors.addresses?.[index]?.address?.message;
           return (
-            <Box key={item.id} width="100%" className="d-flex align-items-center">
-              <Box className="flex-1">
-                <Controller
-                  name={`addresses[${index}].name`}
-                  control={control}
-                  rules={{ required: intl.formatMessage({ id: 'required' }) }}
-                  render={({ field: { onChange, value, ref } }) => {
-                    return (
-                      <InputBase
-                        className={'m-b-4'}
-                        inputRef={ref}
-                        value={value}
-                        onChange={(e) => onChange(e.target.value)}
-                        placeholder={intl.formatMessage({ id: 'locationName' })}
-                        fullWidth={true}
-                        error={!!helperTextLocation}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() => {
-                                remove(index);
-                              }}
-                              style={{ padding: 4 }}
-                            >
-                              <DeleteForeverIcon style={{ color: DARK_RED }} />
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                      />
-                    );
-                  }}
-                />
-                <Controller
-                  name={`addresses[${index}].address`}
-                  control={control}
-                  rules={{
-                    required: intl.formatMessage({ id: 'required' }),
-                  }}
-                  render={({ field: { onChange, value, ref } }) => {
-                    return (
-                      <FormControlAutoComplete
-                        className={'m-b-4'}
-                        fullWidth
-                        innerRef={ref}
-                        placeholder={intl.formatMessage({ id: 'address' })}
-                        value={value}
-                        onChange={async (_, data) => {
-                          if (data) {
-                            const json = await dispatch(fetchThunk(API_PATHS.getDetailLocation(data.placeId)));
-                            onChange({
-                              ...json?.body?.geometry?.location,
-                              formattedAddress: data.formattedAddress,
-                            });
-                          } else {
-                            onChange();
-                          }
-                        }}
-                        loadOptions={async (str: string) => {
-                          const json = await dispatch(fetchThunk(API_PATHS.suggestLocation(str)));
-                          return json.body?.map((address: some) => ({
-                            formattedAddress: address.description,
-                            placeId: address.placeId,
-                          }));
-                        }}
-                        getOptionLabel={(address: some) => {
-                          return address?.formattedAddress;
-                        }}
-                        getOptionSelected={(option: some, value: some) => {
-                          return option?.formattedAddress === value?.formattedAddress;
-                        }}
-                        errorMessage={helperTextAddress}
-                        InputProps={{ rowsMax: 2, multiline: true }}
-                      />
-                    );
-                  }}
-                />
-              </Box>
-            </Box>
+            <AddressAutoCompleteFormControl
+              key={item.id}
+              index={index}
+              helperTextAddress={helperTextAddress}
+              helperTextLocation={helperTextLocation}
+              control={control}
+              remove={remove}
+            />
           );
         })}
       </Box>

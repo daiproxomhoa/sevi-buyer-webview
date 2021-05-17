@@ -74,6 +74,7 @@ const HeaderProfile = (props: Props) => {
         <Box className="d-flex d-flex-column">
           {OPTIONS.map((one) => (
             <ButtonBase
+              key={one.pathname}
               disabled={!avatar}
               onClick={() => {
                 handleClose();

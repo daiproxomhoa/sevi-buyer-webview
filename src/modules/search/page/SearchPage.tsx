@@ -196,6 +196,10 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
           onSellerSearch({ ...data, searched: true });
           setOpenFilter(false);
         }}
+        onAddNewAddress={() => {
+          setOpenFilter(false);
+          dispatch(push(ROUTES.addAddress));
+        }}
       />
     </>
   );

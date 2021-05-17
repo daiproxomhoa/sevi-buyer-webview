@@ -14,6 +14,7 @@ export const ROUTES = {
   },
   editProfile: '/editProfile',
   changePass: '/changePass',
+  addAddress: '/addAddress',
   searchDetail: '/searchDetail',
   sendRequest: '/sendRequest',
   requestDetail: '/requestDetail',
