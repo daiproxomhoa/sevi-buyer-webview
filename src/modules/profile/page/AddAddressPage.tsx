@@ -49,7 +49,7 @@ const AddAddressPage = (props: Props) => {
 
   return (
     <PageWrapper>
-      <Header action={() => window.history.back()} title={<FormattedMessage id="profile.addAddress" />} />
+      <Header action={() => window.history.back()} title={<FormattedMessage id="profile.addMoreAddress" />} />
 
       <AddAddressForm onSubmit={(values) => onSubmit(values)} />
     </PageWrapper>

@@ -175,7 +175,6 @@
   "profile.rePassword": ["Nhập lại mật khẩu", ""],
   "profile.rePasswordInvalid": ["Mật khẩu không trùng khớp", ""],
   "profile.newPasswordInvalid": ["Mật khẩu mới không trùng mật khẩu cũ", ""],
-  "profile.addAddress": ["Thêm dịa chỉ", ""],
   "profile.logout": ["Đăng xuất", ""],
 
   "guide": ["Hướng dẫn", ""],
