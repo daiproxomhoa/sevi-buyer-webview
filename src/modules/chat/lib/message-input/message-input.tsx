@@ -80,21 +80,20 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
             channel,
             file,
           })
-          .then((v) => {
-            console.log(v);
-            if (v) {
+          .then((val: any) => {
+            if (val) {
               setMessages((messages) => {
                 const messagesClone = cloneDeep(messages) || {};
                 messagesClone[channel!] = messagesClone[channel!] || [];
                 messagesClone[channel!].push({
                   channel,
-                  timetoken: v.timetoken,
+                  timetoken: val.timetoken,
                   messageType: 4,
                   uuid: pubnub.getUUID(),
                   message: {
                     type: '',
                     text: '',
-                    file: { id: v.id, name: v.name },
+                    file: { id: val.id, name: val.name },
                   },
                 });
                 return messagesClone;
