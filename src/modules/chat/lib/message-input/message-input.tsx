@@ -75,31 +75,26 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
     if (file) {
       dispatch(setLoadingBackDrop(true));
       try {
-        await pubnub
-          .sendFile({
+        const res = await pubnub.sendFile({
+          channel,
+          file,
+        });
+        setMessages((messages) => {
+          const messagesClone = cloneDeep(messages) || {};
+          messagesClone[channel!] = messagesClone[channel!] || [];
+          messagesClone[channel!].push({
             channel,
-            file,
-          })
-          .then((val: any) => {
-            if (val) {
-              setMessages((messages) => {
-                const messagesClone = cloneDeep(messages) || {};
-                messagesClone[channel!] = messagesClone[channel!] || [];
-                messagesClone[channel!].push({
-                  channel,
-                  timetoken: val.timetoken,
-                  messageType: 4,
-                  uuid: pubnub.getUUID(),
-                  message: {
-                    type: '',
-                    text: '',
-                    file: { id: val.id, name: val.name },
-                  },
-                });
-                return messagesClone;
-              });
-            }
+            timetoken: res.timetoken,
+            messageType: 4,
+            uuid: pubnub.getUUID(),
+            message: {
+              type: '',
+              text: '',
+              file: { id: res.id, name: res.name },
+            },
           });
+          return messagesClone;
+        });
       } finally {
         dispatch(setLoadingBackDrop(false));
         scrollToBottom();
