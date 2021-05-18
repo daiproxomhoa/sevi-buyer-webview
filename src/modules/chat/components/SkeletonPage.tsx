@@ -5,7 +5,7 @@ import { Skeleton } from '@material-ui/lab';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { some } from '../../common/constants';
-import ChatHeader from './ChatHeader';
+import ChatHeader from '../lib/header/ChatHeader';
 import { AnchorDiv, TextInput } from './element';
 
 interface Props {
@@ -42,7 +42,7 @@ const SkeletonPage = (props: Props) => {
   return (
     <Box style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <AnchorDiv>
-        <ChatHeader request={request} />
+        <ChatHeader request={request} isSkeleton />
       </AnchorDiv>
       <ListSkeleton />
       <AnchorDiv

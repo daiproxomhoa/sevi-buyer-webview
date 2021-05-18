@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Dialog, Typography } from '@material-ui/core';
+import { Badge, Box, Button, Dialog, Typography, useMediaQuery } from '@material-ui/core';
 import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 import StarOutlineIcon from '@material-ui/icons/StarOutline';
 import { push } from 'connected-react-router';
@@ -44,6 +44,7 @@ const PendingRateRemindDialog = (props: Props) => {
   const location = useLocation();
   const intl = useIntl();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const isSmallScreen = useMediaQuery('(max-width:320px)');
 
   const arrayDeferRating = useMemo(() => {
     return (
@@ -101,7 +102,7 @@ const PendingRateRemindDialog = (props: Props) => {
         style: {
           width: '100%',
           position: 'relative',
-          padding: '42px 24px',
+          padding: isSmallScreen ? '24px' : '42px 24px',
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
