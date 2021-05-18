@@ -36,6 +36,7 @@ import { some } from '../../../common/constants';
 import { fetchThunk } from '../../../common/redux/thunk';
 import { getStatus, textOveflowEllipsis } from '../../utils';
 import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../state-atoms';
+import CallIcon from '@material-ui/icons/Call';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -190,13 +191,26 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
           </Box>
         }
         endAdornment={
-          <IconButton
-            onClick={(event) => {
-              setAnchorEl(event.currentTarget);
-            }}
-          >
-            <IconDotList style={{ height: 14 }} />
-          </IconButton>
+          <Box display="flex" alignItems="center">
+            <IconButton
+              onClick={(event) => {
+                const windowAny = window as any;
+                if (windowAny.SEVI) {
+                  windowAny.SEVI.postMessage(JSON.stringify({ type: 'call', data: request.sellerId }));
+                }
+              }}
+            >
+              <CallIcon style={{ height: 22 }} />
+            </IconButton>
+            &nbsp;
+            <IconButton
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+              }}
+            >
+              <IconDotList style={{ height: 14 }} />
+            </IconButton>
+          </Box>
         }
         action={() => dispatch(goBack())}
         appBarProps={{ elevation: 1 }}
