@@ -196,8 +196,8 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
               onClick={(event) => {
                 const windowAny = window as any;
                 if (windowAny.SEVI) {
-                  alert(`Calling: ${request.sellerId}`);
-                  windowAny.SEVI.postMessage(JSON.stringify({ type: 'call', data: request.sellerId }));
+                  alert(`Calling: seller${request.sellerId}`);
+                  windowAny.SEVI.postMessage(JSON.stringify({ type: 'call', data: `seller${request.sellerId}` }));
                 }
               }}
             >
