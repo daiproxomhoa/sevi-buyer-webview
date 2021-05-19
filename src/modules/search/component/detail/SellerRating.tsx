@@ -52,7 +52,7 @@ const SellerRating = (props: Props) => {
                   marginLeft: '8px',
                 }}
               />
-              {info?.rating}
+              <FormattedNumber value={info.rating} maximumFractionDigits={1} />
             </Typography>
 
             <Box display="flex">
@@ -78,7 +78,7 @@ const SellerRating = (props: Props) => {
                     marginLeft: '8px',
                   }}
                 />
-                {info?.attitudeRating}
+                <FormattedNumber value={info.attitudeRating} maximumFractionDigits={1} />
               </Typography>
 
               <Typography
@@ -103,7 +103,7 @@ const SellerRating = (props: Props) => {
                     marginLeft: '8px',
                   }}
                 />
-                {info?.priceRating}
+                <FormattedNumber value={info.priceRating} maximumFractionDigits={1} />
               </Typography>
 
               <Typography
@@ -128,7 +128,7 @@ const SellerRating = (props: Props) => {
                     marginLeft: '8px',
                   }}
                 />
-                {info?.qualityRating}
+                <FormattedNumber value={info.qualityRating} maximumFractionDigits={1} />
               </Typography>
             </Box>
           </CardDiv>

@@ -59,7 +59,7 @@ const SearchResultItem = (props: Props) => {
               }}
             />
             <Typography variant="body2" color="primary" style={{ marginRight: '8px' }}>
-              {info.rating}
+              <FormattedNumber value={info.rating} maximumFractionDigits={1} />
             </Typography>
           </div>
           <Typography variant="caption" color="textSecondary">
