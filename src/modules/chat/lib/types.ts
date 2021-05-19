@@ -30,6 +30,7 @@ export interface Message {
       }>;
     };
   };
+  [key: string]: any;
 }
 
 export interface ImageAttachment {

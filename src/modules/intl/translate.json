@@ -197,5 +197,9 @@
   "chat.cancelRequest": ["Hủy yêu cầu", ""],
   "chat.deleteConversation": ["Xóa hội thoại", ""],
   "chat.block": ["Chặn người này", ""],
+  "chat.confirmAcceptTitle": ["Xác nhận giao dịch", ""],
+  "chat.loadFail": ["Máy chủ có vấn đề", ""],
+  "chat.confirmFail": ["Xác nhận thất bại", ""],
+  "chat.confirmAcceptContent": ["Giao dịch này sẽ không thể hủy nếu được xác nhận !", ""],
   "chat.isTyping": ["đang nhập", ""]
 }
