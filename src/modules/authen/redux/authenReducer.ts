@@ -3,6 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { ActionType, createAction, createCustomAction, getType } from 'typesafe-actions';
 import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
+import { development } from '../../common/constants';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import { fetchThunk } from '../../common/redux/thunk';
 import { IAuth } from '../model';
@@ -43,7 +44,7 @@ const actions = {
 
 type ActionT = ActionType<typeof actions>;
 
-export default function authenReducer(state = { authen: true }, action: ActionT): AuthenState {
+export default function authenReducer(state = { authen: !development }, action: ActionT): AuthenState {
   switch (action.type) {
     case getType(authenIn):
       return { ...state, authen: true };

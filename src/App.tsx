@@ -37,6 +37,8 @@ import styles from './scss/webviewRouteTransition.module.scss';
 import ChatPage from './modules/chat/page/ChatPage';
 import GuideDialog from './modules/common/component/GuideDialog';
 import AddAddressPage from './modules/profile/page/AddAddressPage';
+import { development } from './modules/common/constants';
+import EmptyPage from './modules/common/page/EmptyPage';
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -121,10 +123,15 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
             return (
               <div style={{ ...style, width: '100%' }}>
                 <Switch location={location}>
-                  <RedirectRoute auth={authen} exact path={ROUTES.login} component={LoginPage} />
-                  <Route exact path={ROUTES.signUp} component={SignUpPage} />
+                  <RedirectRoute
+                    auth={authen}
+                    exact
+                    path={ROUTES.login}
+                    component={development ? LoginPage : EmptyPage}
+                  />
+                  {/* <Route exact path={ROUTES.signUp} component={SignUpPage} />
                   <RedirectRoute auth={authen} exact path={ROUTES.verifyOtp} component={VerifyOtpPage} />
-                  <Route exact path={ROUTES.forgotPass} component={ForgetPasswordPage} />
+                  <Route exact path={ROUTES.forgotPass} component={ForgetPasswordPage} /> */}
                   <ProtectedRoute auth={authen} exact path={ROUTES.search} component={SearchPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.searchDetail} component={SearchDetailPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.request} component={UnconfirmedRequestListPage} />
