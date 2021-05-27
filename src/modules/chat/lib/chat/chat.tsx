@@ -344,9 +344,12 @@ export const ChatInternal: FC<ChatProps> = (props: ChatProps) => {
     }
   };
 
-  const isOwnMessage = (uuid: string) => {
-    return pubnub.getUUID() === uuid;
-  };
+  const isOwnMessage = useCallback(
+    (uuid: string) => {
+      return pubnub.getUUID() === uuid;
+    },
+    [pubnub],
+  );
 
   const handleFileEvent = (event: FileEvent) => {
     if (props.onFile) props.onFile(event);

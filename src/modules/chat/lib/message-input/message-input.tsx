@@ -99,8 +99,6 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
         dispatch(setLoadingBackDrop(false));
         scrollToBottom();
       }
-    } else {
-      window.alert('No file has selected');
     }
   };
 
