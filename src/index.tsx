@@ -14,9 +14,6 @@ import { setLocale } from './modules/intl/redux/intlReducer';
 import configureStore, { history } from './redux/configureStore';
 import reportWebVitals from './reportWebVitals';
 import './scss/stylesheet.scss';
-import ReactGA from 'react-ga';
-
-ReactGA.initialize('UA-000000-01');
 
 smoothscroll.polyfill();
 

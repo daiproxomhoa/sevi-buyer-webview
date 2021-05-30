@@ -1,5 +1,6 @@
 import { StyleRulesCallback, Theme, WithStyles, withStyles } from '@material-ui/core/styles';
-import React, { useEffect } from 'react';
+import { UnregisterCallback } from 'history';
+import React, { useCallback, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch, useHistory } from 'react-router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -36,7 +37,7 @@ import SearchDetailPage from './modules/search/page/SearchDetailPage';
 import SearchPage from './modules/search/page/SearchPage';
 import { AppState } from './redux/reducer';
 import styles from './scss/webviewRouteTransition.module.scss';
-import ReactGA from 'react-ga';
+import { analyticsRef } from './utils';
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -65,11 +66,20 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
   const actionRef = React.useRef(action);
   actionRef.current = action;
 
+  // firebase analytics
+  const sendPageView = useCallback((location): void => {
+    if (analyticsRef.current && !development) {
+      analyticsRef.current.logEvent('page_view', {
+        page_path: location.pathname,
+        page_location: window.location.href,
+      });
+    }
+  }, []);
   const history = useHistory();
-
   useEffect(() => {
-    ReactGA.pageview(history.location.pathname + history.location.search);
-  }, [history]);
+    sendPageView(history.location);
+  }, [sendPageView, history]);
+  // end firebase analytics
 
   React.useEffect(() => {
     document.body.className = classes.body;
