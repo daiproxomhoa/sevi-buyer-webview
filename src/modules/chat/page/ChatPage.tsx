@@ -74,6 +74,21 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
     decodeURIComponent(requestData.createDate),
   );
 
+  React.useEffect(() => {
+    if ((window as any).SEVI) {
+      (window as any).SEVI.postMessage(
+        JSON.stringify({
+          type: 'chatActive',
+          data: {
+            buyer: requestData.buyerId,
+            seller: requestData.sellerId,
+            requestDate: decodeURIComponent(requestData.createDate),
+          },
+        }),
+      );
+    }
+  }, [requestData]);
+
   if (!pubNubClient || !channelName) {
     // render loading spinner
     return <SkeletonPage request={requestData} />;

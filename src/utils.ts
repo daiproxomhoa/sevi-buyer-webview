@@ -3,6 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { development } from './modules/common/constants';
 import { AppState } from './redux/reducer';
 import firebase from 'firebase/app';
+import 'firebase/analytics';
 
 export type ThunkController = {
   cancelled: boolean;

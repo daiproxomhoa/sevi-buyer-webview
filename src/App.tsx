@@ -1,8 +1,7 @@
 import { StyleRulesCallback, Theme, WithStyles, withStyles } from '@material-ui/core/styles';
-import { UnregisterCallback } from 'history';
 import React, { useCallback, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch, useHistory } from 'react-router';
+import { matchPath, Redirect, Route, Switch, useLocation } from 'react-router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { CSSTransitionClassNames } from 'react-transition-group/CSSTransition';
 import { AnyAction } from 'redux';
@@ -75,10 +74,16 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
       });
     }
   }, []);
-  const history = useHistory();
+  const location = useLocation();
   useEffect(() => {
-    sendPageView(history.location);
-  }, [sendPageView, history]);
+    sendPageView(location.pathname + location.search);
+
+    if (!matchPath(location.pathname, ROUTES.chat.value)) {
+      if ((window as any).SEVI) {
+        (window as any).SEVI.postMessage(JSON.stringify({ type: 'chatOver', data: null }));
+      }
+    }
+  }, [sendPageView, location]);
   // end firebase analytics
 
   React.useEffect(() => {
