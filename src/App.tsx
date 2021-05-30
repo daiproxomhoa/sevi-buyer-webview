@@ -1,7 +1,7 @@
 import { StyleRulesCallback, Theme, WithStyles, withStyles } from '@material-ui/core/styles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router';
+import { Redirect, Route, Switch, useHistory } from 'react-router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { CSSTransitionClassNames } from 'react-transition-group/CSSTransition';
 import { AnyAction } from 'redux';
@@ -36,6 +36,7 @@ import SearchDetailPage from './modules/search/page/SearchDetailPage';
 import SearchPage from './modules/search/page/SearchPage';
 import { AppState } from './redux/reducer';
 import styles from './scss/webviewRouteTransition.module.scss';
+import ReactGA from 'react-ga';
 
 export const bodyStyles: StyleRulesCallback<Theme, {}> = (theme) => ({
   body: {
@@ -63,6 +64,12 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
 
   const actionRef = React.useRef(action);
   actionRef.current = action;
+
+  const history = useHistory();
+
+  useEffect(() => {
+    ReactGA.pageview(history.location.pathname + history.location.search);
+  }, [history]);
 
   React.useEffect(() => {
     document.body.className = classes.body;
