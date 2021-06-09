@@ -4,6 +4,7 @@ import { useAtomCallback } from 'jotai/utils';
 import { FetchMessagesResponse, ObjectCustom, UUIDMetadataObject } from 'pubnub';
 import { usePubNub } from 'pubnub-react';
 import React, { FC, ReactElement, ReactNode, UIEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import ProgressiveImage from '../../../common/component/ProgressiveImage';
 import ImageMsg from '../../components/ImageMsg';
 import TextMsg from '../../components/TextMsg';
@@ -442,7 +443,7 @@ export const MessageList: FC<MessageListProps> = (props: MessageListProps) => {
     <div className={`pn-msg-list pn-msg-list--${theme}`}>
       {unreadMessages > 0 && (
         <div className="pn-msg-list__unread" onClick={() => scrollToBottom()}>
-          {unreadMessages} new messages ↓
+          {unreadMessages} <FormattedMessage id="chat.newMessages" /> ↓
         </div>
       )}
 

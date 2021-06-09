@@ -191,6 +191,7 @@
   "requestStatus.waiting": ["Đang yêu cầu"],
 
   "chat.send": ["Gửi", ""],
+  "chat.newMessages": ["tin nhắn mới", ""],
   "chat.sendPlaceholder": ["Nhập tin nhắn", ""],
   "chat.me": ["Tôi", ""],
   "chat.complain": ["Khiếu nại", ""],

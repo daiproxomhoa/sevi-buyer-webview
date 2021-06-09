@@ -50,7 +50,14 @@ const ImageMsg = (props: Props) => {
   return (
     <>
       <Box className={classes.frame} onClick={() => setOpen(true)}>
-        <ProgressiveImage alt="image_chat" src={url} className={classes.image} />
+        <ProgressiveImage
+          alt="image_chat"
+          width={300}
+          height={200}
+          style={{ objectFit: 'contain' }}
+          src={url}
+          className={classes.image}
+        />
       </Box>
       <Dialog
         open={open}
