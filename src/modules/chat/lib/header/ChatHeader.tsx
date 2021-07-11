@@ -37,6 +37,7 @@ import { fetchThunk } from '../../../common/redux/thunk';
 import { getStatus, textOveflowEllipsis } from '../../utils';
 import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../state-atoms';
 import CallIcon from '@material-ui/icons/Call';
+import { fetchProfile } from '../../../profile/redux/profileReducer';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -172,6 +173,10 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
     fetchRequest();
   }, [fetchRequest, loadData]);
 
+  useEffect(() => {
+    dispatch(fetchProfile());
+  }, [dispatch]);
+
   return (
     <>
       <Header
@@ -198,13 +203,12 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
               onClick={(event) => {
                 const windowAny = window as any;
                 const requestCreateDate = decodeURIComponent(request.createDate);
-                console.log('call', request.sellerId, `${profileData?.givenName}`, requestCreateDate, request);
                 if (windowAny.SEVI) {
                   windowAny.SEVI.postMessage(
                     JSON.stringify({
                       type: 'call',
                       sellerId: `seller${request.sellerId}`,
-                      sellerAvatar: `${APIHost}/seller/getAvatar/${profileData?.id}/${profileData?.avatar}`,
+                      sellerAvatar: `${APIHost}/seller/getAvatar/${request.sellerId}/${request.sellerAvatar}`,
                       sellerName: request.sellerName,
                       buyerName: `${profileData?.givenName}`,
                       buyerAvatar: `${APIHost}/getAvatar/${profileData?.id}/${profileData?.avatar}`,
