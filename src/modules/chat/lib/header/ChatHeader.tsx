@@ -197,19 +197,22 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
             <IconButton
               onClick={(event) => {
                 const windowAny = window as any;
+                const requestCreateDate = decodeURIComponent(request.createDate);
                 console.log(
                   'call',
                   request.sellerId,
                   `${APIHost}/${profileData?.id}/${profileData?.avatar}`,
                   `${profileData?.givenName}`,
+                  requestCreateDate,
                 );
                 if (windowAny.SEVI) {
                   windowAny.SEVI.postMessage(
                     JSON.stringify({
                       type: 'call',
                       data: `seller${request.sellerId}`,
-                      avatar: `${APIHost}/${profileData?.id}/${profileData?.avatar}`,
+                      avatar: `${APIHost}/getAvatar/${profileData?.id}/${profileData?.avatar}`,
                       name: `${profileData?.givenName}`,
+                      requestCreateDate: requestCreateDate,
                     }),
                   );
                 }
