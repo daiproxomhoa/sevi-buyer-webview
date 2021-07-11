@@ -20,7 +20,7 @@ import moment from 'moment';
 import { useSnackbar } from 'notistack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { API_PATHS } from '../../../../configs/api';
@@ -32,7 +32,7 @@ import { ReactComponent as IconDotList } from '../../../../svg/ic_dot_list.svg';
 import ConfirmDialog from '../../../common/component/ConfirmDialog';
 import { snackbarSetting } from '../../../common/component/elements';
 import Header from '../../../common/component/Header';
-import { some } from '../../../common/constants';
+import { APIHost, some } from '../../../common/constants';
 import { fetchThunk } from '../../../common/redux/thunk';
 import { getStatus, textOveflowEllipsis } from '../../utils';
 import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../state-atoms';
@@ -88,6 +88,8 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
   const classes = useStyles();
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
   const intl = useIntl();
+  const profileData = useSelector((state: AppState) => state.profile.data);
+
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [expand, setExpand] = useState(isSkeleton ? false : true);
@@ -195,9 +197,21 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
             <IconButton
               onClick={(event) => {
                 const windowAny = window as any;
+                console.log(
+                  'call',
+                  request.sellerId,
+                  `${APIHost}/${profileData?.id}/${profileData?.avatar}`,
+                  `${profileData?.givenName}`,
+                );
                 if (windowAny.SEVI) {
-                  alert(`Calling: seller${request.sellerId}`);
-                  windowAny.SEVI.postMessage(JSON.stringify({ type: 'call', data: `seller${request.sellerId}` }));
+                  windowAny.SEVI.postMessage(
+                    JSON.stringify({
+                      type: 'call',
+                      data: `seller${request.sellerId}`,
+                      avatar: `${APIHost}/${profileData?.id}/${profileData?.avatar}`,
+                      name: `${profileData?.givenName}`,
+                    }),
+                  );
                 }
               }}
             >
