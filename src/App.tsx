@@ -21,6 +21,7 @@ import EmptyPage from './modules/common/page/EmptyPage';
 import { setNetworkError } from './modules/common/redux/commonReducer';
 import { fetchThunk } from './modules/common/redux/thunk';
 import BottomNavigation from './modules/home/component/BottomNavigation';
+import UpdateAddressDialogWaring from './modules/profile/component/UpdateAddressDialogWaring';
 import AddAddressPage from './modules/profile/page/AddAddressPage';
 import ChangePassWordPage from './modules/profile/page/ChangePassWordPage';
 import EditProfilePage from './modules/profile/page/EditProfilePage';
@@ -183,6 +184,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
         <Route path={ROUTES.home} render={() => <PendingRateRemindDialog />} />
       </div>
       <LoadingBackDrop open={setLoadingBackDrop} />
+      <UpdateAddressDialogWaring />
       <FetchErrorDialog msgId={networkErrorMsg} onClose={() => dispatch(setNetworkError(undefined))} />
       <GuideDialog />
     </SWRConfig>

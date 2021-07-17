@@ -176,6 +176,7 @@
   "profile.rePasswordInvalid": ["Mật khẩu không trùng khớp", ""],
   "profile.newPasswordInvalid": ["Mật khẩu mới không trùng mật khẩu cũ", ""],
   "profile.logout": ["Đăng xuất", ""],
+  "profile.updateAddressWaring": ["Tài khoản của bản chưa có địa chị bạn cần cập nhật để có thể giao dịch!", ""],
 
   "guide": ["Hướng dẫn", ""],
   "guide.understand": ["Đã hiểu", ""],
