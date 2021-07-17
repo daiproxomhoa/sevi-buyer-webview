@@ -19,7 +19,7 @@ import { MessageInput } from '../lib/message-input/message-input';
 import { MessageList } from '../lib/message-list/message-list';
 import { TypingIndicator } from '../lib/typing-indicator/typing-indicator';
 
-function usePubNubClient(
+export function usePubNubClient(
   dispatch: ThunkDispatch<AppState, null, AnyAction>,
   buyerId: string,
   sellerId: string,

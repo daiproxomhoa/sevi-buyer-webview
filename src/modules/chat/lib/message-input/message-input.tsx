@@ -18,6 +18,13 @@ import {
 } from '../state-atoms';
 import ArrowDropDownCircleRoundedIcon from '@material-ui/icons/ArrowDropDownCircleRounded';
 import { cloneDeep } from 'lodash';
+import { usePresence } from '../hooks';
+import { usePubNubClient } from '../../page/ChatPage';
+import { some } from '../../../common/constants';
+import { useParams } from 'react-router';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from '../../../../redux/reducer';
+import { AnyAction } from 'redux';
 
 export interface MessageInputProps {
   /** Set a draft message to display in the text window. */
@@ -40,7 +47,16 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
   const inputRef = useRef<any>();
   const [, setMessages] = useAtom(MessagesAtom);
 
-  const dispatch = useDispatch();
+  const requestData = useParams<some>();
+  const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
+
+  const { channelName } = usePubNubClient(
+    dispatch,
+    requestData.buyerId,
+    requestData.sellerId,
+    decodeURIComponent(requestData.createDate),
+  );
+  const channels = usePresence({ includeState: true, channels: [channelName] });
 
   const { handleSubmit, control, reset } = useForm({
     mode: 'onSubmit',
@@ -58,6 +74,8 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
     try {
       if (!text) return;
       if (typeof text === 'string') {
+        console.log('channels', channels);
+
         const message = {
           type: 'text',
           text,

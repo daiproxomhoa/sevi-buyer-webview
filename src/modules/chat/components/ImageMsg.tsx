@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   frame: {
     cursor: 'pointer',
-    minHeight: 100,
+    height: 200,
   },
   image: {
     borderRadius: 12,
