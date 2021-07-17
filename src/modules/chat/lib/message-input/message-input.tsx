@@ -25,6 +25,8 @@ import { useParams } from 'react-router';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../../redux/reducer';
 import { AnyAction } from 'redux';
+import { fetchThunk } from '../../../common/redux/thunk';
+import { API_PATHS } from '../../../../configs/api';
 
 export interface MessageInputProps {
   /** Set a draft message to display in the text window. */
@@ -74,14 +76,28 @@ export const MessageInput: FC<MessageInputProps> = (props: MessageInputProps) =>
     try {
       if (!text) return;
       if (typeof text === 'string') {
-        console.log('channels', channels);
-
         const message = {
           type: 'text',
           text,
           ...(senderInfo && { sender: users.find((u) => u.id === pubnub.getUUID()) }),
         };
         await pubnub.publish({ channel, message });
+        if (
+          !channels?.[0]?.[
+            `${[
+              requestData.buyerId,
+              requestData.sellerId,
+              decodeURIComponent(requestData.createDate).split(' ').join('_').split(':').join('-'),
+            ].join('_')}`
+          ].occupants?.find((v) => v.uuid === requestData.sellerId)
+        ) {
+          dispatch(
+            fetchThunk(API_PATHS.newMsgNotify, 'post', {
+              otherId: requestData.sellerId,
+              requestDate: decodeURIComponent(requestData.createDate),
+            }),
+          );
+        }
       }
     } catch (e) {
       onError(e);

@@ -52,6 +52,7 @@ export const API_PATHS = {
   getRating: `${getBaseUrl(APIService.protected)}/rating/rate`,
   tempUpload: `${getBaseUrl(APIService.protected)}/tempUpload`,
   getRequest: `${getBaseUrl(APIService.protected)}/request/getRequest`,
+  newMsgNotify: `${getBaseUrl(APIService.protected)}/push/newMsgNotify`,
   renderAvatarChat: (id?: number | string, num?: number, stamp?: number) =>
     id ? `${getBaseUrl(APIService.public)}​/getTempUploadImg/${id}/${num}/${stamp}` : undefined,
 
