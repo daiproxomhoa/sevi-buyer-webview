@@ -1,5 +1,6 @@
 import { Box, Button, Checkbox, Dialog, FormControlLabel, Typography } from '@material-ui/core';
 import React from 'react';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useLocation } from 'react-router';
 import { ROUTES } from '../../../configs/routes';
@@ -21,37 +22,36 @@ const GuideDialog = (props: Props) => {
 
   const [showDialog, setShowDialog] = React.useState(false);
   const [disableShowAgain, setDisableShowAgain] = React.useState(false);
-  const [guideInfo, setGuideInfo] = React.useState<IGuideInfo>();
-
   const guideStorage = localStorage.getItem(GUIDE_LIST_KEY);
 
-  const checkShowGuideInfo = React.useCallback(() => {
-    const guide = guideList.find((one) => one.pathname === location.pathname);
+  const currentGuide = useMemo(() => {
+    if (guideStorage) {
+      const guideStorageJson = JSON.parse(guideStorage) as IGuideInfo[];
+      const guideStorageInfo = guideStorageJson.find((one) => one.pathname === location.pathname);
+      return guideStorageInfo;
+    }
+    const currentGuide = guideList.find((one) => one.pathname === location.pathname);
+    return currentGuide;
+  }, [guideStorage, location.pathname]);
 
-    if (!guide) {
+  const checkShowGuideInfo = React.useCallback(() => {
+    if (!currentGuide) {
       return;
     }
 
-    setGuideInfo(guide);
-
-    if (!guideStorage) {
+    if (!currentGuide) {
       setShowDialog(true);
       return;
     }
-
-    const guideStorageJson = JSON.parse(guideStorage) as IGuideInfo[];
-    const guideStorageInfo = guideStorageJson.find((one) => one.pathname === location.pathname);
-
-    if (guideStorageInfo?.disable) {
+    if (currentGuide?.disable) {
       return;
     }
-
     setShowDialog(true);
-  }, [guideStorage, location.pathname]);
+  }, [currentGuide]);
 
   const onCloseDialog = React.useCallback(
     (disable: boolean) => {
-      const guideInfoSet = { ...guideInfo, disable };
+      const guideInfoSet = { ...currentGuide, disable };
 
       if (!guideStorage) {
         localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify([guideInfoSet]));
@@ -69,7 +69,7 @@ const GuideDialog = (props: Props) => {
       guideStorageJson[gIndex].disable = disable;
       localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify(guideStorageJson));
     },
-    [guideInfo, guideStorage, location.pathname],
+    [currentGuide, guideStorage, location.pathname],
   );
 
   React.useEffect(() => {
@@ -90,7 +90,7 @@ const GuideDialog = (props: Props) => {
         </Typography>
 
         <Typography variant="body2" style={{ paddingTop: '36px', textAlign: 'center' }}>
-          <FormattedMessage id={guideInfo?.messageId} />
+          <FormattedMessage id={currentGuide?.messageId || ' '} />
         </Typography>
       </Box>
 
