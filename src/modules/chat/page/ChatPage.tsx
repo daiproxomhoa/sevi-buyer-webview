@@ -52,7 +52,7 @@ export function usePubNubClient(
       authKey: data.authKey,
       uuid: buyerId,
       ssl: true,
-      heartbeatInterval: 30,
+      heartbeatInterval: 5,
       keepAlive: true,
     }),
     channelName: data.channelName,
@@ -88,6 +88,14 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
       );
     }
   }, [requestData]);
+
+  React.useEffect(() => {
+    if (pubNubClient) {
+      return () => {
+        pubNubClient.unsubscribeAll();
+      };
+    }
+  }, [pubNubClient]);
 
   if (!pubNubClient || !channelName) {
     // render loading spinner
