@@ -2,7 +2,7 @@ import { Box, Button, Checkbox, Dialog, FormControlLabel, Typography } from '@ma
 import React from 'react';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from 'react-router';
+import { matchPath, useLocation } from 'react-router';
 import { ROUTES } from '../../../configs/routes';
 
 const GUIDE_LIST_KEY = 'guideList';
@@ -27,10 +27,14 @@ const GuideDialog = (props: Props) => {
   const currentGuide = useMemo(() => {
     if (guideStorage) {
       const guideStorageJson = JSON.parse(guideStorage) as IGuideInfo[];
-      const guideStorageInfo = guideStorageJson.find((one) => one.pathname === location.pathname);
+      const guideStorageInfo = guideStorageJson.find(
+        (one) => !!matchPath(location.pathname, { path: one.pathname, exact: true, strict: false }),
+      );
       return guideStorageInfo;
     }
-    const currentGuide = guideList.find((one) => one.pathname === location.pathname);
+    const currentGuide = guideList.find(
+      (one) => !!matchPath(location.pathname, { path: one.pathname, exact: true, strict: false }),
+    );
     return currentGuide;
   }, [guideStorage, location.pathname]);
 
@@ -59,7 +63,9 @@ const GuideDialog = (props: Props) => {
       }
 
       const guideStorageJson = JSON.parse(guideStorage) as IGuideInfo[];
-      const gIndex = guideStorageJson.findIndex((one) => one.pathname === location.pathname);
+      const gIndex = guideStorageJson.findIndex(
+        (one) => !!matchPath(location.pathname, { path: one.pathname, exact: true, strict: false }),
+      );
 
       if (gIndex === -1) {
         localStorage.setItem(GUIDE_LIST_KEY, JSON.stringify([...guideStorageJson, guideInfoSet]));
