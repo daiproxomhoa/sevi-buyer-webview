@@ -60,7 +60,7 @@ const SearchResultBox = (props: Props) => {
             variant="outlined"
             color="primary"
             size="small"
-            style={{ width: '96px', height: '24px' }}
+            style={{ minWidth: '96px', height: '24px' }}
             onClick={loadMore}
           >
             <FormattedMessage id="search.seeMore" />
