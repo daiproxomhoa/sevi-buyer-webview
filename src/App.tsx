@@ -1,6 +1,6 @@
 import { StyleRulesCallback, Theme, WithStyles, withStyles } from '@material-ui/core/styles';
 import React, { useCallback, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { matchPath, Redirect, Route, Switch, useLocation } from 'react-router';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { CSSTransitionClassNames } from 'react-transition-group/CSSTransition';
@@ -26,6 +26,7 @@ import AddAddressPage from './modules/profile/page/AddAddressPage';
 import ChangePassWordPage from './modules/profile/page/ChangePassWordPage';
 import EditProfilePage from './modules/profile/page/EditProfilePage';
 import ProfilePage from './modules/profile/page/ProfilePage';
+import { fetchProfile } from './modules/profile/redux/profileReducer';
 import PendingRateRemindDialog from './modules/rating/page/PendingRateRemindDialog';
 import ReviewPage from './modules/rating/page/ReviewPage';
 import { watchPendingRateData } from './modules/rating/redux/ratingSaga';
@@ -52,16 +53,16 @@ const mapStateToProps = (state: AppState) => ({
   router: state.router,
   authen: state.authen.authen,
   networkErrorMsg: state.common.networkErrorMsg,
+  setLoadingBackDrop: state.common.loadingBackDrop,
 });
 
 interface Props extends ReturnType<typeof mapStateToProps>, WithStyles<typeof bodyStyles> {}
 
-const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
+const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg, setLoadingBackDrop }) => {
   const { action } = router;
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
   const transitionClassNamesRef = React.useRef<CSSTransitionClassNames>({});
   const lastRouteYOffsetRef = React.useRef(0);
-  const setLoadingBackDrop = useSelector((state: AppState) => state.common.loadingBackDrop);
 
   const actionRef = React.useRef(action);
   actionRef.current = action;
@@ -94,6 +95,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg }) => {
   React.useEffect(() => {
     if (authen) {
       dispatch(watchPendingRateData());
+      dispatch(fetchProfile());
     }
   }, [authen, dispatch]);
 
