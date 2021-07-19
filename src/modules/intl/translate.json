@@ -203,5 +203,10 @@
   "chat.loadFail": ["Máy chủ có vấn đề", ""],
   "chat.confirmFail": ["Xác nhận thất bại", ""],
   "chat.confirmAcceptContent": ["Giao dịch này sẽ không thể hủy nếu được xác nhận !", ""],
-  "chat.isTyping": ["đang nhập", ""]
+  "chat.isTyping": ["đang nhập", ""],
+  "chat.confirmCancelContent": ["Bạn có chắc muốn hủy giao dịch này", ""],
+  "chat.confirmCancelTitle": ["Xác nhận", ""],
+  "chat.cancelSuccess": ["Hủy giao dịch thành công"],
+  "chat.cancelFail": ["Hủy giao dịch thất bại"],
+  "chat.___": ["___"]
 }

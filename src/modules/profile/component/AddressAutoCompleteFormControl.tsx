@@ -41,7 +41,7 @@ const AddressAutoCompleteFormControl = (props: Props) => {
               <InputBase
                 className={'m-b-4'}
                 inputRef={ref}
-                defaultValue={value}
+                value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={intl.formatMessage({ id: 'locationName' })}
                 fullWidth={true}

@@ -38,6 +38,7 @@ import { getStatus, textOveflowEllipsis } from '../../utils';
 import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../state-atoms';
 import CallIcon from '@material-ui/icons/Call';
 import { fetchProfile } from '../../../profile/redux/profileReducer';
+import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -167,6 +168,34 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
       }
     },
     [closeSnackbar, dispatch, enqueueSnackbar, fireTickTok, intl, loadData, request.createDate, request.sellerId],
+  );
+
+  const onCancelRequest = useCallback(
+    async (close: () => void) => {
+      dispatch(setLoadingBackDrop(true));
+      const json = await dispatch(
+        fetchThunk(API_PATHS.cancelRequest, 'post', {
+          sellerId: requestData.sellerId,
+          requestDate: requestData.createDate,
+        }),
+      );
+      dispatch(setLoadingBackDrop(false));
+      if (json.status === SUCCESS_CODE && json.body?.result !== 'failure') {
+        enqueueSnackbar(
+          intl.formatMessage({ id: 'chat.cancelSuccess' }),
+          snackbarSetting((key) => closeSnackbar(key), { variant: 'success' }),
+        );
+        close();
+        setAnchorEl(null);
+        fetchRequest();
+      } else {
+        enqueueSnackbar(
+          intl.formatMessage({ id: 'chat.cancelFail' }),
+          snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
+        );
+      }
+    },
+    [closeSnackbar, dispatch, enqueueSnackbar, fetchRequest, intl, requestData.createDate, requestData.sellerId],
   );
 
   useEffect(() => {
@@ -323,13 +352,25 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
         }}
         elevation={1}
       >
-        <Box className="d-flex d-flex-column">
-          <ButtonBase className={classes.item}>
-            <Typography variant="body1">
-              <FormattedMessage id="chat.cancelRequest" />
-            </Typography>
-          </ButtonBase>
-        </Box>
+        <ConfirmDialog
+          children={(open: () => void, close: () => void) => (
+            <Box className="d-flex d-flex-column">
+              <ButtonBase className={classes.item} onClick={open}>
+                <Typography variant="body1">
+                  <FormattedMessage id="chat.cancelRequest" />
+                </Typography>
+              </ButtonBase>
+            </Box>
+          )}
+          title={'chat.confirmCancelTitle'}
+          content={'chat.confirmCancelContent'}
+          ok={(open: () => void, close: () => void) => {
+            onCancelRequest(close);
+          }}
+          cancel={(open: () => void, close: () => void) => {
+            close();
+          }}
+        />
       </Popover>
     </>
   );

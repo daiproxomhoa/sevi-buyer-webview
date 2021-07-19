@@ -9,7 +9,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
-import { PageWrapper } from '../../common/component/elements';
+import { PageWrapper, snackbarSetting } from '../../common/component/elements';
 import { RESPONSE_STATUS } from '../../common/constants';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import { fetchThunk } from '../../common/redux/thunk';
@@ -27,7 +27,7 @@ interface Props {}
 const VerifyOtpPage = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const location = useLocation();
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
 
   const [signUpData, setSignUpData] = useState<ISignUp>(defaultSignUpData);
@@ -53,12 +53,12 @@ const VerifyOtpPage = (props: Props) => {
         return;
       }
 
-      enqueueSnackbar(intl.formatMessage({ id: `auth.${json?.body?.status}` }), {
-        anchorOrigin: { horizontal: 'center', vertical: 'top' },
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        intl.formatMessage({ id: `auth.${json?.body?.status}` }),
+        snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
+      );
     },
-    [dispatch, enqueueSnackbar, intl, signUpData],
+    [closeSnackbar, dispatch, enqueueSnackbar, intl, signUpData],
   );
 
   const onResend = useCallback(async () => {

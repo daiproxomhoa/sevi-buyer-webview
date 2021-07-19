@@ -184,7 +184,7 @@ export function snackbarSetting(closeSnackbar: (key: string) => void, optionProp
   return {
     anchorOrigin: {
       vertical: 'top',
-      horizontal: 'center',
+      horizontal: 'left',
     },
     preventDuplicate: true,
     autoHideDuration: 1000,

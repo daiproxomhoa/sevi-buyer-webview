@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { API_PATHS } from '../../../configs/api';
 import { ROUTES } from '../../../configs/routes';
 import { AppState } from '../../../redux/reducer';
-import { PageWrapper } from '../../common/component/elements';
+import { PageWrapper, snackbarSetting } from '../../common/component/elements';
 import { RawLink } from '../../common/component/Link';
 import { setLoadingBackDrop } from '../../common/redux/commonReducer';
 import { fetchThunk } from '../../common/redux/thunk';
@@ -23,7 +23,7 @@ interface ILoginPageProps {
 
 const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
   const { dispatch } = props;
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const intl = useIntl();
 
   const onSubmit = React.useCallback(
@@ -39,13 +39,12 @@ const LoginPage: React.FunctionComponent<ILoginPageProps> = (props) => {
         dispatch(authenIn());
         return;
       }
-
-      enqueueSnackbar(intl.formatMessage({ id: `auth.${json?.body?.status}` }), {
-        anchorOrigin: { horizontal: 'center', vertical: 'top' },
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        intl.formatMessage({ id: `auth.${json?.body?.status}` }),
+        snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
+      );
     },
-    [dispatch, enqueueSnackbar, intl],
+    [closeSnackbar, dispatch, enqueueSnackbar, intl],
   );
 
   return (
