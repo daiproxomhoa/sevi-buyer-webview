@@ -18,7 +18,7 @@ import { goBack } from 'connected-react-router';
 import { useAtom } from 'jotai';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
@@ -103,7 +103,7 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const [requestData, setRequestData] = useState<some>(request);
+  const [requestData, setRequestData] = useState<some>({});
   const status = getStatus(requestData);
 
   // const {} = useSWR;
@@ -227,37 +227,41 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
           </Box>
         }
         endAdornment={
-          <Box display="flex" alignItems="center">
-            <IconButton
-              onClick={(event) => {
-                const windowAny = window as any;
-                const requestCreateDate = decodeURIComponent(request.createDate);
-                if (windowAny.SEVI) {
-                  windowAny.SEVI.postMessage(
-                    JSON.stringify({
-                      type: 'call',
-                      sellerId: `seller${request.sellerId}`,
-                      sellerAvatar: `${APIHost}/seller/getAvatar/${request.sellerId}/${request.sellerAvatar}`,
-                      sellerName: request.sellerName,
-                      buyerName: `${profileData?.givenName}`,
-                      buyerAvatar: `${APIHost}/getAvatar/${profileData?.id}/${profileData?.avatar}`,
-                      requestCreateDate: requestCreateDate,
-                    }),
-                  );
-                }
-              }}
-            >
-              <CallIcon style={{ height: 22 }} />
-            </IconButton>
-            &nbsp;
-            <IconButton
-              onClick={(event) => {
-                setAnchorEl(event.currentTarget);
-              }}
-            >
-              <IconDotList style={{ height: 14 }} />
-            </IconButton>
-          </Box>
+          isSkeleton ? null : (
+            <Box display="flex" alignItems="center">
+              <IconButton
+                onClick={(event) => {
+                  const windowAny = window as any;
+                  const requestCreateDate = decodeURIComponent(request.createDate);
+                  if (windowAny.SEVI) {
+                    windowAny.SEVI.postMessage(
+                      JSON.stringify({
+                        type: 'call',
+                        sellerId: `seller${request.sellerId}`,
+                        sellerAvatar: `${APIHost}/seller/getAvatar/${request.sellerId}/${request.sellerAvatar}`,
+                        sellerName: request.sellerName,
+                        buyerName: `${profileData?.givenName}`,
+                        buyerAvatar: `${APIHost}/getAvatar/${profileData?.id}/${profileData?.avatar}`,
+                        requestCreateDate: requestCreateDate,
+                      }),
+                    );
+                  }
+                }}
+              >
+                <CallIcon style={{ height: 22 }} />
+              </IconButton>
+              &nbsp;
+              {!(requestData.accept || requestData.cancel) && (
+                <IconButton
+                  onClick={(event) => {
+                    setAnchorEl(event.currentTarget);
+                  }}
+                >
+                  <IconDotList style={{ height: 14 }} />
+                </IconButton>
+              )}
+            </Box>
+          )
         }
         action={() => dispatch(goBack())}
         appBarProps={{ elevation: 1 }}
@@ -376,4 +380,4 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-export default ChatHeader;
+export default memo(ChatHeader);

@@ -4,12 +4,10 @@ import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import { Skeleton } from '@material-ui/lab';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { some } from '../../common/constants';
-import ChatHeader from '../lib/header/ChatHeader';
 import { AnchorDiv, TextInput } from './element';
 
 interface Props {
-  request: some;
+  header: any;
 }
 export const ListSkeleton = () => {
   return (
@@ -37,13 +35,11 @@ export const ListSkeleton = () => {
   );
 };
 const SkeletonPage = (props: Props) => {
-  const { request } = props;
+  const { header } = props;
   const intl = useIntl();
   return (
     <Box style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <AnchorDiv>
-        <ChatHeader request={request} isSkeleton />
-      </AnchorDiv>
+      <AnchorDiv>{header}</AnchorDiv>
       <ListSkeleton />
       <AnchorDiv
         style={{ bottom: 0, paddingBottom: 4, paddingTop: 4, justifyContent: 'flex-end', background: 'white' }}

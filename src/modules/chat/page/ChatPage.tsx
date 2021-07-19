@@ -97,9 +97,14 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
     }
   }, [pubNubClient]);
 
+  const header = React.useMemo(() => <ChatHeader key="header" request={requestData} pubNubClient={pubNubClient} />, [
+    pubNubClient,
+    requestData,
+  ]);
+
   if (!pubNubClient || !channelName) {
     // render loading spinner
-    return <SkeletonPage request={requestData} />;
+    return <SkeletonPage header={header} />;
   }
 
   return (
@@ -123,9 +128,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
             },
           ]}
         >
-          <AnchorDiv>
-            <ChatHeader request={requestData} pubNubClient={pubNubClient} />
-          </AnchorDiv>
+          <AnchorDiv>{header}</AnchorDiv>
           <div style={{ flex: 1 }}>
             <MessageList welcomeMessages={false} fetchMessages={25} endScreenRef={endRef} />
           </div>
