@@ -54,15 +54,7 @@ const SearchResultBox = (props: Props) => {
         </Box>
       ) : data && data[0]?.searchData?.length ? (
         <Box padding="0 0 72px" display="flex" justifyContent="center">
-          <Button
-            disabled={disableLoadMore}
-            fullWidth
-            variant="outlined"
-            color="primary"
-            size="small"
-            style={{ width: '96px', height: '24px' }}
-            onClick={loadMore}
-          >
+          <Button disabled={disableLoadMore} variant="outlined" color="primary" size="small" onClick={loadMore}>
             <FormattedMessage id="search.seeMore" />
           </Button>
         </Box>
