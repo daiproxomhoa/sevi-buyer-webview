@@ -68,7 +68,16 @@ export function usePubNubClient(
 interface IChatPageProps {}
 
 const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
-  const requestData = useParams<some>();
+  const params = useParams<some>();
+  const requestData = React.useMemo(
+    () =>
+      ({
+        ...params,
+        createDate: decodeURIComponent(params.createDate),
+        sellerName: decodeURIComponent(params.sellerName),
+      } as some),
+    [params],
+  );
   const intl = useIntl();
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
   const [requestDataTmp, setRequestData] = React.useState<some>(requestData);
@@ -85,7 +94,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
     dispatch,
     requestData.buyerId,
     requestData.sellerId,
-    decodeURIComponent(requestData.createDate),
+    requestData.createDate,
   );
 
   React.useEffect(() => {
@@ -96,7 +105,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           data: {
             buyer: requestData.buyerId,
             seller: requestData.sellerId,
-            requestDate: decodeURIComponent(requestData.createDate),
+            requestDate: requestData.createDate,
           },
         }),
       );
@@ -127,12 +136,12 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
         'post',
         JSON.stringify({
           sellerId: requestData.sellerId,
-          requestDate: decodeURIComponent(requestData.createDate),
+          requestDate: requestData.createDate,
         }),
       ),
     );
     if (json.status === SUCCESS_CODE) {
-      setRequestData((one) => ({ ...one, ...json.body }));
+      setRequestData((one) => ({ ...json.body, ...one }));
       fireTickTok(!loadData);
     } else {
       enqueueSnackbar(
@@ -188,7 +197,7 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
           users={[
             { name: intl.formatMessage({ id: 'chat.me' }), id: requestData.buyerId, eTag: '', updated: '' },
             {
-              name: decodeURIComponent(requestData.sellerName),
+              name: requestData.sellerName,
               id: requestData.sellerId,
               eTag: '',
               updated: '',
