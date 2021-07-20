@@ -200,7 +200,7 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
               <CallIcon style={{ height: 22 }} />
             </IconButton>
             &nbsp;
-            {!(requestData.accept || requestData.cancel) && (
+            {!(requestData.confirm || requestData.cancel) && (
               <IconButton
                 onClick={(event) => {
                   setAnchorEl(event.currentTarget);
