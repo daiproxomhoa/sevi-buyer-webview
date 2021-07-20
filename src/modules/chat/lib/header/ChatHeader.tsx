@@ -11,14 +11,14 @@ import {
   Typography,
 } from '@material-ui/core';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import CallIcon from '@material-ui/icons/Call';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import SettingsOverscanIcon from '@material-ui/icons/SettingsOverscan';
 import { Skeleton } from '@material-ui/lab';
 import { goBack } from 'connected-react-router';
-import { useAtom } from 'jotai';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux';
@@ -33,12 +33,9 @@ import ConfirmDialog from '../../../common/component/ConfirmDialog';
 import { snackbarSetting } from '../../../common/component/elements';
 import Header from '../../../common/component/Header';
 import { APIHost, some } from '../../../common/constants';
+import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { fetchThunk } from '../../../common/redux/thunk';
 import { getStatus, textOveflowEllipsis } from '../../utils';
-import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../state-atoms';
-import CallIcon from '@material-ui/icons/Call';
-import { fetchProfile } from '../../../profile/redux/profileReducer';
-import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -80,13 +77,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  request: some;
-  isSkeleton?: boolean;
-  pubNubClient?: any;
+  requestData: some;
+  loading: boolean;
+  fetchRequest: () => void;
+  fireTickTok: () => void;
 }
 
 const ChatHeader: React.FunctionComponent<Props> = (props) => {
-  const { request, isSkeleton, pubNubClient: pubnub } = props;
+  const { requestData, fetchRequest, fireTickTok, loading } = props;
   const classes = useStyles();
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
   const intl = useIntl();
@@ -94,55 +92,15 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [anchorEl, setAnchorEl] = useState<any>(null);
-  const [expand, setExpand] = useState(isSkeleton ? false : true);
-  const [loadData] = useAtom(TickTokLoadData);
-  const [channel] = useAtom(CurrentChannelAtom);
-  const [onErrorObj] = useAtom(ErrorFunctionAtom);
-  const onError = onErrorObj.function;
+  const [expand, setExpand] = useState(true);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const [requestData, setRequestData] = useState<some>({});
   const status = getStatus(requestData);
-
-  // const {} = useSWR;
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const fireTickTok = useCallback(
-    async (value: boolean) => {
-      try {
-        const message = { message: { type: 'ticktok_load_data', value }, channel };
-        pubnub.signal(message);
-      } catch (e) {
-        onError(e);
-      }
-    },
-    [channel, onError, pubnub],
-  );
-
-  const fetchRequest = useCallback(async () => {
-    const json = await dispatch(
-      fetchThunk(
-        API_PATHS.getRequest,
-        'post',
-        JSON.stringify({
-          sellerId: request.sellerId,
-          requestDate: decodeURIComponent(request.createDate),
-        }),
-      ),
-    );
-    if (json.status === SUCCESS_CODE) {
-      setRequestData((one) => ({ one, ...json.body }));
-    } else {
-      enqueueSnackbar(
-        intl.formatMessage({ id: 'chat.loadFail' }),
-        snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
-      );
-    }
-  }, [closeSnackbar, dispatch, enqueueSnackbar, intl, request.createDate, request.sellerId]);
 
   const getConfirm = useCallback(
     async (close: () => void) => {
@@ -151,14 +109,14 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
           API_PATHS.confirmRequest,
           'post',
           JSON.stringify({
-            sellerId: request.sellerId,
-            requestDate: decodeURIComponent(request.createDate),
+            sellerId: requestData.sellerId,
+            requestDate: decodeURIComponent(requestData.createDate),
           }),
         ),
       );
 
       if (json.status === SUCCESS_CODE && json.body?.result !== 'failure') {
-        fireTickTok(!loadData);
+        fireTickTok();
         close();
       } else {
         enqueueSnackbar(
@@ -167,7 +125,7 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
         );
       }
     },
-    [closeSnackbar, dispatch, enqueueSnackbar, fireTickTok, intl, loadData, request.createDate, request.sellerId],
+    [closeSnackbar, dispatch, enqueueSnackbar, fireTickTok, intl, requestData.createDate, requestData.sellerId],
   );
 
   const onCancelRequest = useCallback(
@@ -198,25 +156,17 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
     [closeSnackbar, dispatch, enqueueSnackbar, fetchRequest, intl, requestData.createDate, requestData.sellerId],
   );
 
-  useEffect(() => {
-    fetchRequest();
-  }, [fetchRequest, loadData]);
-
-  useEffect(() => {
-    dispatch(fetchProfile());
-  }, [dispatch]);
-
   return (
     <>
       <Header
         title={
           <Box display="flex">
             <Avatar
-              src={API_PATHS.renderSellerAvatar(request.sellerId, request.sellerAvatar)}
+              src={API_PATHS.renderSellerAvatar(requestData.sellerId, requestData.sellerAvatar)}
               style={{ marginRight: 12 }}
             />
             <Box display="flex" flexDirection="column">
-              {decodeURIComponent(request.sellerName)}
+              {decodeURIComponent(requestData.sellerName)}
               <Box display="flex" alignItems="center">
                 <Box className={classes.dot} style={{ background: status.color }} />
                 <Typography variant="caption">
@@ -227,41 +177,39 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
           </Box>
         }
         endAdornment={
-          isSkeleton ? null : (
-            <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center">
+            <IconButton
+              onClick={(event) => {
+                const windowAny = window as any;
+                const requestCreateDate = decodeURIComponent(requestData.createDate);
+                if (windowAny.SEVI) {
+                  windowAny.SEVI.postMessage(
+                    JSON.stringify({
+                      type: 'call',
+                      sellerId: `seller${requestData.sellerId}`,
+                      sellerAvatar: `${APIHost}/seller/getAvatar/${requestData.sellerId}/${requestData.sellerAvatar}`,
+                      sellerName: requestData.sellerName,
+                      buyerName: `${profileData?.givenName}`,
+                      buyerAvatar: `${APIHost}/getAvatar/${profileData?.id}/${profileData?.avatar}`,
+                      requestCreateDate: requestCreateDate,
+                    }),
+                  );
+                }
+              }}
+            >
+              <CallIcon style={{ height: 22 }} />
+            </IconButton>
+            &nbsp;
+            {!(requestData.accept || requestData.cancel) && (
               <IconButton
                 onClick={(event) => {
-                  const windowAny = window as any;
-                  const requestCreateDate = decodeURIComponent(request.createDate);
-                  if (windowAny.SEVI) {
-                    windowAny.SEVI.postMessage(
-                      JSON.stringify({
-                        type: 'call',
-                        sellerId: `seller${request.sellerId}`,
-                        sellerAvatar: `${APIHost}/seller/getAvatar/${request.sellerId}/${request.sellerAvatar}`,
-                        sellerName: request.sellerName,
-                        buyerName: `${profileData?.givenName}`,
-                        buyerAvatar: `${APIHost}/getAvatar/${profileData?.id}/${profileData?.avatar}`,
-                        requestCreateDate: requestCreateDate,
-                      }),
-                    );
-                  }
+                  setAnchorEl(event.currentTarget);
                 }}
               >
-                <CallIcon style={{ height: 22 }} />
+                <IconDotList style={{ height: 14 }} />
               </IconButton>
-              &nbsp;
-              {!(requestData.accept || requestData.cancel) && (
-                <IconButton
-                  onClick={(event) => {
-                    setAnchorEl(event.currentTarget);
-                  }}
-                >
-                  <IconDotList style={{ height: 14 }} />
-                </IconButton>
-              )}
-            </Box>
-          )
+            )}
+          </Box>
         }
         action={() => dispatch(goBack())}
         appBarProps={{ elevation: 1 }}
@@ -304,19 +252,23 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
             <Box display="flex" alignItems="center">
               <ScheduleIcon className="m-r-8" />
               <Box flex={1}>
-                <Typography variant="caption">
-                  {requestData?.date ? (
-                    moment(requestData?.date, DATE_FORMAT).format(FE_DATE_FORMAT)
-                  ) : (
-                    <FormattedMessage id="request.anyDay" />
-                  )}
-                  &nbsp;
-                  {requestData?.time ? (
-                    moment(requestData?.date, TIME_FULL_FORMAT).format(TIME_FORMAT)
-                  ) : (
-                    <FormattedMessage id="request.anyTime" />
-                  )}
-                </Typography>
+                {loading ? (
+                  <Skeleton style={{ margin: '0px 8px' }} />
+                ) : (
+                  <Typography variant="caption">
+                    {requestData?.date ? (
+                      moment(requestData?.date, DATE_FORMAT).format(FE_DATE_FORMAT)
+                    ) : (
+                      <FormattedMessage id="requestData.anyDay" />
+                    )}
+                    &nbsp;
+                    {requestData?.time ? (
+                      moment(requestData?.date, TIME_FULL_FORMAT).format(TIME_FORMAT)
+                    ) : (
+                      <FormattedMessage id="requestData.anyTime" />
+                    )}
+                  </Typography>
+                )}
               </Box>
               <ConfirmDialog
                 children={(open: () => void, close: () => void) =>

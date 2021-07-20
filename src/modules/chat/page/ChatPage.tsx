@@ -1,3 +1,5 @@
+import { useAtom } from 'jotai';
+import { useSnackbar } from 'notistack';
 import PubNub from 'pubnub';
 import { PubNubProvider } from 'pubnub-react';
 import * as React from 'react';
@@ -8,15 +10,19 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import useSWR from 'swr';
 import { API_PATHS } from '../../../configs/api';
+import { SUCCESS_CODE } from '../../../constants';
 import { AppState } from '../../../redux/reducer';
+import { snackbarSetting } from '../../common/component/elements';
 import { some } from '../../common/constants';
 import { fetchThunk } from '../../common/redux/thunk';
-import ChatHeader from '../lib/header/ChatHeader';
+import { fetchProfile } from '../../profile/redux/profileReducer';
 import { AnchorDiv } from '../components/element';
 import SkeletonPage from '../components/SkeletonPage';
 import { Chat } from '../lib/chat';
+import ChatHeader from '../lib/header/ChatHeader';
 import { MessageInput } from '../lib/message-input/message-input';
 import { MessageList } from '../lib/message-list/message-list';
+import { CurrentChannelAtom, ErrorFunctionAtom, TickTokLoadData } from '../lib/state-atoms';
 import { TypingIndicator } from '../lib/typing-indicator/typing-indicator';
 
 export function usePubNubClient(
@@ -65,6 +71,14 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
   const requestData = useParams<some>();
   const intl = useIntl();
   const dispatch: ThunkDispatch<AppState, null, AnyAction> = useDispatch();
+  const [requestDataTmp, setRequestData] = React.useState<some>(requestData);
+  const [loading, setLoading] = React.useState(true);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [loadData] = useAtom(TickTokLoadData);
+  const [channel] = useAtom(CurrentChannelAtom);
+  const [onErrorObj] = useAtom(ErrorFunctionAtom);
+  const onError = onErrorObj.function;
+
   const endRef = React.useRef<HTMLDivElement>(null);
 
   const { pubNubClient, channelName } = usePubNubClient(
@@ -89,6 +103,47 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
     }
   }, [requestData]);
 
+  const fireTickTok = React.useCallback(
+    async (value: boolean) => {
+      if (!pubNubClient || !channel) {
+        return;
+      }
+      try {
+        const message = { message: { type: 'ticktok_load_data', value }, channel };
+        pubNubClient.signal(message);
+      } catch (e) {
+        console.log(e);
+
+        onError(e);
+      }
+    },
+    [channel, onError, pubNubClient],
+  );
+
+  const fetchRequest = React.useCallback(async () => {
+    const json = await dispatch(
+      fetchThunk(
+        API_PATHS.getRequest,
+        'post',
+        JSON.stringify({
+          sellerId: requestData.sellerId,
+          requestDate: decodeURIComponent(requestData.createDate),
+        }),
+      ),
+    );
+    if (json.status === SUCCESS_CODE) {
+      setRequestData((one) => ({ ...one, ...json.body }));
+      fireTickTok(!loadData);
+    } else {
+      enqueueSnackbar(
+        intl.formatMessage({ id: 'chat.loadFail' }),
+        snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
+      );
+    }
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeSnackbar, dispatch, enqueueSnackbar, intl, requestData.createDate, requestData.sellerId]);
+
   React.useEffect(() => {
     if (pubNubClient) {
       return () => {
@@ -96,11 +151,26 @@ const ChatPage: React.FunctionComponent<IChatPageProps> = (props) => {
       };
     }
   }, [pubNubClient]);
+  React.useEffect(() => {
+    fetchRequest();
+  }, [fetchRequest, loadData]);
 
-  const header = React.useMemo(() => <ChatHeader key="header" request={requestData} pubNubClient={pubNubClient} />, [
-    pubNubClient,
-    requestData,
-  ]);
+  React.useEffect(() => {
+    dispatch(fetchProfile());
+  }, [dispatch]);
+
+  const header = React.useMemo(
+    () => (
+      <ChatHeader
+        key="header"
+        requestData={requestDataTmp}
+        fetchRequest={fetchRequest}
+        fireTickTok={() => fireTickTok(!loadData)}
+        loading={loading}
+      />
+    ),
+    [fetchRequest, fireTickTok, loadData, loading, requestDataTmp],
+  );
 
   if (!pubNubClient || !channelName) {
     // render loading spinner

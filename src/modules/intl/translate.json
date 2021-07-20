@@ -190,6 +190,8 @@
   "requestStatus.cancel": ["Đã hủy"],
   "requestStatus.confirm": ["Đã xác nhận"],
   "requestStatus.waiting": ["Đang yêu cầu"],
+  "requestData.anyDay": ["Ngày bất kỳ"],
+  "requestData.anyTime": ["Giờ bất kỳ"],
 
   "chat.send": ["Gửi", ""],
   "chat.newMessages": ["tin nhắn mới", ""],
