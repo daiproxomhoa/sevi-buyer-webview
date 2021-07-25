@@ -14,6 +14,7 @@ export interface IRequest {
   sellerId: string;
   sessionStamp: number;
   time: string;
+  buyerUnread: boolean;
 }
 
 export interface ICreateRequestBody {

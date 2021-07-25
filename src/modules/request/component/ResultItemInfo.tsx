@@ -77,7 +77,13 @@ const ResultItemInfo = (props: Props) => {
               marginRight: info.accept ? '4px' : undefined,
             }}
           >
-            <Button variant="outlined" color="primary" size="small" fullWidth>
+            <Button
+              style={{ fontWeight: info.buyerUnread ? 600 : 'unset' }}
+              variant="outlined"
+              color="primary"
+              size="small"
+              fullWidth
+            >
               <FormattedMessage id="conversation" />
             </Button>
           </RawLink>
