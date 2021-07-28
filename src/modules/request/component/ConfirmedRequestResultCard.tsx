@@ -79,7 +79,13 @@ const ConfirmedRequestResultCard = (props: Props) => {
                 marginRight: '4px',
               }}
             >
-              <Button variant="outlined" color="primary" size="small" fullWidth>
+              <Button
+                style={{ fontWeight: request.buyerUnread ? 600 : 'unset' }}
+                variant="outlined"
+                color="primary"
+                size="small"
+                fullWidth
+              >
                 <FormattedMessage id="conversation" />
               </Button>
             </RawLink>
