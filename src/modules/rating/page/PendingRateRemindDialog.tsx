@@ -46,8 +46,6 @@ const PendingRateRemindDialog = (props: Props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const isSmallScreen = useMediaQuery('(max-width:320px)');
 
-  console.log('pendingRateData', pendingRateData);
-
   const arrayDeferRating = useMemo(() => {
     return (
       pendingRateData?.requests.filter((item: some) =>
@@ -127,7 +125,7 @@ const PendingRateRemindDialog = (props: Props) => {
         <FormattedMessage id="ratingRemind.REMIND" />
       </Typography>
       <Typography variant="body2" className="m-b-12">
-        <FormattedMessage id="ratingRemind.JOB" />
+        <FormattedMessage id="job" />
         :&nbsp;{data?.desc}
       </Typography>
       <Box className="d-flex align-items-center">

@@ -103,6 +103,9 @@
   "request.unconfirmedNoDataAccepted": ["Chưa có công việc được nhận", ""],
   "request.confirmedNoDataUnrated": ["Chưa có công việc chờ đánh giá", ""],
   "request.confirmedNoDataRated": ["Chưa có công việc được đánh giá", ""],
+  "buyer": ["Người mua"],
+  "seller": ["Người bán"],
+  "____": ["____"],
 
   "request.detail.time": ["Thời gian", ""],
   "request.detail.note": ["Ghi chú", ""],
@@ -161,7 +164,8 @@
     "Công việc của bạn đã được giao thành công.\n Hay đánh giá ngay sau khi dịch vụ đã hoàn thành hoặc nhắc lại sau!",
     ""
   ],
-  "ratingRemind.JOB": ["Công việc", ""],
+  "job": ["Công việc", ""],
+  "time": ["Thời gian", ""],
   "ratingRemind.REVIEW": ["Đánh giá ngay", ""],
   "ratingRemind.REMIND_LETTER": ["Nhắc lại sau", ""],
 

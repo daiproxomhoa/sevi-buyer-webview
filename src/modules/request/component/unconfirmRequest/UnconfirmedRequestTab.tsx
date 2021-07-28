@@ -83,7 +83,12 @@ const UnconfirmedRequestTab = (props: Props) => {
         onViewRequestDetail={(data) => dispatch(push(ROUTES.requestDetail, { detail: data }))}
       />
 
-      <ConfirmAcceptedRequestDialog open={showDialog} onClose={() => setShowDialog(false)} onSubmit={onSubmit} />
+      <ConfirmAcceptedRequestDialog
+        open={showDialog}
+        requestDetail={requestDetail}
+        onClose={() => setShowDialog(false)}
+        onSubmit={onSubmit}
+      />
     </React.Fragment>
   );
 };
