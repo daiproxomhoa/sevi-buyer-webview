@@ -46,10 +46,15 @@ const PendingRateRemindDialog = (props: Props) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const isSmallScreen = useMediaQuery('(max-width:320px)');
 
+  console.log('pendingRateData', pendingRateData);
+
   const arrayDeferRating = useMemo(() => {
     return (
       pendingRateData?.requests.filter((item: some) =>
-        item.deferRatingTo ? moment(item.deferRatingTo, DATE_TIME_FORMAT).isBefore(moment()) : true,
+        item.deferRatingTo
+          ? moment(item.deferRatingTo, DATE_TIME_FORMAT).isBefore(moment()) &&
+            moment(`${item.date} ${item.time}`, DATE_TIME_FORMAT).isBefore(moment())
+          : true,
       ) || []
     );
   }, [pendingRateData?.requests]);
