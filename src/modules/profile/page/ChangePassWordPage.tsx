@@ -31,7 +31,7 @@ const ChangePassWordPage = (props: Props) => {
       }),
     );
     dispatch(setLoadingBackDrop(false));
-    if (json.status === SUCCESS_CODE) {
+    if (json.status === SUCCESS_CODE && json.body.result === 'success') {
       enqueueSnackbar(
         intl.formatMessage({ id: 'update_success' }),
         snackbarSetting((key) => closeSnackbar(key)),
@@ -39,7 +39,7 @@ const ChangePassWordPage = (props: Props) => {
       dispatch(goBack());
     } else {
       enqueueSnackbar(
-        intl.formatMessage({ id: 'update_fail' }),
+        intl.formatMessage({ id: json.body.result || 'update_fail' }),
         snackbarSetting((key) => closeSnackbar(key), { variant: 'error' }),
       );
     }

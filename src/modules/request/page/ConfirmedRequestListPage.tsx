@@ -26,7 +26,7 @@ const ConfirmedRequestListPage: React.FunctionComponent<IRatingListPageProps> = 
     <PageWrapper>
       <HeaderTab
         tabIndex={tabIndex}
-        tabList={[intl.formatMessage({ id: 'rating.PENDDING' }), intl.formatMessage({ id: 'rating.RATED' })]}
+        tabList={[intl.formatMessage({ id: 'rating.PENDING' }), intl.formatMessage({ id: 'rating.RATED' })]}
         onChangeTab={(newIndex) => dispatch(setConfirmedRequestTabIndex(newIndex))}
       />
 

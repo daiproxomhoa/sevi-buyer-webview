@@ -1,4 +1,5 @@
 {
+  "unstableNetwork": ["Không kết nối được máy chủ"],
   "welcome": ["Chào mừng tới SEVI", "Welcome to SEVI"],
   "currency": ["đ", "VND"],
   "smsCode": ["se mk", "se mk"],
@@ -126,7 +127,7 @@
 
   "request.youAreSureCancel": ["Dịch vụ hủy sẽ không thể khôi phục. Bạn có chắc chắn muốn hủy?", ""],
 
-  "rating.PENDDING": ["Chờ đánh giá", ""],
+  "rating.PENDING": ["Chờ đánh giá", ""],
   "rating.RATED": ["Đã đánh giá", ""],
   "rating.RATENOW": ["Đánh giá ngay", ""],
   "rating.REQUEST_AGAIN": ["Yêu cầu lại", ""],
@@ -177,6 +178,7 @@
   "profile.oldPassword": ["Mật khẩu cũ", ""],
   "profile.newPassword": ["Mật khẩu mới", ""],
   "profile.rePassword": ["Nhập lại mật khẩu", ""],
+  "invalidPassword": ["Sai mật khẩu", ""],
   "profile.rePasswordInvalid": ["Mật khẩu không trùng khớp", ""],
   "profile.newPasswordInvalid": ["Mật khẩu mới không trùng mật khẩu cũ", ""],
   "profile.logout": ["Đăng xuất", ""],

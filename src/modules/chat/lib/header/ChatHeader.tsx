@@ -35,7 +35,7 @@ import Header from '../../../common/component/Header';
 import { APIHost, some } from '../../../common/constants';
 import { setLoadingBackDrop } from '../../../common/redux/commonReducer';
 import { fetchThunk } from '../../../common/redux/thunk';
-import { getStatus, textOveflowEllipsis } from '../../utils';
+import { getStatus, textOverflowEllipsis } from '../../utils';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -72,6 +72,7 @@ const useStyles = makeStyles(() => ({
     top: 0,
     right: 0,
     padding: 4,
+    left: 'unset',
     color: 'white',
   },
 }));
@@ -245,7 +246,7 @@ const ChatHeader: React.FunctionComponent<Props> = (props) => {
                 {requestData?.desc || <Skeleton />}
               </Typography>
               <Typography variant="body2" style={{ wordBreak: 'break-word' }} component={'div'}>
-                {textOveflowEllipsis(requestData?.location) || <Skeleton />}
+                {textOverflowEllipsis(requestData?.location) || <Skeleton />}
               </Typography>
             </Box>
             <Divider className="m-t-8 m-b-8" />
