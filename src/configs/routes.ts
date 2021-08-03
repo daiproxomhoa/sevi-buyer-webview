@@ -13,6 +13,7 @@ export const ROUTES = {
     gen: (sellerId: string, reqDate: string) => `/review/${sellerId}/${reqDate}`,
   },
   editProfile: '/editProfile',
+  feedback: '/feedback',
   changePass: '/changePass',
   addAddress: '/addAddress',
   searchDetail: '/searchDetail',

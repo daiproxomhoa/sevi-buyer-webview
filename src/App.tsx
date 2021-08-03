@@ -25,6 +25,7 @@ import UpdateAddressDialogWaring from './modules/profile/component/UpdateAddress
 import AddAddressPage from './modules/profile/page/AddAddressPage';
 import ChangePassWordPage from './modules/profile/page/ChangePassWordPage';
 import EditProfilePage from './modules/profile/page/EditProfilePage';
+import FeedbackPage from './modules/profile/page/FeedbackPage';
 import ProfilePage from './modules/profile/page/ProfilePage';
 import { fetchProfile } from './modules/profile/redux/profileReducer';
 import PendingRateRemindDialog from './modules/rating/page/PendingRateRemindDialog';
@@ -162,6 +163,7 @@ const App: React.FC<Props> = ({ router, classes, authen, networkErrorMsg, setLoa
                   <ProtectedRoute auth={authen} exact path={ROUTES.rating} component={ConfirmedRequestListPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.review.path} component={ReviewPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.profile} component={ProfilePage} />
+                  <ProtectedRoute auth={authen} exact path={ROUTES.feedback} component={FeedbackPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.editProfile} component={EditProfilePage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.changePass} component={ChangePassWordPage} />
                   <ProtectedRoute auth={authen} exact path={ROUTES.addAddress} component={AddAddressPage} />

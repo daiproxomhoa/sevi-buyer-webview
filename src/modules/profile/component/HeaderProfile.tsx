@@ -11,6 +11,10 @@ import Header from '../../common/component/Header';
 
 const OPTIONS = [
   {
+    pathname: ROUTES.feedback,
+    name: 'profile.feedback',
+  },
+  {
     pathname: ROUTES.editProfile,
     title: 'profile.edit',
   },

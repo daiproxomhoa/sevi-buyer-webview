@@ -46,6 +46,7 @@
   "conversation": ["Trò chuyện", ""],
   "day": ["Ngày", ""],
   "week": ["Tuần", ""],
+  "send": ["Gửi", ""],
 
   "required": ["Vui lòng nhập dữ liệu", ""],
   "chooseRequired": ["Vui lòng chọn dữ liệu", ""],
@@ -170,6 +171,10 @@
   "ratingRemind.REVIEW": ["Đánh giá ngay", ""],
   "ratingRemind.REMIND_LETTER": ["Nhắc lại sau", ""],
 
+  "profile.feedback": ["Phản hồi", ""],
+  "profile.feedbackContent": ["Nội dung phản hồi", ""],
+  "profile.sendFeedbackSuccess": ["Cảm ơn bạn đã có góp ý{br}Chúng tôi sẽ xem xét ý kiến của bạn", ""],
+  "profile.sendFeedbackFail": ["Có lỗi xảy ra trong lúc gửi", ""],
   "profile.edit": ["Chỉnh sửa thông tin", ""],
   "profile.changePassword": ["Đổi mật khẩu", ""],
   "profile.phoneNumber": ["Điện thoai", ""],
