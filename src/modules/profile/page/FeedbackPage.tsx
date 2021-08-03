@@ -62,7 +62,7 @@ const FeedbackPage = (props: Props) => {
         <IconSuccess />
 
         <Typography variant="subtitle2" style={{ paddingTop: '24px' }}>
-          <FormattedMessage id="rating.success" />
+          <FormattedMessage id="profile.success" />
         </Typography>
 
         <Typography variant="body2" color="textSecondary" style={{ paddingTop: '12px', paddingBottom: '24px' }}>

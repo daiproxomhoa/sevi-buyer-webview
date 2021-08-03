@@ -37,7 +37,7 @@ const MyReviewsBox = (props: Props) => {
               <Box className="flex-1">
                 <Typography variant="caption">{getFullName(seller)}</Typography>
               </Box>
-              <Rating value={rating} size="small" />
+              <Rating readOnly value={rating} size="small" />
             </Box>
           </CardDiv>
         );
